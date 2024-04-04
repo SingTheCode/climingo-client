@@ -1,4 +1,4 @@
-export default {
+const Configuration = {
   extends: ["@commitlint/config-conventional"],
   rules: {
     "type-enum": [
@@ -20,7 +20,7 @@ export default {
             return [false, "header is empty"];
           }
           const pattern =
-            /^\[\#\d+\]\s(feat|fix|refactor|chore|docs|style):\s.+/;
+            /^\[#\d+\]\s(feat|fix|refactor|chore|docs|style):\s.+/;
           const match = pattern.test(parsed.header);
           return [match, `header does not match pattern ${pattern.toString()}`];
         },
@@ -28,3 +28,5 @@ export default {
     },
   ],
 };
+
+export default Configuration;
