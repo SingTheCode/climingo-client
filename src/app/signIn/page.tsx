@@ -1,6 +1,19 @@
-import Image from "next/image";
+"use client";
 
-export default function LoginPage() {
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+export default function SignIn() {
+  const router = useRouter();
+  const login = () => {
+    const query = new URLSearchParams({
+      client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || "",
+      redirect_uri: `${process.env.NEXT_PUBLIC_HOST}/oauth`,
+      response_type: "code",
+    });
+    router.push(`https://kauth.kakao.com/oauth/authorize?${query}`);
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-between items-center">
       <div className="pt-[10vh]">
@@ -18,7 +31,11 @@ export default function LoginPage() {
           height="40"
           className="animate-bounce"
         />
-        <button className="flex justify-between items-center w-full h-[6.4rem] mt-[0.4rem] bg-kakao rounded-2xl">
+        <button
+          className="flex justify-between items-center w-full h-[6.4rem] mt-[0.4rem] bg-kakao rounded-2xl"
+          name="지금받을게요"
+          onClick={login}
+        >
           <img
             src="kakao.svg"
             alt="카카오로 시작하기"
