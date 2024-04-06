@@ -9,9 +9,10 @@ export const oAuthApi = async <T = any>(params: {
 }) => {
   const res = await API.post<T>(`/oauth`, params);
 
-  if (res.status === 200) {
-    return res.data;
+  if (res.status !== 200) {
+    throw new Error();
   }
+  return res.data;
 };
 
 export const signInApi = async <T = any>(params: {
@@ -20,9 +21,10 @@ export const signInApi = async <T = any>(params: {
 }) => {
   const res = await API.post<T>(`/sign-in`, params);
 
-  if (res.status === 200) {
-    return res.data;
+  if (res.status !== 200) {
+    throw new Error();
   }
+  return res.data;
 };
 
 export const signUpApi = async <T = any>(params: {
@@ -32,7 +34,8 @@ export const signUpApi = async <T = any>(params: {
 }) => {
   const res = await API.post<T>(`/sign-up`, params);
 
-  if (res.status === 200) {
-    return res.data;
+  if (res.status !== 200) {
+    throw new Error();
   }
+  return res.data;
 };
