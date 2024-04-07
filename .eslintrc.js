@@ -10,6 +10,8 @@ module.exports = {
   rules: {
     // typescript-eslint rule을 정의하기 위해 기존 규칙 off
     "no-unused-vars": "off",
+    // any type 허용
+    "@typescript-eslint/no-explicit-any": "off",
     // 사용하지 않은 변수(인자)가 있으면 에러, _로 시작하는 변수(인자)는 무시
     "@typescript-eslint/no-unused-vars": [
       "error",
