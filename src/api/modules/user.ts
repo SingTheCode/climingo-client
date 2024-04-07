@@ -2,7 +2,7 @@ import { API } from "@/api/axios";
 import { OAuthProvider } from "@/types/common";
 
 // 회원가입 여부 및 사용자 정보 조회
-export const oAuthApi = async <T = any>(params: {
+export const oAuthApi = async <T = unknown>(params: {
   provider: OAuthProvider;
   redirectUri: string;
   code: string;
@@ -15,7 +15,7 @@ export const oAuthApi = async <T = any>(params: {
   return res.data;
 };
 
-export const signInApi = async <T = any>(params: {
+export const signInApi = async <T = unknown>(params: {
   provider: OAuthProvider;
   oAuthToken: string;
 }) => {
@@ -27,7 +27,7 @@ export const signInApi = async <T = any>(params: {
   return res.data;
 };
 
-export const signUpApi = async <T = any>(params: {
+export const signUpApi = async <T = unknown>(params: {
   provider: OAuthProvider;
   oAuthToken: string;
   userInfo: object;

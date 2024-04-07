@@ -15,16 +15,19 @@ axios.interceptors.response.use(
 );
 
 export const API = {
-  get: async <T = any>(url: string, query = {}): Promise<AxiosResponse<T>> => {
+  get: async <T = unknown>(
+    url: string,
+    query = {}
+  ): Promise<AxiosResponse<T>> => {
     const queryParams = new URLSearchParams(query);
     return await api.get(
       `${url}${Object.keys(query).length > 0 ? "?" + queryParams : ""}`
     );
   },
-  post: async <T = any>(
+  post: async <T = unknown>(
     url: string,
     query = {},
-    params?: any
+    params?: unknown
   ): Promise<AxiosResponse<T>> => {
     const queryParams = new URLSearchParams(query);
     return await api.post(
@@ -32,10 +35,10 @@ export const API = {
       params
     );
   },
-  put: async <T = any>(
+  put: async <T = unknown>(
     url: string,
     query = {},
-    params?: any
+    params?: unknown
   ): Promise<AxiosResponse<T>> => {
     const queryParams = new URLSearchParams(query);
     return await api.put(
@@ -43,7 +46,7 @@ export const API = {
       params
     );
   },
-  delete: async <T = any>(
+  delete: async <T = unknown>(
     url: string,
     query = {}
   ): Promise<AxiosResponse<T>> => {
