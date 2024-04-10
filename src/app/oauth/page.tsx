@@ -3,7 +3,6 @@
 import { Cookies } from "react-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { oAuthApi, signInApi } from "@/api/modules/user";
-import { OAuthApiResponse, UserApiResponse } from "@/types/user";
 
 export default function OAuth() {
   const router = useRouter();
@@ -21,12 +20,11 @@ export default function OAuth() {
       code,
     } as const;
 
-    const { isAlreadySignUp, provider, oAuthToken } =
-      await oAuthApi<OAuthApiResponse>(params);
+    const { isAlreadySignUp, provider, oAuthToken } = await oAuthApi(params);
 
     if (isAlreadySignUp) {
       // TODO: userInfo store 에 저장
-      const { accessToken, refreshToken } = await signInApi<UserApiResponse>({
+      const { accessToken, refreshToken } = await signInApi({
         provider,
         oAuthToken,
       });
