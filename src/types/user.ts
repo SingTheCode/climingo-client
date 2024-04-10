@@ -2,9 +2,7 @@ import { OAuthProvider } from "@/types/common";
 
 export interface UserInfo {
   nickname: string;
-  image: string;
-  gender?: string;
-  age?: number;
+  email?: string;
 }
 
 export interface OAuthApiResponse {
@@ -14,10 +12,4 @@ export interface OAuthApiResponse {
   userInfo: UserInfo;
   provider: OAuthProvider;
   oAuthToken: string;
-}
-
-export interface UserApiResponse {
-  accessToken: string;
-  refreshToken: string;
-  userInfo: UserInfo;
 }
