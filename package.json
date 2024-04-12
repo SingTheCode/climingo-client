@@ -10,6 +10,8 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.29.0",
+    "axios": "^1.6.8",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
