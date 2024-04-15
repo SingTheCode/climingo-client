@@ -8,8 +8,6 @@ import {
   useState,
 } from "react";
 import Image from "next/image";
-import { Simulate } from "react-dom/test-utils";
-import invalid = Simulate.invalid;
 
 // valid 면 true 를, invalid 면 노출할 문구를 반환
 interface ValidationRule {
