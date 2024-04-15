@@ -111,7 +111,6 @@ export default function InputText(props: InputProps) {
             placeholder={props.placeholder}
             maxLength={props.maxLength}
             onChange={(e) => props.setText(e.target.value)}
-            pattern={props.pattern}
           />
           {props.value.length > 0 && (
             <button
