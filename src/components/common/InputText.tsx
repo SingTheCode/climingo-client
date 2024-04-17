@@ -21,12 +21,15 @@ interface InputProps extends Partial<HTMLInputElement> {
   // 프론트 유효성 검사
   rules?: ValidationRule[];
   // 우선 유효성 검사 결과 노출
-  invalidText?: string;
+  serverValidation?: {
+    isValid: boolean;
+    text: string;
+  };
 }
 
 export default function InputText(props: InputProps) {
   const [onValidAction, setOnValidAction] = useState(false);
-  const [validationInfo, setValidationInfo] = useState({
+  const [clientValidation, setClientValidation] = useState({
     isValid: true,
     text: "",
   });
@@ -41,7 +44,10 @@ export default function InputText(props: InputProps) {
 
   useEffect(() => {
     // 외부에서 설정한 validation 상태가 없고, value 가 0보다 클 때 valid 활성화
-    if (!props.invalidText && props.value.length === 0) {
+    if (
+      (!props.serverValidation || props.serverValidation.isValid) &&
+      props.value.length === 0
+    ) {
       setOnValidAction(false);
       return;
     }
@@ -56,66 +62,62 @@ export default function InputText(props: InputProps) {
       (rule) => typeof rule(props.value) === "string"
     );
     if (!invalidRule) {
-      if (props.invalidText) {
-        setValidationInfo({
-          isValid: false,
-          text: props.invalidText,
-        });
-        return;
-      }
-      setValidationInfo({
+      setClientValidation({
         isValid: true,
         text: "",
       });
       return;
     }
-    setValidationInfo({
+    setClientValidation({
       isValid: false,
       text: invalidRule(props.value) as string,
     });
   }, [props.value]);
+
   useEffect(() => {
-    if (props.invalidText) {
-      setOnValidAction(true);
-      setValidationInfo({ isValid: false, text: props.invalidText });
+    if (!props.serverValidation) {
+      return;
     }
-  }, [props.invalidText]);
+
+    if (!props.serverValidation.isValid) {
+      setOnValidAction(true);
+      setClientValidation({
+        isValid: false,
+        text: props.serverValidation.text,
+      });
+    }
+  }, [props.serverValidation]);
 
   return (
-    <div>
-      <div>
-        <div className="relative mt-2 rounded-md shadow-sm">
+    <div className="w-full">
+      <div className="w-full">
+        <div className="relative mt-2 w-full rounded-md shadow-sm">
           {props.type === "search" && (
-            <div className="pointer-events-none absolute inset-y-0 left-[0.8rem] flex items-center pl-4">
-              <Image src="/search.png" alt="검색" width="16" height="16" />
+            <div className="pointer-events-none absolute left-[1.2rem] inset-y-0 flex items-center">
+              <Image src="search.svg" alt="검색" width="16" height="16" />
             </div>
           )}
           <input
             ref={inputRef}
             type="text"
             name={props.name}
-            className={`block w-[${props.width || "32rem"}] h-[${
-              props.height || "4.4rem"
-            }] bg-[#f2f4f5] rounded-lg py-1.5 ${
+            className={`block w-full h-[4.4rem] bg-shadow-lighter rounded-[0.8rem] py-[1rem] text-sm border-[0.1rem] ${
               props.type === "search" ? "pl-[4.4rem]" : "pl-[1.6rem]"
-            } pr-[4.4rem] placeholder:text-gray-400 ${
-              onValidAction ? "ring-2" : ""
-            } ${
-              onValidAction &&
-              (!validationInfo || validationInfo.isValid
-                ? "ring-green"
-                : "ring-red-dark")
-            } focus:outline-none focus:ring-2`}
+            } pr-[4.8rem] placeholder:text-shadow ${onValidAction ? "" : ""} ${
+              onValidAction && clientValidation && !clientValidation.isValid
+                ? "border-red"
+                : "border-shadow-lighter"
+            } focus:outline-none`}
             placeholder={props.placeholder}
             maxLength={props.maxLength}
             onChange={(e) => props.setText(e.target.value)}
           />
           {props.value.length > 0 && (
             <button
-              className="absolute inset-y-0 right-[0.8rem] flex items-center"
+              className="absolute inset-y-0 right-[1.2rem] flex items-center"
               onClick={resetInput}
             >
-              <Image src="/cancel.png" alt="취소" width="24" height="24" />
+              <Image src="cancel.svg" alt="취소" width="24" height="24" />
             </button>
           )}
         </div>
@@ -124,12 +126,12 @@ export default function InputText(props: InputProps) {
         <span
           className={`${
             onValidAction &&
-            (validationInfo && validationInfo.isValid
+            (clientValidation && clientValidation.isValid
               ? "text-green"
-              : "text-red-dark")
+              : "text-red")
           }`}
         >
-          {onValidAction && validationInfo?.text}
+          {onValidAction && clientValidation?.text}
         </span>
         <div>
           {props.maxLength && (
