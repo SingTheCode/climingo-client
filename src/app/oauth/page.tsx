@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 
@@ -14,7 +15,7 @@ export default function OAuth() {
 
     const params = {
       providerType: "kakao",
-      redirectUri: `${process.env.NEXT_PUBLIC_HOST}`,
+      redirectUri: window.location.origin + window.location.pathname,
       code,
     } as const;
 
@@ -33,7 +34,10 @@ export default function OAuth() {
     }
     router.push("/signUp");
   };
-  oAuth();
+
+  useEffect(() => {
+    oAuth();
+  }, []);
 
   return <div></div>;
 }
