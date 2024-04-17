@@ -11,7 +11,7 @@ body {
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  padding: 3.2rem;
+  padding: 2rem;
   background: #ffffff;
-  font-size: 1.6rem;
+  @apply text-base text-ink;
 }
