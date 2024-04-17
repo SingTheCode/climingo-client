@@ -4,11 +4,13 @@ import { api } from "@/api/axios";
 
 // 회원가입 여부 및 사용자 정보 조회
 export const oAuthApi = async (params: {
-  provider: OAuthProvider;
+  providerType: OAuthProvider;
   redirectUri: string;
   code: string;
 }) => {
-  const res = await api.post<OAuthApiResponse>(`/auth/members/exist`, params);
+  const res = await api.get<OAuthApiResponse>(`/auth/members/exist`, {
+    params,
+  });
   if (res.status !== 200) {
     throw new Error();
   }

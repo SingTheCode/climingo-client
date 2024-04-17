@@ -13,7 +13,7 @@ export default function OAuth() {
     }
 
     const params = {
-      provider: "kakao",
+      providerType: "kakao",
       redirectUri: `${process.env.NEXT_PUBLIC_HOST}`,
       code,
     } as const;
