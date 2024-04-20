@@ -25,6 +25,7 @@ interface InputProps extends Partial<HTMLInputElement> {
     isValid: boolean;
     text: string;
   };
+  checkValid?: (isValid: boolean) => void;
 }
 
 export default function InputText(props: InputProps) {
@@ -87,6 +88,21 @@ export default function InputText(props: InputProps) {
       });
     }
   }, [props.serverValidation]);
+
+  useEffect(() => {
+    if (!props.checkValid) {
+      return;
+    }
+    props.checkValid(
+      (onValidAction && clientValidation.isValid) ||
+        !!props.serverValidation?.isValid
+    );
+  }, [
+    props.value,
+    onValidAction,
+    clientValidation.isValid,
+    props.serverValidation?.isValid,
+  ]);
 
   return (
     <div className="w-full">
