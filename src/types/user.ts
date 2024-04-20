@@ -1,15 +1,25 @@
-import { OAuthProvider } from "@/types/common";
+export type OAuthProvider = "kakao" | "apple";
 
-export interface UserInfo {
-  nickname: string;
+interface UserInfo {
+  authId: string;
   email?: string;
+  nickname: string;
+  providerType: OAuthProvider;
+}
+
+export interface OAuthApiRequest {
+  providerType: "kakao" | "apple";
+  redirectUri: string;
+  code: string;
 }
 
 export interface OAuthApiResponse {
   // 회원가입 여부
-  isAlreadySignUp: boolean;
-  // 회원가입에 사용할 사용자 정보
-  userInfo: UserInfo;
-  provider: OAuthProvider;
-  oAuthToken: string;
+  registered: boolean;
+  memberInfo: UserInfo & { providerToken: string };
+}
+
+export interface AuthorizingResponse {
+  isAuthorized: boolean;
+  memberInfo: UserInfo;
 }
