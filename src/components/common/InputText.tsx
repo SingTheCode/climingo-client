@@ -25,6 +25,7 @@ interface InputProps extends Partial<HTMLInputElement> {
     isValid: boolean;
     text: string;
   };
+  checkValid?: (isValid: boolean) => void;
 }
 
 export default function InputText(props: InputProps) {
@@ -88,13 +89,33 @@ export default function InputText(props: InputProps) {
     }
   }, [props.serverValidation]);
 
+  useEffect(() => {
+    if (!props.checkValid) {
+      return;
+    }
+    props.checkValid(
+      (onValidAction && clientValidation.isValid) ||
+        !!props.serverValidation?.isValid
+    );
+  }, [
+    props.value,
+    onValidAction,
+    clientValidation.isValid,
+    props.serverValidation?.isValid,
+  ]);
+
   return (
     <div className="w-full">
       <div className="w-full">
         <div className="relative mt-2 w-full rounded-md shadow-sm">
           {props.type === "search" && (
             <div className="pointer-events-none absolute left-[1.2rem] inset-y-0 flex items-center">
-              <Image src="search.svg" alt="검색" width="16" height="16" />
+              <Image
+                src="/assets/search.svg"
+                alt="검색"
+                width="16"
+                height="16"
+              />
             </div>
           )}
           <input
@@ -117,7 +138,12 @@ export default function InputText(props: InputProps) {
               className="absolute inset-y-0 right-[1.2rem] flex items-center"
               onClick={resetInput}
             >
-              <Image src="cancel.svg" alt="취소" width="24" height="24" />
+              <Image
+                src="/assets/cancel.svg"
+                alt="취소"
+                width="24"
+                height="24"
+              />
             </button>
           )}
         </div>
