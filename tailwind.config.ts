@@ -68,6 +68,8 @@ const config: Config = {
         kakao: "#FEE500",
         apple: "#000000",
       },
+      white: "#FFFFFF",
+      black: "000000",
     },
   },
   plugins: [],
