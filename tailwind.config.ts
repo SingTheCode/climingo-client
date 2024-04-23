@@ -69,7 +69,7 @@ const config: Config = {
         apple: "#000000",
       },
       white: "#FFFFFF",
-      black: "000000",
+      black: "#000000",
     },
   },
   plugins: [],
