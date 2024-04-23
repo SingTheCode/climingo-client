@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 
 // 회원가입 여부 조회
-export const userQuery = (params: OAuthApiRequest) =>
+export const useUserQuery = (params: OAuthApiRequest) =>
   useQuery({
     queryKey: ["oAuth"],
     queryFn: () => oAuthApi(params),

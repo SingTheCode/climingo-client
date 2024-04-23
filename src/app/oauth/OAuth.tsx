@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { OAuthApiRequest, OAuthProvider } from "@/types/user";
-import { userQuery, useSignInQuery } from "@/api/hooks/userQuery";
+import { useUserQuery, useSignInQuery } from "@/api/hooks/useUserQuery";
 
 export default function OAuth() {
   const router = useRouter();
@@ -23,7 +23,8 @@ export default function OAuth() {
       code: "",
     }
   );
-  const { data, isFetched } = userQuery(oAuthRequestParams);
+  const { data, isFetched } = useUserQuery(oAuthRequestParams);
+  useSignInQuery(signInRequestParams);
 
   useEffect(() => {
     const params: OAuthApiRequest = {
@@ -48,8 +49,6 @@ export default function OAuth() {
         providerType: data.memberInfo.providerType,
         providerToken: data.memberInfo.providerToken,
       });
-      useSignInQuery(signInRequestParams);
-
       // TODO: 둘러보기 페이지로 이동
       router.push("/");
       return;
