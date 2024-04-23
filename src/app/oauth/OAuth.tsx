@@ -23,7 +23,7 @@ export default function OAuth() {
       code: "",
     }
   );
-  const { data, isSuccess } = useUserQuery(oAuthRequestParams);
+  const { data, isFetched } = useUserQuery(oAuthRequestParams);
   useSignInQuery(signInRequestParams);
 
   useEffect(() => {
@@ -35,7 +35,10 @@ export default function OAuth() {
     setOAuthRequestParams(params);
   }, []);
   useEffect(() => {
-    if (!isSuccess) {
+    if (!isFetched) {
+      return;
+    }
+    if (!data) {
       alert("로그인이 정상적으로 이루어지지 않았어요.");
       router.push("/signIn");
       return;
@@ -51,7 +54,7 @@ export default function OAuth() {
       return;
     }
     router.push("/signUp");
-  }, [isSuccess]);
+  }, [isFetched]);
 
   return <div></div>;
 }
