@@ -6,7 +6,7 @@ const BottomActionButton = ({
 }: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => {
   return (
     <button
-      className="fixed inset-x-[2rem] bottom-[2rem] h-[4.8rem] font-bold rounded-[1rem] bg-primary text-[#ffffff] hover:bg-primary/90 disabled:bg-shadow-light"
+      className="absolute inset-x-[2rem] bottom-[2rem] h-[4.8rem] font-bold rounded-[1rem] bg-primary text-[#ffffff] hover:bg-primary/90 disabled:bg-shadow-light"
       {...props}
     >
       {children}
