@@ -1,30 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { OAuthApiRequest, OAuthProvider } from "@/types/user";
 import { useUserQuery, useSignInQuery } from "@/api/hooks/useUserQuery";
+import { OAuthApiRequest } from "@/types/user";
+import { useUserActions, useUserValue } from "@/store/user";
 
 export default function OAuth() {
   const router = useRouter();
   const code = useSearchParams().get("code") || "";
 
-  const [signInRequestParams, setSignInRequestParams] = useState<{
-    providerType: OAuthProvider;
-    providerToken: string;
-  }>({
-    providerType: "kakao",
-    providerToken: "",
-  });
-  const [oAuthRequestParams, setOAuthRequestParams] = useState<OAuthApiRequest>(
-    {
-      providerType: "kakao",
-      redirectUri: "",
-      code: "",
-    }
-  );
-  const { data, isFetched } = useUserQuery(oAuthRequestParams);
-  useSignInQuery(signInRequestParams);
+  const user = useUserValue();
+  const { setUser } = useUserActions();
 
   useEffect(() => {
     const params: OAuthApiRequest = {

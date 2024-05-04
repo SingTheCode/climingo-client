@@ -44,6 +44,9 @@ export default function InputText(props: InputProps) {
   };
 
   useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = props.value;
+    }
     // 외부에서 설정한 validation 상태가 없고, value 가 0보다 클 때 valid 활성화
     if (
       (!props.serverValidation || props.serverValidation.isValid) &&
