@@ -1,6 +1,6 @@
 export type OAuthProvider = "kakao" | "apple";
 
-interface UserInfo {
+export interface UserInfo {
   authId: string;
   email?: string;
   nickname: string;
@@ -19,7 +19,7 @@ export interface OAuthApiResponse {
   memberInfo: UserInfo & { providerToken: string };
 }
 
-export interface AuthorizingResponse {
+export interface UserState {
   isAuthorized: boolean;
   memberInfo: UserInfo;
 }
