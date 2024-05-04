@@ -6,22 +6,22 @@ import { useRouter } from "next/navigation";
 type BackButtonType = "default" | "home";
 type NavigationHeaderProps = {
   pageTitle?: string;
-  showBackButton?: boolean;
+  hideBackButton?: boolean;
   backButtonType?: BackButtonType;
-  rightElement: React.ReactNode;
+  rightElement?: React.ReactNode;
 };
 
 const NavigationHeader = ({
   pageTitle,
-  showBackButton = true,
+  hideBackButton = false,
   backButtonType = "default",
   rightElement,
 }: NavigationHeaderProps) => {
   return (
-    <nav className="h-[4.8rem] fixed top-0 left-0 flex items-center justify-between w-screen z-[300] overflow-y-hidden bg-white">
+    <nav className="h-[4.8rem] fixed top-0 left-0 flex items-center justify-between w-screen z-30 overflow-y-hidden bg-white">
       {/** left */}
       <div className="flex p-[0.2rem] basis-[10rem]">
-        {showBackButton && <BackButton backButtonType={backButtonType} />}
+        {!hideBackButton && <BackButton backButtonType={backButtonType} />}
       </div>
 
       {/** center */}
