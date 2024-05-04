@@ -3,14 +3,13 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { OAuthApiRequest } from "@/types/user";
-import { useUserActions, useUserValue } from "@/store/user";
+import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 
 export default function OAuth() {
   const router = useRouter();
   const code = useSearchParams().get("code") || "";
 
-  const user = useUserValue();
   const { setUser } = useUserActions();
 
   useEffect(() => {
@@ -36,9 +35,8 @@ export default function OAuth() {
       setUser({ isAuthorized: false, memberInfo });
       router.push("/signUp");
     };
-
     fetch();
-  }, []);
+  }, [code, router, setUser]);
 
   return <div></div>;
 }
