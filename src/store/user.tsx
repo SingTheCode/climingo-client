@@ -8,7 +8,7 @@ const UserValueContext = createContext<UserState>({
   memberInfo: { nickname: "", authId: "", providerType: "kakao", email: "" },
 });
 const UserActionsContext = createContext<{ setUser(info: UserState): void }>({
-  setUser(info: UserState) {},
+  setUser() {},
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {

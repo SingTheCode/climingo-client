@@ -76,7 +76,7 @@ export default function InputText(props: InputProps) {
       isValid: false,
       text: invalidRule(props.value) as string,
     });
-  }, [props.value]);
+  }, [inputRef, props.rules, props.value, props.serverValidation, props]);
 
   useEffect(() => {
     if (!props.serverValidation) {
