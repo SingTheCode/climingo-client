@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ReactQueryProvider from "@/reactQueryProvider";
+import { UserProvider } from "@/store/user";
 
 /** https://github.com/orioncactus/pretendard?tab=readme-ov-file#nextjs */
 const pretendard = localFont({
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={pretendard.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <UserProvider>{children}</UserProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

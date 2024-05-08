@@ -1,8 +1,9 @@
 import {
-  AuthorizingResponse,
+  UserState,
   OAuthApiRequest,
   OAuthApiResponse,
   OAuthProvider,
+  UserInfo,
 } from "@/types/user";
 import { api } from "@/api/axios";
 
@@ -12,6 +13,8 @@ export const oAuthApi = async (params: OAuthApiRequest) => {
     params,
   });
   if (res.status !== 200) {
+    alert("로그인이 정상적으로 이루어지지 않았어요.");
+    location.replace("/signIn");
     throw new Error();
   }
   return res.data;
@@ -21,18 +24,15 @@ export const signInApi = async (params: {
   providerType: OAuthProvider;
   providerToken: string;
 }) => {
-  const res = await api.post<AuthorizingResponse>(`/sign-in`, params);
+  const res = await api.post<UserState["memberInfo"]>(`/sign-in`, params);
   if (res.status !== 200) {
     throw new Error();
   }
   return res.data;
 };
 
-export const signUpApi = async (params: {
-  providerType: OAuthProvider;
-  providerToken: string;
-}) => {
-  const res = await api.post<AuthorizingResponse>(`/sign-up`, params);
+export const signUpApi = async (params: UserInfo) => {
+  const res = await api.post<UserState>(`/sign-up`, params);
   if (res.status !== 200) {
     throw new Error();
   }
