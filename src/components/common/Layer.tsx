@@ -82,7 +82,7 @@ const LayerHeader = ({ children }: { children?: React.ReactNode }) => {
 
 const LayerTitle = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <DialogTitle className="text-base font-semibold leading-6 text-gray-900 m-auto">
+    <DialogTitle className="text-base font-semibold leading-6 m-auto">
       {children}
     </DialogTitle>
   );
