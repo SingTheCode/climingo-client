@@ -10,6 +10,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.3",
     "@tanstack/react-query": "^5.29.0",
     "axios": "^1.6.8",
     "next": "14.0.1",
