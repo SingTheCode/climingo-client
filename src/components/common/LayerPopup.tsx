@@ -7,23 +7,23 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 
-interface LayerRootProps {
+interface LayerPopupRootProps {
   open: boolean;
   onClose: () => void;
   hideCloseButton?: boolean;
   fullscreen?: boolean;
 }
 
-const LayerRoot = ({
+const LayerPopupRoot = ({
   open,
   onClose,
   hideCloseButton = false,
   fullscreen = false,
   children,
-}: PropsWithChildren<LayerRootProps>) => {
+}: PropsWithChildren<LayerPopupRootProps>) => {
   return (
     <Transition show={open} as={Fragment}>
-      <Dialog className="relative z-10" onClose={onClose}>
+      <Dialog className="relative z-[500]" onClose={onClose}>
         {/** overlay */}
         <TransitionChild
           as={Fragment}
@@ -56,7 +56,7 @@ const LayerRoot = ({
                 <DialogPanel className="pointer-events-auto relative w-screen">
                   <div
                     className={`flex flex-col overflow-y-scroll bg-[#ffffff] shadow-xl pt-6 ${
-                      fullscreen ? "h-full" : ""
+                      fullscreen ? "h-full" : "rounded-t-[2rem]"
                     }`}
                   >
                     {!hideCloseButton && <CloseButton onClick={onClose} />}
@@ -72,7 +72,7 @@ const LayerRoot = ({
   );
 };
 
-const LayerHeader = ({ children }: { children?: React.ReactNode }) => {
+const LayerPopupHeader = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div className="flex justify-between items-center px-6 sm:px-8 pl-14">
       {children}
@@ -80,7 +80,7 @@ const LayerHeader = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const LayerTitle = ({ children }: { children?: React.ReactNode }) => {
+const LayerPopupTitle = ({ children }: { children?: React.ReactNode }) => {
   return (
     <DialogTitle className="text-base font-semibold leading-6 m-auto">
       {children}
@@ -88,17 +88,17 @@ const LayerTitle = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const LayerBody = ({ children }: { children?: React.ReactNode }) => {
+const LayerPopupBody = ({ children }: { children?: React.ReactNode }) => {
   return <div className="relative mt-6 flex-1 px-6 sm:px-8 ">{children}</div>;
 };
 
-const Layer = Object.assign(LayerRoot, {
-  Header: LayerHeader,
-  Title: LayerTitle,
-  Body: LayerBody,
+const LayerPopup = Object.assign(LayerPopupRoot, {
+  Header: LayerPopupHeader,
+  Title: LayerPopupTitle,
+  Body: LayerPopupBody,
 });
 
-export default Layer;
+export default LayerPopup;
 
 const CloseButton = (props: InputHTMLAttributes<HTMLButtonElement>) => (
   <button
