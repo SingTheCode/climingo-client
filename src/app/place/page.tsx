@@ -1,4 +1,4 @@
-import Place from "@/app/place/place";
+import Place from "@/app/place/Place";
 
 export default function Page() {
   return <Place />;
