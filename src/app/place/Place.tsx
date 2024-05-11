@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/common";
-import InputText from "@/components/common/InputText";
 import { searchClimbingPlaceApi } from "@/api/modules/common";
 import { ClimbingPlace } from "@/types/common";
-import SearchedPlace from "@/app/place/searchedPlace";
+import SearchedPlace from "@/app/place/SearchedPlace";
+import InputText from "@/components/common/InputText";
 
 export default function Place() {
   const [text, setText] = useState("");
