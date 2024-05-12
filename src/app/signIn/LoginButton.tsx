@@ -7,7 +7,7 @@ export default function LoginButton() {
   const kakaoLogin = () => {
     const query = new URLSearchParams({
       client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || "",
-      redirect_uri: `${process.env.NEXT_PUBLIC_HOST}/oauth`,
+      redirect_uri: `${window.location.origin}/oauth`,
       response_type: "code",
     });
     router.push(`https://kauth.kakao.com/oauth/authorize?${query}`);
