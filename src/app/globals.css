@@ -7,11 +7,7 @@ html {
 }
 
 body {
-  display: flex;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
-  padding: 2rem;
-  background: #ffffff;
-  @apply text-base text-ink;
+  @apply text-base text-ink bg-white;
 }
