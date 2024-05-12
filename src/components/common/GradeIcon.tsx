@@ -1,4 +1,4 @@
-export default function Grade({ color }: { color: string }) {
+export default function GradeIcon({ color }: { color: string }) {
   const grade = `bg-${color}`;
 
   return (

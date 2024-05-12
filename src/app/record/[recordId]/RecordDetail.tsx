@@ -1,5 +1,5 @@
 import Avatar from "@/components/common/Avatar";
-import Grade from "@/components/common/Grade";
+import GradeIcon from "@/components/common/GradeIcon";
 
 export default function RecordDetail() {
   return (
@@ -33,7 +33,7 @@ const RecordInfo = () => {
         <div className="flex items-center px-[1.2rem] py-[0.6rem] mr-[0.5rem] bg-shadow-lighter rounded-xl text-sm">
           <span>하양</span>
           <div className="pl-[0.5rem]">
-            <Grade color="white" />
+            <GradeIcon color="white" />
           </div>
         </div>
       </div>
