@@ -24,7 +24,7 @@ export default function OAuth() {
 
         if (registered) {
           const data = await signInApi({
-            providerType: memberInfo.providerType,
+            providerType: memberInfo.providerType!,
             providerToken: memberInfo.providerToken,
           });
 
