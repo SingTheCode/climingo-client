@@ -30,12 +30,6 @@ const config: Config = {
         lighter: "#FFA09D",
         lightest: "#FFC6BD",
       },
-      white: {
-        DEFAULT: "#FFFFFF",
-      },
-      black: {
-        DEFAULT: "#000000",
-      },
       shadow: {
         darkest: "#292929",
         darker: "#565656",
