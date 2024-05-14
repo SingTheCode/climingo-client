@@ -25,42 +25,44 @@ interface InputProps extends Partial<HTMLInputElement> {
     isValid: boolean;
     text: string;
   };
+  checkValid?: (isValid: boolean) => void;
 }
 
 export default function InputText(props: InputProps) {
+  const { value, setText, rules, serverValidation, checkValid } = props;
+
   const [onValidAction, setOnValidAction] = useState(false);
   const [clientValidation, setClientValidation] = useState({
     isValid: true,
     text: "",
   });
+
   const inputRef = createRef<HTMLInputElement>();
 
   const resetInput = () => {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-    props.setText("");
+    setText("");
   };
 
   useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = value;
+    }
     // 외부에서 설정한 validation 상태가 없고, value 가 0보다 클 때 valid 활성화
-    if (
-      (!props.serverValidation || props.serverValidation.isValid) &&
-      props.value.length === 0
-    ) {
+    if ((!serverValidation || serverValidation.isValid) && value.length === 0) {
       setOnValidAction(false);
       return;
     }
     setOnValidAction(true);
 
-    if (!props.rules) {
+    if (!rules) {
       return;
     }
 
     // 프론트 유효성 검사
-    const invalidRule = props.rules.find(
-      (rule) => typeof rule(props.value) === "string"
-    );
+    const invalidRule = rules.find((rule) => typeof rule(value) === "string");
     if (!invalidRule) {
       setClientValidation({
         isValid: true,
@@ -70,23 +72,37 @@ export default function InputText(props: InputProps) {
     }
     setClientValidation({
       isValid: false,
-      text: invalidRule(props.value) as string,
+      text: invalidRule(value) as string,
     });
-  }, [props.value]);
+  }, [inputRef, rules, value, serverValidation, props]);
 
   useEffect(() => {
-    if (!props.serverValidation) {
+    if (!serverValidation) {
       return;
     }
 
-    if (!props.serverValidation.isValid) {
+    if (!serverValidation.isValid) {
       setOnValidAction(true);
       setClientValidation({
         isValid: false,
-        text: props.serverValidation.text,
+        text: serverValidation.text,
       });
     }
-  }, [props.serverValidation]);
+  }, [serverValidation]);
+
+  useEffect(() => {
+    if (!checkValid) {
+      return;
+    }
+    checkValid(
+      (onValidAction && clientValidation.isValid) || !!serverValidation?.isValid
+    );
+  }, [
+    value,
+    onValidAction,
+    clientValidation.isValid,
+    serverValidation?.isValid,
+  ]);
 
   return (
     <div className="w-full">
@@ -94,7 +110,12 @@ export default function InputText(props: InputProps) {
         <div className="relative mt-2 w-full rounded-md shadow-sm">
           {props.type === "search" && (
             <div className="pointer-events-none absolute left-[1.2rem] inset-y-0 flex items-center">
-              <Image src="search.svg" alt="검색" width="16" height="16" />
+              <Image
+                src="/assets/search.svg"
+                alt="검색"
+                width="16"
+                height="16"
+              />
             </div>
           )}
           <input
@@ -117,7 +138,12 @@ export default function InputText(props: InputProps) {
               className="absolute inset-y-0 right-[1.2rem] flex items-center"
               onClick={resetInput}
             >
-              <Image src="cancel.svg" alt="취소" width="24" height="24" />
+              <Image
+                src="/assets/cancel.svg"
+                alt="취소"
+                width="24"
+                height="24"
+              />
             </button>
           )}
         </div>
