@@ -29,42 +29,40 @@ interface InputProps extends Partial<HTMLInputElement> {
 }
 
 export default function InputText(props: InputProps) {
+  const { value, setText, rules, serverValidation, checkValid } = props;
+
   const [onValidAction, setOnValidAction] = useState(false);
   const [clientValidation, setClientValidation] = useState({
     isValid: true,
     text: "",
   });
+
   const inputRef = createRef<HTMLInputElement>();
 
   const resetInput = () => {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-    props.setText("");
+    setText("");
   };
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.value = props.value;
+      inputRef.current.value = value;
     }
     // 외부에서 설정한 validation 상태가 없고, value 가 0보다 클 때 valid 활성화
-    if (
-      (!props.serverValidation || props.serverValidation.isValid) &&
-      props.value.length === 0
-    ) {
+    if ((!serverValidation || serverValidation.isValid) && value.length === 0) {
       setOnValidAction(false);
       return;
     }
     setOnValidAction(true);
 
-    if (!props.rules) {
+    if (!rules) {
       return;
     }
 
     // 프론트 유효성 검사
-    const invalidRule = props.rules.find(
-      (rule) => typeof rule(props.value) === "string"
-    );
+    const invalidRule = rules.find((rule) => typeof rule(value) === "string");
     if (!invalidRule) {
       setClientValidation({
         isValid: true,
@@ -74,37 +72,36 @@ export default function InputText(props: InputProps) {
     }
     setClientValidation({
       isValid: false,
-      text: invalidRule(props.value) as string,
+      text: invalidRule(value) as string,
     });
-  }, [inputRef, props.rules, props.value, props.serverValidation, props]);
+  }, [inputRef, rules, value, serverValidation, props]);
 
   useEffect(() => {
-    if (!props.serverValidation) {
+    if (!serverValidation) {
       return;
     }
 
-    if (!props.serverValidation.isValid) {
+    if (!serverValidation.isValid) {
       setOnValidAction(true);
       setClientValidation({
         isValid: false,
-        text: props.serverValidation.text,
+        text: serverValidation.text,
       });
     }
-  }, [props.serverValidation]);
+  }, [serverValidation]);
 
   useEffect(() => {
-    if (!props.checkValid) {
+    if (!checkValid) {
       return;
     }
-    props.checkValid(
-      (onValidAction && clientValidation.isValid) ||
-        !!props.serverValidation?.isValid
+    checkValid(
+      (onValidAction && clientValidation.isValid) || !!serverValidation?.isValid
     );
   }, [
-    props.value,
+    value,
     onValidAction,
     clientValidation.isValid,
-    props.serverValidation?.isValid,
+    serverValidation?.isValid,
   ]);
 
   return (
