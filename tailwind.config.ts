@@ -71,6 +71,10 @@ const config: Config = {
       white: "#FFFFFF",
       black: "#000000",
     },
+    boxShadow: {
+      "white-top":
+        "0px -25px 25px rgba(255, 255, 255, 0.4), 0px -10px 10px rgba(255, 255, 255, 0.9)",
+    },
   },
   plugins: [],
 };
