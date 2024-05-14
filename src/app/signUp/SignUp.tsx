@@ -1,5 +1,5 @@
+import SignUpForm from "@/app/signUp/SignUpForm";
 import Avatar from "@/components/common/Avatar";
-import SignUpForm from "@/app/signUp/signUpForm";
 
 export default function SignUp() {
   return (
