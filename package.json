@@ -10,12 +10,15 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.29.0",
+    "axios": "^1.6.8",
     "@headlessui/react": "^2.0.3",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.29.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

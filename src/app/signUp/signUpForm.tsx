@@ -1,23 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import InputText from "@/components/common/InputText";
+import { signUpApi } from "@/api/modules/user";
+import { useUserActions, useUserValue } from "@/store/user";
 
 export default function SignUpForm() {
+  const router = useRouter();
+
+  const user = useUserValue();
+  const { setUser } = useUserActions();
   const [nickname, setNickname] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const checkValid = (isValid: boolean) => {
     setIsValid(isValid);
   };
-  const signUp = () => {
+  const signUp = async () => {
     if (!isValid) {
       alert("닉네임이 유효하지 않습니다. 다시 입력해주세요.");
       setNickname("");
       return;
     }
-    alert("success");
+
+    const data = await signUpApi({ ...user.memberInfo, nickname });
+    setUser(data);
+    router.replace("/");
   };
+
+  useEffect(() => {
+    if (user) {
+      setNickname(user.memberInfo.nickname);
+    }
+  }, [user]);
 
   return (
     <div className="w-full flex flex-col items-start pt-[2rem]">
