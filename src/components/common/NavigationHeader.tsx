@@ -29,7 +29,7 @@ const NavigationHeader = ({
       </div>
 
       {/** center */}
-      <h2 className="text-center text-base font-medium flex-grow">
+      <h2 className="text-center text-base font-medium flex-grow self-center px-[2rem]">
         {pageTitle}
       </h2>
 
@@ -49,7 +49,7 @@ const BackButton = () => {
   const goPrev = () => router.back();
 
   return (
-    <button className="pl-[-1rem] py-[0.8rem]" onClick={goPrev}>
+    <button className="ml-[-1rem] py-[0.8rem] flex-shrink-0" onClick={goPrev}>
       <img src="/icons/icon-back.svg" alt="뒤로 가기" width="24" height="24" />
     </button>
   );
@@ -57,7 +57,7 @@ const BackButton = () => {
 
 const HomeButton = () => {
   return (
-    <Link href="/">
+    <Link href="/" className="flex-shrink-0">
       <button className="py-[0.8rem]">
         <img
           src="/icons/icon-home.svg"
