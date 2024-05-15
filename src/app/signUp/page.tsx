@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";
 import SignUp from "@/app/signUp/SignUp";
@@ -5,7 +6,16 @@ import SignUp from "@/app/signUp/SignUp";
 export default function Page() {
   return (
     <Layout containHeader>
-      <NavigationHeader />
+      <NavigationHeader
+        pageTitle="회원가입"
+        hideBackButton
+        hideHomeButton
+        leftElement={
+          <Link href="/signIn">
+            <button className="text-shadow-dark">취소</button>
+          </Link>
+        }
+      />
       <SignUp />
     </Layout>
   );
