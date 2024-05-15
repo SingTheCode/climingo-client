@@ -4,7 +4,7 @@ import UploadVideoSection from "./UploadVideoSection";
 
 const CreateRecordForm = () => {
   return (
-    <form className="flex flex-col p-[2rem] pt-[4rem] gap-[3rem]">
+    <form className="flex flex-col gap-[3rem] pt-[2rem]">
       <SelectPlaceWithLevelSection />
       <UploadVideoSection />
       <BottomActionButton>완료</BottomActionButton>
