@@ -19,21 +19,30 @@ export default function OAuth() {
         redirectUri: window.location.origin + window.location.pathname,
         code,
       } as const;
-      const { registered, memberInfo } = await oAuthApi(params);
+      try {
+        const { registered, memberInfo } = await oAuthApi(params);
 
-      if (registered) {
-        const data = await signInApi({
+        if (registered) {
+          const data = await signInApi({
           providerType: memberInfo.providerType!,
-          providerToken: memberInfo.providerToken,
-        });
+            providerToken: memberInfo.providerToken,
+          });
 
-        setUser({ isAuthorized: !!data.authId, memberInfo: data });
-        // TODO: 둘러보기 페이지로 이동
-        router.push("/");
-        return;
+          setUser({ isAuthorized: !!data.authId, memberInfo: data });
+          // TODO: 둘러보기 페이지로 이동
+          router.push("/");
+          return;
+        }
+        setUser({ isAuthorized: false, memberInfo });
+        router.push("/signUp");
+      } catch (err) {
+        if (err instanceof Error) {
+          if (err.message) {
+            alert(err.message);
+          }
+          router.replace("/signIn");
+        }
       }
-      setUser({ isAuthorized: false, memberInfo });
-      router.push("/signUp");
     };
     fetch();
   }, [code, router, setUser]);

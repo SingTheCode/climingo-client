@@ -13,9 +13,7 @@ export const oAuthApi = async (params: OAuthApiRequest) => {
     params,
   });
   if (res.status !== 200) {
-    alert("로그인이 정상적으로 이루어지지 않았어요.");
-    location.replace("/signIn");
-    throw new Error();
+    throw new Error("로그인이 정상적으로 이루어지지 않았어요.");
   }
   return res.data;
 };
