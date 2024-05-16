@@ -1,9 +1,10 @@
 "use client";
 
 import { useParams } from "next/navigation";
+
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import { MemberInfo } from "@/types/user";
-import { Grade, Gym, Record } from "@/types/record";
+import { Level, Gym, Record } from "@/types/record";
 import Avatar from "@/components/common/Avatar";
 import GradeIcon from "@/components/common/GradeIcon";
 
@@ -22,7 +23,7 @@ export default function RecordDetail() {
           <RecordTemplate
             record={data.record}
             gym={data.gym}
-            grade={data.grade}
+            level={data.level}
           />
         </div>
       ) : (
@@ -35,7 +36,7 @@ export default function RecordDetail() {
 const UserTemplate = ({ memberInfo }: { memberInfo: MemberInfo }) => {
   return (
     <div className="flex">
-      <Avatar size="sm" src="/assets/yellow-boulder.svg" alt="유저정보" />
+      <Avatar size="sm" src={memberInfo.profileUrl} alt="유저정보" />
       <div className="flex flex-col justify-between h-[4rem] pl-[1rem]">
         <span className="font-bold">{memberInfo.nickname}</span>
         <span className="text-sm text-shadow ">10분 전</span>
@@ -47,11 +48,11 @@ const UserTemplate = ({ memberInfo }: { memberInfo: MemberInfo }) => {
 const RecordTemplate = ({
   record,
   gym,
-  grade,
+  level,
 }: {
   record: Record;
   gym: Gym;
-  grade: Grade;
+  level: Level;
 }) => {
   return (
     <div className="h-full pt-[2rem]">
@@ -60,7 +61,7 @@ const RecordTemplate = ({
           {gym.gymName}
         </span>
         <div className="flex items-center px-[1.2rem] py-[0.6rem] mr-[0.5rem] bg-shadow-lighter rounded-xl text-sm">
-          <span>{grade.colorNameKo}</span>
+          <span>{level.colorNameKo}</span>
           <div className="pl-[0.5rem]">
             <GradeIcon color="white" />
           </div>

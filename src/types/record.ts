@@ -1,5 +1,6 @@
 export interface Record {
   recordId: string;
+  thumbnailUrl: string;
   videoUrl: string;
 }
 
@@ -8,9 +9,8 @@ export interface Gym {
   gymName: string;
 }
 
-// TODO: 색깔 한글, 영어 api key 통일
-export interface Grade {
-  gradeId: string;
+export interface Level {
+  levelId: string;
   colorNameKo: string;
-  colorNameEn: string;
+  colorNameEn: LevelColor;
 }

@@ -2,7 +2,7 @@ export type OAuthProvider = "kakao" | "apple";
 
 export interface MemberInfo {
   nickname: string;
-  profileImage: string;
+  profileUrl: string;
   memberId?: string;
   authId?: string;
   email?: string;

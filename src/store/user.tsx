@@ -10,7 +10,7 @@ const UserValueContext = createContext<UserState>({
     authId: "",
     providerType: "kakao",
     email: "",
-    profileImage: "",
+    profileUrl: "",
   },
 });
 const UserActionsContext = createContext<{ setUser(info: UserState): void }>({
@@ -25,7 +25,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       authId: "",
       providerType: "kakao",
       email: "",
-      profileImage: "",
+      profileUrl: "",
     },
   });
   const actions = useMemo(
