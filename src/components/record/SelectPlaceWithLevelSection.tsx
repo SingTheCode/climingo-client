@@ -3,12 +3,9 @@
 import { useRef, useState } from "react";
 
 import { ClimbingPlace, Level } from "@/types/common";
-
-import { Heading } from "@/components/record/create/common";
-import {
-  PlaceSelector,
-  LevelSelector,
-} from "@/components/record/create/selectors";
+import { Heading } from "@/components/record/commonText";
+import PlaceSelector from "@/components/record/PlaceSelector";
+import LevelSelector from "@/components/record/LevelSelector";
 
 const SelectPlaceWithLevelSection = () => {
   const [place, setPlace] = useState<ClimbingPlace>();

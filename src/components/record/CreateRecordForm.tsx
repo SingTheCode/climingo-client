@@ -1,6 +1,6 @@
 import BottomActionButton from "@/components/common/BottomActionButton";
-import SelectPlaceWithLevelSection from "./SelectPlaceWithLevelSection";
-import UploadVideoSection from "./UploadVideoSection";
+import SelectPlaceWithLevelSection from "@/components/record/SelectPlaceWithLevelSection";
+import UploadVideoSection from "@/components/record/UploadVideoSection";
 
 const CreateRecordForm = () => {
   return (

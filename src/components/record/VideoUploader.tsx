@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import ClearButton from "@/components/record/create/ClearButton";
+import ClearButton from "@/components/record/ClearButton";
 
 const VideoUploader = () => {
   const [file, setFile] = useState<string>();

@@ -2,8 +2,8 @@ import { Level } from "@/types/common";
 
 import { BOULDER_LEVELS } from "@/constants/level";
 
-import { Placeholder } from "@/components/record/create/common";
-import LevelRadioItem from "./LevelRadioItem";
+import { Placeholder } from "@/components/record/commonText";
+import LevelRadioItem from "@/components/record/LevelRadioItem";
 
 // FIXME: useQuery로 작성 후 대체
 const useLevelQuery = (_placeId?: number) => {

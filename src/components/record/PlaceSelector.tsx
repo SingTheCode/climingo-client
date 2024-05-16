@@ -1,7 +1,7 @@
 import { ClimbingPlace } from "@/types/common";
 
-import { Placeholder } from "@/components/record/create/common";
-import ClearButton from "@/components/record/create/ClearButton";
+import { Placeholder } from "@/components/record/commonText";
+import ClearButton from "@/components/record/ClearButton";
 
 type PlaceSelectorProps = {
   place?: ClimbingPlace;

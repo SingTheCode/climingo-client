@@ -1,5 +1,5 @@
-import { Heading } from "@/components/record/create/common";
-import { VideoUploader } from "@/components/record/create/selectors";
+import VideoUploader from "@/components/record/VideoUploader";
+import { Heading } from "@/components/record/commonText";
 
 const UploadVideoSection = () => {
   return (
