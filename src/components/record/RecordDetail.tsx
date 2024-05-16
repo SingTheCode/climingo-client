@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
-import { UserInfo } from "@/types/user";
+import { MemberInfo } from "@/types/user";
 import { Grade, Gym, Record } from "@/types/record";
 import Avatar from "@/components/common/Avatar";
 import GradeIcon from "@/components/common/GradeIcon";
@@ -32,7 +32,7 @@ export default function RecordDetail() {
   );
 }
 
-const UserTemplate = ({ memberInfo }: { memberInfo: UserInfo }) => {
+const UserTemplate = ({ memberInfo }: { memberInfo: MemberInfo }) => {
   return (
     <div className="flex">
       <Avatar size="sm" src="/assets/yellow-boulder.svg" alt="유저정보" />
