@@ -6,7 +6,7 @@ import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
 import Avatar from "@/components/common/Avatar";
-import GradeIcon from "@/components/common/GradeIcon";
+import Layout from "@/components/common/Layout";
 
 export default function RecordDetail() {
   const { recordId } = useParams();
@@ -16,7 +16,7 @@ export default function RecordDetail() {
 
   return (
     // TODO: Layout 컴포넌트 적용
-    <>
+    <Layout containHeader>
       {isFetched && data ? (
         <div className="w-full h-[80%] flex flex-col">
           <UserTemplate memberInfo={data.memberInfo} />
@@ -29,7 +29,7 @@ export default function RecordDetail() {
       ) : (
         <div>loading...</div>
       )}
-    </>
+    </Layout>
   );
 }
 
