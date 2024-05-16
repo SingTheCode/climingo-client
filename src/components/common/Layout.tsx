@@ -10,7 +10,7 @@ const Layout = ({
 }: PropsWithChildren<LayoutProps>) => {
   return (
     <main
-      className={`px-[2rem] ${containHeader ? "pt-[4.8rem]" : "pt-[2rem]"}`}
+      className={`w-full h-full px-[2rem] ${containHeader ? "pt-[5.6rem]" : "pt-[2rem]"}`}
     >
       {children}
     </main>

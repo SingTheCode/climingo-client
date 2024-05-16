@@ -4,3 +4,9 @@ export interface ClimbingPlace {
   zipCode?: string | null;
   name?: string;
 }
+
+export type Level = {
+  id: number;
+  colorName: string;
+  colorCode?: string;
+};
