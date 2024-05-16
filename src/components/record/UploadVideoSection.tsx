@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import { Heading } from "@/components/record/commonText";
