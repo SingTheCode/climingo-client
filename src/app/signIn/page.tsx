@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoginButton from "@/app/signIn/LoginButton";
+import LoginButton from "@/components/auth/LoginButton";
 
 export default function SignIn() {
   return (
