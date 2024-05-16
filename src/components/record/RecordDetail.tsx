@@ -6,6 +6,7 @@ import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
 import Avatar from "@/components/common/Avatar";
+import LevelIcon from "@/components/common/LevelIcon";
 import Layout from "@/components/common/Layout";
 
 export default function RecordDetail() {
@@ -63,12 +64,14 @@ const RecordTemplate = ({
         <div className="flex items-center px-[1.2rem] py-[0.6rem] mr-[0.5rem] bg-shadow-lighter rounded-xl text-sm">
           <span>{level.colorNameKo}</span>
           <div className="pl-[0.5rem]">
-            <GradeIcon color="white" />
+            <LevelIcon color={level.colorNameEn} />
           </div>
         </div>
       </div>
       <video controls className="w-full h-full mt-[1rem] rounded-2xl">
         <source src={record.videoUrl} type="video/mp4" />
+        <source src={record.videoUrl} type="video/webm" />
+        <source src={record.videoUrl} type="video/ogg" />
       </video>
     </div>
   );

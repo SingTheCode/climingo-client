@@ -1,3 +1,17 @@
+export type LevelColor =
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "navy"
+  | "purple"
+  | "pink"
+  | "brown"
+  | "gray"
+  | "white"
+  | "black";
+
 export interface Record {
   recordId: string;
   thumbnailUrl: string;

@@ -1,3 +1,5 @@
+import { LevelColor } from "@/types/record";
+
 export const BOULDER_LEVELS = [
   {
     id: 1,
@@ -45,3 +47,18 @@ export const BOULDER_LEVELS = [
     colorCode: "#ffffff",
   },
 ];
+
+export const LEVEL_COLOR: Record<LevelColor, string> = {
+  red: "bg-level-red",
+  orange: "bg-level-orange",
+  yellow: "bg-level-yellow",
+  green: "bg-level-green",
+  blue: "bg-level-blue",
+  navy: "bg-level-navy",
+  purple: "bg-level-purple",
+  pink: "bg-level-pink",
+  brown: "bg-level-brown",
+  gray: "bg-level-gray",
+  white: "bg-level-white",
+  black: "bg-level-black",
+} as const;
