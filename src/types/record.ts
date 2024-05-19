@@ -16,6 +16,7 @@ export interface Record {
   recordId: string;
   thumbnailUrl: string;
   videoUrl: string;
+  createTime: string;
 }
 
 export interface Gym {
