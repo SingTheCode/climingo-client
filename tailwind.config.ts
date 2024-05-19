@@ -82,6 +82,7 @@ const config: Config = {
         white: "#ffffff",
         black: "#000000",
       },
+      gray: "#c5c5c5",
       white: "#FFFFFF",
       black: "#000000",
     },
