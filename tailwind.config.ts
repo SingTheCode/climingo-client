@@ -82,6 +82,7 @@ const config: Config = {
         white: "#ffffff",
         black: "#000000",
       },
+      gray: "#c5c5c5",
       white: "#FFFFFF",
       black: "#000000",
     },
@@ -91,6 +92,20 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: [
+    "bg-level-red",
+    "bg-level-orange",
+    "bg-level-yellow",
+    "bg-level-green",
+    "bg-level-blue",
+    "bg-level-navy",
+    "bg-level-purple",
+    "bg-level-pink",
+    "bg-level-brown",
+    "bg-level-gray",
+    "bg-level-white",
+    "bg-level-black",
+  ],
 };
 
 export default config;

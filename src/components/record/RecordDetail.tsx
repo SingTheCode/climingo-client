@@ -9,6 +9,7 @@ import { Level, Gym, Record } from "@/types/record";
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
 import Layout from "@/components/common/Layout";
+import Loading from "@/components/common/Loading";
 
 export default function RecordDetail() {
   const { recordId } = useParams();
@@ -31,7 +32,9 @@ export default function RecordDetail() {
           />
         </div>
       ) : (
-        <div>loading...</div>
+        <div className="h-full flex justify-center items-center">
+          <Loading />
+        </div>
       )}
     </Layout>
   );
