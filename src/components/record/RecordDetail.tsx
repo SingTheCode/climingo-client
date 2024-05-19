@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 
+import "@/utils/common";
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
@@ -16,11 +17,13 @@ export default function RecordDetail() {
   });
 
   return (
-    // TODO: Layout 컴포넌트 적용
     <Layout containHeader>
       {isFetched && data ? (
         <div className="w-full h-[80%] flex flex-col">
-          <UserTemplate memberInfo={data.memberInfo} />
+          <UserTemplate
+            memberInfo={data.memberInfo}
+            createTime={data.record.createTime}
+          />
           <RecordTemplate
             record={data.record}
             gym={data.gym}
@@ -34,13 +37,21 @@ export default function RecordDetail() {
   );
 }
 
-const UserTemplate = ({ memberInfo }: { memberInfo: MemberInfo }) => {
+const UserTemplate = ({
+  memberInfo,
+  createTime,
+}: {
+  memberInfo: MemberInfo;
+  createTime: string;
+}) => {
   return (
     <div className="flex">
       <Avatar size="sm" src={memberInfo.profileUrl} alt="유저정보" />
       <div className="flex flex-col justify-between h-[4rem] pl-[1rem]">
         <span className="font-bold">{memberInfo.nickname}</span>
-        <span className="text-sm text-shadow ">10분 전</span>
+        <span className="text-sm text-shadow ">
+          {createTime.fromNowFormat()}
+        </span>
       </div>
     </div>
   );
