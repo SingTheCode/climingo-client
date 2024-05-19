@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import InputText from "@/components/common/InputText";
 import { signUpApi } from "@/api/modules/user";
 import { useUserActions, useUserValue } from "@/store/user";
+import BottomActionButton from "@/components/common/BottomActionButton";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function SignUpForm() {
         ]}
         checkValid={checkValid}
       />
-      <button onClick={signUp}>완료</button>
+      <BottomActionButton onClick={signUp}>완료</BottomActionButton>
     </div>
   );
 }

@@ -1,6 +1,22 @@
+export type LevelColor =
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "navy"
+  | "purple"
+  | "pink"
+  | "brown"
+  | "gray"
+  | "white"
+  | "black";
+
 export interface Record {
   recordId: string;
+  thumbnailUrl: string;
   videoUrl: string;
+  createTime: string;
 }
 
 export interface Gym {
@@ -8,9 +24,8 @@ export interface Gym {
   gymName: string;
 }
 
-// TODO: 색깔 한글, 영어 api key 통일
-export interface Grade {
-  gradeId: string;
+export interface Level {
+  levelId: string;
   colorNameKo: string;
-  colorNameEn: string;
+  colorNameEn: LevelColor;
 }

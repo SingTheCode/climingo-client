@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/common";
 import { searchClimbingPlaceApi } from "@/api/modules/common";
 import { ClimbingPlace } from "@/types/common";
-import SearchedPlace from "@/app/place/SearchedPlace";
+import SearchedPlace from "@/components/place/SearchedPlace";
 import InputText from "@/components/common/InputText";
 
 export default function Place() {

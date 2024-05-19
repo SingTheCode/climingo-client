@@ -1,6 +1,6 @@
 import { api } from "@/api/axios";
-import { UserInfo } from "@/types/user";
-import { Grade, Gym, Record } from "@/types/record";
+import { MemberInfo } from "@/types/user";
+import { Level, Gym, Record } from "@/types/record";
 
 // 기록 상세 조회
 export const getRecordDetailApi = async ({
@@ -9,15 +9,11 @@ export const getRecordDetailApi = async ({
   recordId: string;
 }) => {
   const res = await api.get<{
-    memberInfo: UserInfo;
+    memberInfo: MemberInfo;
     record: Record;
     gym: Gym;
-    grade: Grade;
-  }>(`/records`, {
-    params: {
-      recordId,
-    },
-  });
+    level: Level;
+  }>(`/records/${recordId}`);
   if (res.status !== 200) {
     throw new Error();
   }
