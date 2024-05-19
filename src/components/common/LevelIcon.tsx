@@ -1,8 +1,7 @@
 import { LevelColor } from "@/types/record";
-import { LEVEL_COLOR } from "@/constants/level";
 
 export default function LevelIcon({ color }: { color: LevelColor }) {
-  const level = LEVEL_COLOR[color];
+  const level = `bg-level-${color}`;
 
   return (
     <div

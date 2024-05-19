@@ -92,6 +92,20 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: [
+    "bg-level-red",
+    "bg-level-orange",
+    "bg-level-yellow",
+    "bg-level-green",
+    "bg-level-blue",
+    "bg-level-navy",
+    "bg-level-purple",
+    "bg-level-pink",
+    "bg-level-brown",
+    "bg-level-gray",
+    "bg-level-white",
+    "bg-level-black",
+  ],
 };
 
 export default config;
