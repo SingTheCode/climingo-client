@@ -70,6 +70,20 @@ const config: Config = {
       },
       white: "#FFFFFF",
       black: "#000000",
+      level: {
+        red: "#ff0000",
+        orange: "#f77f00",
+        yellow: "#ffff00",
+        green: "#23C16B",
+        blue: "#0000ff",
+        navy: "#003077",
+        purple: "#b266ff",
+        pink: "#ff6666",
+        brown: "#cc6600",
+        gray: "#a0a0a0",
+        white: "#ffffff",
+        black: "#000000",
+      },
     },
     boxShadow: {
       "white-top":
@@ -77,6 +91,20 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: [
+    "bg-level-red",
+    "bg-level-orange",
+    "bg-level-yellow",
+    "bg-level-green",
+    "bg-level-blue",
+    "bg-level-navy",
+    "bg-level-purple",
+    "bg-level-pink",
+    "bg-level-brown",
+    "bg-level-gray",
+    "bg-level-white",
+    "bg-level-black",
+  ],
 };
 
 export default config;

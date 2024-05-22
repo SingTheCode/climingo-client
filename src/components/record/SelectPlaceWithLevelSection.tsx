@@ -1,24 +1,26 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { MouseEventHandler, useRef, useState } from "react";
 
 import { ClimbingPlace, Level } from "@/types/common";
 
-import { BOULDER_LEVELS } from "@/constants/level";
-import { Heading, Placeholder } from "@/components/record/commonText";
+import useGetLevelsByGymIdQuery from "@/hooks/place/useGetLevelsByGymIdQuery";
+
+import LayerPopup from "@/components/common/LayerPopup";
+import Layout from "@/components/common/Layout";
+import SearchPlace from "@/components/place/SearchPlace";
 import ClearButton from "@/components/record/ClearButton";
+import { Heading, Placeholder } from "@/components/record/commonText";
 
 const SelectPlaceWithLevelSection = () => {
+  const [open, setOpen] = useState(false);
+
   const [place, setPlace] = useState<ClimbingPlace>();
   const levelRef = useRef<Level>();
 
-  const handlePlaceSelect = () => {
-    // TODO: 암장 검색 레이어팝업 노출 후 상태 업데이트
-    setPlace({
-      id: 1,
-      name: "더클라임 클라이밍 강남점",
-      address: "서울특별시 송파구 올림픽로 84",
-    });
+  const handlePlaceSelect = (place: ClimbingPlace) => {
+    setPlace({ ...place });
+    setOpen(false);
   };
 
   const handleLevelSelect = (level: Level) => {
@@ -36,9 +38,14 @@ const SelectPlaceWithLevelSection = () => {
         <Heading text="어떤 암장을 방문했나요?" />
         <PlaceSelector
           place={place}
-          onClick={handlePlaceSelect}
+          onClick={() => setOpen(true)}
           onClear={resetAll}
         />
+        <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
+          <Layout>
+            <SearchPlace onSearchedItemClick={handlePlaceSelect} />
+          </Layout>
+        </LayerPopup>
       </div>
       <div className="flex flex-col gap-[1.4rem]">
         <Heading text="난이도를 선택해주세요" />
@@ -84,13 +91,6 @@ const PlaceSelector = ({
   );
 };
 
-// FIXME: useQuery로 작성 후 대체
-const useLevelQuery = (_placeId?: number) => {
-  return {
-    data: BOULDER_LEVELS,
-  };
-};
-
 const LevelSelector = ({
   placeId,
   onChange,
@@ -98,14 +98,14 @@ const LevelSelector = ({
   placeId?: number;
   onChange?: (level: Level) => void;
 }) => {
-  const { data } = useLevelQuery(placeId);
-
-  const handleItemClick = (level: Level) => {
-    onChange?.(level);
-  };
+  const { data, isSuccess } = useGetLevelsByGymIdQuery(placeId);
 
   if (!placeId) {
     return <Placeholder text="암장을 먼저 선택해주세요" />;
+  }
+
+  if (!isSuccess) {
+    return null;
   }
 
   return (
@@ -114,7 +114,7 @@ const LevelSelector = ({
         <LevelRadioItem
           key={level.id}
           level={level}
-          onClick={handleItemClick}
+          onClick={() => onChange?.(level)}
         />
       ))}
     </ul>
@@ -126,9 +126,9 @@ const LevelRadioItem = ({
   onClick,
 }: {
   level: Level;
-  onClick?: (level: Level) => void;
+  onClick?: MouseEventHandler;
 }) => {
-  const { id, colorName, colorCode } = level;
+  const { id, colorNameKo, colorNameEn } = level;
 
   return (
     <li>
@@ -142,12 +142,11 @@ const LevelRadioItem = ({
       <label
         className={`w-[7.2rem] h-[3.2rem] rounded-[3.2rem] border-[0.1rem] cursor-pointer flex justify-center items-center shrink-0 gap-[0.5rem] border-shadow-lighter peer-checked:bg-primary-lightest/30 peer-checked:border-primary-lightest peer-checked:text-primary`}
         htmlFor={id.toString()}
-        onClick={() => onClick?.(level)}
+        onClick={onClick}
       >
-        <p className="text-sm">{colorName}</p>
+        <p className="text-sm">{colorNameKo}</p>
         <div
-          className="w-[1.2rem] h-[1.2rem] rounded-full border-[0.05rem] border-shadow-light"
-          style={{ backgroundColor: colorCode }}
+          className={`w-[1.2rem] h-[1.2rem] rounded-full border-[0.05rem] border-shadow-light bg-level-${colorNameEn}`}
         />
       </label>
     </li>
