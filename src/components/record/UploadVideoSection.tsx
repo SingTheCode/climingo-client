@@ -1,28 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEventHandler, memo, useRef, useState } from "react";
 
 import { Heading } from "@/components/record/commonText";
-import ClearButton from "./ClearButton";
+import ClearButton from "@/components/record/ClearButton";
 
-const UploadVideoSection = () => {
+const UploadVideoSection = memo(() => {
   return (
     <section className="flex flex-col gap-[1.4rem]">
       <Heading text="기록을 위한 동영상을 선택해주세요" />
       <VideoUploader />
     </section>
   );
-};
+});
+
+UploadVideoSection.displayName = "UploadVideoSection";
 
 export default UploadVideoSection;
 
 const VideoUploader = () => {
   const [file, setFile] = useState<string>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const uploadFile = () => {};
+  const uploadFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (!event.target.files) {
+      return;
+    }
+
+    setFile(URL.createObjectURL(event.target.files[0]));
+  };
 
   const clearVideo = () => {
     setFile(undefined);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -32,11 +45,7 @@ const VideoUploader = () => {
         htmlFor="record-video"
       >
         {file ? (
-          <video
-            src={file}
-            controls
-            className="w-full h-full rounded-[0.8rem]"
-          />
+          <video src={file} className="w-full h-full rounded-[0.8rem]" />
         ) : (
           <img
             src="/icons/icon-photo.svg"
@@ -47,10 +56,12 @@ const VideoUploader = () => {
         )}
         <input
           id="record-video"
+          name="video"
           type="file"
           accept="video/*"
           onChange={uploadFile}
           hidden
+          ref={fileInputRef}
         />
       </label>
       {file && (
