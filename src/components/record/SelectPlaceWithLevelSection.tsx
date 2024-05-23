@@ -1,6 +1,6 @@
 "use client";
 
-import { MouseEventHandler, useRef, useState } from "react";
+import { MouseEventHandler, memo, useRef, useState } from "react";
 
 import { ClimbingPlace, Level } from "@/types/common";
 
@@ -12,7 +12,7 @@ import SearchPlace from "@/components/place/SearchPlace";
 import ClearButton from "@/components/record/ClearButton";
 import { Heading, Placeholder } from "@/components/record/commonText";
 
-const SelectPlaceWithLevelSection = () => {
+const SelectPlaceWithLevelSection = memo(() => {
   const [open, setOpen] = useState(false);
 
   const [place, setPlace] = useState<ClimbingPlace>();
@@ -53,7 +53,9 @@ const SelectPlaceWithLevelSection = () => {
       </div>
     </section>
   );
-};
+});
+
+SelectPlaceWithLevelSection.displayName = "SelectPlaceWithLevelSection";
 
 export default SelectPlaceWithLevelSection;
 
@@ -85,6 +87,7 @@ const PlaceSelector = ({
         <>
           <p className="text-sm text-shadow-darkest">{place.name}</p>
           <ClearButton onClick={onClear} />
+          <input id="place" name="place" value={place?.id} hidden readOnly />
         </>
       )}
     </div>

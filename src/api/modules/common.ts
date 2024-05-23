@@ -12,11 +12,22 @@ export const searchClimbingPlaceApi = async (keyword: string) => {
   return res.data;
 };
 
-export const getLevelsByGymId = async (gymId?: number) => {
+export const getLevelsByGymIdApi = async (gymId?: number) => {
   if (!gymId) {
     throw new Error("GymId가 유효하지 않아요.");
   }
 
   const res = await api.get<Level[]>(`/gyms/${gymId}/levels`);
+  return res.data;
+};
+
+export const postRecordApi = async (data: {
+  gymId: number;
+  levelId: number;
+  video: File;
+}) => {
+  const res = await api.post<{ recordId: number }>("/records", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 };
