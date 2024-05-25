@@ -8,10 +8,11 @@ export default function SignIn() {
     <Layout>
       <div className="w-full h-full flex flex-col justify-between items-center">
         <div className="pt-[10vh]">
-          <img
+          <Image
             src="/assets/sub-logo.svg"
             alt="클라이밍 갈 땐, 클라밍고와 함께해요!"
-            className="w-[25.6rem] h-[28rem]"
+            width="256"
+            height="280"
           />
         </div>
         <div className="w-full flex flex-col justify-center items-center pb-[4vh]">

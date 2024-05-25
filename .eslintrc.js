@@ -20,5 +20,7 @@ module.exports = {
         caughtErrors: "all",
       },
     ],
+    // useEffect의 deps에 필요없는 변수를 삽입하지 않은 경우
+    "react-hooks/exhaustive-deps": "off",
   },
 };
