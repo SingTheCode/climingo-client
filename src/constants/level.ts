@@ -1,47 +1,68 @@
-export const BOULDER_LEVELS = [
+import { LevelColor } from "@/types/record";
+
+export const BOULDER_LEVELS: {
+  id: LevelColor;
+  colorName: string;
+  colorCode: string;
+}[] = [
   {
-    id: 1,
-    colorName: "노랑",
-    colorCode: "#ffff00",
-  },
-  {
-    id: 2,
-    colorName: "핑크",
-    colorCode: "#ff6666",
-  },
-  {
-    id: 3,
-    colorName: "파랑",
-    colorCode: "#0000ff",
-  },
-  {
-    id: 4,
+    id: "red",
     colorName: "빨강",
     colorCode: "#ff0000",
   },
   {
-    id: 5,
+    id: "orange",
+    colorName: "주황",
+    colorCode: "#f77f00",
+  },
+  {
+    id: "yellow",
+    colorName: "노랑",
+    colorCode: "#ffff00",
+  },
+  {
+    id: "green",
+    colorName: "초록",
+    colorCode: "#23C16B",
+  },
+  {
+    id: "blue",
+    colorName: "파랑",
+    colorCode: "#0000ff",
+  },
+  {
+    id: "navy",
+    colorName: "남색",
+    colorCode: "#003077",
+  },
+  {
+    id: "purple",
     colorName: "보라",
     colorCode: "#b266ff",
   },
   {
-    id: 6,
+    id: "pink",
+    colorName: "핑크",
+    colorCode: "#ff6666",
+  },
+  {
+    id: "brown",
     colorName: "갈색",
     colorCode: "#cc6600",
   },
   {
-    id: 7,
+    id: "gray",
     colorName: "회색",
     colorCode: "#a0a0a0",
   },
   {
-    id: 8,
-    colorName: "검정",
-    colorCode: "#000000",
-  },
-  {
-    id: 9,
+    id: "white",
     colorName: "흰색",
     colorCode: "#ffffff",
+  },
+  {
+    id: "black",
+    colorName: "검정",
+    colorCode: "#000000",
   },
 ];

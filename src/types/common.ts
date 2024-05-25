@@ -1,3 +1,5 @@
+import { LevelColor } from "@/types/record";
+
 declare global {
   interface String {
     fromNowFormat(): string;
@@ -12,7 +14,7 @@ export interface ClimbingPlace {
 }
 
 export type Level = {
-  id: number;
+  id: LevelColor;
   colorName: string;
   colorCode?: string;
 };
