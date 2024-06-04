@@ -10,7 +10,7 @@ export interface ClimbingPlace {
   id: number;
   address: string;
   zipCode?: string | null;
-  name?: string;
+  name: string;
 }
 
 export type Level = {
