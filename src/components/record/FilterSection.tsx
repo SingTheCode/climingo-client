@@ -15,6 +15,7 @@ import LevelIcon from "@/components/common/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
 import Place from "@/components/place/Place";
+import { getLevelListApi } from "@/api/modules/record";
 
 export default function FilterSection({
   filter,
@@ -31,16 +32,26 @@ export default function FilterSection({
     }>
   >;
 }) {
+  const levelInit = () =>
+    ({
+      id: "",
+      colorCode: "",
+      colorName: "전체",
+    }) as const;
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [levelList, setLevelList] = useState<
+    {
+      id: string;
+      colorCode: string;
+      colorName: string;
+    }[]
+  >([]);
   const [selectedLevel, setSelectedLevel] = useState<{
     id: LevelColor | "";
     colorName: string;
     colorCode: string;
-  }>({
-    id: "",
-    colorCode: "",
-    colorName: "전체",
-  });
+  }>(levelInit);
 
   const selectPlace = ({ id, name }: { id: string; name: string }) => {
     setIsPopupOpen(false);
@@ -53,14 +64,39 @@ export default function FilterSection({
     }));
   };
   const resetSelectedPlace = () => {
-    setFilter((prev) => ({
-      ...prev,
+    setFilter({
       gym: {
         id: "",
         name: "",
       },
-    }));
+      level: {
+        id: "",
+        name: "",
+      },
+    });
+    setSelectedLevel(levelInit);
   };
+
+  useDidMountEffect(() => {
+    const fetch = async () => {
+      try {
+        if (!filter.gym.id) {
+          return;
+        }
+        const data = await getLevelListApi({ gymId: filter.gym.id });
+        setLevelList(
+          data.map((level) => ({
+            id: level.id,
+            colorCode: BOULDER_LEVELS[level.colorNameEn].colorCode,
+            colorName: BOULDER_LEVELS[level.colorNameEn].colorName,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetch();
+  }, [filter.gym]);
 
   useDidMountEffect(() => {
     setFilter((prev) => ({
@@ -74,6 +110,7 @@ export default function FilterSection({
 
   return (
     <section className="flex items-center">
+      {/* 암장 검색 */}
       {filter.gym.id ? (
         <span className="px-[1.2rem] py-[1rem] bg-[#FFC6BD] bg-opacity-30 rounded-xl text-sm text-primary">
           {filter.gym.name}
@@ -113,6 +150,8 @@ export default function FilterSection({
             {selectedLevel.id && <LevelIcon color={selectedLevel.id} />}
             <BottomArrowIcon color={selectedLevel.id && "#FF5C75"} />
           </ListboxButton>
+
+          {/* 난이도 */}
           <Transition
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
@@ -122,24 +161,23 @@ export default function FilterSection({
               anchor="bottom"
               className="w-[8.6rem] p-[0.1rem] mt-[1.4rem] bg-white rounded-xl border border-shadow-lighter focus:outline-none"
             >
-              {[
-                { id: "", colorCode: "", colorName: "전체" },
-                ...BOULDER_LEVELS,
-              ].map((level) => (
-                <ListboxOption
-                  key={level.id}
-                  value={level}
-                  className={clsx(
-                    "group flex items-center gap-2 rounded-lg py-[0.6rem] px-3",
-                    "data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
-                  )}
-                >
-                  <div className="flex items-center text-sm text-shadow-darker">
-                    <span className="pr-[0.4rem]">{level.colorName}</span>
-                    {level.id && <LevelIcon color={level.id} />}
-                  </div>
-                </ListboxOption>
-              ))}
+              {[{ id: "", colorCode: "", colorName: "전체" }, ...levelList].map(
+                (level) => (
+                  <ListboxOption
+                    key={level.id}
+                    value={level}
+                    className={clsx(
+                      "group flex items-center gap-2 rounded-lg py-[0.6rem] px-3",
+                      "data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
+                    )}
+                  >
+                    <div className="flex items-center text-sm text-shadow-darker">
+                      <span className="pr-[0.4rem]">{level.colorName}</span>
+                      {level.id && <LevelIcon color={level.id} />}
+                    </div>
+                  </ListboxOption>
+                )
+              )}
             </ListboxOptions>
           </Transition>
         </Listbox>
