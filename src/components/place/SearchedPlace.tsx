@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react";
 import { ClimbingPlace } from "@/types/common";
 
 export default function SearchedPlace({
@@ -6,14 +5,16 @@ export default function SearchedPlace({
   address,
   name,
   onClick,
-}: ClimbingPlace & { onClick?: MouseEventHandler }) {
+}: ClimbingPlace & {
+  onClick?: ({ id, name }: { id: string; name: string }) => void;
+}) {
   return (
     <button
       type="button"
       name="암장검색결과클릭"
       id={id.toString()}
       className="w-full h-[8.5rem] pt-[2rem] border-solid border-b-[0.1rem] border-shadow-lighter font-medium"
-      onClick={onClick}
+      onClick={() => onClick?.({ id: id.toString(), name })}
     >
       <div className="flex flex-col items-start">
         <span className="text-base">{name}</span>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { DependencyList, useEffect, useRef, useState } from "react";
 
 export const useDebounce = <T = unknown>(value: T, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -14,4 +14,19 @@ export const useDebounce = <T = unknown>(value: T, delay: number) => {
   }, [value, delay]);
 
   return debouncedValue;
+};
+
+export const useDidMountEffect = (
+  callback = () => {},
+  deps: DependencyList
+) => {
+  const didMount = useRef(false);
+
+  useEffect(() => {
+    if (didMount.current) {
+      callback();
+      return;
+    }
+    didMount.current = true;
+  }, deps);
 };

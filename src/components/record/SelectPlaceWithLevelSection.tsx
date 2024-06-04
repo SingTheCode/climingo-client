@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 
 import { ClimbingPlace, Level } from "@/types/common";
 
@@ -67,7 +68,7 @@ const PlaceSelector = ({
       {!place ? (
         <>
           <Placeholder text="암장을 검색해보세요" />
-          <img
+          <Image
             src="/icons/icon-arrow-grey.svg"
             alt="선택"
             width="20"
