@@ -12,52 +12,55 @@ import SearchPlace from "@/components/place/SearchPlace";
 import ClearButton from "@/components/record/ClearButton";
 import { Heading, Placeholder } from "@/components/record/commonText";
 
-const SelectPlaceWithLevelSection = memo(() => {
-  const [open, setOpen] = useState(false);
+const SelectPlaceWithLevel = memo(
+  ({ validate }: { validate?: (valid: boolean) => void }) => {
+    const [open, setOpen] = useState(false);
 
-  const [place, setPlace] = useState<ClimbingPlace>();
-  const levelRef = useRef<Level>();
+    const [place, setPlace] = useState<ClimbingPlace>();
+    const levelRef = useRef<Level>();
 
-  const handlePlaceSelect = (place: ClimbingPlace) => {
-    setPlace({ ...place });
-    setOpen(false);
-  };
+    const handlePlaceSelect = (place: ClimbingPlace) => {
+      setPlace({ ...place });
+      setOpen(false);
+      validate?.(false);
+    };
 
-  const handleLevelSelect = (level: Level) => {
-    levelRef.current = level;
-  };
+    const handleLevelSelect = (level: Level) => {
+      levelRef.current = level;
+      validate?.(true);
+    };
 
-  const resetAll = () => {
-    setPlace(undefined);
-    levelRef.current = undefined;
-  };
+    const resetAll = () => {
+      setPlace(undefined);
+      levelRef.current = undefined;
+      validate?.(false);
+    };
 
-  return (
-    <section className="flex flex-col gap-[3rem]">
-      <div className="flex flex-col gap-[1.4rem]">
-        <Heading text="어떤 암장을 방문했나요?" />
-        <PlaceSelector
-          place={place}
-          onClick={() => setOpen(true)}
-          onClear={resetAll}
-        />
-        <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
-          <Layout>
-            <SearchPlace onSearchedItemClick={handlePlaceSelect} />
-          </Layout>
-        </LayerPopup>
-      </div>
-      <div className="flex flex-col gap-[1.4rem]">
-        <Heading text="난이도를 선택해주세요" />
-        <LevelSelector placeId={place?.id} onChange={handleLevelSelect} />
-      </div>
-    </section>
-  );
-});
+    return (
+      <section className="flex flex-col gap-[3rem]">
+        <div className="flex flex-col gap-[1.4rem]">
+          <Heading text="어떤 암장을 방문했나요?" />
+          <PlaceSelector
+            place={place}
+            onClick={() => setOpen(true)}
+            onClear={resetAll}
+          />
+          <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
+            <Layout>
+              <SearchPlace onSearchedItemClick={handlePlaceSelect} />
+            </Layout>
+          </LayerPopup>
+        </div>
+        <div className="flex flex-col gap-[1.4rem]">
+          <Heading text="난이도를 선택해주세요" />
+          <LevelSelector placeId={place?.id} onChange={handleLevelSelect} />
+        </div>
+      </section>
+    );
+  }
+);
 
-SelectPlaceWithLevelSection.displayName = "SelectPlaceWithLevelSection";
-
-export default SelectPlaceWithLevelSection;
+SelectPlaceWithLevel.displayName = "SelectPlaceWithLevelSection";
 
 const PlaceSelector = ({
   place,
@@ -155,3 +158,5 @@ const LevelRadioItem = ({
     </li>
   );
 };
+
+export default SelectPlaceWithLevel;

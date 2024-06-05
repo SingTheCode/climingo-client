@@ -5,33 +5,44 @@ import { ChangeEventHandler, memo, useRef, useState } from "react";
 import { Heading } from "@/components/record/commonText";
 import ClearButton from "@/components/record/ClearButton";
 
-const UploadVideoSection = memo(() => {
-  return (
-    <section className="flex flex-col gap-[1.4rem]">
-      <Heading text="기록을 위한 동영상을 선택해주세요" />
-      <VideoUploader />
-    </section>
-  );
-});
+const UploadVideo = memo(
+  ({ validate }: { validate?: (valid: boolean) => void }) => {
+    const validateOnVideoChange = (file?: File) => {
+      const isValidFile = !!file;
+      validate && validate(isValidFile);
+    };
 
-UploadVideoSection.displayName = "UploadVideoSection";
+    return (
+      <section className="flex flex-col gap-[1.4rem]">
+        <Heading text="기록을 위한 동영상을 선택해주세요" />
+        <VideoUploader onChange={validateOnVideoChange} />
+      </section>
+    );
+  }
+);
 
-export default UploadVideoSection;
+UploadVideo.displayName = "UploadVideo";
 
-const VideoUploader = () => {
+export default UploadVideo;
+
+const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
   const [file, setFile] = useState<string>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const uploadFile: ChangeEventHandler<HTMLInputElement> = (event) => {
-    if (!event.target.files) {
+    if (!event.target.files || event.target.files.length === 0) {
       return;
     }
 
-    setFile(URL.createObjectURL(event.target.files[0]));
+    const nextFile = event.target.files[0];
+
+    setFile(URL.createObjectURL(nextFile));
+    onChange?.(nextFile);
   };
 
   const clearVideo = () => {
     setFile(undefined);
+    onChange?.(undefined);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";

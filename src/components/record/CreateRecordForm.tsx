@@ -1,13 +1,13 @@
 "use client";
 
-import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 import useCreateRecordMutation from "@/hooks/place/useCreateRecordMutation";
 
 import BottomActionButton from "@/components/common/BottomActionButton";
-import SelectPlaceWithLevelSection from "@/components/record/SelectPlaceWithLevelSection";
-import UploadVideoSection from "@/components/record/UploadVideoSection";
+import SelectPlaceWithLevel from "@/components/record/SelectPlaceWithLevel";
+import UploadVideo from "@/components/record/UploadVideo";
 
 type FormValues = {
   place?: number;
@@ -19,6 +19,13 @@ const CreateRecordForm = () => {
   const router = useRouter();
   const { mutate: createRecord, isPending } = useCreateRecordMutation();
 
+  const [validation, setValidation] = useState({
+    level: false,
+    video: false,
+  });
+
+  const isValid = Object.values(validation).every((value) => value === true);
+
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -26,7 +33,6 @@ const CreateRecordForm = () => {
     const formData = new FormData(formElement);
     const data = Object.fromEntries(formData) as FormValues;
 
-    // TODO: validation
     if (!data.place || !data.level || !data.video) {
       return;
     }
@@ -46,11 +52,15 @@ const CreateRecordForm = () => {
       className="flex flex-col gap-[3rem] pt-[2rem]"
       onSubmit={handleFormSubmit}
     >
-      <SelectPlaceWithLevelSection />
-      <UploadVideoSection />
-      <BottomActionButton type="submit" disabled={isPending}>
+      <SelectPlaceWithLevel
+        validate={(valid) => setValidation({ ...validation, level: valid })}
+      />
+      <UploadVideo
+        validate={(valid) => setValidation({ ...validation, video: valid })}
+      />
+      <BottomActionButton type="submit" disabled={!isValid || isPending}>
         {/** TODO: Loading 컴포넌트로 대체 */}
-        {!isPending ? "완료" : "기록 중..."}
+        {isPending ? "기록 중..." : "완료"}
       </BottomActionButton>
     </form>
   );
