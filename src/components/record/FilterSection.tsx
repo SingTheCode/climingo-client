@@ -14,7 +14,7 @@ import { BOULDER_LEVELS } from "@/constants/level";
 import LevelIcon from "@/components/common/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
-import Place from "@/components/place/Place";
+import SearchPlace from "@/components/place/SearchPlace";
 import { getLevelListApi } from "@/api/modules/record";
 
 export default function FilterSection({
@@ -189,7 +189,11 @@ export default function FilterSection({
         onClose={() => setIsPopupOpen(false)}
       >
         <Layout containHeader>
-          <Place onClick={selectPlace} />
+          <SearchPlace
+            onSearchedItemClick={({ id, name }) =>
+              selectPlace({ id: id.toString(), name })
+            }
+          />
         </Layout>
       </LayerPopup>
     </section>
