@@ -164,9 +164,9 @@ export default function FilterSection({
               className="w-[8.6rem] p-[0.1rem] mt-[1.4rem] bg-white rounded-xl border border-shadow-lighter focus:outline-none"
             >
               {[{ id: "", colorCode: "", colorName: "전체" }, ...levelList].map(
-                (level) => (
+                (level, idx) => (
                   <ListboxOption
-                    key={level.id}
+                    key={idx}
                     value={level}
                     className={clsx(
                       "group flex items-center gap-2 rounded-lg py-[0.6rem] px-3",
