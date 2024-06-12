@@ -43,14 +43,14 @@ export default function FilterSection({
   const [levelList, setLevelList] = useState<
     {
       id: string;
-      colorCode: string;
+      colorCode: LevelColor;
       colorName: string;
     }[]
   >([]);
   const [selectedLevel, setSelectedLevel] = useState<{
-    id: LevelColor | "";
+    id: string;
+    colorCode: LevelColor | "";
     colorName: string;
-    colorCode: string;
   }>(levelInit);
 
   const selectPlace = ({ id, name }: { id: string; name: string }) => {
@@ -86,8 +86,8 @@ export default function FilterSection({
         const data = await getLevelListApi({ gymId: filter.gym.id });
         setLevelList(
           data.map((level) => ({
-            id: level.id,
-            colorCode: BOULDER_LEVELS[level.colorNameEn].colorCode,
+            id: level.levelId,
+            colorCode: level.colorNameEn,
             colorName: BOULDER_LEVELS[level.colorNameEn].colorName,
           }))
         );
@@ -141,13 +141,15 @@ export default function FilterSection({
           <ListboxButton
             className={clsx(
               "flex items-center rounded-lg",
-              `${selectedLevel.id && "text-primary"}`
+              `${selectedLevel.colorCode && "text-primary"}`
             )}
           >
             <span className="pr-[0.4rem]">
               {selectedLevel && selectedLevel.colorName}
             </span>
-            {selectedLevel.id && <LevelIcon color={selectedLevel.id} />}
+            {selectedLevel.colorCode && (
+              <LevelIcon color={selectedLevel.colorCode} />
+            )}
             <BottomArrowIcon color={selectedLevel.id && "#FF5C75"} />
           </ListboxButton>
 
@@ -173,7 +175,7 @@ export default function FilterSection({
                   >
                     <div className="flex items-center text-sm text-shadow-darker">
                       <span className="pr-[0.4rem]">{level.colorName}</span>
-                      {level.id && <LevelIcon color={level.id} />}
+                      {level.id && <LevelIcon color={level.colorCode} />}
                     </div>
                   </ListboxOption>
                 )

@@ -60,14 +60,7 @@ export const getRecordListApi = async ({
 
 // 암장별 난이도 조회
 export const getLevelListApi = async ({ gymId }: { gymId: string }) => {
-  // TODO: id -> levelId api key 변경 후 Level interface로 대체
-  const res = await api.get<
-    {
-      id: string;
-      colorNameKo: string;
-      colorNameEn: LevelColor;
-    }[]
-  >(`/gyms/${gymId}/levels`);
+  const res = await api.get<Level[]>(`/gyms/${gymId}/levels`);
   if (res.status !== 200) {
     throw new Error();
   }

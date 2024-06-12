@@ -8,7 +8,7 @@ export interface ClimbingPlace {
 }
 
 export type Level = {
-  id: LevelColor;
-  colorName: string;
+  id: string;
+  colorName: LevelColor;
   colorCode?: string;
 };
