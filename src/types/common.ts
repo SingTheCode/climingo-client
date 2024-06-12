@@ -1,11 +1,5 @@
 import { LevelColor } from "@/types/record";
 
-declare global {
-  interface String {
-    fromNowFormat(): string;
-  }
-}
-
 export interface ClimbingPlace {
   id: number;
   address: string;
