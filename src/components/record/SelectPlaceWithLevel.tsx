@@ -3,8 +3,7 @@
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
 import { ClimbingPlace, Level } from "@/types/common";
-
-import useGetLevelsByGymIdQuery from "@/hooks/place/useGetLevelsByGymIdQuery";
+import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
@@ -104,7 +103,7 @@ const LevelSelector = ({
   placeId?: number;
   onChange?: (level: Level) => void;
 }) => {
-  const { data, isSuccess } = useGetLevelsByGymIdQuery(placeId);
+  const { data, isSuccess } = useGetLevelsQuery(placeId);
 
   if (!placeId) {
     return <Placeholder text="암장을 먼저 선택해주세요" />;

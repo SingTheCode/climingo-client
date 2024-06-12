@@ -12,7 +12,8 @@ export const searchClimbingPlaceApi = async (keyword: string) => {
   return res.data;
 };
 
-export const getLevelsByGymIdApi = async (gymId?: number) => {
+// TODO: 난이도 목록 api 통합
+export const getLevelsId = async (gymId?: number) => {
   if (!gymId) {
     throw new Error("GymId가 유효하지 않아요.");
   }
@@ -21,7 +22,7 @@ export const getLevelsByGymIdApi = async (gymId?: number) => {
   return res.data;
 };
 
-export const postRecordApi = async (data: {
+export const createRecordApi = async (data: {
   gymId: number;
   levelId: number;
   video: File;

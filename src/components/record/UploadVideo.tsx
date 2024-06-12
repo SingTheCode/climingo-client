@@ -30,11 +30,13 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const uploadFile: ChangeEventHandler<HTMLInputElement> = (event) => {
-    if (!event.target.files || event.target.files.length === 0) {
+    const files = event.target.files;
+
+    if (!files || files.length === 0) {
       return;
     }
 
-    const nextFile = event.target.files[0];
+    const nextFile = files[0];
 
     setFile(URL.createObjectURL(nextFile));
     onChange?.(nextFile);
