@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { createRecordApi } from "@/api/modules/common";
+import { createRecordApi } from "@/api/modules/record";
 
 const useCreateRecordMutation = () => {
   return useMutation({
