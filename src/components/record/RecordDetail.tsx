@@ -6,6 +6,7 @@ import "@/utils/common";
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
+import { fromNowFormat } from "@/utils/common";
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
 import Layout from "@/components/common/Layout";
@@ -55,7 +56,7 @@ const UserTemplate = ({
       <div className="flex flex-col justify-between h-[4rem] pl-[1rem]">
         <span className="font-bold">{memberInfo.nickname}</span>
         <span className="text-sm text-shadow ">
-          {createTime.fromNowFormat()}
+          {fromNowFormat(createTime)}
         </span>
       </div>
     </div>
