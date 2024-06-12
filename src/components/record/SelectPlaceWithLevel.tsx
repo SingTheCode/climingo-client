@@ -7,7 +7,7 @@ import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
-import SearchPlace from "@/components/place/SearchPlace";
+import SearchPlace from "@/components/place/Place";
 import ClearButton from "@/components/record/ClearButton";
 import { Heading, Placeholder } from "@/components/record/commonText";
 
@@ -46,7 +46,7 @@ const SelectPlaceWithLevel = memo(
           />
           <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
             <Layout>
-              <SearchPlace onSearchedItemClick={handlePlaceSelect} />
+              <SearchPlace onSearchedPlaceClick={handlePlaceSelect} />
             </Layout>
           </LayerPopup>
         </div>
