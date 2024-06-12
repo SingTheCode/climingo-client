@@ -1,4 +1,4 @@
-import SignUpForm from "@/app/signUp/SignUpForm";
+import SignUpForm from "@/components/auth/SignUpForm";
 import Avatar from "@/components/common/Avatar";
 
 export default function SignUp() {
