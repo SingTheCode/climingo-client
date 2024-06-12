@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getLevelsId } from "@/api/modules/common";
+import { getLevelsApi } from "@/api/modules/common";
 
 const useGetLevelsQuery = (gymId?: number) => {
   return useQuery({
     queryKey: ["gym", gymId, "levels"],
-    queryFn: () => getLevelsId(gymId),
+    queryFn: () => getLevelsApi(gymId),
     enabled: !!gymId,
   });
 };
