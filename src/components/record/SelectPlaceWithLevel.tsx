@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
-import { ClimbingPlace, Level } from "@/types/common";
+import { ClimbingPlace } from "@/types/common";
+import { Level } from "@/types/record";
 
 import useGetLevelsByGymIdQuery from "@/hooks/place/useGetLevelsByGymIdQuery";
 
@@ -119,7 +120,7 @@ const LevelSelector = ({
     <ul className="flex flex-wrap gap-[1rem]">
       {data.map((level) => (
         <LevelRadioItem
-          key={level.id}
+          key={level.levelId}
           level={level}
           onClick={() => onChange?.(level)}
         />
@@ -135,20 +136,20 @@ const LevelRadioItem = ({
   level: Level;
   onClick?: MouseEventHandler;
 }) => {
-  const { id, colorNameKo, colorNameEn } = level;
+  const { levelId, colorNameKo, colorNameEn } = level;
 
   return (
     <li>
       <input
         type="radio"
-        id={id.toString()}
+        id={levelId.toString()}
         name="level"
-        value={id}
+        value={levelId}
         className="peer hidden"
       />
       <label
         className={`w-[7.2rem] h-[3.2rem] rounded-[3.2rem] border-[0.1rem] cursor-pointer flex justify-center items-center shrink-0 gap-[0.5rem] border-shadow-lighter peer-checked:bg-primary-lightest/30 peer-checked:border-primary-lightest peer-checked:text-primary`}
-        htmlFor={id.toString()}
+        htmlFor={levelId.toString()}
         onClick={onClick}
       >
         <p className="text-sm">{colorNameKo}</p>

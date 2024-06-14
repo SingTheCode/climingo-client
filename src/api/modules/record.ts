@@ -1,6 +1,7 @@
 import { api } from "@/api/axios";
 import { MemberInfo } from "@/types/user";
-import { Level, Gym, Record, LevelColor } from "@/types/record";
+import { Level, Gym, Record } from "@/types/record";
+import { LEVELS } from "@/constants/level";
 
 // 기록 상세 조회
 export const getRecordDetailApi = async ({
@@ -60,16 +61,14 @@ export const getRecordListApi = async ({
 
 // 암장별 난이도 조회
 export const getLevelListApi = async ({ gymId }: { gymId: string }) => {
-  // TODO: id -> levelId api key 변경 후 Level interface로 대체
-  const res = await api.get<
-    {
-      id: string;
-      colorNameKo: string;
-      colorNameEn: LevelColor;
-    }[]
-  >(`/gyms/${gymId}/levels`);
+  const res = await api.get<Level[]>(`/gyms/${gymId}/levels`);
   if (res.status !== 200) {
     throw new Error();
   }
-  return res.data;
+  return res.data.map((level) => ({
+    ...level,
+    colorCode:
+      LEVELS.find((item) => item.colorNameEn === level.colorNameEn)
+        ?.colorCode || "#ffffff",
+  }));
 };

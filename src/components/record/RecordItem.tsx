@@ -1,8 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import "@/utils/common";
 import { Gym, Level, Record } from "@/types/record";
 import { MemberInfo } from "@/types/user";
+import { fromNowFormat } from "@/utils/common";
 import LevelIcon from "@/components/common/LevelIcon";
 import Avatar from "@/components/common/Avatar";
 
@@ -20,7 +22,8 @@ export default function RecordItem({
   idx: number;
 }) {
   return (
-    <div
+    <Link
+      href={`/record/${record.recordId}`}
       className={`w-[40vw] h-auto min-w-[14rem] max-w-[20rem] relative flex justify-center items-center ${
         idx % 2 === 0 ? "col-start-1" : "col-start-3"
       } col-span-2 rounded-xl`}
@@ -45,9 +48,9 @@ export default function RecordItem({
           </span>
         </div>
         <span className="text-white text-2xs">
-          {record.createTime.fromNowFormat()}
+          {fromNowFormat(record.createTime)}
         </span>
       </div>
-    </div>
+    </Link>
   );
 }

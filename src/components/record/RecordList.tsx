@@ -49,14 +49,14 @@ export default function RecordList() {
       page: page.current,
     });
 
-    if (data.isEnd) {
-      observer.disconnect();
-      return;
-    }
-
     if (page.current === 0) {
       setRecordList(data.contents);
       page.current = data.page + 1;
+      return;
+    }
+
+    if (data.isEnd) {
+      observer.disconnect();
       return;
     }
 

@@ -2,10 +2,11 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-String.prototype.fromNowFormat = function () {
+export const fromNowFormat = (timestamp: string) => {
   dayjs.locale("ko");
   dayjs.extend(relativeTime);
-  const timestamp = this.toString();
 
   return dayjs(timestamp).fromNow();
 };
+
+export const cloneDeep = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
