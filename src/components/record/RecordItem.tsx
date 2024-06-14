@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import "@/utils/common";
 import { Gym, Level, Record } from "@/types/record";
@@ -21,7 +22,8 @@ export default function RecordItem({
   idx: number;
 }) {
   return (
-    <div
+    <Link
+      href={`/record/${record.recordId}`}
       className={`w-[40vw] h-auto min-w-[14rem] max-w-[20rem] relative flex justify-center items-center ${
         idx % 2 === 0 ? "col-start-1" : "col-start-3"
       } col-span-2 rounded-xl`}
@@ -49,6 +51,6 @@ export default function RecordItem({
           {fromNowFormat(record.createTime)}
         </span>
       </div>
-    </div>
+    </Link>
   );
 }
