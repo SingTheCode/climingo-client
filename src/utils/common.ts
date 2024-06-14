@@ -8,3 +8,5 @@ export const fromNowFormat = (timestamp: string) => {
 
   return dayjs(timestamp).fromNow();
 };
+
+export const cloneDeep = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
