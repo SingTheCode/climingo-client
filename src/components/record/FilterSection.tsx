@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import clsx from "clsx";
 import {
@@ -106,19 +107,29 @@ export default function FilterSection({
     <section className="flex items-center">
       {/* 암장 검색 */}
       {filter.gym.id ? (
-        <span className="px-[1.2rem] py-[1rem] bg-[#FFC6BD] bg-opacity-30 rounded-xl text-sm text-primary">
+        <div className="flex px-[1.2rem] py-[1rem] bg-[#FFC6BD] bg-opacity-30 rounded-xl text-sm text-primary">
           {filter.gym.name}
-          <span className="pl-[1rem]" onClick={resetSelectedPlace}>
-            x
+          <span className="pl-[0.5rem]" onClick={resetSelectedPlace}>
+            <Image
+              src="/icons/icon-filter-cancel.svg"
+              alt="취소"
+              width="16"
+              height="16"
+            />
           </span>
-        </span>
+        </div>
       ) : (
         <button
-          className="px-[1.2rem] py-[1rem] bg-shadow-lighter rounded-xl text-sm"
+          className="flex px-[1.2rem] py-[1rem] bg-shadow-lighter rounded-xl text-sm"
           onClick={() => setIsPopupOpen(true)}
         >
-          <span className="pr-[1rem]">전체 암장</span>
-          {">"}
+          <span className="pr-[0.5rem]">전체 암장</span>
+          <Image
+            src="/icons/icon-arrow-right.svg"
+            alt="선택"
+            width="16"
+            height="16"
+          />
         </button>
       )}
       <div
