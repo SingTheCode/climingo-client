@@ -1,6 +1,7 @@
 import { api } from "@/api/axios";
 import { MemberInfo } from "@/types/user";
-import { Level, Gym, Record, LevelColor } from "@/types/record";
+import { Level, Gym, Record } from "@/types/record";
+import { LEVELS } from "@/constants/level";
 
 // 기록 상세 조회
 export const getRecordDetailApi = async ({
@@ -64,5 +65,10 @@ export const getLevelListApi = async ({ gymId }: { gymId: string }) => {
   if (res.status !== 200) {
     throw new Error();
   }
-  return res.data;
+  return res.data.map((level) => ({
+    ...level,
+    colorCode:
+      LEVELS.find((item) => item.colorNameEn === level.colorNameEn)
+        ?.colorCode || "#ffffff",
+  }));
 };

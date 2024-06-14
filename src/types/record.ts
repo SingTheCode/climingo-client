@@ -28,4 +28,5 @@ export interface Level {
   levelId: string;
   colorNameKo: string;
   colorNameEn: LevelColor;
+  colorCode: string;
 }

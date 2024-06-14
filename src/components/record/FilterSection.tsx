@@ -8,14 +8,22 @@ import {
   Transition,
 } from "@headlessui/react";
 
-import { LevelColor } from "@/types/record";
+import { Level } from "@/types/record";
+import { cloneDeep } from "@/utils/common";
 import { useDidMountEffect } from "@/hooks/common";
-import { BOULDER_LEVELS } from "@/constants/level";
+import { getLevelListApi } from "@/api/modules/record";
+
 import LevelIcon from "@/components/common/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
 import Place from "@/components/place/Place";
-import { getLevelListApi } from "@/api/modules/record";
+
+interface SelectedLevel {
+  levelId: string;
+  colorNameEn: Level["colorNameEn"] | "";
+  colorNameKo: Level["colorNameKo"] | "전체";
+  colorCode: Level["colorCode"] | "";
+}
 
 export default function FilterSection({
   filter,
@@ -32,26 +40,18 @@ export default function FilterSection({
     }>
   >;
 }) {
-  const levelInit = () =>
-    ({
-      id: "",
-      colorCode: "",
-      colorName: "전체",
-    }) as const;
+  const DEFAULT_LEVEL: SelectedLevel = {
+    levelId: "",
+    colorNameEn: "",
+    colorNameKo: "전체",
+    colorCode: "",
+  };
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [levelList, setLevelList] = useState<
-    {
-      id: string;
-      colorCode: LevelColor;
-      colorName: string;
-    }[]
-  >([]);
-  const [selectedLevel, setSelectedLevel] = useState<{
-    id: string;
-    colorCode: LevelColor | "";
-    colorName: string;
-  }>(levelInit);
+  const [levelList, setLevelList] = useState<Level[]>([]);
+  const [selectedLevel, setSelectedLevel] = useState<SelectedLevel>(
+    cloneDeep(DEFAULT_LEVEL)
+  );
 
   const selectPlace = ({ id, name }: { id: string; name: string }) => {
     setIsPopupOpen(false);
@@ -74,7 +74,7 @@ export default function FilterSection({
         name: "",
       },
     });
-    setSelectedLevel(levelInit);
+    setSelectedLevel(cloneDeep(DEFAULT_LEVEL));
   };
 
   useDidMountEffect(() => {
@@ -84,13 +84,7 @@ export default function FilterSection({
           return;
         }
         const data = await getLevelListApi({ gymId: filter.gym.id });
-        setLevelList(
-          data.map((level) => ({
-            id: level.levelId,
-            colorCode: level.colorNameEn,
-            colorName: BOULDER_LEVELS[level.colorNameEn].colorName,
-          }))
-        );
+        setLevelList(data);
       } catch (error) {
         console.error(error);
       }
@@ -102,8 +96,8 @@ export default function FilterSection({
     setFilter((prev) => ({
       ...prev,
       level: {
-        id: selectedLevel.id,
-        name: selectedLevel.colorName,
+        id: selectedLevel.levelId,
+        name: selectedLevel.colorNameKo,
       },
     }));
   }, [selectedLevel]);
@@ -131,7 +125,7 @@ export default function FilterSection({
         className={clsx(
           "px-[1.2rem] py-[1rem] ml-[0.8rem] rounded-xl text-sm",
           `${
-            selectedLevel.id
+            selectedLevel.colorNameEn
               ? "bg-[#FFC6BD] bg-opacity-30"
               : "bg-shadow-lighter"
           }`
@@ -145,12 +139,12 @@ export default function FilterSection({
             )}
           >
             <span className="pr-[0.4rem]">
-              {selectedLevel && selectedLevel.colorName}
+              {selectedLevel && selectedLevel.colorNameKo}
             </span>
-            {selectedLevel.colorCode && (
-              <LevelIcon color={selectedLevel.colorCode} />
+            {selectedLevel.colorNameEn && (
+              <LevelIcon color={selectedLevel.colorNameEn} />
             )}
-            <BottomArrowIcon color={selectedLevel.id && "#FF5C75"} />
+            <BottomArrowIcon color={selectedLevel.colorNameEn && "#FF5C75"} />
           </ListboxButton>
 
           {/* 난이도 */}
@@ -163,23 +157,23 @@ export default function FilterSection({
               anchor="bottom"
               className="w-[8.6rem] p-[0.1rem] mt-[1.4rem] bg-white rounded-xl border border-shadow-lighter focus:outline-none"
             >
-              {[{ id: "", colorCode: "", colorName: "전체" }, ...levelList].map(
-                (level, idx) => (
-                  <ListboxOption
-                    key={idx}
-                    value={level}
-                    className={clsx(
-                      "group flex items-center gap-2 rounded-lg py-[0.6rem] px-3",
-                      "data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
+              {[cloneDeep(DEFAULT_LEVEL), ...levelList].map((level, idx) => (
+                <ListboxOption
+                  key={idx}
+                  value={level}
+                  className={clsx(
+                    "group flex items-center gap-2 rounded-lg py-[0.6rem] px-3",
+                    "data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
+                  )}
+                >
+                  <div className="flex items-center text-sm text-shadow-darker">
+                    <span className="pr-[0.4rem]">{level.colorNameKo}</span>
+                    {level.colorNameEn && (
+                      <LevelIcon color={level.colorNameEn} />
                     )}
-                  >
-                    <div className="flex items-center text-sm text-shadow-darker">
-                      <span className="pr-[0.4rem]">{level.colorName}</span>
-                      {level.id && <LevelIcon color={level.colorCode} />}
-                    </div>
-                  </ListboxOption>
-                )
-              )}
+                  </div>
+                </ListboxOption>
+              ))}
             </ListboxOptions>
           </Transition>
         </Listbox>
