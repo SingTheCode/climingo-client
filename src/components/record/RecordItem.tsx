@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import "@/utils/common";
 import { Gym, Level, Record } from "@/types/record";
 import { MemberInfo } from "@/types/user";
 import { fromNowFormat } from "@/utils/common";
+
 import LevelIcon from "@/components/common/LevelIcon";
 import Avatar from "@/components/common/Avatar";
 

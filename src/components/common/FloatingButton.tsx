@@ -10,7 +10,7 @@ const FloatingButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
       <Image
         width="22"
         height="22"
-        src="/icons/Icon-plus.svg"
+        src="/icons/icon-plus.svg"
         alt="기록 추가하기"
       />
     </button>

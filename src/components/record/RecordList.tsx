@@ -7,6 +7,7 @@ import Link from "next/link";
 import { getRecordListApi } from "@/api/modules/record";
 import { MemberInfo } from "@/types/user";
 import { Gym, Level, Record } from "@/types/record";
+
 import Layout from "@/components/common/Layout";
 import RecordItem from "@/components/record/RecordItem";
 import FilterSection from "@/components/record/FilterSection";
@@ -16,11 +17,11 @@ export default function RecordList() {
   const observedRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState({
     gym: {
-      id: "",
+      id: 0,
       name: "",
     },
     level: {
-      id: "",
+      id: 0,
       name: "",
     },
   });

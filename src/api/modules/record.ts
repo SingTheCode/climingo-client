@@ -29,16 +29,16 @@ export const getRecordListApi = async ({
   page,
   size,
 }: {
-  gymId?: string;
-  levelId?: string;
-  memberId?: string;
+  gymId?: number;
+  levelId?: number;
+  memberId?: number;
   page?: number;
   size?: number;
 }) => {
   const params = new URLSearchParams({
-    ...(gymId && { gymId }),
-    ...(levelId && { levelId }),
-    ...(memberId && { memberId }),
+    ...(gymId && { gymId: gymId.toString() }),
+    ...(levelId && { levelId: levelId.toString() }),
+    ...(memberId && { memberId: memberId.toString() }),
     ...(page && { page: page.toString() }),
     ...(size && { size: size.toString() }),
   });
@@ -60,7 +60,7 @@ export const getRecordListApi = async ({
 };
 
 // 암장별 난이도 조회
-export const getLevelListApi = async ({ gymId }: { gymId: string }) => {
+export const getLevelListApi = async ({ gymId }: { gymId: number }) => {
   const res = await api.get<Level[]>(`/gyms/${gymId}/levels`);
   if (res.status !== 200) {
     throw new Error();
