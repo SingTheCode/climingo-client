@@ -112,17 +112,31 @@ const RecordListSection = ({
   }[];
 }) => {
   return (
-    <section className="w-full grid grid-cols-2 gap-5 pt-[1.6rem]">
-      {recordList.map((item, idx) => (
-        <RecordItem
-          key={item.record.recordId}
-          memberInfo={item.memberInfo}
-          record={item.record}
-          gym={item.gym}
-          level={item.level}
-          idx={idx}
-        />
-      ))}
+    <section
+      className={`w-full ${recordList.length > 0 ? "grid grid-cols-2" : "flex justify-center items-center h-[70vh]"} gap-5 pt-[1.6rem]`}
+    >
+      {recordList.length > 0 ? (
+        recordList.map((item, idx) => (
+          <RecordItem
+            key={item.record.recordId}
+            memberInfo={item.memberInfo}
+            record={item.record}
+            gym={item.gym}
+            level={item.level}
+            idx={idx}
+          />
+        ))
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <Image
+            src="/icons/icon-warning.svg"
+            alt="기록이 없어요"
+            width="22"
+            height="22"
+          />
+          <span className="pt-[1rem] text-sm">아직 기록이 없어요</span>
+        </div>
+      )}
     </section>
   );
 };
