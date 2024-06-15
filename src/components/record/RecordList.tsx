@@ -10,6 +10,7 @@ import { Gym, Level, Record } from "@/types/record";
 import Layout from "@/components/common/Layout";
 import RecordItem from "@/components/record/RecordItem";
 import FilterSection from "@/components/record/FilterSection";
+import FloatingButton from "@/components/common/FloatingButton";
 
 export default function RecordList() {
   const observedRef = useRef<HTMLDivElement>(null);
@@ -92,6 +93,9 @@ export default function RecordList() {
       <FilterSection filter={filter} setFilter={setFilter} />
       <RecordListSection recordList={recordList} />
       <div className="h-[1rem]" ref={observedRef} />
+      <Link href={"/record/create"}>
+        <FloatingButton />
+      </Link>
     </Layout>
   );
 }
