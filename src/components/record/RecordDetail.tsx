@@ -22,7 +22,7 @@ export default function RecordDetail() {
 
   return (
     <Layout containHeader>
-      <NavigationHeader pageTitle="기록 상세" />
+      <NavigationHeader />
       {isSuccess && data ? (
         <div className="w-full h-[80%] flex flex-col">
           <UserTemplate

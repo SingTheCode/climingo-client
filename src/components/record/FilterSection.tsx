@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
-import clsx from "clsx";
 import {
   Listbox,
   ListboxButton,
@@ -10,7 +9,6 @@ import {
 } from "@headlessui/react";
 
 import { Level } from "@/types/record";
-import { cloneDeep } from "@/utils/common";
 import { useDidMountEffect } from "@/hooks/common";
 import { getLevelListApi } from "@/api/modules/record";
 import { ClimbingPlace } from "@/types/common";
@@ -51,9 +49,9 @@ export default function FilterSection({
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [levelList, setLevelList] = useState<Level[]>([]);
-  const [selectedLevel, setSelectedLevel] = useState<SelectedLevel>(
-    cloneDeep(DEFAULT_LEVEL)
-  );
+  const [selectedLevel, setSelectedLevel] = useState<SelectedLevel>({
+    ...DEFAULT_LEVEL,
+  });
 
   const selectPlace = ({ id, name }: ClimbingPlace) => {
     setIsPopupOpen(false);
@@ -76,7 +74,7 @@ export default function FilterSection({
         name: "",
       },
     });
-    setSelectedLevel(cloneDeep(DEFAULT_LEVEL));
+    setSelectedLevel({ ...DEFAULT_LEVEL });
     setLevelList([]);
   };
 
@@ -135,21 +133,17 @@ export default function FilterSection({
         </button>
       )}
       <div
-        className={clsx(
-          "px-[1.2rem] py-[1rem] ml-[0.8rem] rounded-xl text-sm",
-          `${
+        className={`px-[1.2rem] py-[1rem] ml-[0.8rem] rounded-xl text-sm
+          ${
             selectedLevel.colorNameEn
               ? "bg-[#FFC6BD] bg-opacity-30"
               : "bg-shadow-lighter"
-          }`
-        )}
+          }`}
       >
         <Listbox value={selectedLevel} onChange={setSelectedLevel}>
           <ListboxButton
-            className={clsx(
-              "flex items-center rounded-lg",
-              `${selectedLevel.colorCode && "text-primary"}`
-            )}
+            className={`flex items-center rounded-lg
+              ${selectedLevel.colorCode && "text-primary"}`}
           >
             <span className="pr-[0.4rem]">
               {selectedLevel && selectedLevel.colorNameKo}
@@ -170,14 +164,11 @@ export default function FilterSection({
               anchor="bottom"
               className="w-[8.6rem] p-[0.1rem] mt-[1.4rem] bg-white rounded-xl border border-shadow-lighter focus:outline-none"
             >
-              {[cloneDeep(DEFAULT_LEVEL), ...levelList].map((level, idx) => (
+              {[{ ...DEFAULT_LEVEL }, ...levelList].map((level, idx) => (
                 <ListboxOption
                   key={idx}
                   value={level}
-                  className={clsx(
-                    "group flex items-center gap-2 rounded-lg py-[0.6rem] px-3",
-                    "data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
-                  )}
+                  className="group flex items-center gap-2 rounded-lg py-[0.6rem] px-3 data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
                 >
                   <div className="flex items-center text-sm text-shadow-darker">
                     <span className="pr-[0.4rem]">{level.colorNameKo}</span>
