@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 import { getRecordListApi } from "@/api/modules/record";
 import { MemberInfo } from "@/types/user";
@@ -8,6 +10,7 @@ import { Gym, Level, Record } from "@/types/record";
 import Layout from "@/components/common/Layout";
 import RecordItem from "@/components/record/RecordItem";
 import FilterSection from "@/components/record/FilterSection";
+import FloatingButton from "@/components/common/FloatingButton";
 
 export default function RecordList() {
   const observedRef = useRef<HTMLDivElement>(null);
@@ -86,9 +89,13 @@ export default function RecordList() {
 
   return (
     <Layout containHeader>
+      <HomeHeader />
       <FilterSection filter={filter} setFilter={setFilter} />
       <RecordListSection recordList={recordList} />
       <div className="h-[1rem]" ref={observedRef} />
+      <Link href={"/record/create"}>
+        <FloatingButton />
+      </Link>
     </Layout>
   );
 }
@@ -116,5 +123,36 @@ const RecordListSection = ({
         />
       ))}
     </section>
+  );
+};
+
+const HomeHeader = () => {
+  return (
+    <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-[300] overflow-y-hidden bg-white">
+      {/** left */}
+      <div className="px-[2rem]">
+        <Link href={"/"}>
+          <Image
+            width="100"
+            height="24"
+            src="/assets/main-logo.svg"
+            alt="클라밍고"
+          />
+        </Link>
+      </div>
+
+      {/** right */}
+      <div className="flex py-[0.2rem] pr-[2rem]">
+        {/*TODO: 마이페이지 링크 업데이트*/}
+        <Link href={"/myPage"}>
+          <Image
+            width="28"
+            height="28"
+            src="/assets/profile.svg"
+            alt="프로필"
+          />
+        </Link>
+      </div>
+    </nav>
   );
 };
