@@ -6,7 +6,7 @@ export default function SearchedPlace({
   name,
   onClick,
 }: ClimbingPlace & {
-  onClick?: ({ id, name }: { id: string; name: string }) => void;
+  onClick?: (place: ClimbingPlace) => void;
 }) {
   return (
     <button
@@ -14,7 +14,7 @@ export default function SearchedPlace({
       name="암장검색결과클릭"
       id={id.toString()}
       className="w-full h-[8.5rem] pt-[2rem] border-solid border-b-[0.1rem] border-shadow-lighter font-medium"
-      onClick={() => onClick?.({ id: id.toString(), name })}
+      onClick={() => onClick?.({ id, name, address })}
     >
       <div className="flex flex-col items-start">
         <span className="text-base">{name}</span>

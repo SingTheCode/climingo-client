@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";
 import SignUp from "@/components/auth/SignUp";

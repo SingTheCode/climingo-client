@@ -13,6 +13,7 @@ import { Level } from "@/types/record";
 import { cloneDeep } from "@/utils/common";
 import { useDidMountEffect } from "@/hooks/common";
 import { getLevelListApi } from "@/api/modules/record";
+import { ClimbingPlace } from "@/types/common";
 
 import LevelIcon from "@/components/common/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
@@ -20,7 +21,7 @@ import Layout from "@/components/common/Layout";
 import Place from "@/components/place/Place";
 
 interface SelectedLevel {
-  levelId: string;
+  levelId: number;
   colorNameEn: Level["colorNameEn"] | "";
   colorNameKo: Level["colorNameKo"] | "전체";
   colorCode: Level["colorCode"] | "";
@@ -31,18 +32,18 @@ export default function FilterSection({
   setFilter,
 }: {
   filter: {
-    gym: { id: string; name: string };
-    level: { id: string; name: string };
+    gym: { id: number; name: string };
+    level: { id: number; name: string };
   };
   setFilter: Dispatch<
     SetStateAction<{
-      gym: { id: string; name: string };
-      level: { id: string; name: string };
+      gym: { id: number; name: string };
+      level: { id: number; name: string };
     }>
   >;
 }) {
   const DEFAULT_LEVEL: SelectedLevel = {
-    levelId: "",
+    levelId: 0,
     colorNameEn: "",
     colorNameKo: "전체",
     colorCode: "",
@@ -54,7 +55,7 @@ export default function FilterSection({
     cloneDeep(DEFAULT_LEVEL)
   );
 
-  const selectPlace = ({ id, name }: { id: string; name: string }) => {
+  const selectPlace = ({ id, name }: ClimbingPlace) => {
     setIsPopupOpen(false);
     setFilter((prev) => ({
       ...prev,
@@ -67,15 +68,16 @@ export default function FilterSection({
   const resetSelectedPlace = () => {
     setFilter({
       gym: {
-        id: "",
+        id: 0,
         name: "",
       },
       level: {
-        id: "",
+        id: 0,
         name: "",
       },
     });
     setSelectedLevel(cloneDeep(DEFAULT_LEVEL));
+    setLevelList([]);
   };
 
   useDidMountEffect(() => {

@@ -1,6 +1,6 @@
 export interface ClimbingPlace {
   id: number;
   address: string;
-  zipCode?: string | null;
+  zipCode?: string;
   name: string;
 }
