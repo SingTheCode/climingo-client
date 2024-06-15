@@ -1,4 +1,4 @@
-import { Level } from "@/types/common";
+import { Level } from "@/types/record";
 import { api } from "@/api/axios";
 
 // 암장 검색

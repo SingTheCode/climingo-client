@@ -2,7 +2,8 @@
 
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
-import { ClimbingPlace, Level } from "@/types/common";
+import { ClimbingPlace } from "@/types/common";
+import { Level } from "@/types/record";
 import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
