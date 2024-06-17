@@ -30,7 +30,7 @@ export const signInApi = async (params: {
 };
 
 export const signUpApi = async (params: MemberInfo) => {
-  const res = await api.post<UserState>(`/sign-up`, params);
+  const res = await api.post<MemberInfo>(`/sign-up`, params);
   if (res.status !== 200) {
     throw new Error();
   }

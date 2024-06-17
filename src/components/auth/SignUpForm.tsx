@@ -27,9 +27,14 @@ export default function SignUpForm() {
       return;
     }
 
-    const data = await signUpApi({ ...user.memberInfo, nickname });
-    setUser(data);
-    router.replace("/");
+    try {
+      const data = await signUpApi({ ...user.memberInfo, nickname });
+      setUser({ isAuthorized: true, memberInfo: data });
+      router.replace("/");
+    } catch {
+      alert("로그인에 실패했습니다.");
+      router.replace("/signIn");
+    }
   };
 
   useEffect(() => {
