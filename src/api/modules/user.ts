@@ -1,5 +1,4 @@
 import {
-  UserState,
   OAuthApiRequest,
   OAuthApiResponse,
   OAuthProvider,
@@ -22,7 +21,7 @@ export const signInApi = async (params: {
   providerType: OAuthProvider;
   providerToken: string;
 }) => {
-  const res = await api.post<UserState["memberInfo"]>(`/sign-in`, params);
+  const res = await api.post<MemberInfo>(`/sign-in`, params);
   if (res.status !== 200) {
     throw new Error();
   }
