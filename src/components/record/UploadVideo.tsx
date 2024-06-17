@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ChangeEventHandler, memo, useRef, useState } from "react";
 
 import { Heading } from "@/components/record/commonText";
@@ -60,7 +61,7 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
         {file ? (
           <video src={file} className="w-full h-full rounded-[0.8rem]" />
         ) : (
-          <img
+          <Image
             src="/icons/icon-photo.svg"
             alt="add-photo-icon"
             width="20"

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
 import { ClimbingPlace } from "@/types/common";
@@ -79,7 +80,7 @@ const PlaceSelector = ({
       {!place ? (
         <>
           <Placeholder text="암장을 검색해보세요" />
-          <img
+          <Image
             src="/icons/icon-arrow-grey.svg"
             alt="선택"
             width="20"
@@ -140,14 +141,14 @@ const LevelRadioItem = ({
     <li>
       <input
         type="radio"
-        id={levelId.toString()}
+        id={colorNameEn}
         name="level"
         value={levelId}
         className="peer hidden"
       />
       <label
         className={`w-[7.2rem] h-[3.2rem] rounded-[3.2rem] border-[0.1rem] cursor-pointer flex justify-center items-center shrink-0 gap-[0.5rem] border-shadow-lighter peer-checked:bg-primary-lightest/30 peer-checked:border-primary-lightest peer-checked:text-primary`}
-        htmlFor={levelId.toString()}
+        htmlFor={colorNameEn}
         onClick={onClick}
       >
         <p className="text-sm">{colorNameKo}</p>

@@ -1,6 +1,7 @@
-import { LevelColor } from "@/types/record";
+// TODO: 추후 타입 리팩토링
+import { Level } from "@/types/record";
 
-export default function LevelIcon({ color }: { color: LevelColor }) {
+export default function LevelIcon({ color }: { color: Level["colorNameEn"] }) {
   const level = `bg-level-${color}`;
 
   return (

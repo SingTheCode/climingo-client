@@ -7,6 +7,7 @@ import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
+
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
 import Layout from "@/components/common/Layout";
@@ -21,7 +22,7 @@ export default function RecordDetail() {
 
   return (
     <Layout containHeader>
-      <NavigationHeader pageTitle="기록 상세" />
+      <NavigationHeader />
       {isSuccess && data ? (
         <div className="w-full h-[80%] flex flex-col">
           <UserTemplate
