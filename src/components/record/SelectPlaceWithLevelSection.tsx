@@ -1,10 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 
-import { ClimbingPlace, Level } from "@/types/common";
+import { ClimbingPlace } from "@/types/common";
+import { Level } from "@/types/record";
 
-import { BOULDER_LEVELS } from "@/constants/level";
+import { LEVELS } from "@/constants/level";
 import { Heading, Placeholder } from "@/components/record/commonText";
 import ClearButton from "@/components/record/ClearButton";
 
@@ -67,7 +69,7 @@ const PlaceSelector = ({
       {!place ? (
         <>
           <Placeholder text="암장을 검색해보세요" />
-          <img
+          <Image
             src="/icons/icon-arrow-grey.svg"
             alt="선택"
             width="20"
@@ -87,7 +89,7 @@ const PlaceSelector = ({
 // FIXME: useQuery로 작성 후 대체
 const useLevelQuery = (_placeId?: number) => {
   return {
-    data: BOULDER_LEVELS,
+    data: LEVELS,
   };
 };
 
@@ -112,7 +114,7 @@ const LevelSelector = ({
     <ul className="flex flex-wrap gap-[1rem]">
       {data.map((level) => (
         <LevelRadioItem
-          key={level.id}
+          key={level.colorNameEn}
           level={level}
           onClick={handleItemClick}
         />
@@ -128,23 +130,23 @@ const LevelRadioItem = ({
   level: Level;
   onClick?: (level: Level) => void;
 }) => {
-  const { id, colorName, colorCode } = level;
+  const { colorNameEn, colorNameKo, colorCode } = level;
 
   return (
     <li>
       <input
         type="radio"
-        id={id.toString()}
+        id={colorNameEn.toString()}
         name="level"
-        value={id}
+        value={colorNameEn}
         className="peer hidden"
       />
       <label
         className={`w-[7.2rem] h-[3.2rem] rounded-[3.2rem] border-[0.1rem] cursor-pointer flex justify-center items-center shrink-0 gap-[0.5rem] border-shadow-lighter peer-checked:bg-primary-lightest/30 peer-checked:border-primary-lightest peer-checked:text-primary`}
-        htmlFor={id.toString()}
+        htmlFor={colorNameEn.toString()}
         onClick={() => onClick?.(level)}
       >
-        <p className="text-sm">{colorName}</p>
+        <p className="text-sm">{colorNameKo}</p>
         <div
           className="w-[1.2rem] h-[1.2rem] rounded-full border-[0.05rem] border-shadow-light"
           style={{ backgroundColor: colorCode }}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 import { Heading } from "@/components/record/commonText";
 import ClearButton from "./ClearButton";
@@ -38,7 +39,7 @@ const VideoUploader = () => {
             className="w-full h-full rounded-[0.8rem]"
           />
         ) : (
-          <img
+          <Image
             src="/icons/icon-photo.svg"
             alt="add-photo-icon"
             width="20"

@@ -91,6 +91,11 @@ const config: Config = {
         "0px -25px 25px rgba(255, 255, 255, 0.4), 0px -10px 10px rgba(255, 255, 255, 0.9)",
     },
   },
+  variants: {
+    extend: {
+      backgroundColor: ["bg-opacity"],
+    },
+  },
   plugins: [],
   safelist: [
     "bg-level-red",

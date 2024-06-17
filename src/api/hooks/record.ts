@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { getRecordDetailApi } from "@/api/modules/record";
 
 // 기록 상세 조회
