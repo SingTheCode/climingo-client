@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H local.dev-climingo.vercel.app --experimental-https",
+    "stg": "next dev -H local.stg-climingo.vercel.app --experimental-https",
+    "prd": "next dev -H local.climingo.vercel.app --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
