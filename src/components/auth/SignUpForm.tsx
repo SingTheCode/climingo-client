@@ -31,6 +31,7 @@ export default function SignUpForm() {
       if (user) {
         const data = await signUpApi({ ...user, nickname });
         setUser(data);
+        sessionStorage.setItem("memberInfo", JSON.stringify(data));
         router.replace("/");
       }
     } catch {

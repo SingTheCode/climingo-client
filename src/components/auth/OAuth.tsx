@@ -30,6 +30,7 @@ export default function OAuth() {
           });
 
           setUser(data);
+          sessionStorage.setItem("memberInfo", JSON.stringify(data));
           router.push("/");
           return;
         }
