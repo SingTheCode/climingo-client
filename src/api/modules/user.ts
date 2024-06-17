@@ -3,7 +3,7 @@ import {
   OAuthApiRequest,
   OAuthApiResponse,
   OAuthProvider,
-  UserInfo,
+  MemberInfo,
 } from "@/types/user";
 import { api } from "@/api/axios";
 
@@ -29,7 +29,7 @@ export const signInApi = async (params: {
   return res.data;
 };
 
-export const signUpApi = async (params: UserInfo) => {
+export const signUpApi = async (params: MemberInfo) => {
   const res = await api.post<UserState>(`/sign-up`, params);
   if (res.status !== 200) {
     throw new Error();
