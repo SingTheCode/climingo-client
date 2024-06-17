@@ -13,19 +13,20 @@ export type LevelColor =
   | "black";
 
 export interface Record {
-  recordId: string;
+  recordId: number;
   thumbnailUrl: string;
   videoUrl: string;
   createTime: string;
 }
 
 export interface Gym {
-  gymId: string;
+  gymId: number;
   gymName: string;
 }
 
 export interface Level {
-  levelId: string;
+  levelId: number;
   colorNameKo: string;
   colorNameEn: LevelColor;
+  colorCode: string;
 }
