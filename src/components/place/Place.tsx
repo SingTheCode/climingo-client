@@ -10,9 +10,9 @@ import SearchedPlace from "@/components/place/SearchedPlace";
 import InputText from "@/components/common/InputText";
 
 export default function Place({
-  onClick,
+  onSearchedPlaceClick,
 }: {
-  onClick?: (place: ClimbingPlace) => void;
+  onSearchedPlaceClick?: (place: ClimbingPlace) => void;
 }) {
   const [text, setText] = useState("");
   const [searchedList, setSearchedList] = useState<ClimbingPlace[]>([]);
@@ -34,10 +34,8 @@ export default function Place({
       {searchedList.map((searched) => (
         <SearchedPlace
           key={searched.id}
-          id={searched.id}
-          name={searched.name}
-          address={searched.address}
-          onClick={(place: ClimbingPlace) => onClick?.(place)}
+          place={searched}
+          onClick={onSearchedPlaceClick}
         />
       ))}
     </div>

@@ -189,7 +189,7 @@ export default function FilterSection({
         onClose={() => setIsPopupOpen(false)}
       >
         <Layout containHeader>
-          <Place onClick={selectPlace} />
+          <Place onSearchedPlaceClick={selectPlace} />
         </Layout>
       </LayerPopup>
     </section>

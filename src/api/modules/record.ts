@@ -1,6 +1,6 @@
-import { api } from "@/api/axios";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
+import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";
 
 // 기록 상세 조회
@@ -18,6 +18,19 @@ export const getRecordDetailApi = async ({
   if (res.status !== 200) {
     throw new Error();
   }
+  return res.data;
+};
+
+// 기록 생성
+export const createRecordApi = async (data: {
+  gymId: number;
+  levelId: number;
+  video: File;
+}) => {
+  const res = await api.post<{ recordId: number }>("/records", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
   return res.data;
 };
 
