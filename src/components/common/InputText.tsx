@@ -5,6 +5,7 @@ import {
   Dispatch,
   SetStateAction,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import Image from "next/image";
@@ -31,11 +32,9 @@ interface InputProps extends Partial<HTMLInputElement> {
 export default function InputText(props: InputProps) {
   const { value, setText, rules, serverValidation, checkValid } = props;
 
-  const [onValidAction, setOnValidAction] = useState(false);
-  const [clientValidation, setClientValidation] = useState({
-    isValid: true,
-    text: "",
-  });
+  const onValidAction = useRef(false);
+  const isClientValid = useRef(true);
+  const [clientValidationText, setClientValidationText] = useState("");
 
   const inputRef = createRef<HTMLInputElement>();
 
@@ -52,10 +51,10 @@ export default function InputText(props: InputProps) {
     }
     // 외부에서 설정한 validation 상태가 없고, value 가 0보다 클 때 valid 활성화
     if ((!serverValidation || serverValidation.isValid) && value.length === 0) {
-      setOnValidAction(false);
+      onValidAction.current = false;
       return;
     }
-    setOnValidAction(true);
+    onValidAction.current = true;
 
     if (!rules) {
       return;
@@ -64,16 +63,12 @@ export default function InputText(props: InputProps) {
     // 프론트 유효성 검사
     const invalidRule = rules.find((rule) => typeof rule(value) === "string");
     if (!invalidRule) {
-      setClientValidation({
-        isValid: true,
-        text: "",
-      });
+      isClientValid.current = true;
+      setClientValidationText("");
       return;
     }
-    setClientValidation({
-      isValid: false,
-      text: invalidRule(value) as string,
-    });
+    isClientValid.current = false;
+    setClientValidationText(invalidRule(value) as string);
   }, [inputRef, rules, value, serverValidation, props]);
 
   useEffect(() => {
@@ -82,11 +77,9 @@ export default function InputText(props: InputProps) {
     }
 
     if (!serverValidation.isValid) {
-      setOnValidAction(true);
-      setClientValidation({
-        isValid: false,
-        text: serverValidation.text,
-      });
+      onValidAction.current = true;
+      isClientValid.current = false;
+      setClientValidationText(serverValidation.text);
     }
   }, [serverValidation]);
 
@@ -95,14 +88,9 @@ export default function InputText(props: InputProps) {
       return;
     }
     checkValid(
-      (onValidAction && clientValidation.isValid) || !!serverValidation?.isValid
+      (onValidAction && isClientValid.current) || !!serverValidation?.isValid
     );
-  }, [
-    value,
-    onValidAction,
-    clientValidation.isValid,
-    serverValidation?.isValid,
-  ]);
+  }, [value, onValidAction, isClientValid.current, serverValidation?.isValid]);
 
   return (
     <div className="w-full">
@@ -125,7 +113,7 @@ export default function InputText(props: InputProps) {
             className={`block w-full h-[4.4rem] bg-shadow-lighter rounded-[0.8rem] py-[1rem] text-sm border-[0.1rem] ${
               props.type === "search" ? "pl-[4.4rem]" : "pl-[1.6rem]"
             } pr-[4.8rem] placeholder:text-shadow ${onValidAction ? "" : ""} ${
-              onValidAction && clientValidation && !clientValidation.isValid
+              onValidAction && clientValidationText && !isClientValid.current
                 ? "border-red"
                 : "border-shadow-lighter"
             } focus:outline-none`}
@@ -152,12 +140,12 @@ export default function InputText(props: InputProps) {
         <span
           className={`${
             onValidAction &&
-            (clientValidation && clientValidation.isValid
+            (clientValidationText && isClientValid.current
               ? "text-green"
               : "text-red")
           }`}
         >
-          {onValidAction && clientValidation?.text}
+          {onValidAction && clientValidationText}
         </span>
         <div>
           {props.maxLength && (

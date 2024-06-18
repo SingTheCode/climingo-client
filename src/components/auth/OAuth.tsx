@@ -29,12 +29,12 @@ export default function OAuth() {
             providerToken: memberInfo.providerToken,
           });
 
-          setUser({ isAuthorized: !!data.authId, memberInfo: data });
-          // TODO: 둘러보기 페이지로 이동
+          setUser(data);
+          sessionStorage.setItem("memberInfo", JSON.stringify(data));
           router.push("/");
           return;
         }
-        setUser({ isAuthorized: false, memberInfo });
+        setUser(memberInfo);
         router.push("/signUp");
       } catch (err) {
         if (err instanceof Error) {

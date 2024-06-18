@@ -20,8 +20,3 @@ export interface OAuthApiResponse {
   registered: boolean;
   memberInfo: MemberInfo & { providerToken: string };
 }
-
-export interface UserState {
-  isAuthorized: boolean;
-  memberInfo: MemberInfo;
-}

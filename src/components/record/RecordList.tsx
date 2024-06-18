@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { getRecordListApi } from "@/api/modules/record";
 import { MemberInfo } from "@/types/user";
 import { Gym, Level, Record } from "@/types/record";
+import { loginCheck } from "@/utils/common";
 
 import Layout from "@/components/common/Layout";
 import RecordItem from "@/components/record/RecordItem";
@@ -142,6 +144,14 @@ const RecordListSection = ({
 };
 
 const HomeHeader = () => {
+  const router = useRouter();
+
+  const goToMyProfile = () => {
+    if (loginCheck()) {
+      router.push("/myProfile");
+    }
+  };
+
   return (
     <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-[300] overflow-y-hidden bg-white">
       {/** left */}
@@ -158,15 +168,14 @@ const HomeHeader = () => {
 
       {/** right */}
       <div className="flex py-[0.2rem] pr-[2rem]">
-        {/*TODO: 마이페이지 링크 업데이트*/}
-        <Link href={"/myPage"}>
+        <button onClick={goToMyProfile}>
           <Image
             width="28"
             height="28"
             src="/assets/profile.svg"
             alt="프로필"
           />
-        </Link>
+        </button>
       </div>
     </nav>
   );
