@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import InputText from "@/components/common/InputText";
+
 import { signUpApi } from "@/api/modules/user";
 import { useUserActions, useUserValue } from "@/store/user";
+
+import InputText from "@/components/common/InputText";
 import BottomActionButton from "@/components/common/BottomActionButton";
 
 export default function SignUpForm() {

@@ -1,11 +1,18 @@
 "use client";
 
 import React, { createContext, useContext, useMemo, useState } from "react";
+
 import { UserState } from "@/types/user";
 
 const UserValueContext = createContext<UserState>({
   isAuthorized: false,
-  memberInfo: { nickname: "", authId: "", providerType: "kakao", email: "" },
+  memberInfo: {
+    nickname: "",
+    authId: "",
+    providerType: "kakao",
+    email: "",
+    profileUrl: "",
+  },
 });
 const UserActionsContext = createContext<{ setUser(info: UserState): void }>({
   setUser() {},
@@ -14,7 +21,13 @@ const UserActionsContext = createContext<{ setUser(info: UserState): void }>({
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUserInfo] = useState<UserState>({
     isAuthorized: false,
-    memberInfo: { nickname: "", authId: "", providerType: "kakao", email: "" },
+    memberInfo: {
+      nickname: "",
+      authId: "",
+      providerType: "kakao",
+      email: "",
+      profileUrl: "",
+    },
   });
   const actions = useMemo(
     () => ({

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import { OAuthApiRequest } from "@/types/user";
 import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
@@ -24,7 +25,7 @@ export default function OAuth() {
 
         if (registered) {
           const data = await signInApi({
-            providerType: memberInfo.providerType,
+            providerType: memberInfo.providerType!,
             providerToken: memberInfo.providerToken,
           });
 

@@ -12,9 +12,10 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.3",
     "@tanstack/react-query": "^5.29.0",
     "axios": "^1.6.8",
-    "@headlessui/react": "^2.0.3",
+    "dayjs": "^1.11.11",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"

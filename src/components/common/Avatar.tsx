@@ -21,6 +21,12 @@ export default function Avatar({ size, src, alt }: AvatarProps) {
   };
 
   return (
-    <Image src={src} alt={alt} width={refineSize()} height={refineSize()} />
+    <Image
+      className="rounded-full"
+      src={src}
+      alt={alt}
+      width={refineSize()}
+      height={refineSize()}
+    />
   );
 }
