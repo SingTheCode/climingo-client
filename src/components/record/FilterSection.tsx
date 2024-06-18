@@ -16,7 +16,7 @@ import { ClimbingPlace } from "@/types/common";
 import LevelIcon from "@/components/common/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
-import SearchPlace from "@/components/place/SearchPlace";
+import Place from "@/components/place/Place";
 
 interface SelectedLevel {
   levelId: number;
@@ -189,11 +189,7 @@ export default function FilterSection({
         onClose={() => setIsPopupOpen(false)}
       >
         <Layout containHeader>
-          <SearchPlace
-            onSearchedItemClick={({ id, name }) =>
-              selectPlace({ id: id.toString(), name })
-            }
-          />
+          <Place onSearchedPlaceClick={selectPlace} />
         </Layout>
       </LayerPopup>
     </section>

@@ -5,12 +5,11 @@ import { MouseEventHandler, memo, useRef, useState } from "react";
 
 import { ClimbingPlace } from "@/types/common";
 import { Level } from "@/types/record";
-
-import useGetLevelsByGymIdQuery from "@/hooks/place/useGetLevelsByGymIdQuery";
+import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
 import Layout from "@/components/common/Layout";
-import SearchPlace from "@/components/place/SearchPlace";
+import SearchPlace from "@/components/place/Place";
 import ClearButton from "@/components/record/ClearButton";
 import { Heading, Placeholder } from "@/components/record/commonText";
 
@@ -49,7 +48,7 @@ const SelectPlaceWithLevel = memo(
           />
           <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
             <Layout>
-              <SearchPlace onSearchedItemClick={handlePlaceSelect} />
+              <SearchPlace onSearchedPlaceClick={handlePlaceSelect} />
             </Layout>
           </LayerPopup>
         </div>
@@ -106,7 +105,7 @@ const LevelSelector = ({
   placeId?: number;
   onChange?: (level: Level) => void;
 }) => {
-  const { data, isSuccess } = useGetLevelsByGymIdQuery(placeId);
+  const { data, isSuccess } = useGetLevelsQuery(placeId);
 
   if (!placeId) {
     return <Placeholder text="암장을 먼저 선택해주세요" />;
@@ -142,14 +141,14 @@ const LevelRadioItem = ({
     <li>
       <input
         type="radio"
-        id={levelId.toString()}
+        id={colorNameEn}
         name="level"
         value={levelId}
         className="peer hidden"
       />
       <label
         className={`w-[7.2rem] h-[3.2rem] rounded-[3.2rem] border-[0.1rem] cursor-pointer flex justify-center items-center shrink-0 gap-[0.5rem] border-shadow-lighter peer-checked:bg-primary-lightest/30 peer-checked:border-primary-lightest peer-checked:text-primary`}
-        htmlFor={levelId.toString()}
+        htmlFor={colorNameEn}
         onClick={onClick}
       >
         <p className="text-sm">{colorNameKo}</p>

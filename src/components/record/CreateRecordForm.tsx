@@ -24,7 +24,7 @@ const CreateRecordForm = () => {
     video: false,
   });
 
-  const isValid = Object.values(validation).every((value) => value === true);
+  const isValid = Object.values(validation).every(Boolean);
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
