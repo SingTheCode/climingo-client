@@ -73,29 +73,31 @@ const LayerPopupRoot = ({
   );
 };
 
-const LayerPopupHeader = ({ children }: { children?: React.ReactNode }) => {
+const LayerPopupHeader = ({
+  title,
+  children,
+}: {
+  title?: string;
+  children?: React.ReactNode;
+}) => {
   return (
-    <div className="flex justify-between items-center px-6 sm:px-8 pl-14">
+    <div className="flex items-center justify-end px-8 min-h-[2.4rem]">
+      {title && (
+        <DialogTitle className="absolute left-1/2 -translate-x-1/2 text-center text-base font-medium leading-6 max-w-[80%] truncate">
+          {title}
+        </DialogTitle>
+      )}
       {children}
     </div>
   );
 };
 
-const LayerPopupTitle = ({ children }: { children?: React.ReactNode }) => {
-  return (
-    <DialogTitle className="text-base font-semibold leading-6 m-auto">
-      {children}
-    </DialogTitle>
-  );
-};
-
 const LayerPopupBody = ({ children }: { children?: React.ReactNode }) => {
-  return <div className="relative mt-6 flex-1 px-6 sm:px-8 ">{children}</div>;
+  return <div className="relative mt-6 flex-1 px-8 ">{children}</div>;
 };
 
 const LayerPopup = Object.assign(LayerPopupRoot, {
   Header: LayerPopupHeader,
-  Title: LayerPopupTitle,
   Body: LayerPopupBody,
 });
 
@@ -105,7 +107,7 @@ const CloseButton = (props: InputHTMLAttributes<HTMLButtonElement>) => (
   <button
     {...props}
     type="button"
-    className="absolute left-6 sm:left-8 top-5 rounded-md focus:outline-none focus:ring-2 focus:ring-white"
+    className="absolute left-6 top-6 rounded-md focus:outline-none focus:ring-2 focus:ring-white"
   >
     <Image width="24" height="24" src="/icons/icon-close.svg" alt="close" />
   </button>

@@ -15,7 +15,6 @@ import { ClimbingPlace } from "@/types/common";
 
 import LevelIcon from "@/components/common/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
-import Layout from "@/components/common/Layout";
 import Place from "@/components/place/Place";
 
 interface SelectedLevel {
@@ -188,9 +187,10 @@ export default function FilterSection({
         open={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
       >
-        <Layout containHeader>
+        <LayerPopup.Header title="암장 검색하기" />
+        <LayerPopup.Body>
           <Place onSearchedPlaceClick={selectPlace} />
-        </Layout>
+        </LayerPopup.Body>
       </LayerPopup>
     </section>
   );
