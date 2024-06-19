@@ -30,19 +30,20 @@ export default function LoginButton() {
         />
         <p>카카오로 시작하기</p>
       </button>
-      <button
-        className="relative flex justify-center items-center w-full h-[6.4rem] mt-[0.8rem] bg-[black] text-[white] rounded-2xl"
-        name="애플로그인"
-      >
-        <Image
-          src="/assets/apple.svg"
-          alt="애플로 계속하기"
-          width="43"
-          height="60"
-          className="absolute left-[1.2rem]"
-        />
-        <p>Apple로 계속하기</p>
-      </button>
+      {/*TODO: 애플로그인 심사 후 구현*/}
+      {/*<button*/}
+      {/*  className="relative flex justify-center items-center w-full h-[6.4rem] mt-[0.8rem] bg-[black] text-[white] rounded-2xl"*/}
+      {/*  name="애플로그인"*/}
+      {/*>*/}
+      {/*  <Image*/}
+      {/*    src="/assets/apple.svg"*/}
+      {/*    alt="애플로 계속하기"*/}
+      {/*    width="43"*/}
+      {/*    height="60"*/}
+      {/*    className="absolute left-[1.2rem]"*/}
+      {/*  />*/}
+      {/*  <p>Apple로 계속하기</p>*/}
+      {/*</button>*/}
     </>
   );
 }
