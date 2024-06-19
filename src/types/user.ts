@@ -1,10 +1,12 @@
 export type OAuthProvider = "kakao" | "apple";
 
-export interface UserInfo {
-  authId: string;
-  email?: string;
+export interface MemberInfo {
   nickname: string;
-  providerType: OAuthProvider;
+  profileUrl: string;
+  memberId?: string;
+  authId?: string;
+  email?: string;
+  providerType?: OAuthProvider;
 }
 
 export interface OAuthApiRequest {
@@ -16,10 +18,5 @@ export interface OAuthApiRequest {
 export interface OAuthApiResponse {
   // 회원가입 여부
   registered: boolean;
-  memberInfo: UserInfo & { providerToken: string };
-}
-
-export interface UserState {
-  isAuthorized: boolean;
-  memberInfo: UserInfo;
+  memberInfo: MemberInfo & { providerToken: string };
 }

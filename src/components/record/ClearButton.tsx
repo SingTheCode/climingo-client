@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, MouseEventHandler } from "react";
+import Image from "next/image";
 
 const ClearButton = ({
   onClick,
@@ -11,7 +12,7 @@ const ClearButton = ({
 
   return (
     <button type="button" {...props} onClick={handleClear}>
-      <img src="/assets/cancel.svg" alt="초기화" width="20" height="20" />
+      <Image width="20" height="20" src="/assets/cancel.svg" alt="초기화" />
     </button>
   );
 };

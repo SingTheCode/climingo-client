@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import InputText from "@/components/common/InputText";
+
 import { signUpApi } from "@/api/modules/user";
 import { useUserActions, useUserValue } from "@/store/user";
+
+import InputText from "@/components/common/InputText";
 import BottomActionButton from "@/components/common/BottomActionButton";
 
 export default function SignUpForm() {
@@ -25,14 +27,22 @@ export default function SignUpForm() {
       return;
     }
 
-    const data = await signUpApi({ ...user.memberInfo, nickname });
-    setUser(data);
-    router.replace("/");
+    try {
+      if (user) {
+        const data = await signUpApi({ ...user, nickname });
+        setUser(data);
+        sessionStorage.setItem("memberInfo", JSON.stringify(data));
+        router.replace("/");
+      }
+    } catch {
+      alert("로그인에 실패했습니다.");
+      router.replace("/signIn");
+    }
   };
 
   useEffect(() => {
     if (user) {
-      setNickname(user.memberInfo.nickname);
+      setNickname(user.nickname);
     }
   }, [user]);
 

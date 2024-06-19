@@ -1,24 +1,19 @@
 "use client";
 
 import React, { createContext, useContext, useMemo, useState } from "react";
-import { UserState } from "@/types/user";
 
-const UserValueContext = createContext<UserState>({
-  isAuthorized: false,
-  memberInfo: { nickname: "", authId: "", providerType: "kakao", email: "" },
-});
-const UserActionsContext = createContext<{ setUser(info: UserState): void }>({
+import { MemberInfo } from "@/types/user";
+
+const UserValueContext = createContext<MemberInfo | null>(null);
+const UserActionsContext = createContext<{ setUser(info: MemberInfo): void }>({
   setUser() {},
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUserInfo] = useState<UserState>({
-    isAuthorized: false,
-    memberInfo: { nickname: "", authId: "", providerType: "kakao", email: "" },
-  });
+  const [user, setUserInfo] = useState<MemberInfo | null>(null);
   const actions = useMemo(
     () => ({
-      setUser(info: UserState) {
+      setUser(info: MemberInfo) {
         setUserInfo(info);
       },
     }),

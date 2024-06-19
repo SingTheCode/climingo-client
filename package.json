@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H local.dev-app.climingo.xyz --experimental-https",
+    "stg": "next dev -H local.stg-app.climingo.xyz --experimental-https",
+    "prd": "next dev -H local.app.climingo.xyz --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.3",
     "@tanstack/react-query": "^5.29.0",
     "axios": "^1.6.8",
-    "@headlessui/react": "^2.0.3",
+    "dayjs": "^1.11.11",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"

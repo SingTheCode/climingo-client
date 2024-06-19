@@ -68,6 +68,21 @@ const config: Config = {
         kakao: "#FEE500",
         apple: "#000000",
       },
+      level: {
+        red: "#ff0000",
+        orange: "#f77f00",
+        yellow: "#ffff00",
+        green: "#23C16B",
+        blue: "#0000ff",
+        navy: "#003077",
+        purple: "#b266ff",
+        pink: "#ff6666",
+        brown: "#cc6600",
+        gray: "#a0a0a0",
+        white: "#ffffff",
+        black: "#000000",
+      },
+      gray: "#c5c5c5",
       white: "#FFFFFF",
       black: "#000000",
     },
@@ -76,7 +91,26 @@ const config: Config = {
         "0px -25px 25px rgba(255, 255, 255, 0.4), 0px -10px 10px rgba(255, 255, 255, 0.9)",
     },
   },
+  variants: {
+    extend: {
+      backgroundColor: ["bg-opacity"],
+    },
+  },
   plugins: [],
+  safelist: [
+    "bg-level-red",
+    "bg-level-orange",
+    "bg-level-yellow",
+    "bg-level-green",
+    "bg-level-blue",
+    "bg-level-navy",
+    "bg-level-purple",
+    "bg-level-pink",
+    "bg-level-brown",
+    "bg-level-gray",
+    "bg-level-white",
+    "bg-level-black",
+  ],
 };
 
 export default config;

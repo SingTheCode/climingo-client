@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import { OAuthApiRequest } from "@/types/user";
 import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
@@ -24,16 +25,16 @@ export default function OAuth() {
 
         if (registered) {
           const data = await signInApi({
-            providerType: memberInfo.providerType,
+            providerType: memberInfo.providerType!,
             providerToken: memberInfo.providerToken,
           });
 
-          setUser({ isAuthorized: !!data.authId, memberInfo: data });
-          // TODO: 둘러보기 페이지로 이동
+          setUser(data);
+          sessionStorage.setItem("memberInfo", JSON.stringify(data));
           router.push("/");
           return;
         }
-        setUser({ isAuthorized: false, memberInfo });
+        setUser(memberInfo);
         router.push("/signUp");
       } catch (err) {
         if (err instanceof Error) {

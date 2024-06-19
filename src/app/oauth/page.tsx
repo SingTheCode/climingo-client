@@ -1,4 +1,4 @@
-import OAuth from "@/app/oauth/OAuth";
+import OAuth from "@/components/auth/OAuth";
 
 export default function Page() {
   return <OAuth />;

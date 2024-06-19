@@ -29,12 +29,12 @@ const NavigationHeader = ({
       </div>
 
       {/** center */}
-      <h2 className="text-center text-base font-medium flex-grow self-center px-[2rem]">
+      <h2 className="text-center text-base font-medium self-center px-[2rem] flex-shrink-0 max-w-[80%] truncate">
         {pageTitle}
       </h2>
 
       {/** right */}
-      <div className="flex basis-[10rem] justify-end  py-[0.2rem] items-center gap-[0.4rem] pr-[1rem]">
+      <div className="flex basis-[10rem] justify-end py-[0.2rem] items-center gap-[0.4rem] pr-[1rem]">
         {rightElement}
       </div>
     </nav>

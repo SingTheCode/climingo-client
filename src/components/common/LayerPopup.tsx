@@ -1,4 +1,5 @@
 import React, { Fragment, InputHTMLAttributes, PropsWithChildren } from "react";
+import Image from "next/image";
 import {
   Dialog,
   DialogPanel,
@@ -106,6 +107,6 @@ const CloseButton = (props: InputHTMLAttributes<HTMLButtonElement>) => (
     type="button"
     className="absolute left-6 sm:left-8 top-5 rounded-md focus:outline-none focus:ring-2 focus:ring-white"
   >
-    <img src="/icons/icon-close.svg" alt="close" />
+    <Image width="24" height="24" src="/icons/icon-close.svg" alt="close" />
   </button>
 );
