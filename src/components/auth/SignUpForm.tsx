@@ -27,14 +27,22 @@ export default function SignUpForm() {
       return;
     }
 
-    const data = await signUpApi({ ...user.memberInfo, nickname });
-    setUser(data);
-    router.replace("/");
+    try {
+      if (user) {
+        const data = await signUpApi({ ...user, nickname });
+        setUser(data);
+        sessionStorage.setItem("memberInfo", JSON.stringify(data));
+        router.replace("/");
+      }
+    } catch {
+      alert("로그인에 실패했습니다.");
+      router.replace("/signIn");
+    }
   };
 
   useEffect(() => {
     if (user) {
-      setNickname(user.memberInfo.nickname);
+      setNickname(user.nickname);
     }
   }, [user]);
 
