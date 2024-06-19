@@ -8,7 +8,6 @@ import { Level } from "@/types/record";
 import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
-import Layout from "@/components/common/Layout";
 import SearchPlace from "@/components/place/Place";
 import ClearButton from "@/components/record/ClearButton";
 import { Heading, Placeholder } from "@/components/record/commonText";
@@ -47,9 +46,10 @@ const SelectPlaceWithLevel = memo(
             onClear={resetAll}
           />
           <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
-            <Layout>
+            <LayerPopup.Header title="암장 검색하기" />
+            <LayerPopup.Body>
               <SearchPlace onSearchedPlaceClick={handlePlaceSelect} />
-            </Layout>
+            </LayerPopup.Body>
           </LayerPopup>
         </div>
         <div className="flex flex-col gap-[1.4rem]">
