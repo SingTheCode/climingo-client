@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { ChangeEventHandler, memo, useRef, useState } from "react";
 
+import useObjectURL from "@/hooks/useObjectURL";
+
 import { Heading } from "@/components/record/commonText";
 import ClearButton from "@/components/record/ClearButton";
 
@@ -30,6 +32,9 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
   const [file, setFile] = useState<string>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { createObjectURL: crateVideoURL, revokeObjectURL: revokeVideoURL } =
+    useObjectURL();
+
   const uploadFile: ChangeEventHandler<HTMLInputElement> = (event) => {
     const files = event.target.files;
 
@@ -38,12 +43,15 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
     }
 
     const nextFile = files[0];
+    // video 시작 시간을 0.5초 설정 후 미리 메타데이터를 로드하여 썸네일 표시
+    const url = crateVideoURL(nextFile) + "#t=0.5";
 
-    setFile(URL.createObjectURL(nextFile));
+    setFile(url);
     onChange?.(nextFile);
   };
 
   const clearVideo = () => {
+    revokeVideoURL();
     setFile(undefined);
     onChange?.(undefined);
 
@@ -59,7 +67,11 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
         htmlFor="record-video"
       >
         {file ? (
-          <video src={file} className="w-full h-full rounded-[0.8rem]" />
+          <video
+            src={file}
+            className="w-full h-full rounded-[0.8rem]"
+            preload="metadata"
+          />
         ) : (
           <Image
             src="/icons/icon-photo.svg"
