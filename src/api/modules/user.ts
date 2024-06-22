@@ -42,3 +42,11 @@ export const getMyProfileApi = async () => {
   const res = await api.get<MyProfileApiResponse>("/members");
   return res.data;
 };
+
+// 내 프로필 닉네임 수정
+export const editNicknameApi = async (memberId: number, data: string) => {
+  const res = await api.patch(`/members/${memberId}/nickname`, {
+    nickname: data,
+  });
+  return res.data;
+};

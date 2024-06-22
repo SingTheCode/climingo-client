@@ -1,33 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { isAxiosError } from "axios";
 
 import { MemberInfo, OAuthProvider } from "@/types/user";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
+import useEditNicknameQuery from "@/hooks/profile/useEditNicknameQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
 import Avatar from "@/components/common/Avatar";
 import InputText from "@/components/common/InputText";
-import Loading from "@/components/common/Loading";
 
 const MyProfileInfo = () => {
   const { data, isSuccess } = useGetMyProfileQuery();
 
-  if (!isSuccess)
-    return (
-      <div className="absolute left-1/2 -translate-x-1/2 top-1/2">
-        <Loading />
-      </div>
-    );
+  if (!isSuccess) return null;
 
   return (
     <section className="flex flex-col gap-[2rem] py-[2rem]">
-      <EditableProfile nickname={data.nickname} profileUrl={data.profileUrl} />
-      {/** TODO: API 수정 후 data.email로 수정 */}
+      <EditableProfile
+        memberId={data.memberId}
+        nickname={data.nickname}
+        profileUrl={data.profileUrl}
+      />
       <DetailProfile
         oAuth={{
-          email: "kkr1226@naver.com",
+          email: data.email,
           provider: data.providerType,
         }}
       />
@@ -38,13 +37,51 @@ const MyProfileInfo = () => {
 export default MyProfileInfo;
 
 interface EditableProfileProps {
+  memberId: number;
   nickname: string;
   profileUrl: string;
 }
 
-const EditableProfile = ({ nickname, profileUrl }: EditableProfileProps) => {
+const EditableProfile = ({
+  memberId,
+  nickname,
+  profileUrl,
+}: EditableProfileProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(nickname);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const isValidNickname = useRef(false);
+
+  const { mutate: editNickname } = useEditNicknameQuery(memberId);
+
+  const setIsValidNickname = (valid: boolean) => {
+    isValidNickname.current = valid;
+    setErrorMessage("");
+  };
+
+  const handleNicknameEdit = () => {
+    // 이전 닉네임과 동일하면 변경하지 않고 팝업 닫기
+    if (value === nickname) {
+      setOpen(false);
+      return;
+    }
+
+    if (!isValidNickname) {
+      return;
+    }
+
+    editNickname(value, {
+      onSuccess: () => {
+        setOpen(false);
+      },
+      onError: (error) => {
+        if (isAxiosError(error) && error.response?.status === 409) {
+          setErrorMessage("이미 존재하는 닉네임이에요");
+        }
+      },
+    });
+  };
 
   return (
     <section className="flex flex-col items-center gap-[1.5rem]">
@@ -65,7 +102,7 @@ const EditableProfile = ({ nickname, profileUrl }: EditableProfileProps) => {
       <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
         <LayerPopup.Header>
           <LayerPopup.Title>프로필 수정</LayerPopup.Title>
-          <button>완료</button>
+          <button onClick={handleNicknameEdit}>완료</button>
         </LayerPopup.Header>
         <LayerPopup.Body>
           <div className="flex flex-col py-[2rem] gap-[2rem]">
@@ -76,9 +113,26 @@ const EditableProfile = ({ nickname, profileUrl }: EditableProfileProps) => {
               className="rounded-full self-center"
               priority
             />
-            <div className="flex flex-col gap-[0.5rem]">
+            <div className="relative flex flex-col gap-[0.5rem]">
               <h3>닉네임</h3>
-              <InputText value={value} setText={setValue} />
+              <InputText
+                value={value}
+                setText={setValue}
+                maxLength={8}
+                rules={[
+                  (value) =>
+                    /^[a-zA-Z0-9가-힣]+$/.test(value) ||
+                    "띄어쓰기 없이 영문,숫자,한글만 가능해요",
+                  (value) =>
+                    (2 <= value.length && value.length <= 8) ||
+                    "2글자 이상 8글자 이하만 가능해요",
+                ]}
+                checkValid={setIsValidNickname}
+              />
+              {/** TODO: InputText serverValidation이 동작하면 제거 */}
+              <p className="absolute bottom-0 text-red text-xs">
+                {errorMessage}
+              </p>
             </div>
           </div>
         </LayerPopup.Body>
