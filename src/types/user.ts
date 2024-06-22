@@ -20,3 +20,10 @@ export interface OAuthApiResponse {
   registered: boolean;
   memberInfo: MemberInfo & { providerToken: string };
 }
+
+export type MyProfileApiResponse = Required<
+  Pick<
+    MemberInfo,
+    "memberId" | "nickname" | "providerType" | "profileUrl" | "email"
+  >
+>;
