@@ -100,8 +100,7 @@ const EditableProfile = ({
       </div>
 
       <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
-        <LayerPopup.Header>
-          <LayerPopup.Title>프로필 수정</LayerPopup.Title>
+        <LayerPopup.Header title="프로필 수정">
           <button onClick={handleNicknameEdit}>완료</button>
         </LayerPopup.Header>
         <LayerPopup.Body>
