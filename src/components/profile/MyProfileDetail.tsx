@@ -12,7 +12,7 @@ import LayerPopup from "@/components/common/LayerPopup";
 import Avatar from "@/components/common/Avatar";
 import InputText from "@/components/common/InputText";
 
-const MyProfileInfo = () => {
+const MyProfileDetail = () => {
   const { data, isSuccess } = useGetMyProfileQuery();
 
   if (!isSuccess) return null;
@@ -24,7 +24,7 @@ const MyProfileInfo = () => {
         nickname={data.nickname}
         profileUrl={data.profileUrl}
       />
-      <DetailProfile
+      <DetailMemberInfo
         oAuth={{
           email: data.email,
           provider: data.providerType,
@@ -34,7 +34,7 @@ const MyProfileInfo = () => {
   );
 };
 
-export default MyProfileInfo;
+export default MyProfileDetail;
 
 interface EditableProfileProps {
   memberId: number;
@@ -145,7 +145,7 @@ interface OAuthInfo {
   provider: OAuthProvider;
 }
 
-const DetailProfile = ({ oAuth }: { oAuth: OAuthInfo }) => {
+const DetailMemberInfo = ({ oAuth }: { oAuth: OAuthInfo }) => {
   return (
     <section>
       <OAuthEmail email={oAuth.email} provider={oAuth.provider} />
