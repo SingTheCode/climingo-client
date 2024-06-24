@@ -49,15 +49,15 @@ const EditableProfile = ({
 }: EditableProfileProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(nickname);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
 
   const isValidNickname = useRef(false);
 
   const { mutate: editNickname } = useEditNicknameQuery(memberId);
 
-  const setIsValidNickname = (valid: boolean) => {
+  const checkIsValidNickname = (valid: boolean) => {
     isValidNickname.current = valid;
-    setErrorMessage("");
+    setServerErrorMessage("");
   };
 
   const handleNicknameEdit = () => {
@@ -77,7 +77,7 @@ const EditableProfile = ({
       },
       onError: (error) => {
         if (isAxiosError(error) && error.response?.status === 409) {
-          setErrorMessage("이미 존재하는 닉네임이에요");
+          setServerErrorMessage("이미 존재하는 닉네임이에요");
         }
       },
     });
@@ -127,11 +127,11 @@ const EditableProfile = ({
                     (2 <= value.length && value.length <= 8) ||
                     "2글자 이상 8글자 이하만 가능해요",
                 ]}
-                checkValid={setIsValidNickname}
+                checkValid={checkIsValidNickname}
               />
               {/** TODO: InputText serverValidation이 동작하면 제거 */}
               <p className="absolute bottom-0 text-red text-xs">
-                {errorMessage}
+                {serverErrorMessage}
               </p>
             </div>
           </div>
