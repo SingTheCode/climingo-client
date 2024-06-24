@@ -34,7 +34,7 @@ export const RecordThumbnailCard = ({
         {/** 썸네일 이미지 */}
         <Image
           src={record.thumbnailUrl}
-          alt="thumbnail"
+          alt={`기록 ${record.recordId}번에 대한 썸네일`}
           sizes="(max-width: 640px) 49vw, 235px"
           fill
         />
