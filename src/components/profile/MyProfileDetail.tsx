@@ -157,10 +157,12 @@ const DetailMemberInfo = ({ oAuth }: { oAuth: OAuthInfo }) => {
 const OAuthEmail = ({ email, provider }: OAuthInfo) => {
   return (
     <div className="flex flex-col gap-[1rem]">
-      <h3>이메일</h3>
+      <h3>연동된 SNS계정</h3>
       <div className="flex items-center gap-[1rem]">
         <OAuthIcon oAuthType={provider} />
-        <p>{email}</p>
+        <p className={`${email ? "text-ink" : "text-shadow-dark"}`}>
+          {email || "이메일 정보가 없어요"}
+        </p>
       </div>
     </div>
   );
