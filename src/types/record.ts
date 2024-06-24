@@ -1,3 +1,5 @@
+import { MemberInfo } from "@/types/user";
+
 export type LevelColor =
   | "red"
   | "orange"
@@ -29,4 +31,11 @@ export interface Level {
   colorNameKo: string;
   colorNameEn: LevelColor;
   colorCode: string;
+}
+
+export interface RecordMetadata {
+  record: Record;
+  gym: Gym;
+  level: Level;
+  memberInfo?: MemberInfo;
 }

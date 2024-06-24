@@ -1,3 +1,6 @@
+import { Pagination } from "@/types/common";
+import { RecordMetadata } from "@/types/record";
+
 export type OAuthProvider = "kakao" | "apple";
 
 export interface MemberInfo {
@@ -27,3 +30,7 @@ export type MyProfileApiResponse = Required<
     "memberId" | "nickname" | "providerType" | "profileUrl" | "email"
   >
 >;
+
+export interface MyRecordListApiResponse extends Pagination {
+  contents: RecordMetadata[];
+}
