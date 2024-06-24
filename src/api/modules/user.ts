@@ -4,6 +4,7 @@ import {
   OAuthProvider,
   MemberInfo,
   MyProfileApiResponse,
+  MyRecordListApiResponse,
 } from "@/types/user";
 import { api } from "@/api/axios";
 
@@ -48,5 +49,14 @@ export const editNicknameApi = async (memberId: number, data: string) => {
   const res = await api.patch(`/members/${memberId}/nickname`, {
     nickname: data,
   });
+  return res.data;
+};
+
+// 내 프로필 기록 페이징 조회
+export const getMyRecordListApi = async (params: {
+  page?: number;
+  size?: number;
+}) => {
+  const res = await api.get<MyRecordListApiResponse>("/myRecords", { params });
   return res.data;
 };
