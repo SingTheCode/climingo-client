@@ -49,15 +49,15 @@ const EditableProfile = ({
 }: EditableProfileProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(nickname);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
 
   const isValidNickname = useRef(false);
 
   const { mutate: editNickname } = useEditNicknameQuery(memberId);
 
-  const setIsValidNickname = (valid: boolean) => {
+  const checkIsValidNickname = (valid: boolean) => {
     isValidNickname.current = valid;
-    setErrorMessage("");
+    setServerErrorMessage("");
   };
 
   const handleNicknameEdit = () => {
@@ -77,7 +77,7 @@ const EditableProfile = ({
       },
       onError: (error) => {
         if (isAxiosError(error) && error.response?.status === 409) {
-          setErrorMessage("이미 존재하는 닉네임이에요");
+          setServerErrorMessage("이미 존재하는 닉네임이에요");
         }
       },
     });
@@ -126,11 +126,11 @@ const EditableProfile = ({
                     (2 <= value.length && value.length <= 8) ||
                     "2글자 이상 8글자 이하만 가능해요",
                 ]}
-                checkValid={setIsValidNickname}
+                checkValid={checkIsValidNickname}
               />
               {/** TODO: InputText serverValidation이 동작하면 제거 */}
               <p className="absolute bottom-0 text-red text-xs">
-                {errorMessage}
+                {serverErrorMessage}
               </p>
             </div>
           </div>
@@ -156,10 +156,12 @@ const DetailMemberInfo = ({ oAuth }: { oAuth: OAuthInfo }) => {
 const OAuthEmail = ({ email, provider }: OAuthInfo) => {
   return (
     <div className="flex flex-col gap-[1rem]">
-      <h3>이메일</h3>
+      <h3>SNS계정</h3>
       <div className="flex items-center gap-[1rem]">
         <OAuthIcon oAuthType={provider} />
-        <p>{email}</p>
+        <p className={`${email ? "text-ink" : "text-shadow-dark"}`}>
+          {email || "등록된 이메일이 없어요"}
+        </p>
       </div>
     </div>
   );

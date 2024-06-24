@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { loginCheck } from "@/utils/common";
+import { useDidMountEffect } from "@/hooks/common";
 
 import Loading from "@/components/common/Loading";
 
 const AuthRequired = ({ children }: { children?: React.ReactNode }) => {
   const [isAuthed, setIsAuted] = useState(false);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     setIsAuted(loginCheck());
   }, []);
 
