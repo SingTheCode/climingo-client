@@ -3,6 +3,7 @@ import {
   OAuthApiResponse,
   OAuthProvider,
   MemberInfo,
+  MyProfileApiResponse,
 } from "@/types/user";
 import { api } from "@/api/axios";
 
@@ -33,5 +34,19 @@ export const signUpApi = async (params: MemberInfo) => {
   if (res.status !== 200) {
     throw new Error();
   }
+  return res.data;
+};
+
+// 내 프로필 정보 조회
+export const getMyProfileApi = async () => {
+  const res = await api.get<MyProfileApiResponse>("/members");
+  return res.data;
+};
+
+// 내 프로필 닉네임 수정
+export const editNicknameApi = async (memberId: number, data: string) => {
+  const res = await api.patch(`/members/${memberId}/nickname`, {
+    nickname: data,
+  });
   return res.data;
 };

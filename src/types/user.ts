@@ -3,7 +3,7 @@ export type OAuthProvider = "kakao" | "apple";
 export interface MemberInfo {
   nickname: string;
   profileUrl: string;
-  memberId?: string;
+  memberId?: number;
   authId?: string;
   email?: string;
   providerType?: OAuthProvider;
@@ -20,3 +20,10 @@ export interface OAuthApiResponse {
   registered: boolean;
   memberInfo: MemberInfo & { providerToken: string };
 }
+
+export type MyProfileApiResponse = Required<
+  Pick<
+    MemberInfo,
+    "memberId" | "nickname" | "providerType" | "profileUrl" | "email"
+  >
+>;
