@@ -90,6 +90,10 @@ const config: Config = {
       "white-top":
         "0px -25px 25px rgba(255, 255, 255, 0.4), 0px -10px 10px rgba(255, 255, 255, 0.9)",
     },
+    backgroundImage: {
+      "card-gradient":
+        "linear-gradient(360deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 16%, rgba(255, 255, 255, 0) 31.5%)",
+    },
   },
   variants: {
     extend: {

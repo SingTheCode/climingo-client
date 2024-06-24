@@ -20,6 +20,9 @@ export const loginCheck = () => {
     sessionStorage.removeItem("memberInfo");
     location.href = "/signIn";
     return false;
+  } else if (location.pathname !== "/") {
+    location.href = "/";
   }
+
   return false;
 };

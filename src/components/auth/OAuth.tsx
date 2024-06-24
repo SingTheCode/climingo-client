@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { OAuthApiRequest } from "@/types/user";
 import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
+import { useDidMountEffect } from "@/hooks/common";
 
 export default function OAuth() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function OAuth() {
 
   const { setUser } = useUserActions();
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     const fetch = async () => {
       const params: OAuthApiRequest = {
         providerType: "kakao",
