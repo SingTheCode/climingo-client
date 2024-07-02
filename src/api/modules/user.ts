@@ -43,3 +43,11 @@ export const signOutApi = async () => {
   }
   return true;
 };
+
+export const deleteAccountApi = async () => {
+  const res = await api.delete(`/delete-member`);
+  if (res.status !== 200) {
+    throw new Error();
+  }
+  return true;
+};
