@@ -93,8 +93,8 @@ const EditableProfile = ({
           <Image
             src="/icons/icon-edit.svg"
             alt="profile-edit"
-            width={24}
-            height={23}
+            width="24"
+            height="23"
           />
         </button>
       </div>
@@ -177,8 +177,8 @@ const OAuthIcon = ({ oAuthType }: { oAuthType: OAuthProvider }) => {
     >
       <Image
         src={src}
-        width={25}
-        height={35}
+        width="25"
+        height="35"
         className="w-[2.5rem] h-auto rounded-full object-contain"
         alt="oauth-icon"
       />
