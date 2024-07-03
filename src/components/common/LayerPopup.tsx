@@ -83,7 +83,7 @@ const LayerPopupHeader = ({
   return (
     <div className="flex items-center justify-end px-8 min-h-[2.4rem]">
       {title && (
-        <DialogTitle className="absolute left-1/2 -translate-x-1/2 text-center text-base font-medium leading-6 max-w-[80%] truncate">
+        <DialogTitle className="absolute left-1/2 -translate-x-1/2 text-center text-base font-medium leading-6 w-[60%] line-clamp-2 break-keep">
           {title}
         </DialogTitle>
       )}

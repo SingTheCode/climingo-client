@@ -29,7 +29,7 @@ const NavigationHeader = ({
       </div>
 
       {/** center */}
-      <h2 className="absolute left-1/2 -translate-x-1/2 text-center text-base font-medium self-center px-[2rem] flex-shrink-0 max-w-[80%] truncate">
+      <h2 className="absolute left-1/2 -translate-x-1/2 text-center text-base font-medium self-center px-[2rem] flex-shrink-0 w-[60%] line-clamp-2 break-keep">
         {pageTitle}
       </h2>
 
