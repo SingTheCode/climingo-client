@@ -34,7 +34,7 @@ export const RecordThumbnailCard = ({
         {/** 썸네일 이미지 */}
         <Image
           src={record.thumbnailUrl}
-          alt="thumbnail"
+          alt={`기록 ${record.recordId}번에 대한 썸네일`}
           sizes="(max-width: 640px) 49vw, 235px"
           fill
         />
@@ -74,6 +74,20 @@ export const RecordThumbnailCard = ({
 };
 
 export default RecordThumbnailCard;
+
+export const EmptyRecordThumbnailList = () => {
+  return (
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 flex flex-col justify-center items-center">
+      <Image
+        src="/icons/icon-warning.svg"
+        alt="기록이 없어요"
+        width="22"
+        height="22"
+      />
+      <p className="pt-[1rem] text-sm">아직 기록이 없어요</p>
+    </div>
+  );
+};
 
 export const RecordThumbnailCardSkeleton = () => (
   <li className="min-w-[17rem] h-auto aspect-[17/28] rounded-[1rem] overflow-hidden bg-shadow animate-pulse"></li>

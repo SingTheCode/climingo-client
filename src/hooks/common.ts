@@ -30,3 +30,14 @@ export const useDidMountEffect = (
     didMount.current = true;
   }, deps);
 };
+
+export const useRunOnce = (callback: () => void) => {
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    if (!triggered.current) {
+      callback();
+      triggered.current = true;
+    }
+  }, [callback]);
+};

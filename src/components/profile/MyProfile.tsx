@@ -12,6 +12,7 @@ import Avatar from "@/components/common/Avatar";
 import RecordThumbnailCard, {
   RecordThumbnailList,
   RecordThumbnailCardSkeleton,
+  EmptyRecordThumbnailList,
 } from "@/components/record/RecordThumbnailCard";
 
 const MyProfile = () => {
@@ -61,7 +62,7 @@ const MyShortProfile = () => {
 
 const MyRecordList = () => {
   const { ref, inView } = useInView();
-  const { data, isSuccess, isFetching, fetchNextPage } =
+  const { data, isSuccess, isFetching, isFetchingNextPage, fetchNextPage } =
     useGetMyRecordListQuery();
 
   useEffect(() => {
@@ -69,6 +70,10 @@ const MyRecordList = () => {
       fetchNextPage();
     }
   }, [fetchNextPage, inView]);
+
+  if (isSuccess && data.pages[0].totalCount === 0) {
+    return <EmptyRecordThumbnailList />;
+  }
 
   return (
     <RecordThumbnailList>
@@ -86,7 +91,7 @@ const MyRecordList = () => {
         ))}
 
       {/** Skeleton */}
-      {isFetching && (
+      {!isFetching && isFetchingNextPage && (
         <>
           <RecordThumbnailCardSkeleton />
           <RecordThumbnailCardSkeleton />
