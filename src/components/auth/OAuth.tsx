@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { OAuthApiRequest } from "@/types/user";
 import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
-import { useDidMountEffect } from "@/hooks/common";
+import { useRunOnce } from "@/hooks/common";
 
 export default function OAuth() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function OAuth() {
 
   const { setUser } = useUserActions();
 
-  useDidMountEffect(() => {
+  useRunOnce(() => {
     const fetch = async () => {
       const params: OAuthApiRequest = {
         providerType: "kakao",
@@ -45,8 +45,9 @@ export default function OAuth() {
         }
       }
     };
+
     fetch();
-  }, [code, router, setUser]);
+  });
 
   return <div></div>;
 }
