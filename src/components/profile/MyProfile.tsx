@@ -3,8 +3,8 @@
 import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useInView } from "react-intersection-observer";
 
+import useInView from "@/hooks/useInView";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
 import useGetMyRecordListQuery from "@/hooks/profile/useGetMyRecordListQuery";
 
