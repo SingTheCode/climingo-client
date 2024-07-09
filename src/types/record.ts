@@ -1,3 +1,4 @@
+import { Pagination } from "@/types/common";
 import { MemberInfo } from "@/types/user";
 
 export type LevelColor =
@@ -38,4 +39,8 @@ export interface RecordMetadata {
   gym: Gym;
   level: Level;
   memberInfo?: MemberInfo;
+}
+
+export interface RecordListApiResponse extends Pagination {
+  contents: RecordMetadata[];
 }

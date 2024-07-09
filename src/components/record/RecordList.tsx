@@ -1,23 +1,29 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { getRecordListApi } from "@/api/modules/record";
-import { MemberInfo } from "@/types/user";
-import { Gym, Level, Record } from "@/types/record";
 import { loginCheck } from "@/utils/common";
+import useGetRecordListQuery from "@/hooks/record/useRecordListQuery";
+import useInView from "@/hooks/useInView";
 
 import Layout from "@/components/common/Layout";
-import RecordItem from "@/components/record/RecordItem";
 import FilterSection from "@/components/record/FilterSection";
 import FloatingButton from "@/components/common/FloatingButton";
+import RecordItem, {
+  RecordItemContainer,
+  EmptyRecordItem,
+} from "@/components/record/RecordItem";
+
+interface RecordFilter {
+  gym: { id: number; name: string };
+  level: { id: number; name: string };
+}
 
 export default function RecordList() {
-  const observedRef = useRef<HTMLDivElement>(null);
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<RecordFilter>({
     gym: {
       id: 0,
       name: "",
@@ -27,75 +33,12 @@ export default function RecordList() {
       name: "",
     },
   });
-  const [recordList, setRecordList] = useState<
-    {
-      memberInfo: MemberInfo;
-      record: Record;
-      gym: Gym;
-      level: Level;
-    }[]
-  >([]);
-  const page = useRef(0);
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          getRecordList();
-        }
-      });
-    },
-    { threshold: 0 }
-  );
-
-  const getRecordList = async () => {
-    const data = await getRecordListApi({
-      gymId: filter.gym.id,
-      levelId: filter.level.id,
-      page: page.current,
-    });
-
-    if (page.current === 0) {
-      setRecordList(data.contents);
-      page.current = data.page + 1;
-      return;
-    }
-
-    if (data.isEnd) {
-      observer.disconnect();
-      return;
-    }
-
-    setRecordList((prev) => [...prev, ...data.contents]);
-    page.current = data.page + 1;
-  };
-
-  useEffect(() => {
-    if (observedRef.current) {
-      observer.observe(observedRef.current);
-    }
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    page.current = 0;
-    setRecordList([]);
-    if (observedRef.current) {
-      observer.observe(observedRef.current);
-    }
-    return () => {
-      observer.disconnect();
-    };
-  }, [filter]);
 
   return (
     <Layout containHeader>
       <HomeHeader />
       <FilterSection filter={filter} setFilter={setFilter} />
-      <RecordListSection recordList={recordList} />
-      <div className="h-[1rem]" ref={observedRef} />
+      <RecordListSection filter={filter} />
       <Link href={"/record/create"}>
         <FloatingButton />
       </Link>
@@ -103,42 +46,41 @@ export default function RecordList() {
   );
 }
 
-const RecordListSection = ({
-  recordList,
-}: {
-  recordList: {
-    memberInfo: MemberInfo;
-    record: Record;
-    gym: Gym;
-    level: Level;
-  }[];
-}) => {
+const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
+  const { ref, inView } = useInView();
+  const { data, isSuccess, fetchNextPage } = useGetRecordListQuery({
+    levelId: filter.level.id,
+    gymId: filter.gym.id,
+  });
+
+  const recordList = data?.pages.flatMap(({ contents }) => contents);
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
+
+  if (isSuccess && data.pages[0].totalCount === 0) {
+    return <EmptyRecordItem />;
+  }
+
   return (
-    <section
-      className={`w-full ${recordList.length > 0 ? "grid grid-cols-2" : "flex justify-center items-center h-[70vh]"} gap-5 pt-[1.6rem]`}
-    >
-      {recordList.length > 0 ? (
-        recordList.map((item, idx) => (
-          <RecordItem
-            key={item.record.recordId}
-            memberInfo={item.memberInfo}
-            record={item.record}
-            gym={item.gym}
-            level={item.level}
-            idx={idx}
-          />
-        ))
-      ) : (
-        <div className="flex flex-col justify-center items-center">
-          <Image
-            src="/icons/icon-warning.svg"
-            alt="기록이 없어요"
-            width="22"
-            height="22"
-          />
-          <span className="pt-[1rem] text-sm">아직 기록이 없어요</span>
-        </div>
+    <section className="w-full pt-[1.6rem]">
+      {isSuccess && recordList && (
+        <RecordItemContainer>
+          {recordList.map((item) => (
+            <RecordItem
+              key={item.record.recordId}
+              memberInfo={item.memberInfo}
+              record={item.record}
+              gym={item.gym}
+              level={item.level}
+            />
+          ))}
+        </RecordItemContainer>
       )}
+      <div className="h-[1rem]" ref={ref} />
     </section>
   );
 };

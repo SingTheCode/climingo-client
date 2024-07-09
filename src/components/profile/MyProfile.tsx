@@ -3,17 +3,17 @@
 import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useInView } from "react-intersection-observer";
 
+import useInView from "@/hooks/useInView";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
 import useGetMyRecordListQuery from "@/hooks/profile/useGetMyRecordListQuery";
 
 import Avatar from "@/components/common/Avatar";
-import RecordThumbnailCard, {
-  RecordThumbnailList,
-  RecordThumbnailCardSkeleton,
-  EmptyRecordThumbnailList,
-} from "@/components/record/RecordThumbnailCard";
+import RecordItem, {
+  RecordItemContainer,
+  RecordItemSkeleton,
+  EmptyRecordItem,
+} from "@/components/record/RecordItem";
 
 const MyProfile = () => {
   return (
@@ -72,16 +72,16 @@ const MyRecordList = () => {
   }, [fetchNextPage, inView]);
 
   if (isSuccess && data.pages[0].totalCount === 0) {
-    return <EmptyRecordThumbnailList />;
+    return <EmptyRecordItem />;
   }
 
   return (
-    <RecordThumbnailList>
+    <RecordItemContainer>
       {isSuccess &&
         data.pages.map(({ page, contents }) => (
           <Fragment key={page}>
             {contents.map((metadata) => (
-              <RecordThumbnailCard
+              <RecordItem
                 key={metadata.record.recordId}
                 showMemberInfo={false}
                 {...metadata}
@@ -93,12 +93,12 @@ const MyRecordList = () => {
       {/** Skeleton */}
       {!isFetching && isFetchingNextPage && (
         <>
-          <RecordThumbnailCardSkeleton />
-          <RecordThumbnailCardSkeleton />
+          <RecordItemSkeleton />
+          <RecordItemSkeleton />
         </>
       )}
 
       <div ref={ref} />
-    </RecordThumbnailList>
+    </RecordItemContainer>
   );
 };
