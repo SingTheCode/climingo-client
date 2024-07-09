@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { loginCheck } from "@/utils/common";
-import useGetRecordListQuery from "@/hooks/useRecordListQuery";
+import useGetRecordListQuery from "@/hooks/record/useRecordListQuery";
 import useInView from "@/hooks/useInView";
 
 import Layout from "@/components/common/Layout";
