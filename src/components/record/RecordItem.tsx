@@ -1,57 +1,97 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Gym, Level, Record } from "@/types/record";
-import { MemberInfo } from "@/types/user";
+import type { RecordMetadata } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
 
 import LevelIcon from "@/components/common/LevelIcon";
 import Avatar from "@/components/common/Avatar";
+
+export const RecordItemContainer = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
+  return (
+    <ul className="grid grid-cols-2 w-full gap-[1rem] sm:max-w-[48rem] mx-auto">
+      {children}
+    </ul>
+  );
+};
 
 export default function RecordItem({
   memberInfo,
   record,
   gym,
   level,
-  idx,
-}: {
-  memberInfo: MemberInfo;
-  record: Record;
-  gym: Gym;
-  level: Level;
-  idx: number;
+  showMemberInfo = true,
+}: RecordMetadata & {
+  showMemberInfo?: boolean;
 }) {
+  const shouldRenderMemberInfo = memberInfo && showMemberInfo;
+
   return (
-    <Link className="flex justify-center" href={`/record/${record.recordId}`}>
-      <div
-        className={`w-full h-full min-w-[14rem] max-w-[20rem] relative ${
-          idx % 2 === 0 ? "col-start-1" : "col-start-3"
-        } col-span-2 rounded-xl`}
+    <li className="relative w-full h-auto aspect-[17/28] bg-white rounded-[1rem] overflow-hidden">
+      <Link
+        href={`/record/${record.recordId}`}
+        className="absolute w-full h-full"
       >
-        <div className="absolute top-0 left-0 flex items-center px-[1rem] py-[1rem] bg-black text-white text-2xs rounded-tl-3xl rounded-br-3xl">
-          <span className="pr-[0.4rem]">{gym.gymName}</span>
+        {/** 썸네일 이미지 */}
+        <Image
+          src={record.thumbnailUrl}
+          alt={`기록 ${record.recordId}번에 대한 썸네일`}
+          sizes="(max-width: 640px) 49vw, 235px"
+          fill
+        />
+
+        {/** 배경 그라데이션 */}
+        <span className="bg-card-gradient w-full h-full absolute"></span>
+
+        {/** 암장 난이도 라벨 */}
+        <div className="absolute h-[2.6rem] bg-black rounded-br-[1rem] px-[1rem] flex items-center gap-[0.5rem]">
+          <span className="text-white font-semibold text-[1.1rem] truncate">
+            {gym.gymName}
+          </span>
           <LevelIcon color={level.colorNameEn} />
         </div>
-        <Image
-          className="rounded-3xl"
-          priority
-          width="200"
-          height="400"
-          src={record.thumbnailUrl}
-          alt="클라이밍 기록 썸네일"
-        />
-        <div className="w-full absolute bottom-[1rem] flex justify-between items-center px-[1rem]">
-          <div className="flex items-center">
-            <Avatar size="xs" src={memberInfo.profileUrl} alt="프로필이미지" />
-            <span className="w-[6rem] pl-[0.4rem] text-white text-2xs truncate">
-              {memberInfo.nickname}
-            </span>
-          </div>
-          <span className="text-white text-2xs">
+
+        {/** 기록 작성자, 작성일 정보 */}
+        <div
+          className={`absolute bottom-0 p-[1rem] flex items-center gap-[0.7rem] justify-between w-full ${
+            shouldRenderMemberInfo ? "flex-row" : "flex-row-reverse"
+          }`}
+        >
+          {shouldRenderMemberInfo && (
+            <>
+              <Avatar src={memberInfo.profileUrl} size="xs" alt="profile" />
+              <span className="text-white text-xs flex-grow truncate">
+                {memberInfo.nickname}
+              </span>
+            </>
+          )}
+          <span className="text-shadow-lighter text-xs shrink-0 justify-self-end">
             {fromNowFormat(record.createTime)}
           </span>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </li>
   );
 }
+
+export const RecordItemSkeleton = () => (
+  <li className="min-w-[17rem] h-auto aspect-[17/28] rounded-[1rem] overflow-hidden bg-shadow animate-pulse"></li>
+);
+
+export const EmptyRecordItem = () => {
+  return (
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 flex flex-col justify-center items-center">
+      <Image
+        src="/icons/icon-warning.svg"
+        alt="기록이 없어요"
+        width="22"
+        height="22"
+      />
+      <p className="pt-[1rem] text-sm">아직 기록이 없어요</p>
+    </div>
+  );
+};
