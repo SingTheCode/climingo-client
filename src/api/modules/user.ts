@@ -4,8 +4,8 @@ import {
   OAuthProvider,
   MemberInfo,
   MyProfileApiResponse,
-  MyRecordListApiResponse,
 } from "@/types/user";
+import { RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 
 // 회원가입 여부 및 사용자 정보 조회
@@ -57,6 +57,6 @@ export const getMyRecordListApi = async (params: {
   page?: number;
   size?: number;
 }) => {
-  const res = await api.get<MyRecordListApiResponse>("/myRecords", { params });
+  const res = await api.get<RecordListApiResponse>("/myRecords", { params });
   return res.data;
 };
