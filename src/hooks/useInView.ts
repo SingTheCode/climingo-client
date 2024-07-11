@@ -22,7 +22,7 @@ const useInView = ({
   initialInView,
   onChange,
 }: InVeiwOptions = {}) => {
-  const [element, setElement] = useState<Element | null>(null);
+  const [element, setElement] = useState<Element>();
   const callback = useRef<InVeiwOptions["onChange"]>();
 
   const [state, setState] = useState<InViewState>({
