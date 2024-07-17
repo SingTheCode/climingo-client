@@ -1,3 +1,6 @@
+import { Pagination } from "@/types/common";
+import { MemberInfo } from "@/types/user";
+
 export type LevelColor =
   | "red"
   | "orange"
@@ -29,4 +32,15 @@ export interface Level {
   colorNameKo: string;
   colorNameEn: LevelColor;
   colorCode: string;
+}
+
+export interface RecordMetadata {
+  record: Record;
+  gym: Gym;
+  level: Level;
+  memberInfo?: MemberInfo;
+}
+
+export interface RecordListApiResponse extends Pagination {
+  contents: RecordMetadata[];
 }
