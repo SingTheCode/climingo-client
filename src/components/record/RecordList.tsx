@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { loginCheck } from "@/utils/common";
 import useGetRecordListQuery from "@/hooks/record/useRecordListQuery";
-import useInView from "@/hooks/useInView";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 import Layout from "@/components/common/Layout";
 import FilterSection from "@/components/record/FilterSection";
@@ -47,7 +47,7 @@ export default function RecordList() {
 }
 
 const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
-  const { ref, inView } = useInView();
+  const { ref, inView } = useIntersectionObserver();
   const { data, isSuccess, fetchNextPage } = useGetRecordListQuery({
     levelId: filter.level.id,
     gymId: filter.gym.id,

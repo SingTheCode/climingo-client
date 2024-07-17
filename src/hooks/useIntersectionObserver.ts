@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-import {
-  type ObserverInstanceCallback,
-  createObserver,
-} from "@/utils/observer";
+type ObserverInstanceCallback = (
+  inView: boolean,
+  entry: IntersectionObserverEntry
+) => void;
 
-interface InVeiwOptions extends IntersectionObserverInit {
+interface ObserverOptions extends IntersectionObserverInit {
   initialInView?: boolean;
   onChange?: ObserverInstanceCallback;
 }
@@ -15,15 +15,15 @@ interface InViewState {
   entry?: IntersectionObserverEntry;
 }
 
-const useInView = ({
+const useIntersectionObserver = ({
   root,
   rootMargin,
   threshold,
   initialInView,
   onChange,
-}: InVeiwOptions = {}) => {
-  const [element, setElement] = useState<Element | null>(null);
-  const callback = useRef<InVeiwOptions["onChange"]>();
+}: ObserverOptions = {}) => {
+  const [element, setElement] = useState<Element>();
+  const callback = useRef<ObserverOptions["onChange"]>();
 
   const [state, setState] = useState<InViewState>({
     inView: !!initialInView,
@@ -63,4 +63,30 @@ const useInView = ({
   };
 };
 
-export default useInView;
+export default useIntersectionObserver;
+
+/*
+ * IntersectionObserver 인스턴스를 생성하고, unobserve 함수를 반환합니다.
+ */
+const createObserver = (
+  element: Element,
+  callback: ObserverInstanceCallback,
+  options: IntersectionObserverInit = {}
+) => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const inView = entry.isIntersecting;
+      callback(inView, entry);
+    });
+  }, options);
+
+  observer.observe(element);
+
+  /*
+   * unobserve
+   */
+  return () => {
+    observer.unobserve(element);
+    observer.disconnect();
+  };
+};
