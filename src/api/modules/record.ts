@@ -1,5 +1,5 @@
 import { MemberInfo } from "@/types/user";
-import { Level, Gym, Record } from "@/types/record";
+import { Level, Gym, Record, RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";
 
@@ -55,17 +55,7 @@ export const getRecordListApi = async ({
     ...(page && { page: page.toString() }),
     ...(size && { size: size.toString() }),
   });
-  const res = await api.get<{
-    contents: {
-      memberInfo: MemberInfo;
-      record: Record;
-      gym: Gym;
-      level: Level;
-    }[];
-    page: number;
-    size: number;
-    isEnd: boolean;
-  }>(`/records?${params}`);
+  const res = await api.get<RecordListApiResponse>(`/records?${params}`);
   if (res.status !== 200) {
     throw new Error();
   }

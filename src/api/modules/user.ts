@@ -3,7 +3,9 @@ import {
   OAuthApiResponse,
   OAuthProvider,
   MemberInfo,
+  MyProfileApiResponse,
 } from "@/types/user";
+import { RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 
 // 회원가입 여부 및 사용자 정보 조회
@@ -33,5 +35,44 @@ export const signUpApi = async (params: MemberInfo) => {
   if (res.status !== 200) {
     throw new Error();
   }
+  return res.data;
+};
+
+// 내 프로필 정보 조회
+export const getMyProfileApi = async () => {
+  const res = await api.get<MyProfileApiResponse>("/members");
+  return res.data;
+};
+
+// 내 프로필 닉네임 수정
+export const editNicknameApi = async (memberId: number, data: string) => {
+  const res = await api.patch(`/members/${memberId}/nickname`, {
+    nickname: data,
+  });
+  return res.data;
+}
+
+export const signOutApi = async () => {
+  const res = await api.delete(`/sign-out`);
+  if (res.status !== 200) {
+    throw new Error();
+  }
+  return true;
+};
+
+export const deleteAccountApi = async () => {
+  const res = await api.delete(`/delete-member`);
+  if (res.status !== 200) {
+    throw new Error();
+  }
+  return true;
+};
+
+// 내 프로필 기록 페이징 조회
+export const getMyRecordListApi = async (params: {
+  page?: number;
+  size?: number;
+}) => {
+  const res = await api.get<RecordListApiResponse>("/myRecords", { params });
   return res.data;
 };
