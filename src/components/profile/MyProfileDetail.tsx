@@ -7,6 +7,7 @@ import { isAxiosError } from "axios";
 
 import { MemberInfo, OAuthProvider } from "@/types/user";
 import { deleteAccountApi, signOutApi } from "@/api/modules/user";
+import useAuthSession from "@/hooks/useAuthStorage";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
 import useEditNicknameQuery from "@/hooks/profile/useEditNicknameQuery";
 
@@ -208,17 +209,18 @@ const getOAuthIconProps = (oAuthType: OAuthProvider) => {
 
 const SignOutButton = () => {
   const router = useRouter();
+  const authSession = useAuthSession();
 
   const handleButtonClick = async () => {
     try {
       if (confirm("정말 로그아웃을 진행할까요?")) {
         await signOutApi();
-        sessionStorage.removeItem("memberInfo");
+        authSession.remove();
         router.replace("/");
       }
     } catch {
       console.log("로그아웃에 실패했어요");
-      sessionStorage.removeItem("memberInfo");
+      authSession.remove();
       router.replace("/");
     }
   };
@@ -232,12 +234,13 @@ const SignOutButton = () => {
 
 const DeleteAccountButton = () => {
   const router = useRouter();
+  const authSession = useAuthSession();
 
   const handleButtonClick = async () => {
     try {
       if (confirm("정말 회원탈퇴를 진행할까요?")) {
         await deleteAccountApi();
-        sessionStorage.removeItem("memberInfo");
+        authSession.remove();
         router.replace("/");
       }
     } catch {
