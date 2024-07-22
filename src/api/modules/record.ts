@@ -23,7 +23,7 @@ export const getRecordDetailApi = async ({
 
 // presigned url 조회
 export const getPresignedUrlApi = async (params: {
-  filename: string;
+  fileName: string;
   extension: string;
 }) => {
   const res = await api.post<{ presignedUrl: string; videoUrl: string }>(
