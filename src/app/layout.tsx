@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
@@ -17,6 +17,14 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: "Climingo",
   description: "클라이밍을 재밌게 해봐요!",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: false,
+  maximumScale: 1,
+  minimumScale: 1,
 };
 
 export default function RootLayout({
