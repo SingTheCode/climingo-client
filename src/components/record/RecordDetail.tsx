@@ -86,7 +86,11 @@ const RecordTemplate = ({
           </div>
         </div>
       </div>
-      <video controls className="w-full h-full mt-[1rem] rounded-2xl">
+      <video
+        controls
+        playsInline
+        className="w-full h-full mt-[1rem] rounded-2xl"
+      >
         <source src={record.videoUrl} type="video/mp4" />
         <source src={record.videoUrl} type="video/webm" />
         <source src={record.videoUrl} type="video/ogg" />
