@@ -88,6 +88,7 @@ const RecordTemplate = ({
       </div>
       <video
         controls
+        playsInline
         className="w-full h-full mt-[1rem] rounded-2xl"
         poster={record.thumbnailUrl}
       >
