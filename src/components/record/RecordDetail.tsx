@@ -86,10 +86,14 @@ const RecordTemplate = ({
           </div>
         </div>
       </div>
-      <video controls className="w-full h-full mt-[1rem] rounded-2xl">
-        <source src={record.videoUrl + "#t0.001"} type="video/mp4" />
-        <source src={record.videoUrl + "#t0.001"} type="video/webm" />
-        <source src={record.videoUrl + "#t0.001"} type="video/ogg" />
+      <video
+        controls
+        className="w-full h-full mt-[1rem] rounded-2xl"
+        poster={record.thumbnailUrl}
+      >
+        <source src={record.videoUrl} type="video/mp4" />
+        <source src={record.videoUrl} type="video/webm" />
+        <source src={record.videoUrl} type="video/ogg" />
       </video>
     </div>
   );

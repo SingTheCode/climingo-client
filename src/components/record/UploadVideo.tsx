@@ -68,8 +68,9 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
       >
         {file ? (
           <video
-            src={file + "#t0.001"}
+            src={file}
             className="w-full h-full rounded-[0.8rem]"
+            poster={file}
           />
         ) : (
           <Image
