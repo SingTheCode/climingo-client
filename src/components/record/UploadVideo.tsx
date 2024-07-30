@@ -59,7 +59,11 @@ const VideoUploader = ({ onChange }: { onChange?: (file?: File) => void }) => {
         htmlFor="record-video"
       >
         {file ? (
-          <video src={file} className="w-full h-full rounded-[0.8rem]" />
+          <video
+            src={file}
+            className="w-full h-full rounded-[0.8rem]"
+            poster={file}
+          />
         ) : (
           <Image
             src="/icons/icon-photo.svg"
