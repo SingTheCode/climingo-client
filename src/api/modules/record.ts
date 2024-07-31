@@ -21,15 +21,46 @@ export const getRecordDetailApi = async ({
   return res.data;
 };
 
+// presigned url 조회
+export const getPresignedUrlApi = async (params: {
+  fileName: string;
+  extension: string;
+}) => {
+  const res = await api.post<{ presignedUrl: string; videoUrl: string }>(
+    "/s3/presigned-url",
+    params
+  );
+
+  if (res.status !== 200) {
+    throw new Error();
+  }
+  return res.data;
+};
+
+// s3 업로드
+export const uploadVideoApi = async ({
+  presignedUrl,
+  file,
+}: {
+  presignedUrl: string;
+  file: File;
+}) => {
+  const res = await api.put(presignedUrl, file, {
+    headers: { "Content-Type": file.type },
+  });
+
+  if (res.status !== 200) {
+    throw new Error();
+  }
+};
+
 // 기록 생성
 export const createRecordApi = async (data: {
   gymId: number;
   levelId: number;
-  video: File;
+  videoUrl: string;
 }) => {
-  const res = await api.post<{ recordId: number }>("/records", data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  const res = await api.post<{ recordId: number }>("/records", data);
 
   return res.data;
 };

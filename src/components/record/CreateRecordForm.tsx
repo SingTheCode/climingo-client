@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
-import useCreateRecordMutation from "@/hooks/place/useCreateRecordMutation";
+import {
+  createRecordApi,
+  getPresignedUrlApi,
+  uploadVideoApi,
+} from "@/api/modules/record";
 
 import BottomActionButton from "@/components/common/BottomActionButton";
 import SelectPlaceWithLevel from "@/components/record/SelectPlaceWithLevel";
@@ -17,8 +21,8 @@ type FormValues = {
 
 const CreateRecordForm = () => {
   const router = useRouter();
-  const { mutate: createRecord, isPending } = useCreateRecordMutation();
 
+  const [isPending, setIsPending] = useState(false);
   const [validation, setValidation] = useState({
     level: false,
     video: false,
@@ -26,25 +30,41 @@ const CreateRecordForm = () => {
 
   const isValid = Object.values(validation).every(Boolean);
 
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formElement = event.currentTarget;
     const formData = new FormData(formElement);
-    const data = Object.fromEntries(formData) as FormValues;
+    const formValues = Object.fromEntries(formData) as FormValues;
 
-    if (!data.place || !data.level || !data.video) {
+    if (!formValues.place || !formValues.level || !formValues.video) {
       return;
     }
 
-    createRecord(
-      { gymId: data.place, levelId: data.level, video: data.video },
-      {
-        onSuccess: ({ recordId }) => {
-          router.push(`/record/${recordId}`);
-        },
+    try {
+      setIsPending(true);
+      const { presignedUrl, videoUrl } = await getPresignedUrlApi({
+        fileName: formValues.video.name.split(".")[0],
+        extension: formValues.video.type.split("/")[1],
+      });
+      await uploadVideoApi({
+        presignedUrl,
+        file: formValues.video,
+      });
+      const { recordId } = await createRecordApi({
+        gymId: formValues.place,
+        levelId: formValues.level,
+        videoUrl,
+      });
+
+      setIsPending(false);
+      if (recordId) {
+        router.push(`/record/${recordId}`);
       }
-    );
+    } catch (error) {
+      setIsPending(false);
+      console.error(error);
+    }
   };
 
   return (
