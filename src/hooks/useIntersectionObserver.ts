@@ -4,7 +4,8 @@ type ObserverInstanceCallback = (
   inView: boolean,
   entry: IntersectionObserverEntry
 ) => void;
-interface InVeiwOptions extends IntersectionObserverInit {
+
+interface ObserverOptions extends IntersectionObserverInit {
   initialInView?: boolean;
   onChange?: ObserverInstanceCallback;
 }
@@ -14,15 +15,15 @@ interface InViewState {
   entry?: IntersectionObserverEntry;
 }
 
-const useInView = ({
+const useIntersectionObserver = ({
   root,
   rootMargin,
   threshold,
   initialInView,
   onChange,
-}: InVeiwOptions = {}) => {
+}: ObserverOptions = {}) => {
   const [element, setElement] = useState<Element>();
-  const callback = useRef<InVeiwOptions["onChange"]>();
+  const callback = useRef<ObserverOptions["onChange"]>();
 
   const [state, setState] = useState<InViewState>({
     inView: !!initialInView,
@@ -62,7 +63,7 @@ const useInView = ({
   };
 };
 
-export default useInView;
+export default useIntersectionObserver;
 
 /*
  * IntersectionObserver 인스턴스를 생성하고, unobserve 함수를 반환합니다.

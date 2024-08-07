@@ -1,10 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { isAxiosError } from "axios";
 
 import { MemberInfo, OAuthProvider } from "@/types/user";
+import { deleteAccountApi, signOutApi } from "@/api/modules/user";
+import useAuthSession from "@/hooks/useAuthStorage";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
 import useEditNicknameQuery from "@/hooks/profile/useEditNicknameQuery";
 
@@ -100,8 +103,7 @@ const EditableProfile = ({
       </div>
 
       <LayerPopup open={open} onClose={() => setOpen(false)} fullscreen>
-        <LayerPopup.Header>
-          <LayerPopup.Title>프로필 수정</LayerPopup.Title>
+        <LayerPopup.Header title="프로필 수정">
           <button onClick={handleNicknameEdit}>완료</button>
         </LayerPopup.Header>
         <LayerPopup.Body>
@@ -148,8 +150,12 @@ interface OAuthInfo {
 
 const DetailMemberInfo = ({ oAuth }: { oAuth: OAuthInfo }) => {
   return (
-    <section>
+    <section className="flex flex-col gap-[4rem] items-start">
       <OAuthEmail email={oAuth.email} provider={oAuth.provider} />
+      <div className="flex flex-col gap-[1rem]">
+        <SignOutButton />
+        <DeleteAccountButton />
+      </div>
     </section>
   );
 };
@@ -199,4 +205,52 @@ const getOAuthIconProps = (oAuthType: OAuthProvider) => {
         backgroundClass: "bg-black",
       };
   }
+};
+
+const SignOutButton = () => {
+  const router = useRouter();
+  const authSession = useAuthSession();
+
+  const handleButtonClick = async () => {
+    try {
+      if (confirm("정말 로그아웃을 진행할까요?")) {
+        await signOutApi();
+        authSession.remove();
+        router.replace("/");
+      }
+    } catch {
+      console.log("로그아웃에 실패했어요");
+      authSession.remove();
+      router.replace("/");
+    }
+  };
+
+  return (
+    <button onClick={handleButtonClick}>
+      <p className="text-shadow-dark text-sm">로그아웃하기</p>
+    </button>
+  );
+};
+
+const DeleteAccountButton = () => {
+  const router = useRouter();
+  const authSession = useAuthSession();
+
+  const handleButtonClick = async () => {
+    try {
+      if (confirm("정말 회원탈퇴를 진행할까요?")) {
+        await deleteAccountApi();
+        authSession.remove();
+        router.replace("/");
+      }
+    } catch {
+      alert("회원 탈퇴에 실패했어요. 잠시 후 다시 시도해주세요.");
+    }
+  };
+
+  return (
+    <button onClick={handleButtonClick}>
+      <p className="text-shadow-dark text-sm">회원탈퇴하기</p>
+    </button>
+  );
 };

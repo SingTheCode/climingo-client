@@ -1,4 +1,4 @@
-import React, { Fragment, InputHTMLAttributes, PropsWithChildren } from "react";
+import { Fragment, InputHTMLAttributes, PropsWithChildren } from "react";
 import Image from "next/image";
 import {
   Dialog,
@@ -56,7 +56,7 @@ const LayerPopupRoot = ({
               >
                 <DialogPanel className="pointer-events-auto relative w-screen">
                   <div
-                    className={`flex flex-col overflow-y-scroll bg-[#ffffff] shadow-xl pt-6 ${
+                    className={`w-full flex flex-col overflow-y-scroll bg-white shadow-xl pt-6 ${
                       fullscreen ? "h-full" : "rounded-t-[2rem]"
                     }`}
                   >
@@ -73,29 +73,31 @@ const LayerPopupRoot = ({
   );
 };
 
-const LayerPopupHeader = ({ children }: { children?: React.ReactNode }) => {
+const LayerPopupHeader = ({
+  title,
+  children,
+}: {
+  title?: string;
+  children?: React.ReactNode;
+}) => {
   return (
-    <div className="flex justify-between items-center px-6 sm:px-8 pl-14">
+    <div className="absolute top-0 flex items-center justify-end min-h-[4rem] w-full bg-white z-10">
+      {title && (
+        <DialogTitle className="absolute left-1/2 -translate-x-1/2 text-center text-base font-medium leading-6 w-[60%] line-clamp-2 break-keep pt-6">
+          {title}
+        </DialogTitle>
+      )}
       {children}
     </div>
   );
 };
 
-const LayerPopupTitle = ({ children }: { children?: React.ReactNode }) => {
-  return (
-    <DialogTitle className="text-base font-semibold leading-6 m-auto">
-      {children}
-    </DialogTitle>
-  );
-};
-
 const LayerPopupBody = ({ children }: { children?: React.ReactNode }) => {
-  return <div className="relative mt-6 flex-1 px-6 sm:px-8 ">{children}</div>;
+  return <div className="relative mt-[2rem] flex-1 px-8">{children}</div>;
 };
 
 const LayerPopup = Object.assign(LayerPopupRoot, {
   Header: LayerPopupHeader,
-  Title: LayerPopupTitle,
   Body: LayerPopupBody,
 });
 
@@ -105,7 +107,7 @@ const CloseButton = (props: InputHTMLAttributes<HTMLButtonElement>) => (
   <button
     {...props}
     type="button"
-    className="absolute left-6 sm:left-8 top-5 rounded-md focus:outline-none focus:ring-2 focus:ring-white"
+    className="absolute left-6 top-6 rounded-md focus:outline-none focus:ring-2 focus:ring-white z-20"
   >
     <Image width="24" height="24" src="/icons/icon-close.svg" alt="close" />
   </button>

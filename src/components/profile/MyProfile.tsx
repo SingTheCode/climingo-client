@@ -4,7 +4,7 @@ import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import useInView from "@/hooks/useInView";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
 import useGetMyRecordListQuery from "@/hooks/profile/useGetMyRecordListQuery";
 
@@ -61,7 +61,7 @@ const MyShortProfile = () => {
 };
 
 const MyRecordList = () => {
-  const { ref, inView } = useInView();
+  const { ref, inView } = useIntersectionObserver();
   const { data, isSuccess, isFetching, isFetchingNextPage, fetchNextPage } =
     useGetMyRecordListQuery();
 

@@ -6,12 +6,14 @@ import { OAuthApiRequest } from "@/types/user";
 import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 import { useRunOnce } from "@/hooks/common";
+import useAuthSession from "@/hooks/useAuthStorage";
 
 export default function OAuth() {
   const router = useRouter();
   const code = useSearchParams().get("code") || "";
 
   const { setUser } = useUserActions();
+  const authSession = useAuthSession();
 
   useRunOnce(() => {
     const fetch = async () => {
@@ -30,7 +32,8 @@ export default function OAuth() {
           });
 
           setUser(data);
-          sessionStorage.setItem("memberInfo", JSON.stringify(data));
+          authSession.set(data);
+
           router.push("/");
           return;
         }

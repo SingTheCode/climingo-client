@@ -1,12 +1,15 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
-import "@/utils/common";
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
+import useDeleteRecordMutation from "@/hooks/record/useDeleteRecordMutation";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
+import { useUserValue } from "@/store/user";
 
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
@@ -15,14 +18,27 @@ import Loading from "@/components/common/Loading";
 import NavigationHeader from "@/components/common/NavigationHeader";
 
 export default function RecordDetail() {
-  const { recordId } = useParams();
-  const { data, isSuccess } = useGetRecordDetailQuery({
-    recordId: recordId as string,
-  });
+  const params = useParams();
+  const recordId = params?.recordId as string;
+
+  const currentUser = useUserValue();
+
+  const { data, isSuccess } = useGetRecordDetailQuery({ recordId });
+
+  const isMyRecord = !!(
+    currentUser &&
+    currentUser.memberId &&
+    currentUser.memberId === data?.memberInfo.memberId
+  );
 
   return (
     <Layout containHeader>
-      <NavigationHeader />
+      <NavigationHeader
+        rightElement={
+          <RecordActionMenu recordId={recordId} isMyRecord={isMyRecord} />
+        }
+      />
+
       {isSuccess && data ? (
         <div className="w-full h-[80%] flex flex-col">
           <UserTemplate
@@ -43,6 +59,69 @@ export default function RecordDetail() {
     </Layout>
   );
 }
+
+const RecordActionMenu = ({
+  recordId,
+  isMyRecord,
+}: {
+  recordId: string;
+  isMyRecord: boolean;
+}) => {
+  const router = useRouter();
+  const { mutate: deleteRecord } = useDeleteRecordMutation();
+
+  const handleButtonClick = async () => {
+    if (confirm("정말 기록을 삭제할까요?")) {
+      deleteRecord(recordId, {
+        onSuccess: () => {
+          router.back();
+        },
+      });
+    }
+  };
+
+  return (
+    <>
+      {isMyRecord && (
+        <Menu>
+          {({ open }) => (
+            <>
+              {/* * Backdrop 영역 */}
+              {open && <div className="bg-shadow-darkest/60 fixed inset-0" />}
+
+              <MenuButton>
+                <Image
+                  src="/icons/icon-hamburger.svg"
+                  alt="메뉴버튼"
+                  width="24"
+                  height="24"
+                />
+              </MenuButton>
+
+              <MenuItems
+                anchor={{
+                  to: "bottom end",
+                  padding: "1.5rem",
+                  gap: "0.5rem",
+                }}
+                className="flex flex-col gap-[0.5rem] min-w-[10rem] z-[350] rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
+              >
+                <MenuItem>
+                  <button
+                    className="block w-full text-left rounded-lg py-[0.4rem] px-[0.8rem] data-[focus]:bg-shadow-darkest/10"
+                    onClick={handleButtonClick}
+                  >
+                    삭제하기
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </>
+          )}
+        </Menu>
+      )}
+    </>
+  );
+};
 
 const UserTemplate = ({
   memberInfo,
@@ -86,7 +165,12 @@ const RecordTemplate = ({
           </div>
         </div>
       </div>
-      <video controls className="w-full h-full mt-[1rem] rounded-2xl">
+      <video
+        controls
+        playsInline
+        poster={record.thumbnailUrl}
+        className="w-full h-full mt-[1rem] rounded-2xl"
+      >
         <source src={record.videoUrl} type="video/mp4" />
         <source src={record.videoUrl} type="video/webm" />
         <source src={record.videoUrl} type="video/ogg" />

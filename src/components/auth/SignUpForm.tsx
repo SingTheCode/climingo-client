@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { signUpApi } from "@/api/modules/user";
 import { useUserActions, useUserValue } from "@/store/user";
+import useAuthSession from "@/hooks/useAuthStorage";
 
 import InputText from "@/components/common/InputText";
 import BottomActionButton from "@/components/common/BottomActionButton";
@@ -14,12 +15,16 @@ export default function SignUpForm() {
 
   const user = useUserValue();
   const { setUser } = useUserActions();
+
+  const authSession = useAuthSession();
+
   const [nickname, setNickname] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const checkValid = (isValid: boolean) => {
     setIsValid(isValid);
   };
+
   const signUp = async () => {
     if (!isValid) {
       alert("닉네임이 유효하지 않습니다. 다시 입력해주세요.");
@@ -31,7 +36,7 @@ export default function SignUpForm() {
       if (user) {
         const data = await signUpApi({ ...user, nickname });
         setUser(data);
-        sessionStorage.setItem("memberInfo", JSON.stringify(data));
+        authSession.set(data);
         router.replace("/");
       }
     } catch {
