@@ -23,6 +23,7 @@ interface RecordFilter {
 }
 
 export default function RecordList() {
+  const router = useRouter();
   const [filter, setFilter] = useState<RecordFilter>({
     gym: {
       id: 0,
@@ -34,14 +35,18 @@ export default function RecordList() {
     },
   });
 
+  const goToCreate = () => {
+    if (loginCheck()) {
+      router.push("/record/create");
+    }
+  };
+
   return (
     <Layout containHeader>
       <HomeHeader />
       <FilterSection filter={filter} setFilter={setFilter} />
       <RecordListSection filter={filter} />
-      <Link href={"/record/create"}>
-        <FloatingButton />
-      </Link>
+      <FloatingButton onClick={goToCreate} />
     </Layout>
   );
 }
