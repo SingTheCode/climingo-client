@@ -11,3 +11,12 @@ body {
   height: 100vh;
   @apply text-base text-ink bg-white;
 }
+
+* {
+    /*버튼 터치 시 나오는 음영 삭제*/
+    -webkit-tap-highlight-color:rgba(255,255,255,0);
+    /*link long touch 막기*/
+    -webkit-touch-callout: none;
+    /*test select 막기*/
+    user-select: none;
+}

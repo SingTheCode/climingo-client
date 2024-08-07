@@ -27,7 +27,7 @@ export default function Place({
   }, [debouncedText]);
 
   return (
-    <div className="w-full">
+    <div className="w-full pt-[2rem]">
       <InputText type="search" value={text} setText={setText} />
 
       {/*검색 결과 목록*/}

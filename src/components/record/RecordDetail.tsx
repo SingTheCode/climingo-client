@@ -89,6 +89,7 @@ const RecordTemplate = ({
       <video
         controls
         playsInline
+        poster={record.thumbnailUrl}
         className="w-full h-full mt-[1rem] rounded-2xl"
       >
         <source src={record.videoUrl} type="video/mp4" />
