@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
-import { MemberInfo } from "@/types/user";
+import type { MemberInfo } from "@/types/user";
 
 const UserValueContext = createContext<MemberInfo | null>(null);
 const UserActionsContext = createContext<{ setUser(info: MemberInfo): void }>({
@@ -10,7 +10,17 @@ const UserActionsContext = createContext<{ setUser(info: MemberInfo): void }>({
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUserInfo] = useState<MemberInfo | null>(null);
+  const [user, setUserInfo] = useState<MemberInfo | null>(() => {
+    try {
+      // TODO: useAuthSession hook 사용하도록 수정
+      return JSON.parse(
+        sessionStorage.getItem("memberInfo") || ""
+      ) as MemberInfo;
+    } catch {
+      return null;
+    }
+  });
+
   const actions = useMemo(
     () => ({
       setUser(info: MemberInfo) {
@@ -36,6 +46,7 @@ export function useUserValue() {
   }
   return value;
 }
+
 export function useUserActions() {
   const value = useContext(UserActionsContext);
   if (value === undefined) {
