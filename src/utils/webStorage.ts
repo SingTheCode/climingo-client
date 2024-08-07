@@ -1,9 +1,9 @@
 import { MEMBER_INFO_STORAGE_KEY } from "@/constants/key";
 
-export const webStorage = (key: string) => ({
-  get: () => sessionStorage.getItem(key),
-  set: (data: string) => sessionStorage.setItem(key, data),
-  remove: () => sessionStorage.removeItem(key),
-});
+const authStorageKey = MEMBER_INFO_STORAGE_KEY;
 
-export const authStorage = webStorage(MEMBER_INFO_STORAGE_KEY);
+export const authStorage = {
+  get: () => sessionStorage.getItem(authStorageKey),
+  set: (data: string) => sessionStorage.setItem(authStorageKey, data),
+  remove: () => sessionStorage.removeItem(authStorageKey),
+};

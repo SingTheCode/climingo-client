@@ -52,8 +52,8 @@ const CreateRecordForm = () => {
         file: formValues.video,
       });
       const { recordId } = await createRecordApi({
-        gymId: formValues.place,
-        levelId: formValues.level,
+        gymId: Number(formValues.place),
+        levelId: Number(formValues.level),
         videoUrl,
       });
 
