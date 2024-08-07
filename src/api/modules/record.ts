@@ -1,3 +1,4 @@
+import axios from "axios";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record, RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
@@ -45,7 +46,7 @@ export const uploadVideoApi = async ({
   presignedUrl: string;
   file: File;
 }) => {
-  const res = await api.put(presignedUrl, file, {
+  const res = await axios.put(presignedUrl, file, {
     headers: { "Content-Type": file.type },
   });
 
