@@ -34,6 +34,12 @@ export const createRecordApi = async (data: {
   return res.data;
 };
 
+// 기록 삭제
+export const deleteRecordApi = async (id: string) => {
+  const res = await api.delete<{ recordId: number }>(`/records/${id}`);
+  return res.data;
+};
+
 // 기록 목록 조회
 export const getRecordListApi = async ({
   gymId,
