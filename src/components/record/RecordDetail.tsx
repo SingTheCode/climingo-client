@@ -31,6 +31,8 @@ export default function RecordDetail() {
     currentUser.memberId === data?.memberInfo.memberId
   );
 
+  alert(location.href);
+
   return (
     <Layout containHeader>
       <NavigationHeader
