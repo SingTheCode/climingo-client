@@ -21,25 +21,20 @@ export default function RecordDetail() {
   const params = useParams();
   const recordId = params?.recordId as string;
 
-  const currentUser = useUserValue();
-
   const { data, isSuccess } = useGetRecordDetailQuery({ recordId });
-
-  const isMyRecord = !!(
-    currentUser &&
-    currentUser.memberId &&
-    currentUser.memberId === data?.memberInfo.memberId
-  );
-
-  alert(location.href);
 
   return (
     <Layout containHeader>
-      <NavigationHeader
-        rightElement={
-          <RecordActionMenu recordId={recordId} isMyRecord={isMyRecord} />
-        }
-      />
+      {isSuccess && (
+        <NavigationHeader
+          rightElement={
+            <RecordActionMenu
+              recordId={recordId}
+              isDeletable={data.isDeletable}
+            />
+          }
+        />
+      )}
 
       {isSuccess && data ? (
         <div className="w-full h-[80%] flex flex-col">
@@ -64,10 +59,10 @@ export default function RecordDetail() {
 
 const RecordActionMenu = ({
   recordId,
-  isMyRecord,
+  isDeletable,
 }: {
   recordId: string;
-  isMyRecord: boolean;
+  isDeletable: boolean;
 }) => {
   const router = useRouter();
   const { mutate: deleteRecord } = useDeleteRecordMutation();
@@ -84,7 +79,7 @@ const RecordActionMenu = ({
 
   return (
     <>
-      {isMyRecord && (
+      {isDeletable && (
         <Menu>
           {({ open }) => (
             <>
