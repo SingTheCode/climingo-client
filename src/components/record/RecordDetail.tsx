@@ -9,7 +9,6 @@ import useDeleteRecordMutation from "@/hooks/record/useDeleteRecordMutation";
 import { MemberInfo } from "@/types/user";
 import { Level, Gym, Record } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
-import { useUserValue } from "@/store/user";
 
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
