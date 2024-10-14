@@ -4,7 +4,7 @@ import {
   OAuthProvider,
   MemberInfo,
   MyProfileApiResponse,
-} from "@/types/user";
+} from "@/types/auth";
 import { RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 

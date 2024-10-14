@@ -27,3 +27,34 @@ export type MyProfileApiResponse = Required<
     "memberId" | "nickname" | "providerType" | "profileUrl" | "email"
   >
 >;
+
+interface ClientConfig {
+  clientId: string;
+  redirectURI: string;
+  scope?: string;
+  state?: string;
+  nonce?: string;
+  usePopup?: boolean;
+}
+
+interface Authorization {
+  code: string;
+  id_token: string;
+  state?: string;
+}
+
+interface SigninResponse {
+  authorization: Authorization;
+  user?: { email: string; name: string };
+}
+
+declare global {
+  interface Window {
+    AppleID: {
+      auth: {
+        init: (config: ClientConfig) => void;
+        signIn: (config?: ClientConfig) => Promise<SigninResponse>;
+      };
+    };
+  }
+}

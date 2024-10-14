@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { OAuthApiRequest, OAuthProvider } from "@/types/user";
+import { OAuthApiRequest, OAuthProvider } from "@/types/auth";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 
 // 회원가입 여부 조회
