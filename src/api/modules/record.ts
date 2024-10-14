@@ -15,6 +15,7 @@ export const getRecordDetailApi = async ({
     record: Record;
     gym: Gym;
     level: Level;
+    isDeletable: boolean;
   }>(`/records/${recordId}`);
   if (res.status !== 200) {
     throw new Error();
