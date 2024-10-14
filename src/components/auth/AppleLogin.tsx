@@ -3,16 +3,11 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { OAuthApiRequest } from "@/types/auth";
-import { oAuthApi, signInApi } from "@/api/modules/user";
-import { useUserActions } from "@/store/user";
-import useAuthSession from "@/hooks/useAuthStorage";
+import { useAuth } from "@/hooks/auth";
 
 export default function AppleLogin() {
   const router = useRouter();
-
-  const { setUser } = useUserActions();
-  const authSession = useAuthSession();
+  const { signIn } = useAuth();
 
   const login = async () => {
     window.AppleID.auth.init({
@@ -23,28 +18,7 @@ export default function AppleLogin() {
 
     try {
       const res = await window.AppleID.auth.signIn();
-
-      const params: OAuthApiRequest = {
-        providerType: "apple",
-        redirectUri: `${window.location.origin}/oauth`,
-        code: res.authorization.id_token,
-      } as const;
-      const { registered, memberInfo } = await oAuthApi(params);
-
-      if (registered) {
-        const data = await signInApi({
-          providerType: memberInfo.providerType!,
-          providerToken: memberInfo.providerToken,
-        });
-
-        setUser(data);
-        authSession.set(data);
-
-        router.push("/");
-        return;
-      }
-      setUser(memberInfo);
-      router.push("/signUp");
+      signIn(res.authorization.id_token);
     } catch (error) {
       if (error instanceof Error) {
         if (error.message) {
