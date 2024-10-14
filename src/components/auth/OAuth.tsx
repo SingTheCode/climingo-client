@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { OAuthApiRequest } from "@/types/user";
+import { OAuthApiRequest } from "@/types/auth";
 import { useUserActions } from "@/store/user";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 import { useRunOnce } from "@/hooks/common";
