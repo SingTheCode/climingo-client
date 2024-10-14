@@ -4,7 +4,7 @@ import {
   OAuthProvider,
   MemberInfo,
   MyProfileApiResponse,
-} from "@/types/user";
+} from "@/types/auth";
 import { RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 
@@ -50,7 +50,7 @@ export const editNicknameApi = async (memberId: number, data: string) => {
     nickname: data,
   });
   return res.data;
-}
+};
 
 export const signOutApi = async () => {
   const res = await api.delete(`/sign-out`);

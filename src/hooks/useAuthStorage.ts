@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { MemberInfo } from "@/types/user";
+import { MemberInfo } from "@/types/auth";
 import { authStorage } from "@/utils/webStorage";
 
 const useAuthSession = () => {

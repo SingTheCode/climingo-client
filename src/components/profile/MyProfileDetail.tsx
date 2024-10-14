@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { isAxiosError } from "axios";
 
-import { MemberInfo, OAuthProvider } from "@/types/user";
+import { MemberInfo, OAuthProvider } from "@/types/auth";
 import { deleteAccountApi, signOutApi } from "@/api/modules/user";
 import useAuthSession from "@/hooks/useAuthStorage";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";

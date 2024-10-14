@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MemberInfo } from "@/types/user";
+import { MemberInfo } from "@/types/auth";
 import { Level, Gym, Record, RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo, useState } from "react";
 
-import type { MemberInfo } from "@/types/user";
+import type { MemberInfo } from "@/types/auth";
 
 const UserValueContext = createContext<MemberInfo | null>(null);
 const UserActionsContext = createContext<{ setUser(info: MemberInfo): void }>({
