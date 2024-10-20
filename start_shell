@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# 백업 생성
+sudo cp /etc/hosts /etc/hosts.bak
+
+# /etc/hosts 파일에 추가할 내용
+HOSTS_ENTRY=$(cat <<EOF
+127.0.0.1	    local.app.climingo.xyz
+127.0.0.1       local.stg-app.climingo.xyz
+127.0.0.1       local.dev-app.climingo.xyz
+EOF
+)
+
+# 파일에 내용 추가
+echo "$HOSTS_ENTRY" | sudo tee -a /etc/hosts > /dev/null
+
+# 완료 메시지 출력
+echo "/etc/hosts 파일이 성공적으로 업데이트되었습니다."
+
+# npm install 실행
+echo "npm install을 실행합니다."
+npm install
+
+# 완료 메시지 출력
+echo "npm install이 성공적으로 완료되었습니다."
