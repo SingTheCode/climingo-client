@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
 
 import "./globals.css";
 import "@/types/common";
@@ -35,7 +34,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <Script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" />
       <body className={pretendard.className}>
         <ReactQueryProvider>
           <UserProvider>{children}</UserProvider>
