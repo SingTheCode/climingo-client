@@ -6,7 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
 import useDeleteRecordMutation from "@/hooks/record/useDeleteRecordMutation";
-import { MemberInfo } from "@/types/user";
+import { MemberInfo } from "@/types/auth";
 import { Level, Gym, Record } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
 
