@@ -16,6 +16,7 @@ import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
 } from "@/components/record/RecordItem";
+import SkeletonRecordItem from "@/components/skeleton/SkeletonRecordItem";
 
 interface RecordFilter {
   gym: { id: number; name: string };
@@ -53,7 +54,7 @@ export default function RecordList() {
 
 const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
   const { ref, inView } = useIntersectionObserver();
-  const { data, isSuccess, fetchNextPage } = useGetRecordListQuery({
+  const { data, isSuccess, isFetching, fetchNextPage } = useGetRecordListQuery({
     levelId: filter.level.id,
     gymId: filter.gym.id,
   });
@@ -72,9 +73,11 @@ const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
 
   return (
     <section className="w-full pt-[1.6rem]">
-      {isSuccess && recordList && (
-        <RecordItemContainer>
-          {recordList.map((item) => (
+      <RecordItemContainer>
+        {isFetching && Array(6).fill(<SkeletonRecordItem />)}
+        {isSuccess &&
+          recordList &&
+          recordList.map((item) => (
             <RecordItem
               key={item.record.recordId}
               memberInfo={item.memberInfo}
@@ -83,8 +86,7 @@ const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
               level={item.level}
             />
           ))}
-        </RecordItemContainer>
-      )}
+      </RecordItemContainer>
       <div className="h-[1rem]" ref={ref} />
     </section>
   );
