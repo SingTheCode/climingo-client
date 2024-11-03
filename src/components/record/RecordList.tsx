@@ -15,8 +15,8 @@ import FloatingButton from "@/components/common/FloatingButton";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
+  RecordItemSkeleton,
 } from "@/components/record/RecordItem";
-import SkeletonRecordItem from "@/components/skeleton/SkeletonRecordItem";
 
 interface RecordFilter {
   gym: { id: number; name: string };
@@ -74,10 +74,10 @@ const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
   return (
     <section className="w-full pt-[1.6rem]">
       <RecordItemContainer>
-        {isFetching && Array(6).fill(<SkeletonRecordItem />)}
+        {isFetching &&
+          Array.from(Array(6), (_, idx) => <RecordItemSkeleton key={idx} />)}
         {isSuccess &&
-          recordList &&
-          recordList.map((item) => (
+          recordList?.map((item) => (
             <RecordItem
               key={item.record.recordId}
               memberInfo={item.memberInfo}
