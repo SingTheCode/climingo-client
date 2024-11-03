@@ -12,7 +12,8 @@ export default function AppleLogin() {
   const login = async () => {
     window.AppleID.auth.init({
       clientId: "com.climingo.app",
-      redirectURI: `${window.location.origin}/oauth`,
+      redirectURI: `${window.location.origin}/signIn`,
+      scope: "name email",
       usePopup: true,
     });
 
