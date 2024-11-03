@@ -62,7 +62,7 @@ const MyShortProfile = () => {
 
 const MyRecordList = () => {
   const { ref, inView } = useIntersectionObserver();
-  const { data, isSuccess, isFetching, isFetchingNextPage, fetchNextPage } =
+  const { data, isSuccess, isFetching, fetchNextPage } =
     useGetMyRecordListQuery();
 
   useEffect(() => {
@@ -91,10 +91,11 @@ const MyRecordList = () => {
         ))}
 
       {/** Skeleton */}
-      {!isFetching && isFetchingNextPage && (
+      {isFetching && (
         <>
-          <RecordItemSkeleton />
-          <RecordItemSkeleton />
+          {Array.from(Array(4), (_, idx) => (
+            <RecordItemSkeleton key={idx} />
+          ))}
         </>
       )}
 
