@@ -19,7 +19,7 @@ export default function AppleLogin() {
 
     try {
       const res = await window.AppleID.auth.signIn();
-      await signIn(res.authorization.id_token, res.user);
+      await signIn(res.authorization.code, res.user);
     } catch (error) {
       if (error instanceof Error) {
         if (error.message) {
