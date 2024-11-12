@@ -13,9 +13,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUserInfo] = useState<MemberInfo | null>(() => {
     try {
       // TODO: useAuthSession hook 사용하도록 수정
-      return JSON.parse(
-        sessionStorage.getItem("memberInfo") || ""
-      ) as MemberInfo;
+      return JSON.parse(localStorage.getItem("memberInfo") || "") as MemberInfo;
     } catch {
       return null;
     }
