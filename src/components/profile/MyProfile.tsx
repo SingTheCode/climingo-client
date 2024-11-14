@@ -45,7 +45,9 @@ const MyShortProfile = () => {
 
   return (
     <div className="flex items-center gap-[1.5rem]">
-      <Avatar src={data.profileUrl} size="base" alt="profile" priority />
+      {data.profileUrl && (
+        <Avatar src={data.profileUrl} size="base" alt="profile" priority />
+      )}
       <p className="text-xl font-bold line-clamp-2">{data.nickname}</p>
       <Link href="/myProfile/detail" className="-ml-[1rem] shrink-0">
         <Image
