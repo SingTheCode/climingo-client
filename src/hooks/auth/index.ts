@@ -33,7 +33,11 @@ export const useAuth = () => {
     }
 
     if (user) {
-      setUser({ ...memberInfo, email: user.email, nickname: user.name });
+      setUser({
+        ...memberInfo,
+        email: user.email,
+        nickname: user.name.lastName + user.name.firstName,
+      });
     } else {
       setUser(memberInfo);
     }

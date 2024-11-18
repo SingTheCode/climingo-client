@@ -46,7 +46,7 @@ export default function SignUpForm() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user?.nickname) {
       setNickname(user.nickname);
     }
   }, [user]);
