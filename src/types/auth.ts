@@ -45,7 +45,7 @@ interface Authorization {
 
 export interface SignInResponse {
   authorization: Authorization;
-  user?: { email: string; name: string };
+  user?: { email: string; name: { firstName: string; lastName: string } };
 }
 
 declare global {
