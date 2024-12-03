@@ -13,7 +13,7 @@ export default function OAuth() {
 
   useRunOnce(() => {
     const fetch = async () => {
-      signIn(code).catch((err) => {
+      signIn(code, "kakao").catch((err) => {
         if (err instanceof Error) {
           if (err.message) {
             alert(err.message);
