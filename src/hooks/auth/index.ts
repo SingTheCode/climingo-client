@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import { OAuthApiRequest, SignInResponse } from "@/types/auth";
+import { OAuthApiRequest, OAuthProvider, SignInResponse } from "@/types/auth";
 import { oAuthApi, signInApi } from "@/api/modules/user";
 import { useUserActions } from "@/store/user";
 import useAuthSession from "@/hooks/useAuthStorage";
@@ -11,9 +11,13 @@ export const useAuth = () => {
   const { setUser } = useUserActions();
   const authSession = useAuthSession();
 
-  const signIn = async (token: string, user?: SignInResponse["user"]) => {
+  const signIn = async (
+    token: string,
+    providerType: OAuthProvider,
+    user?: SignInResponse["user"]
+  ) => {
     const params: OAuthApiRequest = {
-      providerType: "apple",
+      providerType,
       redirectUri: `${window.location.origin}/oauth`,
       code: token,
     } as const;

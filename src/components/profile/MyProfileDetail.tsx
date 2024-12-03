@@ -25,7 +25,7 @@ const MyProfileDetail = () => {
       <EditableProfile
         memberId={data.memberId}
         nickname={data.nickname}
-        profileUrl={data?.profileUrl}
+        profileUrl={data.profileUrl}
       />
       <DetailMemberInfo
         oAuth={{
