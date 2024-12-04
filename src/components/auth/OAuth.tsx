@@ -9,20 +9,18 @@ export default function OAuth() {
   const router = useRouter();
   const { signIn } = useAuth();
 
-  const code = useSearchParams().get("code") || "";
+  const code = useSearchParams().get("code") ?? "";
 
   useRunOnce(() => {
     const fetch = async () => {
-      try {
-        signIn(code);
-      } catch (err) {
+      signIn(code, "kakao").catch((err) => {
         if (err instanceof Error) {
           if (err.message) {
             alert(err.message);
           }
           router.replace("/signIn");
         }
-      }
+      });
     };
 
     fetch();

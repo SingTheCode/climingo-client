@@ -12,14 +12,14 @@ export default function AppleLogin() {
   const login = async () => {
     window.AppleID.auth.init({
       clientId: "com.climingo.app",
-      redirectURI: `${window.location.origin}/signIn`,
+      redirectURI: `${window.location.origin}/oauth`,
       scope: "name email",
       usePopup: true,
     });
 
     try {
       const res = await window.AppleID.auth.signIn();
-      signIn(res.authorization.id_token);
+      await signIn(res.authorization.code, "apple", res.user);
     } catch (error) {
       if (error instanceof Error) {
         if (error.message) {
