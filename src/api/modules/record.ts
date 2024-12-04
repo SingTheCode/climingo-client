@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MemberInfo } from "@/types/user";
+import { MemberInfo } from "@/types/auth";
 import { Level, Gym, Record, RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";
@@ -15,6 +15,7 @@ export const getRecordDetailApi = async ({
     record: Record;
     gym: Gym;
     level: Level;
+    isDeletable: boolean;
   }>(`/records/${recordId}`);
   if (res.status !== 200) {
     throw new Error();

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { isAxiosError } from "axios";
 
-import { MemberInfo, OAuthProvider } from "@/types/user";
+import { MemberInfo, OAuthProvider } from "@/types/auth";
 import { deleteAccountApi, signOutApi } from "@/api/modules/user";
 import useAuthSession from "@/hooks/useAuthStorage";
 import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
@@ -42,7 +42,7 @@ export default MyProfileDetail;
 interface EditableProfileProps {
   memberId: number;
   nickname: string;
-  profileUrl: string;
+  profileUrl?: string;
 }
 
 const EditableProfile = ({
@@ -88,7 +88,9 @@ const EditableProfile = ({
 
   return (
     <section className="flex flex-col items-center gap-[1.5rem]">
-      <Avatar size="lg" alt="profile-avatar" src={profileUrl} priority />
+      {profileUrl && (
+        <Avatar size="lg" alt="profile-avatar" src={profileUrl} priority />
+      )}
 
       <div className="flex gap-[0.2rem] relative -right-[0.5rem]">
         <p className="text-xl font-bold">{nickname}</p>
@@ -108,13 +110,15 @@ const EditableProfile = ({
         </LayerPopup.Header>
         <LayerPopup.Body>
           <div className="flex flex-col py-[2rem] gap-[2rem]">
-            <Avatar
-              size="lg"
-              alt="profile-avatar"
-              src={profileUrl}
-              className="rounded-full self-center"
-              priority
-            />
+            {profileUrl && (
+              <Avatar
+                size="lg"
+                alt="profile-avatar"
+                src={profileUrl}
+                className="rounded-full self-center"
+                priority
+              />
+            )}
             <div className="relative flex flex-col gap-[0.5rem]">
               <h3>닉네임</h3>
               <InputText

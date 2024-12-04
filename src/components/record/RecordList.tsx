@@ -15,6 +15,7 @@ import FloatingButton from "@/components/common/FloatingButton";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
+  RecordItemSkeleton,
 } from "@/components/record/RecordItem";
 
 interface RecordFilter {
@@ -53,7 +54,7 @@ export default function RecordList() {
 
 const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
   const { ref, inView } = useIntersectionObserver();
-  const { data, isSuccess, fetchNextPage } = useGetRecordListQuery({
+  const { data, isSuccess, isFetching, fetchNextPage } = useGetRecordListQuery({
     levelId: filter.level.id,
     gymId: filter.gym.id,
   });
@@ -72,9 +73,11 @@ const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
 
   return (
     <section className="w-full pt-[1.6rem]">
-      {isSuccess && recordList && (
-        <RecordItemContainer>
-          {recordList.map((item) => (
+      <RecordItemContainer>
+        {isFetching &&
+          Array.from(Array(6), (_, idx) => <RecordItemSkeleton key={idx} />)}
+        {isSuccess &&
+          recordList?.map((item) => (
             <RecordItem
               key={item.record.recordId}
               memberInfo={item.memberInfo}
@@ -83,8 +86,7 @@ const RecordListSection = ({ filter }: { filter: RecordFilter }) => {
               level={item.level}
             />
           ))}
-        </RecordItemContainer>
-      )}
+      </RecordItemContainer>
       <div className="h-[1rem]" ref={ref} />
     </section>
   );

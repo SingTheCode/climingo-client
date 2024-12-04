@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo, useState } from "react";
 
-import type { MemberInfo } from "@/types/user";
+import type { MemberInfo } from "@/types/auth";
 
 const UserValueContext = createContext<MemberInfo | null>(null);
 const UserActionsContext = createContext<{ setUser(info: MemberInfo): void }>({
@@ -13,9 +13,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUserInfo] = useState<MemberInfo | null>(() => {
     try {
       // TODO: useAuthSession hook 사용하도록 수정
-      return JSON.parse(
-        sessionStorage.getItem("memberInfo") || ""
-      ) as MemberInfo;
+      return JSON.parse(localStorage.getItem("memberInfo") || "") as MemberInfo;
     } catch {
       return null;
     }
