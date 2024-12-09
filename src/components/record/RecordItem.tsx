@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import type { RecordMetadata } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
+import { getProfileUrl } from "@/hooks/auth";
 
 import LevelIcon from "@/components/common/LevelIcon";
 import Avatar from "@/components/common/Avatar";
@@ -63,7 +64,11 @@ export default function RecordItem({
         >
           {shouldRenderMemberInfo && (
             <>
-              <Avatar src={memberInfo.profileUrl} size="xs" alt="profile" />
+              <Avatar
+                src={getProfileUrl(memberInfo.profileUrl)}
+                size="xs"
+                alt="profile"
+              />
               <span className="text-white text-xs flex-grow truncate">
                 {memberInfo.nickname}
               </span>
