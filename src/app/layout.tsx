@@ -5,6 +5,7 @@ import "./globals.css";
 import "@/types/common";
 import "@/utils/common";
 import ReactQueryProvider from "@/reactQueryProvider";
+import ServiceWorkerProvider from "@/ServiceWorkerProvider";
 import { UserProvider } from "@/store/user";
 
 /** https://github.com/orioncactus/pretendard?tab=readme-ov-file#nextjs */
@@ -36,7 +37,9 @@ export default function RootLayout({
     <html lang="ko">
       <body className={pretendard.className}>
         <ReactQueryProvider>
-          <UserProvider>{children}</UserProvider>
+          <ServiceWorkerProvider>
+            <UserProvider>{children}</UserProvider>
+          </ServiceWorkerProvider>
         </ReactQueryProvider>
       </body>
     </html>
