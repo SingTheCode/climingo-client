@@ -49,3 +49,12 @@ export const useAuth = () => {
   };
   return { signIn };
 };
+
+export const getProfileUrl = (profileUrl?: string) => {
+  const boulderColors = ["blue", "green", "yellow", "red"];
+
+  return (
+    profileUrl ??
+    `/assets/${boulderColors[Math.floor(Math.random() * 4)]}-boulder.svg`
+  );
+};
