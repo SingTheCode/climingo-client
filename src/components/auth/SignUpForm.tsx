@@ -26,7 +26,7 @@ export default function SignUpForm() {
   };
 
   const signUp = async () => {
-    if (!isValid) {
+    if (!isValid || nickname === "") {
       alert("닉네임이 유효하지 않습니다. 다시 입력해주세요.");
       setNickname("");
       return;
