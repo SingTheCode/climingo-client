@@ -11,7 +11,7 @@ export type LevelColor =
   | "purple"
   | "pink"
   | "brown"
-  | "gray"
+  | "grey"
   | "white"
   | "black";
 
