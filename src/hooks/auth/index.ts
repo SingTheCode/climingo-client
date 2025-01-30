@@ -23,6 +23,8 @@ export const useAuth = () => {
     } as const;
     const { registered, memberInfo } = await oAuthApi(params);
 
+    const defaultProfileUrl = getProfileUrl(memberInfo.profileUrl);
+
     if (registered) {
       const data = await signInApi({
         providerType: memberInfo.providerType!,
@@ -41,9 +43,13 @@ export const useAuth = () => {
         ...memberInfo,
         email: user.email,
         nickname: user.name.lastName + user.name.firstName,
+        profileUrl: defaultProfileUrl,
       });
     } else {
-      setUser(memberInfo);
+      setUser({
+        ...memberInfo,
+        profileUrl: defaultProfileUrl,
+      });
     }
     router.push("/signUp");
   };
