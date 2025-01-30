@@ -23,7 +23,7 @@ export const useAuth = () => {
     } as const;
     const { registered, memberInfo } = await oAuthApi(params);
 
-    const defaultProfileUrl = getProfileUrl(memberInfo.profileUrl);
+    const defaultProfileUrl = getDefaultProfileUrl(memberInfo.profileUrl);
 
     if (registered) {
       const data = await signInApi({
@@ -56,7 +56,7 @@ export const useAuth = () => {
   return { signIn };
 };
 
-export const getProfileUrl = (profileUrl?: string) => {
+export const getDefaultProfileUrl = (profileUrl?: string) => {
   const boulderColors = ["blue", "green", "yellow", "red"];
 
   return (
