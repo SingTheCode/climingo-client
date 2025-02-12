@@ -23,6 +23,8 @@ export const useAuth = () => {
     } as const;
     const { registered, memberInfo } = await oAuthApi(params);
 
+    const defaultProfileUrl = getDefaultProfileUrl(memberInfo.profileUrl);
+
     if (registered) {
       const data = await signInApi({
         providerType: memberInfo.providerType!,
@@ -41,16 +43,20 @@ export const useAuth = () => {
         ...memberInfo,
         email: user.email,
         nickname: user.name.lastName + user.name.firstName,
+        profileUrl: defaultProfileUrl,
       });
     } else {
-      setUser(memberInfo);
+      setUser({
+        ...memberInfo,
+        profileUrl: defaultProfileUrl,
+      });
     }
     router.push("/signUp");
   };
   return { signIn };
 };
 
-export const getProfileUrl = (profileUrl?: string) => {
+export const getDefaultProfileUrl = (profileUrl?: string) => {
   const boulderColors = ["blue", "green", "yellow", "red"];
 
   return (

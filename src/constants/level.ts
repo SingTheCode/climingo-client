@@ -57,7 +57,7 @@ export const LEVELS: Level[] = [
   },
   {
     levelId: 10,
-    colorNameEn: "gray",
+    colorNameEn: "grey",
     colorNameKo: "회색",
     colorCode: "#a0a0a0",
   },
