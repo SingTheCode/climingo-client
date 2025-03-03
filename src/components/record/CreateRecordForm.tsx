@@ -43,10 +43,17 @@ const CreateRecordForm = () => {
 
     try {
       setIsPending(true);
-      const { presignedUrl, videoUrl } = await getPresignedUrlApi({
-        fileName: formValues.video.name.split(".")[0],
-        extension: formValues.video.type.split("/")[1],
-      });
+
+      const splitFileNameExtension = (params: string) => {
+        const lastDotIdx = params.lastIndexOf(".");
+        const fileName = params.slice(0, lastDotIdx);
+        const extension = params.slice(lastDotIdx + 1);
+
+        return { fileName, extension };
+      };
+      const { presignedUrl, videoUrl } = await getPresignedUrlApi(
+        splitFileNameExtension(formValues.video.name)
+      );
       await uploadVideoApi({
         presignedUrl,
         file: formValues.video,
