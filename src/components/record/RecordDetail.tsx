@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
@@ -15,6 +16,8 @@ import LevelIcon from "@/components/common/LevelIcon";
 import Layout from "@/components/common/Layout";
 import Loading from "@/components/common/Loading";
 import NavigationHeader from "@/components/common/NavigationHeader";
+import LayerPopup from "@/components/common/LayerPopup";
+import ReportForm from "@/components/record/ReportForm";
 
 export default function RecordDetail() {
   const params = useParams();
@@ -63,10 +66,12 @@ const RecordActionMenu = ({
   recordId: string;
   isDeletable: boolean;
 }) => {
+  const [isReportOpen, setIsReportOpen] = useState(false);
+
   const router = useRouter();
   const { mutate: deleteRecord } = useDeleteRecordMutation();
 
-  const handleButtonClick = async () => {
+  const handleDeleteButtonClick = async () => {
     if (confirm("정말 기록을 삭제할까요?")) {
       deleteRecord(recordId, {
         onSuccess: () => {
@@ -76,45 +81,69 @@ const RecordActionMenu = ({
     }
   };
 
+  const handleReportButtonClick = () => {
+    setIsReportOpen(true);
+  };
+
   return (
     <>
-      {isDeletable && (
-        <Menu>
-          {({ open }) => (
-            <>
-              {/* * Backdrop 영역 */}
-              {open && <div className="bg-shadow-darkest/60 fixed inset-0" />}
+      <Menu>
+        {({ open }) => (
+          <>
+            {/* * Backdrop 영역 */}
+            {open && <div className="bg-shadow-darkest/60 fixed inset-0" />}
 
-              <MenuButton>
-                <Image
-                  src="/icons/icon-hamburger.svg"
-                  alt="메뉴버튼"
-                  width="24"
-                  height="24"
-                />
-              </MenuButton>
+            <MenuButton>
+              <Image
+                src="/icons/icon-hamburger.svg"
+                alt="메뉴버튼"
+                width="24"
+                height="24"
+              />
+            </MenuButton>
 
-              <MenuItems
-                anchor={{
-                  to: "bottom end",
-                  padding: "1.5rem",
-                  gap: "0.5rem",
-                }}
-                className="flex flex-col gap-[0.5rem] min-w-[10rem] z-[350] rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
-              >
+            <MenuItems
+              anchor={{
+                to: "bottom end",
+                padding: "1.5rem",
+                gap: "0.5rem",
+              }}
+              className="flex flex-col gap-[0.5rem] min-w-[10rem] z-[350] rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
+            >
+              {isDeletable && (
                 <MenuItem>
                   <button
                     className="block w-full text-left rounded-lg py-[0.4rem] px-[0.8rem] data-[focus]:bg-shadow-darkest/10"
-                    onClick={handleButtonClick}
+                    onClick={handleDeleteButtonClick}
                   >
                     삭제하기
                   </button>
                 </MenuItem>
-              </MenuItems>
-            </>
-          )}
-        </Menu>
-      )}
+              )}
+
+              <MenuItem>
+                <button
+                  className="block w-full text-left rounded-lg py-[0.4rem] px-[0.8rem] data-[focus]:bg-shadow-darkest/10"
+                  onClick={handleReportButtonClick}
+                >
+                  신고하기
+                </button>
+              </MenuItem>
+            </MenuItems>
+          </>
+        )}
+      </Menu>
+
+      <LayerPopup
+        open={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        fullscreen
+      >
+        <LayerPopup.Header title="신고하기" />
+        <LayerPopup.Body>
+          <ReportForm />
+        </LayerPopup.Body>
+      </LayerPopup>
     </>
   );
 };
