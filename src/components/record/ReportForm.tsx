@@ -9,6 +9,7 @@ import {
   RadioGroup,
 } from "@headlessui/react";
 
+import { reportRecordApi } from "@/api/modules/record";
 import BottomActionButton from "@/components/common/BottomActionButton";
 
 const ReportType = [
@@ -38,16 +39,35 @@ const ReportType = [
   },
 ] as const;
 
-export interface ReportApiRequest {
+export interface RecordReportApiRequest {
   reasonCode: (typeof ReportType)[number]["code"];
 }
 
-const ReportForm = () => {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+type ReportFormType = {
+  recordId: string;
+  onSubmitSuccess?: () => void;
+  onSubmitError?: () => void;
+};
+
+const ReportForm = ({
+  recordId,
+  onSubmitSuccess,
+  onSubmitError,
+}: ReportFormType) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const _formValues = Object.fromEntries(formData);
+    const reportData = Object.fromEntries(
+      formData
+    ) as unknown as RecordReportApiRequest;
+
+    try {
+      await reportRecordApi(recordId, reportData);
+      onSubmitSuccess?.();
+    } catch {
+      onSubmitError?.();
+    }
   };
 
   return (

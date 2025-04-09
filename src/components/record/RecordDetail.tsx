@@ -141,7 +141,17 @@ const RecordActionMenu = ({
       >
         <LayerPopup.Header title="신고하기" />
         <LayerPopup.Body>
-          <ReportForm />
+          <ReportForm
+            recordId={recordId}
+            onSubmitSuccess={() => {
+              alert("신고가 완료되었습니다.");
+              setIsReportOpen(false);
+              router.replace("/");
+            }}
+            onSubmitError={() => {
+              alert("잠시 후 다시 시도해주세요.");
+            }}
+          />
         </LayerPopup.Body>
       </LayerPopup>
     </>
