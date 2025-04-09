@@ -3,6 +3,7 @@ import { MemberInfo } from "@/types/auth";
 import { Level, Gym, Record, RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";
+import { RecordReportApiRequest } from "@/components/record/ReportForm";
 
 // 기록 상세 조회
 export const getRecordDetailApi = async ({
@@ -113,4 +114,16 @@ export const getLevelListApi = async ({ gymId }: { gymId: number }) => {
       LEVELS.find((item) => item.colorNameEn === level.colorNameEn)
         ?.colorCode || "#ffffff",
   }));
+};
+
+// 게시글 신고
+export const reportRecordApi = async (
+  recordId: string,
+  data: RecordReportApiRequest
+) => {
+  const res = await api.post(`/records/${recordId}/report`, data);
+  if (res.status !== 200) {
+    throw new Error();
+  }
+  return res.data;
 };
