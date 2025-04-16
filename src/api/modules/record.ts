@@ -134,8 +134,7 @@ export const reportRecordApi = async (
   data: RecordReportApiRequest
 ) => {
   const res = await api.post(`/records/${recordId}/report`, data);
-  if (res.status !== 200) {
-    throw new Error();
+  if (res.status === 200) {
+    return res.data;
   }
-  return res.data;
 };
