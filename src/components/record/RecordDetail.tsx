@@ -10,6 +10,7 @@ import useDeleteRecordMutation from "@/hooks/record/useDeleteRecordMutation";
 import { MemberInfo } from "@/types/auth";
 import { Level, Gym, Record } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
+import { useUserValue } from "@/store/user";
 
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
@@ -69,7 +70,11 @@ const RecordActionMenu = ({
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const router = useRouter();
+  const user = useUserValue();
+
   const { mutate: deleteRecord } = useDeleteRecordMutation();
+
+  const showMenuButton = isDeletable || user;
 
   const handleDeleteButtonClick = async () => {
     if (confirm("정말 기록을 삭제할까요?")) {
@@ -93,14 +98,16 @@ const RecordActionMenu = ({
             {/* * Backdrop 영역 */}
             {open && <div className="bg-shadow-darkest/60 fixed inset-0" />}
 
-            <MenuButton>
-              <Image
-                src="/icons/icon-hamburger.svg"
-                alt="메뉴버튼"
-                width="24"
-                height="24"
-              />
-            </MenuButton>
+            {showMenuButton && (
+              <MenuButton>
+                <Image
+                  src="/icons/icon-hamburger.svg"
+                  alt="메뉴버튼"
+                  width="24"
+                  height="24"
+                />
+              </MenuButton>
+            )}
 
             <MenuItems
               anchor={{
@@ -121,14 +128,16 @@ const RecordActionMenu = ({
                 </MenuItem>
               )}
 
-              <MenuItem>
-                <button
-                  className="block w-full text-left rounded-lg py-[0.4rem] px-[0.8rem] data-[focus]:bg-shadow-darkest/10"
-                  onClick={handleReportButtonClick}
-                >
-                  신고하기
-                </button>
-              </MenuItem>
+              {user && (
+                <MenuItem>
+                  <button
+                    className="block w-full text-left rounded-lg py-[0.4rem] px-[0.8rem] data-[focus]:bg-shadow-darkest/10"
+                    onClick={handleReportButtonClick}
+                  >
+                    신고하기
+                  </button>
+                </MenuItem>
+              )}
             </MenuItems>
           </>
         )}
