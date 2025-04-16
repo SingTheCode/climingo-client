@@ -44,3 +44,9 @@ export interface RecordMetadata {
 export interface RecordListApiResponse extends Pagination {
   contents: RecordMetadata[];
 }
+
+export type ReportReason = { code: string; description: string }[];
+
+export interface RecordReportApiRequest {
+  reasonCode: ReportReason[number]["code"];
+}
