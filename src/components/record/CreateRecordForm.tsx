@@ -77,7 +77,7 @@ const CreateRecordForm = () => {
 
   return (
     <form
-      className="flex flex-col gap-[3rem] pt-[2rem]"
+      className="flex flex-col gap-[3rem] pt-[2rem] pb-[10rem]"
       onSubmit={handleFormSubmit}
     >
       <SelectPlaceWithLevel
