@@ -7,6 +7,7 @@ import "@/utils/common";
 import ReactQueryProvider from "@/reactQueryProvider";
 import ServiceWorkerProvider from "@/ServiceWorkerProvider";
 import { UserProvider } from "@/store/user";
+import NavigationHandler from "@/components/common/NavigationHandler";
 
 /** https://github.com/orioncactus/pretendard?tab=readme-ov-file#nextjs */
 const pretendard = localFont({
@@ -38,7 +39,10 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <ReactQueryProvider>
           <ServiceWorkerProvider>
-            <UserProvider>{children}</UserProvider>
+            <UserProvider>
+              <NavigationHandler />
+              {children}
+            </UserProvider>
           </ServiceWorkerProvider>
         </ReactQueryProvider>
       </body>
