@@ -1,16 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import { emitter } from "@/api/axios";
+import { eventEmitter } from "@/utils/eventEmitter";
 
 export default function NavigationHandler() {
   const router = useRouter();
 
-  const goToSignIn = () => {
-    router.replace("signIn");
-  };
-  emitter.on("unAuthorized", goToSignIn);
-
+  useEffect(() => {
+    const goToSignIn = () => {
+      router.replace("signIn");
+    };
+    eventEmitter.set("unAuthorized", goToSignIn);
+    return () => {
+      eventEmitter.delete("unAuthorized");
+    };
+  }, [router]);
   return null;
 }
