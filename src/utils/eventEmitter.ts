@@ -1,10 +1,8 @@
 import mitt, { Emitter } from "mitt";
 
-// 이벤트 종류 유니온 타입
-export type EventType = "unAuthorized"; // 필요시 '...' 추가
+type EventType = "unAuthorized";
 
-// 이벤트 핸들러 타입
-export type EventHandler = (payload?: unknown) => void;
+type EventHandler = (payload?: unknown) => void;
 
 const emitter: Emitter<Record<EventType, unknown>> =
   mitt<Record<EventType, unknown>>();
