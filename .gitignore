@@ -40,3 +40,6 @@ certificates
  # IntelliJ IDEA
 /.idea/
 *.iml
+
+# Cursor
+.cursor
