@@ -10,7 +10,7 @@ export default function NavigationHandler() {
 
   useEffect(() => {
     const goToSignIn = () => {
-      router.replace("signIn");
+      router.replace("/signIn");
     };
     eventEmitter.set("unAuthorized", goToSignIn);
     return () => {
