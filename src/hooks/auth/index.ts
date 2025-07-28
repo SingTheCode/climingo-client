@@ -1,16 +1,13 @@
 import { useRouter } from "next/navigation";
 
 import { OAuthApiRequest, OAuthProvider, SignInResponse } from "@/types/auth";
-
 import { oAuthApi, signInApi } from "@/api/modules/user";
 import useUserStore from "@/store/user";
-import useAuthSession from "@/hooks/useAuthStorage";
 
 export const useAuth = () => {
   const router = useRouter();
 
   const setUser = useUserStore((state) => state.setUser);
-  const authSession = useAuthSession();
 
   const signIn = async (
     token: string,
@@ -33,7 +30,6 @@ export const useAuth = () => {
       });
 
       setUser(data);
-      authSession.set(data);
 
       router.push("/");
       return;
