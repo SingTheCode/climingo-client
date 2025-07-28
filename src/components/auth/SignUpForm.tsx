@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { MemberInfo } from "@/types/auth";
 
 import { signUpApi } from "@/api/modules/user";
-import { useUserActions, useUserValue } from "@/store/user";
+import useUserStore from "@/store/user";
 import useAuthSession from "@/hooks/useAuthStorage";
 
 import InputText from "@/components/common/InputText";
@@ -18,8 +18,8 @@ import BottomActionButton from "@/components/common/BottomActionButton";
 export default function SignUpForm() {
   const router = useRouter();
 
-  const user = useUserValue() as MemberInfo;
-  const { setUser } = useUserActions();
+  const user = useUserStore((state) => state.user) as MemberInfo;
+  const setUser = useUserStore((state) => state.setUser);
 
   const authSession = useAuthSession();
 
