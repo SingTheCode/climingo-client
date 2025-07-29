@@ -1,54 +1,31 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 import type { MemberInfo } from "@/types/auth";
 
-const UserValueContext = createContext<MemberInfo | null>(null);
-const UserActionsContext = createContext<{ setUser(info: MemberInfo): void }>({
-  setUser() {},
-});
+interface UserStore {
+  user: MemberInfo | null;
+  setUser: (info: MemberInfo) => void;
+  clearUser: () => void;
+}
 
-export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUserInfo] = useState<MemberInfo | null>(() => {
-    try {
-      // TODO: useAuthSession hook 사용하도록 수정
-      return JSON.parse(localStorage.getItem("memberInfo") || "") as MemberInfo;
-    } catch {
-      return null;
-    }
-  });
-
-  const actions = useMemo(
-    () => ({
-      setUser(info: MemberInfo) {
-        setUserInfo(info);
+const useUserStore = create<UserStore>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (info: MemberInfo) => {
+        set({ user: info });
+      },
+      clearUser: () => {
+        set({ user: null });
       },
     }),
-    []
-  );
+    {
+      name: "user-store",
+    }
+  )
+);
 
-  return (
-    <UserActionsContext.Provider value={actions}>
-      <UserValueContext.Provider value={user}>
-        {children}
-      </UserValueContext.Provider>
-    </UserActionsContext.Provider>
-  );
-}
-
-export function useUserValue() {
-  const value = useContext(UserValueContext);
-  if (value === undefined) {
-    throw new Error("UserContext is undefined");
-  }
-  return value;
-}
-
-export function useUserActions() {
-  const value = useContext(UserActionsContext);
-  if (value === undefined) {
-    throw new Error("UserContext is undefined");
-  }
-  return value;
-}
+export default useUserStore;

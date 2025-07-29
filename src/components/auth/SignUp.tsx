@@ -2,7 +2,7 @@
 
 import type { MemberInfo } from "@/types/auth";
 
-import { useUserValue } from "@/store/user";
+import useUserStore from "@/store/user";
 
 import SignUpForm from "@/components/auth/SignUpForm";
 import Avatar from "@/components/common/Avatar";
@@ -12,7 +12,8 @@ import Avatar from "@/components/common/Avatar";
  * 참고 - app/signUp/page.tsx
  */
 export default function SignUp() {
-  const { profileUrl } = useUserValue() as MemberInfo;
+  const user = useUserStore((state) => state.user);
+  const { profileUrl } = user as MemberInfo;
 
   return (
     <div className="w-full h-full flex flex-col items-center">
