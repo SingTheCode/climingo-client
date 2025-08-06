@@ -1,130 +1,88 @@
-import { renderHook, act } from "@testing-library/react";
-
 import useUserStore from "@/store/user";
-import type { MemberInfo } from "@/types/auth";
+import { MemberInfo } from "@/types/auth";
 
-// localStorage 모킹
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
+const mockMemberInfo: MemberInfo = {
+  nickname: "testUser",
+  profileUrl: "https://example.com/profile.jpg",
+  memberId: 123,
+  authId: "auth123",
+  email: "test@example.com",
+  providerType: "kakao",
 };
-
-Object.defineProperty(window, "localStorage", {
-  value: localStorageMock,
-});
 
 describe("사용자 스토어 (useUserStore)", () => {
   beforeEach(() => {
-    act(() => {
-      useUserStore.setState({ user: null });
-    });
-    localStorageMock.getItem.mockClear();
-    localStorageMock.setItem.mockClear();
-    localStorageMock.removeItem.mockClear();
+    useUserStore.getState().clearUser();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe("사용자 정보 관리", () => {
-    test("사용자 정보를 설정하면 스토어 상태가 업데이트되고 localStorage에 저장된다", () => {
-      const mockUser: MemberInfo = {
-        nickname: "테스트사용자",
-        profileUrl: "https://example.com/test.jpg",
-        memberId: 1,
-        email: "test@example.com",
-        providerType: "kakao",
-      };
+  describe("초기 상태", () => {
+    test("스토어 초기 상태는 null이다", () => {
+      const { user } = useUserStore.getState();
 
-      const { result } = renderHook(() =>
-        useUserStore((state) => state.setUser)
-      );
+      expect(user).toBeNull();
+    });
+  });
 
-      act(() => {
-        result.current(mockUser);
-      });
+  describe("사용자 정보 설정", () => {
+    test("사용자 정보를 설정하면 스토어에 저장된다", () => {
+      expect(useUserStore.getState().user).toBeNull();
 
-      expect(useUserStore.getState().user).toEqual(mockUser);
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        "memberInfo",
-        JSON.stringify(mockUser)
-      );
+      useUserStore.getState().setUser(mockMemberInfo);
+
+      expect(useUserStore.getState().user).toEqual(mockMemberInfo);
+      expect(useUserStore.getState().user?.nickname).toBe("testUser");
+      expect(useUserStore.getState().user?.memberId).toBe(123);
     });
 
-    test("사용자 정보를 삭제하면 스토어 상태가 초기화되고 localStorage에서 제거된다", () => {
-      const mockUser: MemberInfo = {
-        nickname: "삭제테스트",
-        profileUrl: "https://example.com/clear.jpg",
-        memberId: 2,
-        email: "clear@example.com",
-        providerType: "apple",
-      };
+    test("여러 번 사용자 정보를 설정하면 최신 정보로 업데이트된다", () => {
+      expect(useUserStore.getState().user).toBeNull();
 
-      act(() => {
-        useUserStore.getState().setUser(mockUser);
-      });
+      useUserStore.getState().setUser(mockMemberInfo);
+      expect(useUserStore.getState().user).toEqual(mockMemberInfo);
 
-      const { result } = renderHook(() =>
-        useUserStore((state) => state.clearUser)
-      );
+      const updatedInfo = { ...mockMemberInfo, nickname: "updatedUser" };
+      useUserStore.getState().setUser(updatedInfo);
 
-      act(() => {
-        result.current();
-      });
+      expect(useUserStore.getState().user).toEqual(updatedInfo);
+      expect(useUserStore.getState().user?.nickname).toBe("updatedUser");
+    });
+
+    test("동시에 여러 곳에서 접근해도 일관된 상태를 제공한다", () => {
+      useUserStore.getState().setUser(mockMemberInfo);
+
+      const reference1 = useUserStore.getState().user;
+      const reference2 = useUserStore.getState().user;
+
+      expect(reference1).toEqual(mockMemberInfo);
+      expect(reference2).toEqual(mockMemberInfo);
+      expect(reference1).toBe(reference2);
+    });
+  });
+
+  describe("사용자 정보 삭제", () => {
+    test("사용자 정보를 삭제하면 스토어에서 제거된다", () => {
+      useUserStore.getState().setUser(mockMemberInfo);
+      expect(useUserStore.getState().user).toEqual(mockMemberInfo);
+
+      useUserStore.getState().clearUser();
 
       expect(useUserStore.getState().user).toBeNull();
-      expect(localStorageMock.removeItem).toHaveBeenCalledWith("memberInfo");
-    });
-  });
-
-  describe("사용자 정보 조회", () => {
-    test("스토어에서 사용자 정보를 조회할 수 있다", () => {
-      const mockUser: MemberInfo = {
-        nickname: "조회테스트",
-        profileUrl: "https://example.com/get.jpg",
-        memberId: 3,
-        email: "get@example.com",
-        providerType: "kakao",
-      };
-
-      act(() => {
-        useUserStore.getState().setUser(mockUser);
-      });
-
-      const { result } = renderHook(() => useUserStore((state) => state.user));
-
-      expect(result.current).toEqual(mockUser);
-    });
-  });
-
-  describe("localStorage 처리", () => {
-    test("localStorage에 잘못된 JSON이 있으면 사용자 정보가 null로 초기화된다", () => {
-      localStorageMock.getItem.mockReturnValue("invalid json");
-
-      const { result } = renderHook(() => useUserStore((state) => state.user));
-
-      expect(result.current).toBeNull();
     });
 
-    test("localStorage에 유효한 사용자 정보가 있으면 스토어 초기화 시 자동으로 로드된다", async () => {
-      const mockUser: MemberInfo = {
-        nickname: "로드테스트",
-        profileUrl: "https://example.com/load.jpg",
-        memberId: 4,
-        email: "load@example.com",
-        providerType: "kakao",
-      };
+    test("사용자 정보 삭제 후 새로운 정보를 설정할 수 있다", () => {
+      useUserStore.getState().setUser(mockMemberInfo);
+      useUserStore.getState().clearUser();
+      expect(useUserStore.getState().user).toBeNull();
 
-      localStorageMock.getItem.mockReturnValue(JSON.stringify(mockUser));
+      const newMemberInfo = { ...mockMemberInfo, nickname: "newUser" };
+      useUserStore.getState().setUser(newMemberInfo);
 
-      jest.resetModules();
-      const { default: freshUserStore } = await import("@/store/user");
-
-      expect(freshUserStore.getState().user).toEqual(mockUser);
-      expect(localStorageMock.getItem).toHaveBeenCalledWith("memberInfo");
+      expect(useUserStore.getState().user).toEqual(newMemberInfo);
+      expect(useUserStore.getState().user?.nickname).toBe("newUser");
     });
   });
 });

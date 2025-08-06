@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 import type { MemberInfo } from "@/types/auth";
 
@@ -10,25 +11,21 @@ interface UserStore {
   clearUser: () => void;
 }
 
-const useUserStore = create<UserStore>((set) => ({
-  user: (() => {
-    try {
-      // TODO: useAuthSession hook 사용하도록 수정
-      const storedValue = localStorage.getItem("memberInfo");
-      if (!storedValue) return null;
-      return JSON.parse(storedValue) as MemberInfo;
-    } catch {
-      return null;
+const useUserStore = create<UserStore>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (info: MemberInfo) => {
+        set({ user: info });
+      },
+      clearUser: () => {
+        set({ user: null });
+      },
+    }),
+    {
+      name: "user-store",
     }
-  })(),
-  setUser: (info: MemberInfo) => {
-    set({ user: info });
-    localStorage.setItem("memberInfo", JSON.stringify(info));
-  },
-  clearUser: () => {
-    set({ user: null });
-    localStorage.removeItem("memberInfo");
-  },
-}));
+  )
+);
 
 export default useUserStore;

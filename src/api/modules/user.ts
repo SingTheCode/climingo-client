@@ -8,6 +8,15 @@ import {
 import { RecordListApiResponse } from "@/types/record";
 import { api } from "@/api/axios";
 
+export interface MemberInfoResponse {
+  authId?: string;
+  email?: string;
+  memberId: number;
+  nickname: string;
+  profileUrl: string;
+  providerType?: OAuthProvider;
+}
+
 // 회원가입 여부 및 사용자 정보 조회
 export const oAuthApi = async (params: OAuthApiRequest) => {
   const res = await api.get<OAuthApiResponse>(`/auth/members/exist`, {
