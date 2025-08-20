@@ -46,5 +46,6 @@ next-env.d.ts
 
 # Claude
 /.claude/
+/.rules/
 /.mcp.json
 /CLAUDE.md
