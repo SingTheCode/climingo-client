@@ -14,7 +14,7 @@ import { LEVELS } from "@/constants/level";
 
 export interface GymResponse {
   gymId: number;
-  gyName: string;
+  gymName: string;
 }
 
 export interface LevelResponse {

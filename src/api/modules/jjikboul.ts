@@ -3,10 +3,10 @@ import { MemberInfoResponse } from "@/api/modules/user";
 import { GymResponse, LevelResponse } from "@/api/modules/record";
 
 export interface JjikboulResponse {
-  jjikboulId: string;
+  jjikboulId: number;
   problemType: string;
   description: string;
-  createdDate: string;
+  problemUrl?: string;
 }
 
 export const getJjikboulDetailApi = async (id: string) => {

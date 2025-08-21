@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
+import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
 import useJjikboul from "@/hooks/jjikboul/useJjikboul";
+import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
 import { JjikboulDetail } from "@/types/jjikboul";
 
 import Avatar from "@/components/common/Avatar";
@@ -13,20 +15,23 @@ export default function JjikboulShareDetail() {
   const params = useParams();
   const jjikboulId = params?.jjikboulId as string;
 
-  const {
-    jjikboul: data,
-    isLoading,
-    isError,
-    shareCurrentJjikboul,
-    saveAsImage,
-  } = useJjikboul(jjikboulId);
+  const { data, isLoading, isError } = useGetJjikboulDetailQuery(jjikboulId);
+  const { getShareUrl, validateJjikboulData } = useJjikboul();
+  const { handleShare, handleSaveAsImage } = useJjikboulUI();
 
   const handleShareClick = () => {
-    shareCurrentJjikboul();
+    if (data) {
+      const isValid = validateJjikboulData(data);
+      
+      if (isValid) {
+        const url = getShareUrl();
+        handleShare(url);
+      }
+    }
   };
 
   const handleSaveClick = () => {
-    saveAsImage();
+    handleSaveAsImage();
   };
 
   if (isLoading) {

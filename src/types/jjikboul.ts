@@ -1,26 +1,22 @@
+import { Gym, Level } from "@/types/record";
+
 export interface Jjikboul {
-  id: string;
+  jjikboulId: number;
   problemType: string;
   description: string;
-  createdDate: string;
+  problemUrl?: string;
 }
 
 export interface JjikboulDetail {
   jjikboul: Jjikboul;
   memberInfo: {
-    id: string;
+    memberId: number;
     nickname: string;
     profileUrl: string;
   };
-  gym: {
-    gymId: string;
-    gymName: string;
-  };
-  level: {
-    levelId: string;
-    colorNameKo: string;
-    colorNameEn: string;
-  };
+  gym: Gym;
+  level: Level;
   isEditable: boolean;
   isDeletable: boolean;
 }
+

@@ -11,7 +11,7 @@ import { LEVELS } from "@/constants/level";
 export const GymModel = (serverData: GymResponse): Gym => {
   return {
     gymId: serverData.gymId ?? 0,
-    gymName: serverData.gyName ?? "",
+    gymName: serverData.gymName ?? "",
   };
 };
 
