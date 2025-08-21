@@ -22,7 +22,7 @@ export default function JjikboulShareDetail() {
   const handleShareClick = () => {
     if (data) {
       const isValid = validateJjikboulData(data);
-      
+
       if (isValid) {
         const url = getShareUrl();
         handleShare(url);
@@ -67,14 +67,17 @@ export default function JjikboulShareDetail() {
     <div
       id="jjikboul-share-container"
       data-testid="jjikboul-share-container"
-      className="w-full max-w-[390px] mx-auto bg-white"
+      className="w-full max-w-[390px] h-[824px] mx-auto bg-ink relative flex flex-col"
       style={{ maxWidth: "390px" }}
     >
       {/* 메인 이미지 영역 */}
-      <MainImageSection data={data} />
+      <MainImageSection />
 
-      {/* 설명 텍스트 영역 */}
-      <DescriptionSection description={data.jjikboul.description} />
+      {/* 유저 정보 및 설명 영역 */}
+      <div className="flex-1 px-5 py-5 flex flex-col gap-[15px]">
+        <UserInfoBottomSection data={data} />
+        <DescriptionSection description={data.jjikboul.description} />
+      </div>
 
       {/* 액션 버튼 영역 */}
       <ActionButtonsSection
@@ -85,80 +88,35 @@ export default function JjikboulShareDetail() {
   );
 }
 
-function MainImageSection({ data }: { data: JjikboulDetail }) {
+function MainImageSection() {
   return (
-    <div className="relative w-full h-[674px] bg-[#292929] overflow-hidden">
-      {/* 배경 이미지 */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        data-testid="jjikboul-problem-image"
-        style={{
-          backgroundImage: 'url("/assets/climbing-background.jpg")',
-          opacity: 0.65,
-        }}
-      />
-
-      {/* 사용자 정보 및 암장 정보 */}
-      <UserInfoSection data={data} />
-
-      {/* 브랜드 로고 */}
-      <BrandLogoSection />
+    <div className="relative px-5 pt-5">
+      <div className="relative w-[340px] h-[594px] mx-auto rounded-[19px] overflow-hidden">
+        {/* 찍볼 이미지 */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          data-testid="jjikboul-problem-image"
+          style={{
+            backgroundImage: 'url("/assets/climbing-background.jpg")',
+          }}
+        />
+      </div>
     </div>
   );
 }
 
-function UserInfoSection({ data }: { data: JjikboulDetail }) {
+function UserInfoBottomSection({ data }: { data: JjikboulDetail }) {
   return (
-    <div className="absolute top-5 left-6 flex items-start gap-3">
-      {/* 프로필 정보 */}
-      <div className="flex items-center gap-3">
+    <div className="flex items-center gap-[12px]">
+      <div className="w-[38px] h-[38px] bg-yellow-lightest rounded-[19px] overflow-hidden">
         <Avatar
-          size="sm"
+          size="base"
           src={data.memberInfo.profileUrl || "/images/default-profile.jpg"}
           alt={data.memberInfo.nickname}
         />
-        <div className="text-white font-bold text-base">
-          {data.memberInfo.nickname}
-        </div>
       </div>
-
-      {/* 암장 및 난이도 정보 */}
-      <div className="ml-auto">
-        <div className="bg-[#fafafa]/50 rounded-lg px-3 py-2 flex items-center gap-2">
-          <Image
-            src="/icons/icon-location.svg"
-            alt="location"
-            width={20}
-            height={20}
-            className="text-[#292929]"
-          />
-          <span className="text-[#292929] font-bold text-sm">
-            {data.gym.gymName}
-          </span>
-          <div
-            className="w-3 h-3 rounded-full border border-[#b3b3b3]"
-            data-testid="level-icon-orange"
-            style={{ backgroundColor: "rgb(255, 179, 35)" }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BrandLogoSection() {
-  return (
-    <div className="absolute bottom-5 right-6 flex items-center gap-2">
-      <div className="w-7 h-7">
-        <Image
-          src="/assets/main-logo.svg"
-          alt="클라밍고"
-          width={28}
-          height={28}
-        />
-      </div>
-      <div className="text-white font-bold text-sm" data-testid="text-logo">
-        클라밍고
+      <div className="text-white font-bold text-[15px] leading-[1.19em]">
+        {data.memberInfo.nickname}
       </div>
     </div>
   );
@@ -166,8 +124,8 @@ function BrandLogoSection() {
 
 function DescriptionSection({ description }: { description: string }) {
   return (
-    <div className="px-5 py-4">
-      <p className="text-[#292929] text-sm font-medium leading-4">
+    <div className="">
+      <p className="text-white text-sm font-medium leading-[1.19em]">
         {description}
       </p>
     </div>
@@ -182,18 +140,19 @@ function ActionButtonsSection({
   onSaveClick: () => void;
 }) {
   return (
-    <div className="px-5 pb-8 flex gap-4">
+    <div className="absolute bottom-0 left-0 w-full px-5 py-[18px] flex justify-between">
       {/* 공유하기 버튼 */}
       <button
         onClick={onShareClick}
-        className="w-[170px] h-12 bg-[#ff5c75] rounded-[10px] flex items-center justify-center gap-2 text-white font-bold text-base"
+        className="w-[170px] h-12 bg-primary rounded-[10px] flex items-center justify-center gap-[15px] text-white font-bold text-base"
+        style={{ padding: "18px 57px 18px 47px" }}
       >
         <div data-testid="share-icon">
           <Image
             src="/icons/icon-share.svg"
             alt="공유"
-            width={20}
-            height={20}
+            width={40}
+            height={40}
           />
         </div>
         공유하기
@@ -202,14 +161,15 @@ function ActionButtonsSection({
       {/* 저장하기 버튼 */}
       <button
         onClick={onSaveClick}
-        className="w-[170px] h-12 bg-[#ff5c75] rounded-[10px] flex items-center justify-center gap-2 text-white font-bold text-base"
+        className="w-[170px] h-12 bg-primary rounded-[10px] flex items-center justify-center gap-[15px] text-white font-bold text-base"
+        style={{ padding: "18px 47px 18px 57px" }}
       >
         <div data-testid="download-icon">
           <Image
             src="/icons/icon-download.svg"
             alt="다운로드"
-            width={20}
-            height={20}
+            width={40}
+            height={40}
           />
         </div>
         저장하기
