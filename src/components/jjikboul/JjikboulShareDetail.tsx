@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
+import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
 import useJjikboul from "@/hooks/jjikboul/useJjikboul";
+import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
 import { JjikboulDetail } from "@/types/jjikboul";
 
 import Avatar from "@/components/common/Avatar";
@@ -13,27 +15,32 @@ export default function JjikboulShareDetail() {
   const params = useParams();
   const jjikboulId = params?.jjikboulId as string;
 
-  const {
-    jjikboul: data,
-    isLoading,
-    isError,
-    shareCurrentJjikboul,
-    saveAsImage,
-  } = useJjikboul(jjikboulId);
+  const { data, isLoading, isError } = useGetJjikboulDetailQuery(jjikboulId);
+  const { getShareUrl, validateJjikboulData } = useJjikboul();
+  const { handleShare, handleSaveAsImage } = useJjikboulUI();
 
   const handleShareClick = () => {
-    shareCurrentJjikboul();
+    if (data) {
+      const isValid = validateJjikboulData(data);
+
+      if (isValid) {
+        const url = getShareUrl();
+        handleShare(url);
+      }
+    }
   };
 
   const handleSaveClick = () => {
-    saveAsImage();
+    handleSaveAsImage();
   };
 
   if (isLoading) {
     return (
-      <div className="w-full max-w-[390px] mx-auto bg-white flex items-center justify-center h-[824px]">
-        <div data-testid="loading-spinner">
-          <Loading />
+      <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+        <div className="w-full max-w-[40rem] mx-auto flex items-center justify-center h-[82rem]">
+          <div data-testid="loading-spinner">
+            <Loading />
+          </div>
         </div>
       </div>
     );
@@ -41,14 +48,16 @@ export default function JjikboulShareDetail() {
 
   if (isError) {
     return (
-      <div className="w-full max-w-[390px] mx-auto bg-white flex items-center justify-center h-[824px]">
-        <div className="text-center">
-          <p className="text-[#292929] text-base font-medium">
-            문제를 불러올 수 없습니다.
-          </p>
-          <p className="text-[#b3b3b3] text-sm mt-2">
-            잠시 후 다시 시도해주세요.
-          </p>
+      <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+        <div className="w-full max-w-[40rem] mx-auto flex items-center justify-center h-[82rem]">
+          <div className="text-center">
+            <p className="text-white text-base font-medium">
+              문제를 불러올 수 없습니다.
+            </p>
+            <p className="text-[#b3b3b3] text-sm mt-2">
+              잠시 후 다시 시도해주세요.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -59,101 +68,60 @@ export default function JjikboulShareDetail() {
   }
 
   return (
-    <div
-      id="jjikboul-share-container"
-      data-testid="jjikboul-share-container"
-      className="w-full max-w-[390px] mx-auto bg-white"
-      style={{ maxWidth: "390px" }}
-    >
-      {/* 메인 이미지 영역 */}
-      <MainImageSection data={data} />
+    <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+      <div
+        id="jjikboul-share-container"
+        data-testid="jjikboul-share-container"
+        className="w-full max-w-[40rem] h-[82rem] relative flex flex-col"
+      >
+        {/* 메인 이미지 영역 */}
+        <MainImageSection data={data} />
 
-      {/* 설명 텍스트 영역 */}
-      <DescriptionSection description={data.jjikboul.description} />
+        {/* 유저 정보 및 설명 영역 */}
+        <div className="flex-1 px-[2rem] py-[2rem] flex flex-col gap-[1.5rem]">
+          <UserInfoBottomSection data={data} />
+          <DescriptionSection description={data.jjikboul.description} />
+        </div>
 
-      {/* 액션 버튼 영역 */}
-      <ActionButtonsSection
-        onShareClick={handleShareClick}
-        onSaveClick={handleSaveClick}
-      />
+        {/* 액션 버튼 영역 */}
+        <ActionButtonsSection
+          onShareClick={handleShareClick}
+          onSaveClick={handleSaveClick}
+        />
+      </div>
     </div>
   );
 }
 
 function MainImageSection({ data }: { data: JjikboulDetail }) {
   return (
-    <div className="relative w-full h-[674px] bg-[#292929] overflow-hidden">
-      {/* 배경 이미지 */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        data-testid="jjikboul-problem-image"
-        style={{
-          backgroundImage: 'url("/assets/climbing-background.jpg")',
-          opacity: 0.65,
-        }}
-      />
-
-      {/* 사용자 정보 및 암장 정보 */}
-      <UserInfoSection data={data} />
-
-      {/* 브랜드 로고 */}
-      <BrandLogoSection />
+    <div className="relative px-[0.5rem] pt-[0.5rem]">
+      <div className="relative w-[34rem] h-[60rem] mx-auto rounded-[2rem] overflow-hidden">
+        {/* 찍볼 이미지 */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          data-testid="jjikboul-problem-image"
+          style={{
+            backgroundImage: `url("${data.jjikboul.problemUrl}")`,
+          }}
+        />
+      </div>
     </div>
   );
 }
 
-function UserInfoSection({ data }: { data: JjikboulDetail }) {
+function UserInfoBottomSection({ data }: { data: JjikboulDetail }) {
   return (
-    <div className="absolute top-5 left-6 flex items-start gap-3">
-      {/* 프로필 정보 */}
-      <div className="flex items-center gap-3">
+    <div className="flex items-center gap-[1.2rem]">
+      <div className="w-[4rem] h-[4rem] bg-yellow-lightest rounded-[2rem] overflow-hidden">
         <Avatar
-          size="sm"
+          size="base"
           src={data.memberInfo.profileUrl || "/images/default-profile.jpg"}
           alt={data.memberInfo.nickname}
         />
-        <div className="text-white font-bold text-base">
-          {data.memberInfo.nickname}
-        </div>
       </div>
-
-      {/* 암장 및 난이도 정보 */}
-      <div className="ml-auto">
-        <div className="bg-[#fafafa]/50 rounded-lg px-3 py-2 flex items-center gap-2">
-          <Image
-            src="/icons/icon-location.svg"
-            alt="location"
-            width={20}
-            height={20}
-            className="text-[#292929]"
-          />
-          <span className="text-[#292929] font-bold text-sm">
-            {data.gym.gymName}
-          </span>
-          <div
-            className="w-3 h-3 rounded-full border border-[#b3b3b3]"
-            data-testid="level-icon-orange"
-            style={{ backgroundColor: "rgb(255, 179, 35)" }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BrandLogoSection() {
-  return (
-    <div className="absolute bottom-5 right-6 flex items-center gap-2">
-      <div className="w-7 h-7">
-        <Image
-          src="/assets/main-logo.svg"
-          alt="클라밍고"
-          width={28}
-          height={28}
-        />
-      </div>
-      <div className="text-white font-bold text-sm" data-testid="text-logo">
-        클라밍고
+      <div className="text-white font-bold text-[1.5rem] leading-[1.2rem]">
+        {data.memberInfo.nickname}
       </div>
     </div>
   );
@@ -161,8 +129,8 @@ function BrandLogoSection() {
 
 function DescriptionSection({ description }: { description: string }) {
   return (
-    <div className="px-5 py-4">
-      <p className="text-[#292929] text-sm font-medium leading-4">
+    <div className="">
+      <p className="text-white text-sm font-medium leading-[1.19em]">
         {description}
       </p>
     </div>
@@ -177,11 +145,11 @@ function ActionButtonsSection({
   onSaveClick: () => void;
 }) {
   return (
-    <div className="px-5 pb-8 flex gap-4">
+    <div className="absolute bottom-0 left-0 w-full px-[2rem] py-[2rem] flex justify-center gap-[1rem]">
       {/* 공유하기 버튼 */}
       <button
         onClick={onShareClick}
-        className="w-[170px] h-12 bg-[#ff5c75] rounded-[10px] flex items-center justify-center gap-2 text-white font-bold text-base"
+        className="w-[18rem] h-[5rem] bg-primary rounded-[1rem] flex flex-row items-center justify-center gap-[1.5rem] text-white font-bold text-base"
       >
         <div data-testid="share-icon">
           <Image
@@ -197,7 +165,7 @@ function ActionButtonsSection({
       {/* 저장하기 버튼 */}
       <button
         onClick={onSaveClick}
-        className="w-[170px] h-12 bg-[#ff5c75] rounded-[10px] flex items-center justify-center gap-2 text-white font-bold text-base"
+        className="w-[18rem] h-[5rem] bg-primary rounded-[1rem] flex flex-row items-center justify-center gap-[2rem] text-white font-bold text-base"
       >
         <div data-testid="download-icon">
           <Image

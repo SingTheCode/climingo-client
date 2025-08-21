@@ -2,13 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getJjikboulDetailApi, JjikboulResponse } from "@/api/modules/jjikboul";
 import { Jjikboul } from "@/types/jjikboul";
+import { GymModel, LevelModel } from "@/api/hooks/record";
 
 export const JjikboulModel = (serverData: JjikboulResponse): Jjikboul => {
   return {
-    id: serverData.jjikboulId ?? "",
+    jjikboulId: serverData.jjikboulId ?? 0,
     problemType: serverData.problemType ?? "",
     description: serverData.description ?? "",
-    createdDate: serverData.createdDate ?? "",
+    problemUrl: serverData.problemUrl,
   };
 };
 
@@ -20,19 +21,12 @@ export const useGetJjikboulDetailQuery = (jjikboulId: string) => {
     select: (data) => ({
       jjikboul: JjikboulModel(data.jjikboul),
       memberInfo: {
-        id: String(data.memberInfo.memberId || ""),
-        nickname: data.memberInfo.nickname,
+        memberId: data.memberInfo.memberId || 0,
+        nickname: data.memberInfo.nickname || "",
         profileUrl: data.memberInfo.profileUrl || "",
       },
-      gym: {
-        gymId: String(data.gym.gymId),
-        gymName: data.gym.gyName,
-      },
-      level: {
-        levelId: String(data.level.levelId),
-        colorNameKo: data.level.colorNameKo,
-        colorNameEn: data.level.colorNameEn,
-      },
+      gym: GymModel(data.gym),
+      level: LevelModel(data.level),
       isEditable: data.isEditable ?? false,
       isDeletable: data.isDeletable ?? false,
     }),
