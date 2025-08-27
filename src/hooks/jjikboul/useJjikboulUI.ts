@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 
+import useAppScheme from "@/hooks/useAppScheme";
+
 const useJjikboulUI = () => {
+  const { share, isNativeShareAvailable } = useAppScheme();
+
   const showAlert = useCallback((message: string): void => {
     alert(message);
   }, []);
@@ -22,6 +26,15 @@ const useJjikboulUI = () => {
   const handleShare = useCallback(
     async (url: string) => {
       try {
+        if (isNativeShareAvailable()) {
+          share({
+            url,
+            title: "찍볼 공유",
+            text: "찍볼을 확인해보세요!",
+          });
+          return;
+        }
+
         await copyToClipboard(url);
         showAlert("링크가 클립보드에 복사되었습니다.");
       } catch (error) {
@@ -29,7 +42,7 @@ const useJjikboulUI = () => {
         showAlert("공유 링크 복사에 실패했습니다.");
       }
     },
-    [copyToClipboard, showAlert]
+    [isNativeShareAvailable, share, copyToClipboard, showAlert]
   );
 
   const handleSaveAsImage = useCallback(() => {
