@@ -43,3 +43,9 @@ certificates
 
 # Cursor
 .cursor
+
+# Claude
+/.claude/
+/.rules/
+/.mcp.json
+/CLAUDE.md
