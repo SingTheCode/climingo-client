@@ -7,10 +7,6 @@ const useImageDownload = () => {
     useState<ImageDownloadResult | null>(null);
   const downloadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const isNativeDownloadAvailable = useCallback((): boolean => {
-    return !!window.webkit?.messageHandlers?.downloadImage;
-  }, []);
-
   const showDownloadProgress = useCallback(() => {
     setIsDownloading(true);
     setDownloadResult(null);
@@ -29,10 +25,53 @@ const useImageDownload = () => {
     }, 3000);
   }, []);
 
+  const isNativeDownloadAvailable = useCallback((): boolean => {
+    return !!window.webkit?.messageHandlers?.downloadImage;
+  }, []);
+
+  const downloadImageInBrowser = useCallback(
+    async (imageUrl: string): Promise<void> => {
+      showDownloadProgress();
+
+      try {
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `image_${Date.now()}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(url);
+
+        showDownloadResult({
+          success: true,
+          message: "이미지 다운로드가 완료되었습니다.",
+        });
+      } catch (error) {
+        console.error("브라우저 이미지 다운로드 중 오류:", error);
+        showDownloadResult({
+          success: false,
+          message: "이미지 다운로드 중 오류가 발생했습니다.",
+        });
+      }
+    },
+    [showDownloadProgress, showDownloadResult]
+  );
+
   const downloadImage = useCallback(
-    (imageUrl: string): void => {
+    (imageUrl: string) => {
       if (!isNativeDownloadAvailable()) {
-        console.log("네이티브 이미지 다운로드 기능을 사용할 수 없습니다.");
+        downloadImageInBrowser(imageUrl).catch((error) => {
+          console.error("브라우저 이미지 다운로드 실패:", error);
+        });
         return;
       }
 
@@ -47,7 +86,7 @@ const useImageDownload = () => {
         });
       }
     },
-    [isNativeDownloadAvailable, showDownloadResult]
+    [isNativeDownloadAvailable, downloadImageInBrowser, showDownloadResult]
   );
 
   useEffect(() => {
