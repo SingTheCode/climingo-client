@@ -26,6 +26,11 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
+Object.defineProperty(window, "alert", {
+  writable: true,
+  value: jest.fn(),
+});
+
 describe("JjikboulShareDetail", () => {
   let queryClient: QueryClient;
 
@@ -79,8 +84,6 @@ describe("JjikboulShareDetail", () => {
     );
   };
 
-
-
   describe("제작자 정보", () => {
     test("문제를 만든 사용자의 프로필 사진을 표시해야 한다", () => {
       renderComponent();
@@ -101,7 +104,6 @@ describe("JjikboulShareDetail", () => {
       expect(problemImage).toBeInTheDocument();
     });
   });
-
 
   describe("설명 텍스트", () => {
     test("문제 설명이 표시되어야 한다", () => {
@@ -134,6 +136,7 @@ describe("JjikboulShareDetail", () => {
     });
 
     test("네이티브 공유 불가능 시 클립보드 복사가 호출되어야 한다", async () => {
+      mockIsNativeShareAvailable.mockReturnValue(false);
       mockCopyToClipboard.mockImplementation(() => Promise.resolve());
       renderComponent();
       const shareButton = screen.getByRole("button", { name: /공유하기/i });
@@ -165,7 +168,9 @@ describe("JjikboulShareDetail", () => {
       fireEvent.click(saveButton);
 
       await waitFor(() => {
-        expect(mockDownloadImage).toHaveBeenCalledWith(mockJjikboulData.jjikboul.problemUrl);
+        expect(mockDownloadImage).toHaveBeenCalledWith(
+          mockJjikboulData.jjikboul.problemUrl
+        );
       });
     });
 
