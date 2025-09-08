@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
 import useJjikboul from "@/hooks/jjikboul/useJjikboul";
 import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
+import useImageDownload from "@/hooks/useImageDownload";
+import useAppScheme from "@/hooks/useAppScheme";
 import { JjikboulDetail } from "@/types/jjikboul";
 
 import Avatar from "@/components/common/Avatar";
@@ -17,21 +19,41 @@ export default function JjikboulShareDetail() {
 
   const { data, isLoading, isError } = useGetJjikboulDetailQuery(jjikboulId);
   const { getShareUrl, validateJjikboulData } = useJjikboul();
-  const { handleShare, handleSaveAsImage } = useJjikboulUI();
+  const { copyToClipboard } = useJjikboulUI();
+  const { share, isNativeShareAvailable } = useAppScheme();
+  const { downloadImage } = useImageDownload();
 
-  const handleShareClick = () => {
+  const handleShareClick = async () => {
     if (data) {
       const isValid = validateJjikboulData(data);
 
       if (isValid) {
         const url = getShareUrl();
-        handleShare(url);
+
+        // TODO: 진입점 추가되면 네이티브에서 앱스킴 테스트
+        if (isNativeShareAvailable()) {
+          share({
+            url,
+            title: "찍볼 공유",
+            text: "찍볼을 확인해보세요!",
+          });
+        } else {
+          try {
+            await copyToClipboard(url);
+            alert("링크가 클립보드에 복사되었습니다.");
+          } catch (error) {
+            console.error("공유 링크 복사 에러:", error);
+            alert("공유 링크 복사에 실패했습니다.");
+          }
+        }
       }
     }
   };
 
   const handleSaveClick = () => {
-    handleSaveAsImage();
+    if (data?.jjikboul?.problemUrl) {
+      downloadImage(data.jjikboul.problemUrl);
+    }
   };
 
   if (isLoading) {

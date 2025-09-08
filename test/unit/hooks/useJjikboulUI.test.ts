@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
-import { ShareParams, WebkitNamespace } from "@/types/appScheme";
+import { WebkitNamespace } from "@/types/appScheme";
 
 const mockWriteText = jest.fn();
 Object.assign(navigator, {
@@ -17,11 +17,9 @@ Object.assign(window, {
   print: mockPrint,
 });
 
-const mockPostMessage = jest.fn<void, [ShareParams]>();
-
 const originalUserAgent = navigator.userAgent;
 
-describe("useJjikboulUI", () => {
+describe("useJjikboulUI Hook", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     Object.defineProperty(navigator, "userAgent", {
@@ -31,223 +29,256 @@ describe("useJjikboulUI", () => {
     delete (window as Window & { webkit?: WebkitNamespace }).webkit;
   });
 
-  describe("showAlert", () => {
-    test("alert 함수를 호출한다", () => {
-      const { result } = renderHook(() => useJjikboulUI());
+  describe("Feature: 클립보드 복사 기능", () => {
+    describe("사용자가 텍스트를 클립보드에 복사하려고 할 때", () => {
+      describe("클립보드 API가 정상적으로 작동하는 경우", () => {
+        test("텍스트가 클립보드에 복사되어야 한다", async () => {
+          mockWriteText.mockResolvedValue(undefined);
+          const { result } = renderHook(() => useJjikboulUI());
+          const testText = "테스트 텍스트";
 
-      act(() => {
-        result.current.showAlert("테스트 메시지");
+          await act(async () => {
+            await result.current.copyToClipboard(testText);
+          });
+
+          expect(mockWriteText).toHaveBeenCalledWith(testText);
+          expect(mockWriteText).toHaveBeenCalledTimes(1);
+        });
       });
 
-      expect(mockAlert).toHaveBeenCalledWith("테스트 메시지");
+      describe("클립보드 API가 실패하는 경우", () => {
+        test("에러가 발생해야 한다", async () => {
+          const errorMessage = "클립보드 접근 권한이 없습니다";
+          mockWriteText.mockRejectedValue(new Error(errorMessage));
+          const { result } = renderHook(() => useJjikboulUI());
+
+          await expect(async () => {
+            await act(async () => {
+              await result.current.copyToClipboard("테스트");
+            });
+          }).rejects.toThrow(errorMessage);
+        });
+      });
+
+      describe("빈 문자열을 복사하려고 하는 경우", () => {
+        test("빈 문자열이 클립보드에 복사되어야 한다", async () => {
+          mockWriteText.mockResolvedValue(undefined);
+          const { result } = renderHook(() => useJjikboulUI());
+
+          await act(async () => {
+            await result.current.copyToClipboard("");
+          });
+
+          expect(mockWriteText).toHaveBeenCalledWith("");
+        });
+      });
+
+      describe("특수 문자가 포함된 텍스트를 복사하는 경우", () => {
+        test("특수 문자가 포함된 텍스트가 정확히 복사되어야 한다", async () => {
+          mockWriteText.mockResolvedValue(undefined);
+          const { result } = renderHook(() => useJjikboulUI());
+          const specialText =
+            "https://example.com/share?id=123&param=찍볼#section";
+
+          await act(async () => {
+            await result.current.copyToClipboard(specialText);
+          });
+
+          expect(mockWriteText).toHaveBeenCalledWith(specialText);
+        });
+      });
     });
   });
 
-  describe("copyToClipboard", () => {
-    test("클립보드에 텍스트를 복사한다", async () => {
-      mockWriteText.mockResolvedValue(undefined);
-      const { result } = renderHook(() => useJjikboulUI());
+  describe("Feature: 네이티브 공유 기능 감지", () => {
+    describe("사용자가 네이티브 공유 기능 사용 가능 여부를 확인하려고 할 때", () => {
+      describe("navigator.share API가 지원되는 환경인 경우", () => {
+        test("true를 반환해야 한다", () => {
+          navigator.share = jest.fn();
+          const { result } = renderHook(() => useJjikboulUI());
 
-      await act(async () => {
-        await result.current.copyToClipboard("테스트 텍스트");
+          const isAvailable = result.current.isShareAvailable();
+
+          expect(isAvailable).toBe(true);
+        });
       });
 
-      expect(mockWriteText).toHaveBeenCalledWith("테스트 텍스트");
+      describe("navigator.share API가 지원되지 않는 환경인 경우", () => {
+        test("false를 반환해야 한다", () => {
+          // @ts-expect-error - 테스트를 위한 navigator mock
+          delete navigator.share;
+
+          const { result } = renderHook(() => useJjikboulUI());
+
+          const isAvailable = result.current.isShareAvailable();
+
+          expect(isAvailable).toBe(false);
+        });
+      });
+
+      describe("navigator가 undefined인 경우", () => {
+        test("false를 반환해야 한다", () => {
+          const originalNavigator = global.navigator;
+          // @ts-expect-error - 테스트를 위한 navigator mock
+          delete global.navigator;
+          const { result } = renderHook(() => useJjikboulUI());
+
+          const isAvailable = result.current.isShareAvailable();
+
+          expect(isAvailable).toBe(false);
+
+          // Cleanup
+          global.navigator = originalNavigator;
+        });
+      });
     });
   });
 
-  describe("printWindow", () => {
-    test("window.print를 호출한다", () => {
-      const { result } = renderHook(() => useJjikboulUI());
-
-      act(() => {
-        result.current.printWindow();
-      });
-
-      expect(mockPrint).toHaveBeenCalled();
-    });
-  });
-
-  describe("handleShare", () => {
-    describe("네이티브 앱 공유가 가능한 경우", () => {
-      beforeEach(() => {
-        const mockWebkit: WebkitNamespace = {
-          messageHandlers: {
-            share: { postMessage: mockPostMessage },
+  describe("Feature: 모바일 디바이스 감지", () => {
+    describe("사용자가 모바일 디바이스인지 확인하려고 할 때", () => {
+      describe("모바일 User Agent를 사용하는 경우", () => {
+        const mobileUserAgents = [
+          {
+            userAgent: "Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0",
+            description: "Firefox Mobile (Mobi 패턴)",
           },
-        };
-        Object.assign(window, { webkit: mockWebkit });
+          {
+            userAgent: "Mozilla/5.0 (Linux; Android 10; SM-G975F)",
+            description: "Android 디바이스",
+          },
+          {
+            userAgent:
+              "Mozilla/5.0 (Android 4.4.2; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0",
+            description: "Android + Mobile 조합",
+          },
+          {
+            userAgent:
+              "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
+            description: "iPhone Safari (Mobile 포함)",
+          },
+        ];
+
+        test.each(mobileUserAgents)(
+          "true를 반환해야 한다 - $description",
+          ({ userAgent }) => {
+            Object.defineProperty(navigator, "userAgent", {
+              value: userAgent,
+              configurable: true,
+            });
+            const { result } = renderHook(() => useJjikboulUI());
+
+            const isMobile = result.current.isMobileDevice();
+
+            expect(isMobile).toBe(true);
+          }
+        );
       });
 
-      test("웹킷 메시지 핸들러로 공유 데이터를 전송한다", async () => {
-        const { result } = renderHook(() => useJjikboulUI());
+      describe("데스크톱 User Agent를 사용하는 경우", () => {
+        const desktopUserAgents = [
+          {
+            userAgent:
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            description: "Windows 데스크톱",
+          },
+          {
+            userAgent:
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+            description: "macOS 데스크톱",
+          },
+          {
+            userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36",
+            description: "Linux 데스크톱",
+          },
+        ];
 
-        await act(async () => {
-          await result.current.handleShare("https://example.com");
-        });
+        test.each(desktopUserAgents)(
+          "false를 반환해야 한다 - $description",
+          ({ userAgent }) => {
+            Object.defineProperty(navigator, "userAgent", {
+              value: userAgent,
+              configurable: true,
+            });
+            const { result } = renderHook(() => useJjikboulUI());
 
-        expect(mockPostMessage).toHaveBeenCalledWith({
-          url: "https://example.com",
-          title: "찍볼 공유",
-          text: "찍볼을 확인해보세요!",
-        });
-        expect(mockWriteText).not.toHaveBeenCalled();
-        expect(mockAlert).not.toHaveBeenCalled();
+            const isMobile = result.current.isMobileDevice();
+
+            expect(isMobile).toBe(false);
+          }
+        );
       });
 
-      test("웹킷 공유 중 오류 발생 시 useAppScheme에서 에러를 처리한다", async () => {
-        const consoleErrorSpy = jest
-          .spyOn(console, "error")
-          .mockImplementation();
-        mockPostMessage.mockImplementation(() => {
-          throw new Error("웹킷 오류");
+      describe("User Agent가 비정상적인 값인 경우", () => {
+        test("빈 문자열일 때 false를 반환해야 한다", () => {
+          Object.defineProperty(navigator, "userAgent", {
+            value: "",
+            configurable: true,
+          });
+          const { result } = renderHook(() => useJjikboulUI());
+
+          const isMobile = result.current.isMobileDevice();
+
+          expect(isMobile).toBe(false);
         });
 
-        const { result } = renderHook(() => useJjikboulUI());
+        test("undefined일 때 false를 반환해야 한다", () => {
+          Object.defineProperty(navigator, "userAgent", {
+            value: undefined,
+            configurable: true,
+          });
+          const { result } = renderHook(() => useJjikboulUI());
 
-        await act(async () => {
-          await result.current.handleShare("https://example.com");
+          const isMobile = result.current.isMobileDevice();
+
+          expect(isMobile).toBe(false);
         });
-
-        // useAppScheme에서 에러를 내부적으로 처리하므로 에러 로그가 기록됨
-        expect(consoleErrorSpy).toHaveBeenCalledWith(
-          "공유 중 오류가 발생했습니다:",
-          expect.any(Error)
-        );
-        // useJjikboulUI에서는 성공적으로 처리된 것으로 보이므로 alert가 호출되지 않음
-        expect(mockAlert).not.toHaveBeenCalled();
-
-        consoleErrorSpy.mockRestore();
-      });
-    });
-
-    describe("네이티브 앱 공유가 불가능한 경우", () => {
-      test("성공적으로 URL을 클립보드에 복사하고 알림을 보여준다", async () => {
-        mockWriteText.mockResolvedValue(undefined);
-        const { result } = renderHook(() => useJjikboulUI());
-
-        await act(async () => {
-          await result.current.handleShare("https://example.com");
-        });
-
-        expect(mockWriteText).toHaveBeenCalledWith("https://example.com");
-        expect(mockAlert).toHaveBeenCalledWith(
-          "링크가 클립보드에 복사되었습니다."
-        );
-        expect(mockPostMessage).not.toHaveBeenCalled();
-      });
-
-      test("클립보드 복사 실패 시 에러 메시지를 보여준다", async () => {
-        const consoleErrorSpy = jest
-          .spyOn(console, "error")
-          .mockImplementation();
-        mockWriteText.mockRejectedValue(new Error("클립보드 오류"));
-        const { result } = renderHook(() => useJjikboulUI());
-
-        await act(async () => {
-          await result.current.handleShare("https://example.com");
-        });
-
-        expect(consoleErrorSpy).toHaveBeenCalledWith(
-          "❌ handleShare 에러:",
-          expect.any(Error)
-        );
-        expect(mockAlert).toHaveBeenCalledWith(
-          "공유 링크 복사에 실패했습니다."
-        );
-
-        consoleErrorSpy.mockRestore();
       });
     });
   });
 
-  describe("handleSaveAsImage", () => {
-    test("모바일 기기에서 스크린샷 안내를 보여준다", () => {
-      // Mock mobile user agent (use Android to match /Mobi|Android/i pattern)
-      Object.defineProperty(navigator, "userAgent", {
-        value: "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36",
-        configurable: true,
+  describe("Feature: Hook 안정성 및 메모이제이션", () => {
+    describe("Hook이 여러 번 렌더링되는 경우", () => {
+      describe("동일한 props로 리렌더링되는 경우", () => {
+        test("모든 함수가 동일한 참조를 유지해야 한다", () => {
+          const { result, rerender } = renderHook(() => useJjikboulUI());
+          const firstRender = {
+            copyToClipboard: result.current.copyToClipboard,
+            isShareAvailable: result.current.isShareAvailable,
+            isMobileDevice: result.current.isMobileDevice,
+          };
+
+          rerender();
+
+          expect(result.current.copyToClipboard).toBe(
+            firstRender.copyToClipboard
+          );
+          expect(result.current.isShareAvailable).toBe(
+            firstRender.isShareAvailable
+          );
+          expect(result.current.isMobileDevice).toBe(
+            firstRender.isMobileDevice
+          );
+        });
       });
 
-      const { result } = renderHook(() => useJjikboulUI());
+      describe("연속적으로 같은 함수를 호출하는 경우", () => {
+        test("모든 호출이 정상적으로 처리되어야 한다", async () => {
+          mockWriteText.mockResolvedValue(undefined);
+          const { result } = renderHook(() => useJjikboulUI());
+          const testTexts = ["텍스트1", "텍스트2", "텍스트3"];
 
-      act(() => {
-        result.current.handleSaveAsImage();
+          for (const text of testTexts) {
+            await act(async () => {
+              await result.current.copyToClipboard(text);
+            });
+          }
+
+          expect(mockWriteText).toHaveBeenCalledTimes(3);
+          testTexts.forEach((text, index) => {
+            expect(mockWriteText).toHaveBeenNthCalledWith(index + 1, text);
+          });
+        });
       });
-
-      expect(mockAlert).toHaveBeenCalledWith(
-        expect.stringContaining("화면을 스크린샷으로 저장해주세요")
-      );
-      expect(mockPrint).not.toHaveBeenCalled();
-    });
-
-    test("데스크톱에서 프린트 창을 연다", () => {
-      Object.defineProperty(navigator, "userAgent", {
-        value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        configurable: true,
-      });
-
-      const { result } = renderHook(() => useJjikboulUI());
-
-      act(() => {
-        result.current.handleSaveAsImage();
-      });
-
-      expect(mockPrint).toHaveBeenCalled();
-    });
-  });
-
-  describe("isShareAvailable", () => {
-    test("navigator.share가 있으면 true를 반환한다", () => {
-      navigator.share = jest.fn();
-
-      const { result } = renderHook(() => useJjikboulUI());
-
-      const isAvailable = result.current.isShareAvailable();
-
-      expect(isAvailable).toBe(true);
-    });
-
-    test("navigator.share가 없으면 false를 반환한다", () => {
-      // @ts-expect-error - 테스트를 위한 navigator mock
-      delete navigator.share;
-
-      const { result } = renderHook(() => useJjikboulUI());
-
-      const isAvailable = result.current.isShareAvailable();
-
-      expect(isAvailable).toBe(false);
-    });
-  });
-
-  describe("isMobileDevice", () => {
-    test.each([
-      "Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0", // Contains "Mobi"
-      "Mozilla/5.0 (Linux; Android 10; SM-G975F)", // Contains "Android"
-      "Mozilla/5.0 (Android 4.4.2; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0", // Contains both
-    ])("모바일 User Agent에서 true를 반환한다: %s", (userAgent) => {
-      Object.defineProperty(navigator, "userAgent", {
-        value: userAgent,
-        configurable: true,
-      });
-
-      const { result } = renderHook(() => useJjikboulUI());
-
-      expect(result.current.isMobileDevice()).toBe(true);
-    });
-
-    test.each([
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-    ])("데스크톱 User Agent에서 false를 반환한다: %s", (userAgent) => {
-      Object.defineProperty(navigator, "userAgent", {
-        value: userAgent,
-        configurable: true,
-      });
-
-      const { result } = renderHook(() => useJjikboulUI());
-
-      expect(result.current.isMobileDevice()).toBe(false);
     });
   });
 });

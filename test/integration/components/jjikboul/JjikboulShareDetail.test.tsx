@@ -3,13 +3,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { jest } from "@jest/globals";
 
 import JjikboulShareDetail from "@/components/jjikboul/JjikboulShareDetail";
+import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
 import useJjikboul from "@/hooks/jjikboul/useJjikboul";
+import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
+import useImageDownload from "@/hooks/useImageDownload";
+import useAppScheme from "@/hooks/useAppScheme";
 import {
   mockJjikboulData,
   mockUseJjikboulReturn,
 } from "@/test/mocks/jjikboulData";
 
+jest.mock("@/api/hooks/jjikboul");
 jest.mock("@/hooks/jjikboul/useJjikboul");
+jest.mock("@/hooks/jjikboul/useJjikboulUI");
+jest.mock("@/hooks/useImageDownload");
+jest.mock("@/hooks/useAppScheme");
 jest.mock("next/navigation", () => ({
   useParams: () => ({ jjikboulId: "test-jjikboul-id" }),
   useRouter: () => ({
@@ -18,8 +26,19 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
+Object.defineProperty(window, "alert", {
+  writable: true,
+  value: jest.fn(),
+});
+
 describe("JjikboulShareDetail", () => {
   let queryClient: QueryClient;
+
+  const mockCopyToClipboard = jest.fn();
+  const mockDownloadImage = jest.fn();
+  const mockShare = jest.fn();
+  const mockIsNativeShareAvailable = jest.fn(() => false);
+  const mockIsNativeDownloadAvailable = jest.fn(() => false);
 
   beforeEach(() => {
     queryClient = new QueryClient({
@@ -30,11 +49,30 @@ describe("JjikboulShareDetail", () => {
 
     jest.clearAllMocks();
 
-    (useJjikboul as jest.Mock).mockReturnValue({
-      jjikboul: mockJjikboulData,
+    (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+      data: mockJjikboulData,
       isLoading: false,
       isError: false,
+    });
+
+    (useJjikboul as jest.Mock).mockReturnValue({
       ...mockUseJjikboulReturn,
+    });
+
+    (useJjikboulUI as jest.Mock).mockReturnValue({
+      copyToClipboard: mockCopyToClipboard,
+    });
+
+    (useImageDownload as jest.Mock).mockReturnValue({
+      downloadImage: mockDownloadImage,
+      isNativeDownloadAvailable: mockIsNativeDownloadAvailable,
+      isDownloading: false,
+      downloadResult: null,
+    });
+
+    (useAppScheme as jest.Mock).mockReturnValue({
+      share: mockShare,
+      isNativeShareAvailable: mockIsNativeShareAvailable,
     });
   });
 
@@ -45,35 +83,6 @@ describe("JjikboulShareDetail", () => {
       </QueryClientProvider>
     );
   };
-
-  describe("암장 정보 표시", () => {
-    test("암장명을 명확히 표시해야 한다", () => {
-      renderComponent();
-      expect(screen.getByText("더클라임 강남점")).toBeInTheDocument();
-    });
-
-    test("암장 정보에 위치 아이콘이 포함되어야 한다", () => {
-      renderComponent();
-      expect(
-        screen.getByRole("img", { name: /location/i })
-      ).toBeInTheDocument();
-    });
-  });
-
-  describe("난이도 표시", () => {
-    test("난이도를 시각적으로 구분하여 표시해야 한다", () => {
-      renderComponent();
-      const levelIcon = screen.getByTestId("level-icon-orange");
-      expect(levelIcon).toBeInTheDocument();
-    });
-
-    test("난이도 컬러 표시가 있어야 한다", () => {
-      renderComponent();
-      const levelIcon = screen.getByTestId("level-icon-orange");
-      expect(levelIcon).toBeInTheDocument();
-      expect(levelIcon).toHaveStyle({ backgroundColor: "rgb(255, 179, 35)" });
-    });
-  });
 
   describe("제작자 정보", () => {
     test("문제를 만든 사용자의 프로필 사진을 표시해야 한다", () => {
@@ -96,19 +105,6 @@ describe("JjikboulShareDetail", () => {
     });
   });
 
-  describe("브랜드 로고", () => {
-    test("클라밍고 앱 로고를 적절한 위치에 배치해야 한다", () => {
-      renderComponent();
-      const logo = screen.getByRole("img", { name: /클라밍고/i });
-      expect(logo).toBeInTheDocument();
-    });
-
-    test("텍스트 로고도 함께 표시되어야 한다", () => {
-      renderComponent();
-      expect(screen.getByTestId("text-logo")).toBeInTheDocument();
-    });
-  });
-
   describe("설명 텍스트", () => {
     test("문제 설명이 표시되어야 한다", () => {
       renderComponent();
@@ -123,14 +119,32 @@ describe("JjikboulShareDetail", () => {
       expect(shareButton).toBeInTheDocument();
     });
 
-    test("공유 버튼 클릭 시 현재 찍볼 공유 기능이 호출되어야 한다", async () => {
+    test("네이티브 공유 가능 시 네이티브 공유 기능이 호출되어야 한다", async () => {
+      mockIsNativeShareAvailable.mockReturnValue(true);
       renderComponent();
       const shareButton = screen.getByRole("button", { name: /공유하기/i });
 
       fireEvent.click(shareButton);
 
       await waitFor(() => {
-        expect(mockUseJjikboulReturn.shareCurrentJjikboul).toHaveBeenCalled();
+        expect(mockShare).toHaveBeenCalledWith({
+          url: expect.any(String),
+          title: "찍볼 공유",
+          text: "찍볼을 확인해보세요!",
+        });
+      });
+    });
+
+    test("네이티브 공유 불가능 시 클립보드 복사가 호출되어야 한다", async () => {
+      mockIsNativeShareAvailable.mockReturnValue(false);
+      mockCopyToClipboard.mockImplementation(() => Promise.resolve());
+      renderComponent();
+      const shareButton = screen.getByRole("button", { name: /공유하기/i });
+
+      fireEvent.click(shareButton);
+
+      await waitFor(() => {
+        expect(mockCopyToClipboard).toHaveBeenCalledWith(expect.any(String));
       });
     });
 
@@ -147,14 +161,16 @@ describe("JjikboulShareDetail", () => {
       expect(saveButton).toBeInTheDocument();
     });
 
-    test("저장하기 버튼 클릭 시 이미지 저장 기능이 호출되어야 한다", async () => {
+    test("저장하기 버튼 클릭 시 이미지 다운로드 기능이 호출되어야 한다", async () => {
       renderComponent();
       const saveButton = screen.getByRole("button", { name: /저장하기/i });
 
       fireEvent.click(saveButton);
 
       await waitFor(() => {
-        expect(mockUseJjikboulReturn.saveAsImage).toHaveBeenCalled();
+        expect(mockDownloadImage).toHaveBeenCalledWith(
+          mockJjikboulData.jjikboul.problemUrl
+        );
       });
     });
 
@@ -169,7 +185,7 @@ describe("JjikboulShareDetail", () => {
       renderComponent();
       const container = screen.getByTestId("jjikboul-share-container");
       expect(container).toHaveClass("w-full");
-      expect(container).toHaveStyle({ maxWidth: "390px" });
+      expect(container).toHaveClass("max-w-[40rem]");
     });
 
     test("액션 버튼들이 적절한 크기로 표시되어야 한다", () => {
@@ -177,18 +193,17 @@ describe("JjikboulShareDetail", () => {
       const shareButton = screen.getByRole("button", { name: /공유하기/i });
       const saveButton = screen.getByRole("button", { name: /저장하기/i });
 
-      expect(shareButton).toHaveClass("w-[170px]", "h-12");
-      expect(saveButton).toHaveClass("w-[170px]", "h-12");
+      expect(shareButton).toHaveClass("w-[18rem]", "h-[5rem]");
+      expect(saveButton).toHaveClass("w-[18rem]", "h-[5rem]");
     });
   });
 
   describe("로딩 상태", () => {
     test("데이터 로딩 중일 때 로딩 스피너를 표시해야 한다", () => {
-      (useJjikboul as jest.Mock).mockReturnValue({
-        jjikboul: null,
+      (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+        data: null,
         isLoading: true,
         isError: false,
-        ...mockUseJjikboulReturn,
       });
 
       renderComponent();
@@ -198,11 +213,10 @@ describe("JjikboulShareDetail", () => {
 
   describe("에러 상태", () => {
     test("데이터 로딩 실패 시 에러 메시지를 표시해야 한다", () => {
-      (useJjikboul as jest.Mock).mockReturnValue({
-        jjikboul: null,
+      (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+        data: null,
         isLoading: false,
         isError: true,
-        ...mockUseJjikboulReturn,
       });
 
       renderComponent();

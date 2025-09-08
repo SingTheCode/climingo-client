@@ -1,128 +1,155 @@
 import { renderHook } from "@testing-library/react";
 import useAppScheme from "@/hooks/useAppScheme";
-import { ShareParams, WebkitNamespace } from "@/types/appScheme";
+import {
+  ShareParams,
+  WebkitNamespace,
+  ImageDownloadParams,
+} from "@/types/appScheme";
 
 const mockPostMessage = jest.fn<void, [ShareParams]>();
+const mockDownloadPostMessage = jest.fn<void, [ImageDownloadParams]>();
 
-describe("useAppScheme", () => {
+describe("네이티브 앱 연동 기능 (useAppScheme)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     delete (window as Window & { webkit?: WebkitNamespace }).webkit;
   });
 
-  describe("네이티브 공유 기능 가능 여부", () => {
-    test("webkit.messageHandlers.share가 있으면 true를 반환한다", () => {
-      const mockWebkit: WebkitNamespace = {
-        messageHandlers: {
-          share: { postMessage: mockPostMessage },
-        },
-      };
-      Object.assign(window, { webkit: mockWebkit });
+  describe("네이티브 공유 기능 감지", () => {
+    describe("네이티브 앱 환경에서 공유 기능 가용성을 확인할 때", () => {
+      test("네이티브 앱에서 webkit messageHandler가 설정된 상태일 때, 공유 기능 가용성을 확인하면, 사용 가능한 것으로 판단한다", () => {
+        const nativeAppEnvironment: WebkitNamespace = {
+          messageHandlers: {
+            share: { postMessage: mockPostMessage },
+            downloadImage: { postMessage: mockDownloadPostMessage },
+          },
+        };
+        Object.assign(window, { webkit: nativeAppEnvironment });
+        const { result } = renderHook(() => useAppScheme());
 
-      const { result } = renderHook(() => useAppScheme());
+        const isAvailable = result.current.isNativeShareAvailable();
 
-      expect(result.current.isNativeShareAvailable()).toBe(true);
-    });
+        expect(isAvailable).toBe(true);
+      });
 
-    test("webkit.messageHandlers.share가 없으면 false를 반환한다", () => {
-      const { result } = renderHook(() => useAppScheme());
+      test("웹 브라우저 환경일 때, 공유 기능 가용성을 확인하면, 사용 불가능한 것으로 판단한다", () => {
+        const { result } = renderHook(() => useAppScheme());
 
-      expect(result.current.isNativeShareAvailable()).toBe(false);
+        const isAvailable = result.current.isNativeShareAvailable();
+
+        expect(isAvailable).toBe(false);
+      });
     });
   });
 
-  describe("share 함수 - string 타입", () => {
+  describe("문자열 콘텐츠 공유", () => {
     beforeEach(() => {
-      const mockWebkit: WebkitNamespace = {
+      const nativeAppEnvironment: WebkitNamespace = {
         messageHandlers: {
           share: { postMessage: mockPostMessage },
+          downloadImage: { postMessage: mockDownloadPostMessage },
         },
       };
-      Object.assign(window, { webkit: mockWebkit });
+      Object.assign(window, { webkit: nativeAppEnvironment });
     });
 
-    test("단순 문자열을 공유할 수 있다", () => {
-      const { result } = renderHook(() => useAppScheme());
+    describe("사용자가 텍스트를 공유하려고 할 때", () => {
+      test("공유할 텍스트가 있을 때, 텍스트 공유를 실행하면, 네이티브 앱으로 텍스트가 전달된다", () => {
+        const { result } = renderHook(() => useAppScheme());
+        const textToShare = "Hello World";
 
-      result.current.share("Hello World");
+        result.current.share(textToShare);
 
-      expect(mockPostMessage).toHaveBeenCalledWith("Hello World");
+        expect(mockPostMessage).toHaveBeenCalledWith(textToShare);
+      });
     });
 
-    test("빈 문자열도 공유할 수 있다", () => {
-      const { result } = renderHook(() => useAppScheme());
+    describe("빈 콘텐츠를 공유하려고 할 때", () => {
+      test("빈 문자열이 있을 때, 공유를 실행하면, 빈 문자열도 네이티브 앱으로 전달된다", () => {
+        const { result } = renderHook(() => useAppScheme());
+        const emptyText = "";
 
-      result.current.share("");
+        result.current.share(emptyText);
 
-      expect(mockPostMessage).toHaveBeenCalledWith("");
+        expect(mockPostMessage).toHaveBeenCalledWith(emptyText);
+      });
     });
   });
 
-  describe("share 함수 - 객체 타입", () => {
+  describe("구조화된 콘텐츠 공유", () => {
     beforeEach(() => {
-      const mockWebkit: WebkitNamespace = {
+      const nativeAppEnvironment: WebkitNamespace = {
         messageHandlers: {
           share: { postMessage: mockPostMessage },
+          downloadImage: { postMessage: mockDownloadPostMessage },
         },
       };
-      Object.assign(window, { webkit: mockWebkit });
+      Object.assign(window, { webkit: nativeAppEnvironment });
     });
 
-    test("URL 만 있는 객체를 공유할 수 있다", () => {
-      const { result } = renderHook(() => useAppScheme());
-      const shareData = { url: "https://example.com" };
+    describe("최소한의 공유 데이터로 링크를 공유할 때", () => {
+      test("URL만 포함된 공유 데이터가 있을 때, 공유를 실행하면, 네이티브 앱으로 URL 데이터가 전달된다", () => {
+        const { result } = renderHook(() => useAppScheme());
+        const urlOnlyShareData = { url: "https://example.com" };
 
-      result.current.share(shareData);
+        result.current.share(urlOnlyShareData);
 
-      expect(mockPostMessage).toHaveBeenCalledWith(shareData);
+        expect(mockPostMessage).toHaveBeenCalledWith(urlOnlyShareData);
+      });
     });
 
-    test("URL 과 text 가 있는 객체를 공유할 수 있다", () => {
-      const { result } = renderHook(() => useAppScheme());
-      const shareData = {
-        text: "Check this out!",
-        url: "https://example.com",
-      };
+    describe("설명이 포함된 링크를 공유할 때", () => {
+      test("URL과 설명 텍스트가 포함된 공유 데이터가 있을 때, 공유를 실행하면, 네이티브 앱으로 완전한 데이터가 전달된다", () => {
+        const { result } = renderHook(() => useAppScheme());
+        const urlWithTextShareData = {
+          text: "Check this out!",
+          url: "https://example.com",
+        };
 
-      result.current.share(shareData);
+        result.current.share(urlWithTextShareData);
 
-      expect(mockPostMessage).toHaveBeenCalledWith(shareData);
+        expect(mockPostMessage).toHaveBeenCalledWith(urlWithTextShareData);
+      });
     });
 
-    test("title, text, URL 이 모두 있는 객체를 공유할 수 있다", () => {
-      const { result } = renderHook(() => useAppScheme());
-      const shareData = {
-        title: "Amazing App",
-        text: "Check this out!",
-        url: "https://example.com",
-      };
+    describe("완전한 메타데이터와 함께 콘텐츠를 공유할 때", () => {
+      test("제목, 설명, URL이 모두 포함된 공유 데이터가 있을 때, 공유를 실행하면, 네이티브 앱으로 풍부한 메타데이터가 전달된다", () => {
+        const { result } = renderHook(() => useAppScheme());
+        const completeShareData = {
+          title: "Amazing App",
+          text: "Check this out!",
+          url: "https://example.com",
+        };
 
-      result.current.share(shareData);
+        result.current.share(completeShareData);
 
-      expect(mockPostMessage).toHaveBeenCalledWith(shareData);
-    });
+        expect(mockPostMessage).toHaveBeenCalledWith(completeShareData);
+      });
 
-    test("title 과 URL 만 있는 객체를 공유할 수 있다", () => {
-      const { result } = renderHook(() => useAppScheme());
-      const shareData = {
-        title: "Amazing App",
-        url: "https://example.com",
-      };
+      test("제목과 URL만 포함된 공유 데이터가 있을 때, 공유를 실행하면, 네이티브 앱으로 제목과 URL이 전달된다", () => {
+        const { result } = renderHook(() => useAppScheme());
+        const titleWithUrlShareData = {
+          title: "Amazing App",
+          url: "https://example.com",
+        };
 
-      result.current.share(shareData);
+        result.current.share(titleWithUrlShareData);
 
-      expect(mockPostMessage).toHaveBeenCalledWith(shareData);
+        expect(mockPostMessage).toHaveBeenCalledWith(titleWithUrlShareData);
+      });
     });
   });
 
-  describe("네이티브 공유 기능이 없을 때", () => {
-    test("postMessage 가 호출되지 않는다", () => {
-      const { result } = renderHook(() => useAppScheme());
+  describe("네이티브 공유 기능 미지원 환경 처리", () => {
+    describe("웹 브라우저에서 네이티브 공유를 시도할 때", () => {
+      test("네이티브 앱 환경이 아닐 때, 공유를 시도하면, 네이티브 메시지 전송이 수행되지 않는다", () => {
+        const { result } = renderHook(() => useAppScheme());
 
-      result.current.share("Hello World");
-      result.current.share({ url: "https://example.com" });
+        result.current.share("Hello World");
+        result.current.share({ url: "https://example.com" });
 
-      expect(mockPostMessage).not.toHaveBeenCalled();
+        expect(mockPostMessage).not.toHaveBeenCalled();
+      });
     });
   });
 });
