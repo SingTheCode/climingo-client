@@ -50,62 +50,13 @@ const FloatingActionMenu = () => {
 
   return (
     <>
-      {/* Backdrop */}
-      <Transition
-        show={isOpen}
-        enter="transition-opacity duration-200"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-200"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div
-          className="fixed inset-0 bg-black/30 z-[500]"
-          onClick={() => setIsOpen(false)}
-        />
-      </Transition>
+      <FloatingActionBackdrop
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
 
-      {/* Menu Items */}
       <div className="fixed right-[2rem] bottom-[2rem] z-[600] flex flex-col items-end gap-[1.2rem]">
-        {menuOptions.map((option, index) => (
-          <Transition
-            key={option.label}
-            show={isOpen}
-            enter="transition-all duration-300 ease-out"
-            enterFrom="opacity-0 translate-y-4 scale-95"
-            enterTo="opacity-100 translate-y-0 scale-100"
-            leave="transition-all duration-200 ease-in"
-            leaveFrom="opacity-100 translate-y-0 scale-100"
-            leaveTo="opacity-0 translate-y-4 scale-95"
-          >
-            <div
-              className="transition-all"
-              style={{
-                transitionDelay: isOpen
-                  ? `${index * 50}ms`
-                  : `${(menuOptions.length - 1 - index) * 50}ms`,
-              }}
-            >
-              <button
-                onClick={option.onClick}
-                className="flex items-center gap-[1.2rem] bg-white rounded-full px-[2rem] py-[1.2rem] shadow-lg hover:shadow-xl transition-shadow duration-200"
-              >
-                <span className="text-sm font-medium text-ink whitespace-nowrap">
-                  {option.label}
-                </span>
-                <div className="w-[2.4rem] h-[2.4rem] flex items-center justify-center">
-                  <Image
-                    width="20"
-                    height="20"
-                    src={option.icon}
-                    alt={option.label}
-                  />
-                </div>
-              </button>
-            </div>
-          </Transition>
-        ))}
+        <FloatingActionMenuItems menuOptions={menuOptions} isOpen={isOpen} />
 
         <button
           onClick={handleToggle}
@@ -130,3 +81,74 @@ const FloatingActionMenu = () => {
 };
 
 export default FloatingActionMenu;
+
+interface BackdropProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function FloatingActionBackdrop({ isOpen, onClose }: BackdropProps) {
+  return (
+    <Transition
+      show={isOpen}
+      enter="transition-opacity duration-200"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity duration-200"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      <div className="fixed inset-0 bg-black/30 z-[500]" onClick={onClose} />
+    </Transition>
+  );
+}
+
+interface MenuItemsProps {
+  menuOptions: MenuOption[];
+  isOpen: boolean;
+}
+
+function FloatingActionMenuItems({ menuOptions, isOpen }: MenuItemsProps) {
+  return (
+    <>
+      {menuOptions.map((option, index) => (
+        <Transition
+          key={option.label}
+          show={isOpen}
+          enter="transition-all duration-300 ease-out"
+          enterFrom="opacity-0 translate-y-4 scale-95"
+          enterTo="opacity-100 translate-y-0 scale-100"
+          leave="transition-all duration-200 ease-in"
+          leaveFrom="opacity-100 translate-y-0 scale-100"
+          leaveTo="opacity-0 translate-y-4 scale-95"
+        >
+          <div
+            className="transition-all"
+            style={{
+              transitionDelay: isOpen
+                ? `${index * 50}ms`
+                : `${(menuOptions.length - 1 - index) * 50}ms`,
+            }}
+          >
+            <button
+              onClick={option.onClick}
+              className="flex items-center gap-[1.2rem] bg-white rounded-full px-[2rem] py-[1.2rem] shadow-lg hover:shadow-xl transition-shadow duration-200"
+            >
+              <span className="text-sm font-medium text-ink whitespace-nowrap">
+                {option.label}
+              </span>
+              <div className="w-[2.4rem] h-[2.4rem] flex items-center justify-center">
+                <Image
+                  width="20"
+                  height="20"
+                  src={option.icon}
+                  alt={option.label}
+                />
+              </div>
+            </button>
+          </div>
+        </Transition>
+      ))}
+    </>
+  );
+}
