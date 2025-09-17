@@ -1,7 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { OAuthApiRequest, OAuthProvider } from "@/types/auth";
-import { oAuthApi, signInApi } from "@/api/modules/user";
+import { OAuthApiRequest, OAuthProvider, MemberInfo } from "@/types/auth";
+import { oAuthApi, signInApi, MemberInfoResponse } from "@/api/modules/user";
+
+export const MemberInfoModel = (serverData: MemberInfoResponse): MemberInfo => {
+  return {
+    nickname: serverData.nickname,
+    profileUrl: serverData.profileUrl,
+    memberId: serverData.memberId,
+    authId: serverData.authId ?? "",
+    email: serverData.email ?? "",
+    providerType: serverData.providerType ?? "kakao",
+  };
+};
 
 // 회원가입 여부 조회
 export const useUserQuery = (params: OAuthApiRequest) =>

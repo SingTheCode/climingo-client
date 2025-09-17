@@ -7,9 +7,21 @@ import {
   RecordListApiResponse,
   ReportReason,
   RecordReportApiRequest,
+  LevelColor,
 } from "@/types/record";
 import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";
+
+export interface GymResponse {
+  gymId: number;
+  gymName: string;
+}
+
+export interface LevelResponse {
+  levelId: number;
+  colorNameKo: string;
+  colorNameEn: LevelColor;
+}
 
 // 기록 상세 조회
 export const getRecordDetailApi = async ({
