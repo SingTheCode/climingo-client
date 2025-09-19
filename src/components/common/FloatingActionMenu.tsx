@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Transition } from "@headlessui/react";
@@ -17,25 +17,29 @@ const FloatingActionMenu = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleToggle = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
 
-  const handleClimbingRecord = () => {
+  const handleClimbingRecord = useCallback(() => {
     if (loginCheck()) {
       router.push("/record/create");
     }
     setIsOpen(false);
-  };
+  }, [router]);
 
-  const handleZzikbolCreate = () => {
+  const handleZzikbolCreate = useCallback(() => {
     if (loginCheck()) {
       router.push("/jjikboul/create");
     }
     setIsOpen(false);
-  };
+  }, [router]);
 
-  const menuOptions: MenuOption[] = [
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const menuOptions: MenuOption[] = useMemo(() => [
     {
       label: "찍볼 만들기",
       icon: "/icons/icon-photo.svg",
@@ -46,13 +50,13 @@ const FloatingActionMenu = () => {
       icon: "/icons/icon-write.svg",
       onClick: handleClimbingRecord,
     },
-  ];
+  ], [handleZzikbolCreate, handleClimbingRecord]);
 
   return (
     <>
       <FloatingActionBackdrop
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleClose}
       />
 
       <div className="fixed right-[2rem] bottom-[2rem] z-[600] flex flex-col items-end gap-[1.2rem]">
