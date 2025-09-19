@@ -2,10 +2,9 @@
 
 import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Transition } from "@headlessui/react";
 
-import { loginCheck } from "@/utils/common";
+import { useNavigateWithAuth } from "@/hooks/common";
 
 interface MenuOption {
   label: string;
@@ -14,26 +13,12 @@ interface MenuOption {
 }
 
 const FloatingActionMenu = () => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const navigateWithAuth = useNavigateWithAuth();
 
   const handleToggle = useCallback(() => {
     setIsOpen(prev => !prev);
   }, []);
-
-  const handleClimbingRecord = useCallback(() => {
-    if (loginCheck()) {
-      router.push("/record/create");
-    }
-    setIsOpen(false);
-  }, [router]);
-
-  const handleZzikbolCreate = useCallback(() => {
-    if (loginCheck()) {
-      router.push("/jjikboul/create");
-    }
-    setIsOpen(false);
-  }, [router]);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -43,14 +28,14 @@ const FloatingActionMenu = () => {
     {
       label: "찍볼 만들기",
       icon: "/icons/icon-photo.svg",
-      onClick: handleZzikbolCreate,
+      onClick: () => navigateWithAuth("/jjikboul/create", () => setIsOpen(false)),
     },
     {
       label: "클라이밍 기록하기",
       icon: "/icons/icon-write.svg",
-      onClick: handleClimbingRecord,
+      onClick: () => navigateWithAuth("/record/create", () => setIsOpen(false)),
     },
-  ], [handleZzikbolCreate, handleClimbingRecord]);
+  ], [navigateWithAuth]);
 
   return (
     <>
