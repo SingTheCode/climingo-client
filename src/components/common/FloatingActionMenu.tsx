@@ -59,7 +59,7 @@ const FloatingActionMenu = () => {
         onClose={handleClose}
       />
 
-      <div className="fixed right-[2rem] bottom-[2rem] z-[600] flex flex-col items-end gap-[1.2rem]">
+      <div className="fixed right-[2rem] bottom-[2rem] z-floating flex flex-col items-end gap-[1.2rem]">
         <FloatingActionMenuItems menuOptions={menuOptions} isOpen={isOpen} />
 
         <button
@@ -102,7 +102,7 @@ function FloatingActionBackdrop({ isOpen, onClose }: BackdropProps) {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="fixed inset-0 bg-black/30 z-[500]" onClick={onClose} />
+      <div className="fixed inset-0 bg-black/30 z-overlay" onClick={onClose} />
     </Transition>
   );
 }

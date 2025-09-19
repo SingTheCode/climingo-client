@@ -17,6 +17,15 @@ const config: Config = {
         xl: ["2.0rem", "2.4rem"],
         "2xl": ["2.2rem", "2.6rem"],
       },
+      zIndex: {
+        navigation: "100",
+        dropdown: "200",
+        overlay: "300",
+        floating: "400",
+        tooltip: "500",
+        notification: "600",
+        critical: "900",
+      },
     },
     // TODO: 암장 난이도별 색상 팔레트 추가
     colors: {

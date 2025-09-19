@@ -24,7 +24,7 @@ const LayerPopupRoot = ({
 }: PropsWithChildren<LayerPopupRootProps>) => {
   return (
     <Transition show={open} as={Fragment}>
-      <Dialog className="relative z-[500]" onClose={onClose}>
+      <Dialog className="relative z-overlay" onClose={onClose}>
         {/** overlay */}
         <TransitionChild
           as={Fragment}

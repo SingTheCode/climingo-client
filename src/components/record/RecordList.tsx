@@ -95,7 +95,7 @@ const HomeHeader = () => {
   };
 
   return (
-    <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-[300] overflow-y-hidden bg-white">
+    <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-navigation overflow-y-hidden bg-white">
       {/** left */}
       <div className="px-[2rem]">
         <Link href={"/"}>
