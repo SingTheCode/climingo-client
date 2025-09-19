@@ -16,7 +16,7 @@ import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
   RecordItemSkeleton,
-} from "@/components/record/RecordItem";
+} from "@/domains/record/components/RecordItem";
 
 interface RecordFilter {
   gym: { id: number; name: string };
@@ -105,7 +105,7 @@ const HomeHeader = () => {
     <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-[300] overflow-y-hidden bg-white">
       {/** left */}
       <div className="px-[2rem]">
-        <Link href={"/"}>
+        <Link href={"/public"}>
           <Image
             width="100"
             height="24"

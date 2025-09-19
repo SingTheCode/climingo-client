@@ -13,7 +13,7 @@ import RecordItem, {
   RecordItemContainer,
   RecordItemSkeleton,
   EmptyRecordItem,
-} from "@/components/record/RecordItem";
+} from "@/domains/record/components/RecordItem";
 
 const MyProfile = () => {
   return (

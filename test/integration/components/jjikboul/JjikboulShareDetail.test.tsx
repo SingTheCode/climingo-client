@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { jest } from "@jest/globals";
 
-import JjikboulShareDetail from "@/components/jjikboul/JjikboulShareDetail";
+import JjikboulShareDetail from "@/domains/jjikboul/components/JjikboulShareDetail";
 import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
 import useJjikboul from "@/hooks/jjikboul/useJjikboul";
 import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";

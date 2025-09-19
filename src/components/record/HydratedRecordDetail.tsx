@@ -3,7 +3,7 @@ import { HydrationBoundary } from "@tanstack/react-query";
 
 import getQueryClient from "@/hooks/getQueryClient";
 
-import RecordDetail from "@/components/record/RecordDetail";
+import RecordDetail from "@/domains/record/components/RecordDetail";
 
 export default async function HydratedRecordDetail() {
   const queryClient = getQueryClient();
