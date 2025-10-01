@@ -1,13 +1,4 @@
-import {
-  DependencyList,
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
-import { useRouter } from "next/navigation";
-
-import { loginCheck } from "@/utils/common";
+import { DependencyList, useEffect, useRef, useState } from "react";
 
 export const useDebounce = <T = unknown>(value: T, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -49,22 +40,4 @@ export const useRunOnce = (callback: () => void) => {
       triggered.current = true;
     }
   }, [callback]);
-};
-
-type NavigateCallback = () => void;
-
-export const useNavigateWithAuth = () => {
-  const router = useRouter();
-
-  const navigate = useCallback(
-    (path: string, onNavigate?: NavigateCallback) => {
-      if (loginCheck()) {
-        router.push(path);
-        onNavigate?.();
-      }
-    },
-    [router]
-  );
-
-  return navigate;
 };

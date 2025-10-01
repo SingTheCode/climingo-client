@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useRouter } from "next/navigation";
-import { useNavigateWithAuth } from "@/hooks/common";
+import { useNavigateWithAuth } from "@/hooks/navigate";
 import { loginCheck } from "@/utils/common";
 
 // Mock dependencies
@@ -18,7 +18,7 @@ describe("useNavigateWithAuth", () => {
     jest.clearAllMocks();
     mockUseRouter.mockReturnValue({
       push: mockPush,
-    } as any);
+    } as never);
   });
 
   describe("when user is authenticated", () => {
@@ -28,7 +28,7 @@ describe("useNavigateWithAuth", () => {
 
     it("should navigate to specified path and execute callback", () => {
       const { result } = renderHook(() => useNavigateWithAuth());
-      
+
       act(() => {
         result.current("/test/path", mockCallback);
       });
@@ -40,7 +40,7 @@ describe("useNavigateWithAuth", () => {
 
     it("should navigate to path without callback", () => {
       const { result } = renderHook(() => useNavigateWithAuth());
-      
+
       act(() => {
         result.current("/test/path");
       });
@@ -58,7 +58,7 @@ describe("useNavigateWithAuth", () => {
 
     it("should not navigate and not execute callback", () => {
       const { result } = renderHook(() => useNavigateWithAuth());
-      
+
       act(() => {
         result.current("/test/path", mockCallback);
       });
@@ -70,7 +70,7 @@ describe("useNavigateWithAuth", () => {
 
     it("should not navigate and not execute callback when no callback provided", () => {
       const { result } = renderHook(() => useNavigateWithAuth());
-      
+
       act(() => {
         result.current("/test/path");
       });
@@ -85,9 +85,9 @@ describe("useNavigateWithAuth", () => {
     it("should return the same function reference across re-renders", () => {
       const { result, rerender } = renderHook(() => useNavigateWithAuth());
       const firstReference = result.current;
-      
+
       rerender();
-      
+
       expect(result.current).toBe(firstReference);
     });
   });

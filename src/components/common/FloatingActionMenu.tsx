@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { Transition } from "@headlessui/react";
 
-import { useNavigateWithAuth } from "@/hooks/common";
+import { useNavigateWithAuth } from "@/hooks/navigate";
 
 interface MenuOption {
   label: string;
@@ -17,32 +17,33 @@ const FloatingActionMenu = () => {
   const navigateWithAuth = useNavigateWithAuth();
 
   const handleToggle = useCallback(() => {
-    setIsOpen(prev => !prev);
+    setIsOpen((prev) => !prev);
   }, []);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
   }, []);
 
-  const menuOptions: MenuOption[] = useMemo(() => [
-    {
-      label: "찍볼 만들기",
-      icon: "/icons/icon-photo.svg",
-      onClick: () => navigateWithAuth("/jjikboul/create", () => setIsOpen(false)),
-    },
-    {
-      label: "클라이밍 기록하기",
-      icon: "/icons/icon-write.svg",
-      onClick: () => navigateWithAuth("/record/create", () => setIsOpen(false)),
-    },
-  ], [navigateWithAuth]);
+  const menuOptions: MenuOption[] = useMemo(
+    () => [
+      {
+        label: "찍볼 만들기",
+        icon: "/icons/icon-photo.svg",
+        onClick: () =>
+          navigateWithAuth("/jjikboul/create", () => handleClose()),
+      },
+      {
+        label: "클라이밍 기록하기",
+        icon: "/icons/icon-write.svg",
+        onClick: () => navigateWithAuth("/record/create", () => handleClose()),
+      },
+    ],
+    [navigateWithAuth]
+  );
 
   return (
     <>
-      <FloatingActionBackdrop
-        isOpen={isOpen}
-        onClose={handleClose}
-      />
+      <FloatingActionBackdrop isOpen={isOpen} onClose={handleClose} />
 
       <div className="fixed right-[2rem] bottom-[2rem] z-floating flex flex-col items-end gap-[1.2rem]">
         <FloatingActionMenuItems menuOptions={menuOptions} isOpen={isOpen} />
