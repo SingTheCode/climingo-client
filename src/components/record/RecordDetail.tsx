@@ -115,7 +115,7 @@ const RecordActionMenu = ({
                 padding: "1.5rem",
                 gap: "0.5rem",
               }}
-              className="flex flex-col gap-[0.5rem] min-w-[10rem] z-[350] rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
+              className="flex flex-col gap-[0.5rem] min-w-[10rem] z-dropdown rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
             >
               {isDeletable && (
                 <MenuItem>
