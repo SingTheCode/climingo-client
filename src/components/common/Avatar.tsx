@@ -1,21 +1,21 @@
 import Image, { ImageProps } from "next/image";
 
-interface AvatarProps extends ImageProps {
+interface AvatarProps extends Omit<ImageProps, 'width' | 'height'> {
   size: "xs" | "sm" | "base" | "lg" | "xl";
 }
 
 const refineSize = (size: AvatarProps["size"]) => {
   switch (size) {
     case "xs":
-      return "20";
+      return 20;
     case "sm":
-      return "40";
+      return 40;
     case "base":
-      return "60";
+      return 60;
     case "lg":
-      return "80";
+      return 80;
     case "xl":
-      return "100";
+      return 100;
   }
 };
 

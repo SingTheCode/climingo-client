@@ -4,13 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import type { MemberInfo } from "@/types/auth";
-
 import { signUpApi } from "@/api/modules/user";
-import { useUserActions, useUserValue } from "@/store/user";
-import useAuthSession from "@/hooks/useAuthStorage";
-
-import InputText from "@/components/common/InputText";
+import useUserStore from "@/store/user";
 import BottomActionButton from "@/components/common/BottomActionButton";
+import InputText from "@/components/common/InputText";
 
 /**
  * 전역 user state가 있는 경우에만 해당 컴포넌트 렌더링
@@ -18,10 +15,8 @@ import BottomActionButton from "@/components/common/BottomActionButton";
 export default function SignUpForm() {
   const router = useRouter();
 
-  const user = useUserValue() as MemberInfo;
-  const { setUser } = useUserActions();
-
-  const authSession = useAuthSession();
+  const user = useUserStore((state) => state.user) as MemberInfo;
+  const setUser = useUserStore((state) => state.setUser);
 
   const [nickname, setNickname] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -40,7 +35,6 @@ export default function SignUpForm() {
     try {
       const data = await signUpApi({ ...user, nickname });
       setUser(data);
-      authSession.set(data);
       router.replace("/");
     } catch {
       alert("로그인에 실패했습니다.");

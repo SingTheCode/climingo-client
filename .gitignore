@@ -40,3 +40,12 @@ next-env.d.ts
  # IntelliJ IDEA
 /.idea/
 *.iml
+
+# Cursor
+.cursor
+
+# Claude
+/.claude/
+/.rules/
+/.mcp.json
+/CLAUDE.md

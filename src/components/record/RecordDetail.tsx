@@ -10,7 +10,7 @@ import useDeleteRecordMutation from "@/hooks/record/useDeleteRecordMutation";
 import { MemberInfo } from "@/types/auth";
 import { Level, Gym, Record } from "@/types/record";
 import { fromNowFormat } from "@/utils/common";
-import { useUserValue } from "@/store/user";
+import useUserStore from "@/store/user";
 
 import Avatar from "@/components/common/Avatar";
 import LevelIcon from "@/components/common/LevelIcon";
@@ -70,7 +70,7 @@ const RecordActionMenu = ({
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const router = useRouter();
-  const user = useUserValue();
+  const user = useUserStore((state) => state.user);
 
   const { mutate: deleteRecord } = useDeleteRecordMutation();
 
@@ -115,7 +115,7 @@ const RecordActionMenu = ({
                 padding: "1.5rem",
                 gap: "0.5rem",
               }}
-              className="flex flex-col gap-[0.5rem] min-w-[10rem] z-[350] rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
+              className="flex flex-col gap-[0.5rem] min-w-[10rem] z-dropdown rounded-xl border border-shadow-darkest/5 bg-white p-[0.5rem] text-sm focus:outline-none"
             >
               {isDeletable && (
                 <MenuItem>
