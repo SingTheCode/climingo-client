@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  climingo-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: climingo-client
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development service (optional)
+  climingo-client-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deps
+    container_name: climingo-client-dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    restart: unless-stopped
+    profiles:
+      - dev
