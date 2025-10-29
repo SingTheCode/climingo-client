@@ -48,7 +48,10 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY .env.local .
+
+# Environment variables are injected at runtime via docker-compose env_file
+# This keeps the image clean and allows flexible environment configuration
+# COPY .env.local .
 
 # Switch to non-root user
 USER nextjs

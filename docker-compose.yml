@@ -7,7 +7,9 @@ services:
       dockerfile: Dockerfile
     container_name: climingo-client
     ports:
-      - "3000:3000"
+      - "80:3000"
+    env_file:
+      - .env.local
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -26,11 +28,13 @@ services:
       target: deps
     container_name: climingo-client-dev
     ports:
-      - "3001:3000"
+      - "8:3000"
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
+    env_file:
+      - .env.local
     environment:
       - NODE_ENV=development
     command: npm run dev

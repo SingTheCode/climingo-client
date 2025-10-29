@@ -37,11 +37,13 @@ yarn-error.log*
 
 # Local env files
 .env
-.env.local
+# .env.local is injected via docker-compose env_file
+# .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env*.local
+# .env*.local commented out to allow .env.local if needed
+# .env*.local
 
 # Vercel
 .vercel
