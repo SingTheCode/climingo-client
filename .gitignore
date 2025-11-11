@@ -49,3 +49,5 @@ next-env.d.ts
 /.rules/
 /.mcp.json
 /CLAUDE.md
+
+/.serena
