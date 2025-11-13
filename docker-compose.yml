@@ -5,12 +5,39 @@ services:
     container_name: nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certificates:/etc/nginx/ssl:ro
+      # Let's Encrypt certificates (shared with certbot)
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      # Webroot for ACME challenge (writable for certbot)
+      - ./nginx/webroot:/var/www/certbot
+      # Nginx logs directory
+      - ./nginx/logs:/var/log/nginx
     networks:
       - app-network
     depends_on:
       - climingo-client
+      - climingo-client-dev
+    restart: unless-stopped
+
+  # Certbot for SSL certificate management
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      # Shared volumes with nginx
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./nginx/webroot:/var/www/certbot
+      # Log directory
+      - ./nginx/certbot-logs:/var/log/letsencrypt
+    networks:
+      - app-network
+    # Keep container running for auto-renewal
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done;'"
     restart: unless-stopped
 
   climingo-client:
@@ -59,3 +86,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  certbot-etc:
+  certbot-var:

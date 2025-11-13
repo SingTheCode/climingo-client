@@ -51,3 +51,6 @@ next-env.d.ts
 /CLAUDE.md
 
 /.serena
+/.amazonq/
+/nginx/certbot-logs/
+/nginx/logs/
