@@ -1,10 +1,10 @@
 # Upstream for production application
-upstream app_backend {
+upstream app_frontend {
     server climingo-client:3000;
 }
 
 # Upstream for development application
-upstream dev_backend {
+upstream dev_frontend {
     server climingo-client-dev:3000;
 }
 
@@ -54,7 +54,7 @@ server {
     add_header X-XSS-Protection "1; mode=block" always;
 
     location / {
-        proxy_pass http://app_backend;
+        proxy_pass http://app_frontend;
         proxy_http_version 1.1;
 
         proxy_set_header Host $host;
@@ -113,7 +113,7 @@ server {
     add_header X-Content-Type-Options nosniff always;
 
     location / {
-        proxy_pass http://dev_backend;
+        proxy_pass http://dev_frontend;
         proxy_http_version 1.1;
 
         proxy_set_header Host $host;

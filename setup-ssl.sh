@@ -16,6 +16,12 @@ echo ""
 echo "dev-app.climingo.xyz:"
 nslookup dev-app.climingo.xyz | grep -E "Address:|Name:" | tail -2
 echo ""
+echo "api.climingo.xyz:"
+nslookup api.climingo.xyz | grep -E "Address:|Name:" | tail -2
+echo ""
+echo "dev-api.climingo.xyz:"
+nslookup dev-api.climingo.xyz | grep -E "Address:|Name:" | tail -2
+echo ""
 
 read -p "DNS가 climingo.hopto.org를 가리키나요? (y/n) " -n 1 -r
 echo
@@ -26,17 +32,25 @@ fi
 
 # 2. 디렉토리 생성
 echo -e "\n${YELLOW}[2/6] 디렉토리 생성${NC}"
-mkdir -p nginx/webroot nginx/logs nginx/certbot-logs
+mkdir -p nginx/conf.d nginx/webroot nginx/logs nginx/certbot-logs
 
 # 3. 임시 HTTP 전용 설정 적용
 echo -e "\n${YELLOW}[3/6] 임시 HTTP 설정 적용${NC}"
 cat > nginx/conf.d/default.conf << 'EOF'
-upstream app_backend {
+upstream app_frontend {
     server climingo-client:3000;
 }
 
-upstream dev_backend {
+upstream dev_frontend {
     server climingo-client-dev:3000;
+}
+
+upstream api_backend {
+    server climingo-api:8080;
+}
+
+upstream dev_api_backend {
+    server climingo-api-dev:8080;
 }
 
 server {
@@ -48,7 +62,7 @@ server {
     }
     
     location / {
-        proxy_pass http://app_backend;
+        proxy_pass http://app_frontend;
         proxy_set_header Host $host;
     }
 }
@@ -62,7 +76,35 @@ server {
     }
     
     location / {
-        proxy_pass http://dev_backend;
+        proxy_pass http://dev_frontend;
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    listen 80;
+    server_name api.climingo.xyz;
+    
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    
+    location / {
+        proxy_pass http://api_backend;
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    listen 80;
+    server_name dev-api.climingo.xyz;
+    
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    
+    location / {
+        proxy_pass http://dev_api_backend;
         proxy_set_header Host $host;
     }
 }
@@ -70,7 +112,7 @@ EOF
 
 # 4. 컨테이너 시작
 echo -e "\n${YELLOW}[4/6] 컨테이너 시작${NC}"
-docker-compose up -d nginx-proxy climingo-client climingo-client-dev
+docker-compose up -d nginx-proxy climingo-client climingo-client-dev climingo-api climingo-api-dev
 sleep 5
 
 # 5. 인증서 발급
@@ -92,6 +134,22 @@ docker-compose run --rm certbot certonly \
     --no-eff-email \
     -d dev-app.climingo.xyz
 
+echo -e "\n${GREEN}▶ api.climingo.xyz${NC}"
+docker-compose run --rm certbot certonly \
+    --webroot -w /var/www/certbot \
+    --email spiderq10@gmail.com \
+    --agree-tos \
+    --no-eff-email \
+    -d api.climingo.xyz
+
+echo -e "\n${GREEN}▶ dev-api.climingo.xyz${NC}"
+docker-compose run --rm certbot certonly \
+    --webroot -w /var/www/certbot \
+    --email spiderq10@gmail.com \
+    --agree-tos \
+    --no-eff-email \
+    -d dev-api.climingo.xyz
+
 # 6. HTTPS 설정 적용
 echo -e "\n${YELLOW}[6/6] HTTPS 설정 적용${NC}"
 cp nginx/conf.d/default.conf.production nginx/conf.d/default.conf
@@ -109,6 +167,8 @@ if docker exec nginx-proxy nginx -t; then
     echo -e "\n접속 URL:"
     echo -e "  ${GREEN}https://app.climingo.xyz${NC}"
     echo -e "  ${GREEN}https://dev-app.climingo.xyz${NC}"
+    echo -e "  ${GREEN}https://api.climingo.xyz${NC}"
+    echo -e "  ${GREEN}https://dev-api.climingo.xyz${NC}"
     echo -e "\n${YELLOW}📌 인증서는 90일마다 자동 갱신됩니다${NC}"
 else
     echo -e "\n${RED}❌ Nginx 설정 오류${NC}"
