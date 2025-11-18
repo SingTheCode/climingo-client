@@ -1,47 +1,4 @@
 services:
-  # Nginx Reverse Proxy
-  nginx-proxy:
-    image: nginx:alpine
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./certificates:/etc/nginx/ssl:ro
-      # Let's Encrypt certificates (shared with certbot)
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      # Webroot for ACME challenge (writable for certbot)
-      - ./nginx/webroot:/var/www/certbot
-      # Nginx logs directory
-      - ./nginx/logs:/var/log/nginx
-    networks:
-      - app-network
-    depends_on:
-      - climingo-client
-      - climingo-client-dev
-      - climingo-api
-      - climingo-api-dev
-    restart: unless-stopped
-
-  # Certbot for SSL certificate management
-  certbot:
-    image: certbot/certbot:latest
-    container_name: certbot
-    volumes:
-      # Shared volumes with nginx
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - ./nginx/webroot:/var/www/certbot
-      # Log directory
-      - ./nginx/certbot-logs:/var/log/letsencrypt
-    networks:
-      - app-network
-    # Keep container running for auto-renewal
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done;'"
-    restart: unless-stopped
-
   climingo-client:
     build:
       context: .
@@ -54,7 +11,7 @@ services:
     environment:
       - NODE_ENV=production
     networks:
-      - app-network
+      - climingo-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
@@ -63,7 +20,6 @@ services:
       retries: 3
       start_period: 40s
 
-  # Development service (optional)
   climingo-client-dev:
     build:
       context: .
@@ -81,50 +37,10 @@ services:
     environment:
       - NODE_ENV=development
     networks:
-      - app-network
+      - climingo-network
     command: npm run dev
     restart: unless-stopped
 
-  # API Production
-  climingo-api:
-    build:
-      context: ../climingo-api
-      dockerfile: Dockerfile
-    container_name: climingo-api
-    expose:
-      - "8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JASYPT_PASSWORD=climingo-will-be-nice
-    networks:
-      - app-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-
-  # API Development
-  climingo-api-dev:
-    build:
-      context: ../climingo-api
-      dockerfile: Dockerfile
-    container_name: climingo-api-dev
-    expose:
-      - "8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - JASYPT_PASSWORD=climingo-will-be-nice
-    networks:
-      - app-network
-    restart: unless-stopped
-
 networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  certbot-etc:
-  certbot-var:
+  climingo-network:
+    external: true
