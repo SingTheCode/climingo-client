@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MemberInfo } from "@/types/auth";
+import { MemberInfo } from "@/domains/auth/types/auth";
 import {
   Level,
   Gym,
@@ -8,7 +8,7 @@ import {
   ReportReason,
   RecordReportApiRequest,
   LevelColor,
-} from "@/types/record";
+} from "@/domains/record/types/record";
 import { api } from "@/api/axios";
 import { LEVELS } from "@/constants/level";
 

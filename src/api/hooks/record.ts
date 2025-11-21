@@ -5,7 +5,7 @@ import {
   GymResponse,
   LevelResponse,
 } from "@/api/modules/record";
-import { Gym, Level } from "@/types/record";
+import { Gym, Level } from "@/domains/record/types/record";
 import { LEVELS } from "@/constants/level";
 
 export const GymModel = (serverData: GymResponse): Gym => {

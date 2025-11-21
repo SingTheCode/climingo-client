@@ -1,4 +1,4 @@
-import HydratedRecordDetail from "@/components/record/HydratedRecordDetail";
+import HydratedRecordDetail from "@/domains/record/components/HydratedRecordDetail";
 
 export default function Page() {
   return <HydratedRecordDetail />;

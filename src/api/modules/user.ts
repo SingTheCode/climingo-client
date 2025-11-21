@@ -4,8 +4,8 @@ import {
   OAuthProvider,
   MemberInfo,
   MyProfileApiResponse,
-} from "@/types/auth";
-import { RecordListApiResponse } from "@/types/record";
+} from "@/domains/auth/types/auth";
+import { RecordListApiResponse } from "@/domains/record/types/record";
 import { api } from "@/api/axios";
 
 export interface MemberInfoResponse {

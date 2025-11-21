@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
-import MyProfile from "@/components/profile/MyProfile";
+import Layout from "@/domains/common/components/Layout";
+import NavigationHeader from "@/domains/common/components/NavigationHeader";
+import MyProfile from "@/domains/user/components/profile/MyProfile";
 
 export default function MyProfilePage() {
   return (

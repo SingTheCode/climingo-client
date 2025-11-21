@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import type { MemberInfo } from "@/types/auth";
+import type { MemberInfo } from "@/domains/auth/types/auth";
 
 interface UserStore {
   user: MemberInfo | null;

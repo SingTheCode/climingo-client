@@ -54,4 +54,3 @@ next-env.d.ts
 /.amazonq/
 /nginx/certbot-logs/
 /nginx/logs/
-/.kiro/

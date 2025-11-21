@@ -5,9 +5,9 @@ import { notFound } from "next/navigation";
 
 import useUserStore from "@/store/user";
 
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
-import SignUp from "@/components/auth/SignUp";
+import Layout from "@/domains/common/components/Layout";
+import NavigationHeader from "@/domains/common/components/NavigationHeader";
+import SignUp from "@/domains/auth/components/SignUp";
 
 export default function Page() {
   const memberInfo = useUserStore((state) => state.user);

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { OAuthApiRequest, OAuthProvider, MemberInfo } from "@/types/auth";
+import { OAuthApiRequest, OAuthProvider, MemberInfo } from "@/domains/auth/types/auth";
 import { oAuthApi, signInApi, MemberInfoResponse } from "@/api/modules/user";
 
 export const MemberInfoModel = (serverData: MemberInfoResponse): MemberInfo => {
