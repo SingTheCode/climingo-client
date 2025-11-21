@@ -1,44 +1,19 @@
 services:
-  climingo-client:
+  client-dev:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: climingo-client
-    expose:
-      - "3000"
-    env_file:
-      - .env.local
-    environment:
-      - NODE_ENV=production
-    networks:
-      - climingo-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  climingo-client-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: deps
+      dockerfile: Dockerfile.dev
     container_name: climingo-client-dev
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
-    env_file:
-      - .env.local
     environment:
       - NODE_ENV=development
     networks:
       - climingo-network
-    command: npm run dev
     restart: unless-stopped
 
 networks:
