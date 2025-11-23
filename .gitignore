@@ -49,3 +49,9 @@ next-env.d.ts
 /.rules/
 /.mcp.json
 /CLAUDE.md
+
+/.serena
+/.amazonq/
+/nginx/certbot-logs/
+/nginx/logs/
+/.kiro/
