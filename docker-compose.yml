@@ -2,7 +2,6 @@ services:
   client-dev:
     build:
       context: .
-      dockerfile: Dockerfile.dev
     container_name: climingo-client-dev
     ports:
       - "3000:3000"
@@ -15,6 +14,11 @@ services:
     networks:
       - climingo-network
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
 
 networks:
   climingo-network:

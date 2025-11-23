@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H local.dev-app.climingo.xyz --experimental-https",
+    "dev": "next dev -H 0.0.0.0",
     "stg": "next dev -H local.stg-app.climingo.xyz --experimental-https",
     "prd": "next dev -H local.app.climingo.xyz --experimental-https",
     "build": "next build",
