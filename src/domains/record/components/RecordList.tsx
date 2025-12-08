@@ -11,7 +11,7 @@ import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 import Layout from "@/components/common/Layout";
 import FilterSection from "@/components/record/FilterSection";
-import FloatingButton from "@/components/common/FloatingButton";
+import FloatingActionMenu from "@/components/common/FloatingActionMenu";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
@@ -24,7 +24,6 @@ interface RecordFilter {
 }
 
 export default function RecordList() {
-  const router = useRouter();
   const [filter, setFilter] = useState<RecordFilter>({
     gym: {
       id: 0,
@@ -36,18 +35,12 @@ export default function RecordList() {
     },
   });
 
-  const goToCreate = () => {
-    if (loginCheck()) {
-      router.push("/record/create");
-    }
-  };
-
   return (
     <Layout containHeader>
       <HomeHeader />
       <FilterSection filter={filter} setFilter={setFilter} />
       <RecordListSection filter={filter} />
-      <FloatingButton onClick={goToCreate} />
+      <FloatingActionMenu />
     </Layout>
   );
 }
@@ -102,7 +95,7 @@ const HomeHeader = () => {
   };
 
   return (
-    <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-[300] overflow-y-hidden bg-white">
+    <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-navigation overflow-y-hidden bg-white">
       {/** left */}
       <div className="px-[2rem]">
         <Link href={"/public"}>

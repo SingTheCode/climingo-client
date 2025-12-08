@@ -36,9 +36,6 @@ export const getRecordDetailApi = async ({
     level: Level;
     isDeletable: boolean;
   }>(`/records/${recordId}`);
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data;
 };
 
@@ -51,10 +48,6 @@ export const getPresignedUrlApi = async (params: {
     "/s3/presigned-url",
     params
   );
-
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data;
 };
 
@@ -66,13 +59,9 @@ export const uploadVideoApi = async ({
   presignedUrl: string;
   file: File;
 }) => {
-  const res = await axios.put(presignedUrl, file, {
+  await axios.put(presignedUrl, file, {
     headers: { "Content-Type": file.type },
   });
-
-  if (res.status !== 200) {
-    throw new Error();
-  }
 };
 
 // 기록 생성
@@ -114,18 +103,12 @@ export const getRecordListApi = async ({
     ...(size && { size: size.toString() }),
   });
   const res = await api.get<RecordListApiResponse>(`/records?${params}`);
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data;
 };
 
 // 암장별 난이도 조회
 export const getLevelListApi = async ({ gymId }: { gymId: number }) => {
   const res = await api.get<Level[]>(`/gyms/${gymId}/levels`);
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data.map((level) => ({
     ...level,
     colorCode:
@@ -146,7 +129,5 @@ export const reportRecordApi = async (
   data: RecordReportApiRequest
 ) => {
   const res = await api.post(`/records/${recordId}/report`, data);
-  if (res.status === 200) {
-    return res.data;
-  }
+  return res.data;
 };

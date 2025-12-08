@@ -22,9 +22,6 @@ export const oAuthApi = async (params: OAuthApiRequest) => {
   const res = await api.get<OAuthApiResponse>(`/auth/members/exist`, {
     params,
   });
-  if (res.status !== 200) {
-    throw new Error("로그인이 정상적으로 이루어지지 않았어요.");
-  }
   return res.data;
 };
 
@@ -33,17 +30,11 @@ export const signInApi = async (params: {
   providerToken: string;
 }) => {
   const res = await api.post<MemberInfo>(`/sign-in`, params);
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data;
 };
 
 export const signUpApi = async (params: MemberInfo) => {
   const res = await api.post<MemberInfo>(`/sign-up`, params);
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data;
 };
 
@@ -62,18 +53,12 @@ export const editNicknameApi = async (memberId: number, data: string) => {
 };
 
 export const signOutApi = async () => {
-  const res = await api.delete(`/sign-out`);
-  if (res.status !== 200) {
-    throw new Error();
-  }
+  await api.delete(`/sign-out`);
   return true;
 };
 
 export const deleteAccountApi = async () => {
-  const res = await api.delete(`/delete-member`);
-  if (res.status !== 200) {
-    throw new Error();
-  }
+  await api.delete(`/delete-member`);
   return true;
 };
 

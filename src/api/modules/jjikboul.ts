@@ -18,8 +18,5 @@ export const getJjikboulDetailApi = async (id: string) => {
     isEditable: boolean;
     isDeletable: boolean;
   }>(`/jjikbouls/${id}`);
-  if (res.status !== 200) {
-    throw new Error();
-  }
   return res.data;
 };
