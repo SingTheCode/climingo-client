@@ -12,7 +12,8 @@ inclusion: always
 |--------|------|-----------|
 | `_steering-guide.md` | 메타 가이드 | steering 폴더 관리 규칙 |
 | `workflow-checklist.md` | 워크플로우 체크리스트 | 개발 프로세스 체크리스트 |
-| `architecture.md` | 아키텍처 규칙 | 헥사고날 아키텍처, 레이어 구조 |
+| `architecture.md` | 아키텍처 규칙 | 헥사고날 아키텍처, 레이어 구조 (레거시) |
+| `headless-compound-pattern.md` | 새 아키텍처 규칙 | Headless Hook, Compound Component, Funnel 패턴 |
 | `git-conventions.md` | Git 컨벤션 | 커밋 메시지, 브랜치 명명 규칙 |
 | `development-guide.md` | 개발 가이드 | 코드 리뷰, 디버깅, TDD 워크플로우 |
 | `testing.md` | 테스트 규칙 | TDD 사이클, 테스트 작성 규칙 |
@@ -29,6 +30,7 @@ inclusion: always
 |--------|-----------|
 | TDD, 테스트, 단위 테스트, 통합 테스트, E2E | `testing.md` |
 | 아키텍처, 레이어, 헥사고날, 의존성, 구조 | `architecture.md` |
+| Headless, Compound, Funnel, 토스, 패턴 | `headless-compound-pattern.md` |
 | 커밋, 브랜치, Git, 버전 관리 | `git-conventions.md` |
 | 보안, 인증, 권한, XSS, CSRF | `security.md` |
 | 코드 리뷰, 디버깅, 개발 프로세스, 워크플로우 | `development-guide.md` |

@@ -7,7 +7,7 @@ import type { MemberInfo } from "@/types/auth";
 import { signUpApi } from "@/api/modules/user";
 import useUserStore from "@/store/user";
 import BottomActionButton from "@/components/common/BottomActionButton";
-import InputText from "@/components/common/InputText";
+import InputText from "@/components/InputText";
 
 /**
  * 전역 user state가 있는 경우에만 해당 컴포넌트 렌더링

@@ -14,7 +14,7 @@ import { getLevelListApi } from "@/api/modules/record";
 import { ClimbingPlace } from "@/types/common";
 
 import LevelIcon from "@/components/common/LevelIcon";
-import LayerPopup from "@/components/common/LayerPopup";
+import LayerPopup from "@/components/LayerPopup";
 import Place from "@/components/place/Place";
 
 interface SelectedLevel {

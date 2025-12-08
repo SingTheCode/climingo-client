@@ -17,7 +17,7 @@ import LevelIcon from "@/components/common/LevelIcon";
 import Layout from "@/components/common/Layout";
 import Loading from "@/components/common/Loading";
 import NavigationHeader from "@/components/common/NavigationHeader";
-import LayerPopup from "@/components/common/LayerPopup";
+import LayerPopup from "@/components/LayerPopup";
 import ReportForm from "@/components/record/ReportForm";
 
 export default function RecordDetail() {

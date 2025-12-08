@@ -11,7 +11,7 @@ import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 import Layout from "@/components/common/Layout";
 import FilterSection from "@/components/record/FilterSection";
-import FloatingActionMenu from "@/components/common/FloatingActionMenu";
+import FloatingActionMenu from "@/components/FloatingActionMenu";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
@@ -40,7 +40,9 @@ export default function RecordList() {
       <HomeHeader />
       <FilterSection filter={filter} setFilter={setFilter} />
       <RecordListSection filter={filter} />
-      <FloatingActionMenu />
+      <FloatingActionMenu>
+        <FloatingActionMenu.Default />
+      </FloatingActionMenu>
     </Layout>
   );
 }

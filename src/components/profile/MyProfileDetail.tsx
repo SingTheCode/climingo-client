@@ -12,8 +12,8 @@ import useEditNicknameQuery from "@/hooks/profile/useEditNicknameQuery";
 import useUserStore from "@/store/user";
 
 import Avatar from "@/components/common/Avatar";
-import InputText from "@/components/common/InputText";
-import LayerPopup from "@/components/common/LayerPopup";
+import InputText from "@/components/InputText";
+import LayerPopup from "@/components/LayerPopup";
 
 const MyProfileDetail = () => {
   const { data, isSuccess } = useGetMyProfileQuery();

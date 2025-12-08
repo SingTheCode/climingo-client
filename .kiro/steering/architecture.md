@@ -2,9 +2,12 @@
 inclusion: always
 ---
 
-# Climingo 헥사고날 아키텍처
+# Climingo 아키텍처
 
-## 아키텍처 개요
+> **⚠️ 마이그레이션 진행 중**: 헥사고날 아키텍처에서 Headless Compound 패턴으로 전환 중입니다.  
+> 새로운 패턴은 [headless-compound-pattern.md](./headless-compound-pattern.md)를 참고하세요.
+
+## 아키텍처 개요 (레거시 - 헥사고날)
 
 ### 헥사고날 아키텍처 구조
 ```

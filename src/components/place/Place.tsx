@@ -7,7 +7,7 @@ import { searchClimbingPlaceApi } from "@/api/modules/common";
 import { ClimbingPlace } from "@/types/common";
 
 import SearchedPlace from "@/components/place/SearchedPlace";
-import InputText from "@/components/common/InputText";
+import InputText from "@/components/InputText";
 
 export default function Place({
   onSearchedPlaceClick,

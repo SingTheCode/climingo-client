@@ -7,7 +7,7 @@ import { ClimbingPlace } from "@/types/common";
 import { Level } from "@/types/record";
 import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
 
-import LayerPopup from "@/components/common/LayerPopup";
+import LayerPopup from "@/components/LayerPopup";
 import SearchPlace from "@/components/place/Place";
 import ClearButton from "@/components/record/ClearButton";
 import { Heading, Placeholder } from "@/components/record/commonText";
