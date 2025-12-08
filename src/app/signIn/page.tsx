@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import Layout from "@/components/common/Layout";
+import Layout from "@/shared/components/Layout";
 import LoginButton from "@/domains/auth/components/LoginButton";
 
 export default function SignIn() {

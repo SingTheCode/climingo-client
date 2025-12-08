@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { OAuthApiRequest, OAuthProvider, SignInResponse } from "@/domains/auth/types/auth";
 import { oAuthApi, signInApi } from "@/domains/auth/api/user";
-import useUserStore from "@/store/user";
+import useUserStore from "@/domains/auth/store/user";
 
 export const useAuth = () => {
   const router = useRouter();

@@ -5,26 +5,26 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
-import { useGetRecordDetailQuery } from "@/api/hooks/record";
+import { useRecordDetailQuery } from "@/domains/record/hooks/useRecordDetailQuery";
 import useDeleteRecordMutation from "@/domains/record/hooks/useDeleteRecordMutation";
 import { MemberInfo } from "@/domains/auth/types/auth";
 import { Level, Gym, Record } from "@/domains/record/types/record";
-import { fromNowFormat } from "@/utils/common";
-import useUserStore from "@/store/user";
+import { fromNowFormat } from "@/shared/utils/common";
+import useUserStore from "@/domains/auth/store/user";
 
-import Avatar from "@/components/common/Avatar";
-import LevelIcon from "@/components/common/LevelIcon";
-import Layout from "@/components/common/Layout";
-import Loading from "@/components/common/Loading";
-import NavigationHeader from "@/components/common/NavigationHeader";
-import LayerPopup from "@/components/LayerPopup";
+import Avatar from "@/shared/components/Avatar";
+import LevelIcon from "@/domains/record/components/LevelIcon";
+import Layout from "@/shared/components/Layout";
+import Loading from "@/shared/components/Loading";
+import NavigationHeader from "@/shared/components/NavigationHeader";
+import LayerPopup from "@/shared/components/LayerPopup";
 import ReportForm from "@/domains/record/components/ReportForm";
 
 export default function RecordDetail() {
   const params = useParams();
   const recordId = params?.recordId as string;
 
-  const { data, isSuccess } = useGetRecordDetailQuery({ recordId });
+  const { data, isSuccess } = useRecordDetailQuery({ recordId });
 
   return (
     <Layout containHeader>

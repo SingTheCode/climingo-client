@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import { useDebounce } from "@/hooks/common";
-import { searchClimbingPlaceApi } from "@/api/modules/common";
-import { ClimbingPlace } from "@/types/common";
+import { useDebounce } from "@/shared/hooks/common";
+import { searchClimbingPlaceApi } from "@/domains/place/api/common";
+import { ClimbingPlace } from "@/shared/types/common";
 
 import SearchedPlace from "@/domains/place/components/SearchedPlace";
-import InputText from "@/components/InputText";
+import InputText from "@/shared/components/InputText";
 
 export default function Place({
   onSearchedPlaceClick,

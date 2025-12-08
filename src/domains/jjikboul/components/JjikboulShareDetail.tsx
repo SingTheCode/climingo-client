@@ -3,21 +3,21 @@
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
+import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
 import useJjikboul from "@/domains/jjikboul/hooks/useJjikboul";
 import useJjikboulUI from "@/domains/jjikboul/hooks/useJjikboulUI";
-import useImageDownload from "@/hooks/useImageDownload";
-import useAppScheme from "@/hooks/useAppScheme";
+import useImageDownload from "@/shared/hooks/useImageDownload";
+import useAppScheme from "@/shared/hooks/useAppScheme";
 import { JjikboulDetail } from "@/domains/jjikboul/types/jjikboul";
 
-import Avatar from "@/components/common/Avatar";
-import Loading from "@/components/common/Loading";
+import Avatar from "@/shared/components/Avatar";
+import Loading from "@/shared/components/Loading";
 
 export default function JjikboulShareDetail() {
   const params = useParams();
   const jjikboulId = params?.jjikboulId as string;
 
-  const { data, isLoading, isError } = useGetJjikboulDetailQuery(jjikboulId);
+  const { data, isLoading, isError } = useJjikboulDetailQuery(jjikboulId);
   const { getShareUrl, validateJjikboulData } = useJjikboul();
   const { copyToClipboard } = useJjikboulUI();
   const { share, isNativeShareAvailable } = useAppScheme();

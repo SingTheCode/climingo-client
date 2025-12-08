@@ -1,7 +1,7 @@
 import { dehydrate } from "@tanstack/query-core";
 import { HydrationBoundary } from "@tanstack/react-query";
 
-import getQueryClient from "@/hooks/getQueryClient";
+import getQueryClient from "@/shared/hooks/getQueryClient";
 
 import RecordDetail from "@/domains/record/components/RecordDetail";
 

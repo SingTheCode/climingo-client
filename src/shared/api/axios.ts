@@ -1,7 +1,7 @@
 import axios from "axios";
 
-import { eventEmitter } from "@/utils/eventEmitter";
-import useUserStore from "@/store/user";
+import { eventEmitter } from "@/shared/utils/eventEmitter";
+import useUserStore from "@/domains/auth/store/user";
 
 export const api = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,

@@ -9,7 +9,7 @@ import {
   uploadVideoApi,
 } from "@/domains/record/api/record";
 
-import BottomActionButton from "@/components/common/BottomActionButton";
+import BottomActionButton from "@/shared/components/BottomActionButton";
 import SelectPlaceWithLevel from "@/domains/record/components/SelectPlaceWithLevel";
 import UploadVideo from "@/domains/record/components/UploadVideo";
 import Caution from "@/domains/record/components/Caution";

@@ -2,12 +2,12 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import "@/types/common";
-import "@/utils/common";
+import "@/shared/types/common";
+import "@/shared/utils/common";
 import ReactQueryProvider from "@/reactQueryProvider";
 import ServiceWorkerProvider from "@/ServiceWorkerProvider";
 
-import NavigationHandler from "@/components/common/NavigationHandler";
+import NavigationHandler from "@/shared/components/NavigationHandler";
 
 /** https://github.com/orioncactus/pretendard?tab=readme-ov-file#nextjs */
 const pretendard = localFont({

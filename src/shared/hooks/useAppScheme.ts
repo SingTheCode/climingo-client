@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { ShareParams } from "@/types/appScheme";
+import { ShareParams } from "@/shared/types/appScheme";
 
 const useAppScheme = () => {
   const isNativeShareAvailable = useCallback((): boolean => {

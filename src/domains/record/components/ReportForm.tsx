@@ -12,7 +12,7 @@ import {
 import type { RecordReportApiRequest } from "@/domains/record/types/record";
 
 import { reportRecordApi } from "@/domains/record/api/record";
-import BottomActionButton from "@/components/common/BottomActionButton";
+import BottomActionButton from "@/shared/components/BottomActionButton";
 import useReportReasonQuery from "@/domains/record/hooks/useReportReasonQuery";
 
 type ReportFormType = {

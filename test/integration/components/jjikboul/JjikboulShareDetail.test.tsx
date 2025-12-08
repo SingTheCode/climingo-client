@@ -2,22 +2,22 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { jest } from "@jest/globals";
 
-import JjikboulShareDetail from "@/components/jjikboul/JjikboulShareDetail";
-import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
-import useJjikboul from "@/hooks/jjikboul/useJjikboul";
-import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
-import useImageDownload from "@/hooks/useImageDownload";
-import useAppScheme from "@/hooks/useAppScheme";
+import JjikboulShareDetail from "@/domains/jjikboul/components/JjikboulShareDetail";
+import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
+import useJjikboul from "@/domains/jjikboul/hooks/useJjikboul";
+import useJjikboulUI from "@/domains/jjikboul/hooks/useJjikboulUI";
+import useImageDownload from "@/shared/hooks/useImageDownload";
+import useAppScheme from "@/shared/hooks/useAppScheme";
 import {
   mockJjikboulData,
   mockUseJjikboulReturn,
 } from "@/test/mocks/jjikboulData";
 
-jest.mock("@/api/hooks/jjikboul");
-jest.mock("@/hooks/jjikboul/useJjikboul");
-jest.mock("@/hooks/jjikboul/useJjikboulUI");
-jest.mock("@/hooks/useImageDownload");
-jest.mock("@/hooks/useAppScheme");
+jest.mock("@/domains/jjikboul/hooks/useJjikboulDetailQuery");
+jest.mock("@/domains/jjikboul/hooks/useJjikboul");
+jest.mock("@/domains/jjikboul/hooks/useJjikboulUI");
+jest.mock("@/shared/hooks/useImageDownload");
+jest.mock("@/shared/hooks/useAppScheme");
 jest.mock("next/navigation", () => ({
   useParams: () => ({ jjikboulId: "test-jjikboul-id" }),
   useRouter: () => ({
@@ -49,7 +49,7 @@ describe("JjikboulShareDetail", () => {
 
     jest.clearAllMocks();
 
-    (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+    (useJjikboulDetailQuery as jest.Mock).mockReturnValue({
       data: mockJjikboulData,
       isLoading: false,
       isError: false,
@@ -200,7 +200,7 @@ describe("JjikboulShareDetail", () => {
 
   describe("로딩 상태", () => {
     test("데이터 로딩 중일 때 로딩 스피너를 표시해야 한다", () => {
-      (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+      (useJjikboulDetailQuery as jest.Mock).mockReturnValue({
         data: null,
         isLoading: true,
         isError: false,
@@ -213,7 +213,7 @@ describe("JjikboulShareDetail", () => {
 
   describe("에러 상태", () => {
     test("데이터 로딩 실패 시 에러 메시지를 표시해야 한다", () => {
-      (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+      (useJjikboulDetailQuery as jest.Mock).mockReturnValue({
         data: null,
         isLoading: false,
         isError: true,

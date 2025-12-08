@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getLevelsApi } from "@/api/modules/common";
+import { getLevelsApi } from "@/domains/place/api/common";
 
 const useGetLevelsQuery = (gymId?: number) => {
   return useQuery({

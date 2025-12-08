@@ -1,10 +1,10 @@
 import { renderHook } from "@testing-library/react";
-import useAppScheme from "@/hooks/useAppScheme";
+import useAppScheme from "@/shared/hooks/useAppScheme";
 import {
   ShareParams,
   WebkitNamespace,
   ImageDownloadParams,
-} from "@/types/appScheme";
+} from "@/shared/types/appScheme";
 
 const mockPostMessage = jest.fn<void, [ShareParams]>();
 const mockDownloadPostMessage = jest.fn<void, [ImageDownloadParams]>();

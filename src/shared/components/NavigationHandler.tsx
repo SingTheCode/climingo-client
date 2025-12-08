@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import { eventEmitter } from "@/utils/eventEmitter";
+import { eventEmitter } from "@/shared/utils/eventEmitter";
 
 export default function NavigationHandler() {
   const router = useRouter();

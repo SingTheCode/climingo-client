@@ -1,4 +1,4 @@
-import { api } from "@/api/axios";
+import { api } from "@/shared/api/axios";
 import { MemberInfoResponse } from "@/domains/auth/api/user";
 import { GymResponse, LevelResponse } from "@/domains/record/api/record";
 

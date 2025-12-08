@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from "@/shared/types/common";
 import { Level } from "@/domains/record/types/record";
 import useGetLevelsQuery from "@/domains/place/hooks/useGetLevelsQuery";
 
-import LayerPopup from "@/components/LayerPopup";
+import LayerPopup from "@/shared/components/LayerPopup";
 import SearchPlace from "@/domains/place/components/Place";
 import ClearButton from "@/domains/record/components/ClearButton";
 import { Heading, Placeholder } from "@/domains/record/components/commonText";

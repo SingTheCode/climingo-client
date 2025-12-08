@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import useJjikboul from "@/hooks/jjikboul/useJjikboul";
-import { JjikboulDetail } from "@/types/jjikboul";
+import useJjikboul from "@/shared/hooks/jjikboul/useJjikboul";
+import { JjikboulDetail } from "@/shared/types/jjikboul";
 
 describe("찍볼 비즈니스로직 (useJjikboul)", () => {
   describe("찍볼 공유 URL 생성", () => {

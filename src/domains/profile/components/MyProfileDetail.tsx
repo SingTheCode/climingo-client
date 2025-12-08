@@ -9,11 +9,11 @@ import { MemberInfo, OAuthProvider } from "@/domains/auth/types/auth";
 import { deleteAccountApi, signOutApi } from "@/domains/auth/api/user";
 import useGetMyProfileQuery from "@/domains/profile/hooks/useGetMyProfileQuery";
 import useEditNicknameQuery from "@/domains/profile/hooks/useEditNicknameQuery";
-import useUserStore from "@/store/user";
+import useUserStore from "@/domains/auth/store/user";
 
-import Avatar from "@/components/common/Avatar";
-import InputText from "@/components/InputText";
-import LayerPopup from "@/components/LayerPopup";
+import Avatar from "@/shared/components/Avatar";
+import InputText from "@/shared/components/InputText";
+import LayerPopup from "@/shared/components/LayerPopup";
 
 const MyProfileDetail = () => {
   const { data, isSuccess } = useGetMyProfileQuery();
@@ -46,7 +46,7 @@ interface EditableProfileProps {
 }
 
 const EditableProfile = ({
-  memberId,
+  memberId: _memberId,
   nickname,
   profileUrl,
 }: EditableProfileProps) => {

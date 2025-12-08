@@ -1,10 +1,10 @@
 import { renderHook, act } from "@testing-library/react";
-import useImageDownload from "@/hooks/useImageDownload";
+import useImageDownload from "@/shared/hooks/useImageDownload";
 import {
   ImageDownloadParams,
   WebkitNamespace,
   ImageDownloadResult,
-} from "@/types/appScheme";
+} from "@/shared/types/appScheme";
 
 // 테스트용 Window 타입 확장
 declare global {

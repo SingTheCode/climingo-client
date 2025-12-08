@@ -1,4 +1,4 @@
-import { Pagination } from "@/types/common";
+import { Pagination } from "@/shared/types/common";
 import { MemberInfo } from "@/domains/auth/types/auth";
 
 export type LevelColor =

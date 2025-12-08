@@ -9,12 +9,12 @@ import {
 } from "@headlessui/react";
 
 import { Level } from "@/domains/record/types/record";
-import { useDidMountEffect } from "@/hooks/common";
+import { useDidMountEffect } from "@/shared/hooks/common";
 import { getLevelListApi } from "@/domains/record/api/record";
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from "@/shared/types/common";
 
-import LevelIcon from "@/components/common/LevelIcon";
-import LayerPopup from "@/components/LayerPopup";
+import LevelIcon from "@/domains/record/components/LevelIcon";
+import LayerPopup from "@/shared/components/LayerPopup";
 import Place from "@/domains/place/components/Place";
 
 interface SelectedLevel {

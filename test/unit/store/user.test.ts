@@ -1,5 +1,5 @@
-import useUserStore from "@/store/user";
-import { MemberInfo } from "@/types/auth";
+import useUserStore from "@/domains/auth/store/user";
+import { MemberInfo } from "@/shared/types/auth";
 
 const mockMemberInfo: MemberInfo = {
   nickname: "testUser",

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import useUserStore from "@/store/user";
+import useUserStore from "@/domains/auth/store/user";
 
 export const fromNowFormat = (timestamp: string) => {
   dayjs.locale("ko");

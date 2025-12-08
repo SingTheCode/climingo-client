@@ -1,4 +1,4 @@
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from "@/shared/types/common";
 
 export default function SearchedPlace({
   place,

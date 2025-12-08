@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ImageDownloadParams, ImageDownloadResult } from "@/types/appScheme";
+import { ImageDownloadParams, ImageDownloadResult } from "@/shared/types/appScheme";
 
 const useImageDownload = () => {
   const [isDownloading, setIsDownloading] = useState(false);

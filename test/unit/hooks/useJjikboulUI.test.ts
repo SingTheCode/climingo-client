@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
-import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
-import { WebkitNamespace } from "@/types/appScheme";
+import useJjikboulUI from "@/shared/hooks/jjikboul/useJjikboulUI";
+import { WebkitNamespace } from "@/shared/types/appScheme";
 
 const mockWriteText = jest.fn();
 Object.assign(navigator, {

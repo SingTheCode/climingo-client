@@ -9,8 +9,8 @@ import {
   RecordReportApiRequest,
   LevelColor,
 } from "@/domains/record/types/record";
-import { api } from "@/api/axios";
-import { LEVELS } from "@/constants/level";
+import { api } from "@/shared/api/axios";
+import { LEVELS } from "@/domains/record/constants/level";
 
 export interface GymResponse {
   gymId: number;

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import useUserStore from "@/store/user";
+import useUserStore from "@/domains/auth/store/user";
 
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
+import Layout from "@/shared/components/Layout";
+import NavigationHeader from "@/shared/components/NavigationHeader";
 import SignUp from "@/domains/auth/components/SignUp";
 
 export default function Page() {

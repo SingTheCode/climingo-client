@@ -1,5 +1,5 @@
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
+import Layout from "@/shared/components/Layout";
+import NavigationHeader from "@/shared/components/NavigationHeader";
 import CreateRecordForm from "@/domains/record/components/CreateRecordForm";
 
 export default function CreateRecordPage() {

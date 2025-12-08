@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 
 import type { MemberInfo } from "@/domains/auth/types/auth";
 import { signUpApi } from "@/domains/auth/api/user";
-import useUserStore from "@/store/user";
-import BottomActionButton from "@/components/common/BottomActionButton";
-import InputText from "@/components/InputText";
+import useUserStore from "@/domains/auth/store/user";
+import BottomActionButton from "@/shared/components/BottomActionButton";
+import InputText from "@/shared/components/InputText";
 
 /**
  * 전역 user state가 있는 경우에만 해당 컴포넌트 렌더링

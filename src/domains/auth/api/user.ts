@@ -4,7 +4,7 @@ import {
   OAuthApiResponse,
   OAuthProvider,
 } from "@/domains/auth/types/auth";
-import { api } from "@/api/axios";
+import { api } from "@/shared/api/axios";
 
 export interface MemberInfoResponse {
   authId?: string;

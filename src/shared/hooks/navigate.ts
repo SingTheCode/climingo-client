@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 
-import { loginCheck } from "@/utils/common";
+import { loginCheck } from "@/shared/utils/common";
 
 type NavigateCallback = () => void;
 

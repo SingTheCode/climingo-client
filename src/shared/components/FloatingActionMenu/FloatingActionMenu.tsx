@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo } from "react";
 import Image from "next/image";
 import { Transition } from "@headlessui/react";
-import { useNavigateWithAuth } from "@/hooks/navigate";
+import { useNavigateWithAuth } from "@/shared/hooks/navigate";
 import { useFloatingActionMenu } from "./useFloatingActionMenu";
 
 type FloatingActionMenuContextType = ReturnType<typeof useFloatingActionMenu>;

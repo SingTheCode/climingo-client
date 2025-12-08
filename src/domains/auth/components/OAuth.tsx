@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useRunOnce } from "@/hooks/common";
+import { useRunOnce } from "@/shared/hooks/common";
 import { useAuth } from "@/domains/auth/hooks";
 
 export default function OAuth() {

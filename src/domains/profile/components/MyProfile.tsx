@@ -4,12 +4,12 @@ import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import useIntersectionObserver from "@/shared/hooks/useIntersectionObserver";
 import useGetMyProfileQuery from "@/domains/profile/hooks/useGetMyProfileQuery";
 import useGetMyRecordListQuery from "@/domains/profile/hooks/useGetMyRecordListQuery";
 import type { RecordMetadata } from "@/domains/record/types/record";
 
-import Avatar from "@/components/common/Avatar";
+import Avatar from "@/shared/components/Avatar";
 import RecordItem, {
   RecordItemContainer,
   RecordItemSkeleton,

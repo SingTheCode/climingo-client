@@ -1,11 +1,11 @@
 import { renderHook, act } from "@testing-library/react";
 import { useRouter } from "next/navigation";
-import { useNavigateWithAuth } from "@/hooks/navigate";
-import { loginCheck } from "@/utils/common";
+import { useNavigateWithAuth } from "@/shared/hooks/navigate";
+import { loginCheck } from "@/shared/utils/common";
 
 // Mock dependencies
 jest.mock("next/navigation");
-jest.mock("@/utils/common");
+jest.mock("@/shared/utils/common");
 
 const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
 const mockLoginCheck = loginCheck as jest.MockedFunction<typeof loginCheck>;

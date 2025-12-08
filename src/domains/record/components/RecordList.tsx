@@ -5,13 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { loginCheck } from "@/utils/common";
+import { loginCheck } from "@/shared/utils/common";
 import useGetRecordListQuery from "@/domains/record/hooks/useRecordListQuery";
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import useIntersectionObserver from "@/shared/hooks/useIntersectionObserver";
 
-import Layout from "@/components/common/Layout";
+import Layout from "@/shared/components/Layout";
 import FilterSection from "@/domains/record/components/FilterSection";
-import FloatingActionMenu from "@/components/FloatingActionMenu";
+import FloatingActionMenu from "@/shared/components/FloatingActionMenu";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,

@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
+import Layout from "@/shared/components/Layout";
+import NavigationHeader from "@/shared/components/NavigationHeader";
 import MyProfile from "@/domains/profile/components/MyProfile";
 
 export default function MyProfilePage() {

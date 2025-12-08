@@ -2,10 +2,10 @@
 
 import type { MemberInfo } from "@/domains/auth/types/auth";
 
-import useUserStore from "@/store/user";
+import useUserStore from "@/domains/auth/store/user";
 
 import SignUpForm from "@/domains/auth/components/SignUpForm";
-import Avatar from "@/components/common/Avatar";
+import Avatar from "@/shared/components/Avatar";
 
 /**
  * SignUp 페이지에서 전역 user state가 있는 경우에만 해당 컴포넌트 렌더링
