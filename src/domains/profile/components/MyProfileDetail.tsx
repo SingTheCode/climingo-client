@@ -56,7 +56,7 @@ const EditableProfile = ({
 
   const isValidNickname = useRef(false);
 
-  const { mutate: editNickname } = useEditNicknameQuery(memberId);
+  const { mutate: editNickname } = useEditNicknameQuery();
 
   const checkIsValidNickname = (valid: boolean) => {
     isValidNickname.current = valid;
