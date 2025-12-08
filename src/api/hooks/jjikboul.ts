@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getJjikboulDetailApi, JjikboulResponse } from "@/api/modules/jjikboul";
-import { Jjikboul } from "@/types/jjikboul";
+import { getJjikboulDetailApi, JjikboulResponse } from "@/domains/jjikboul/api/jjikboul";
+import { Jjikboul } from "@/domains/jjikboul/types/jjikboul";
 import { GymModel, LevelModel } from "@/api/hooks/record";
 
 export const JjikboulModel = (serverData: JjikboulResponse): Jjikboul => {

@@ -6,7 +6,7 @@ const useEditNicknameQuery = (memberId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: string) => editNicknameApi(memberId, data),
+    mutationFn: (data: string) => editNicknameApi(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", "me"] });
     },

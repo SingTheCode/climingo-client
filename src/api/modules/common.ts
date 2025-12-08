@@ -1,4 +1,4 @@
-import { Level } from "@/types/record";
+import { Level } from "@/domains/record/types/record";
 import { api } from "@/api/axios";
 
 // 암장 검색

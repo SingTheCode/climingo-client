@@ -2,23 +2,33 @@ import {
   MemberInfo,
   OAuthApiRequest,
   OAuthApiResponse,
-  SignInApiRequest,
-  SignInResponse,
-  SignUpApiRequest,
+  OAuthProvider,
 } from "@/domains/auth/types/auth";
 import { api } from "@/api/axios";
+
+export interface MemberInfoResponse {
+  authId?: string;
+  email?: string;
+  memberId: number;
+  nickname: string;
+  profileUrl: string;
+  providerType?: OAuthProvider;
+}
 
 export const oAuthApi = async (params: OAuthApiRequest) => {
   const res = await api.post<OAuthApiResponse>("/oauth", params);
   return res.data;
 };
 
-export const signInApi = async (params: SignInApiRequest) => {
-  const res = await api.post<SignInResponse>("/sign-in", params);
+export const signInApi = async (params: {
+  providerType: OAuthProvider;
+  providerToken: string;
+}) => {
+  const res = await api.post<MemberInfo>("/sign-in", params);
   return res.data;
 };
 
-export const signUpApi = async (params: SignUpApiRequest) => {
+export const signUpApi = async (params: MemberInfo) => {
   const res = await api.post<MemberInfo>("/sign-up", params);
   return res.data;
 };

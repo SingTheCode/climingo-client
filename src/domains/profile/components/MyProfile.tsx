@@ -7,6 +7,7 @@ import Link from "next/link";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import useGetMyProfileQuery from "@/domains/profile/hooks/useGetMyProfileQuery";
 import useGetMyRecordListQuery from "@/domains/profile/hooks/useGetMyRecordListQuery";
+import type { RecordMetadata } from "@/domains/record/types/record";
 
 import Avatar from "@/components/common/Avatar";
 import RecordItem, {
@@ -82,7 +83,7 @@ const MyRecordList = () => {
       {isSuccess &&
         data.pages.map(({ page, contents }) => (
           <Fragment key={page}>
-            {contents.map((metadata) => (
+            {contents.map((metadata: RecordMetadata) => (
               <RecordItem
                 key={metadata.record.recordId}
                 showMemberInfo={false}

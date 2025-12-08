@@ -4,8 +4,8 @@ import {
   getRecordDetailApi,
   GymResponse,
   LevelResponse,
-} from "@/api/modules/record";
-import { Gym, Level } from "@/types/record";
+} from "@/domains/record/api/record";
+import { Gym, Level } from "@/domains/record/types/record";
 import { LEVELS } from "@/constants/level";
 
 export const GymModel = (serverData: GymResponse): Gym => {

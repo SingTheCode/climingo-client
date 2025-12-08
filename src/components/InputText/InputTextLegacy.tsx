@@ -21,7 +21,7 @@ interface InputTextLegacyProps extends Partial<HTMLInputElement> {
 
 // 기존 사용법과 호환되는 래퍼 컴포넌트
 export default function InputTextLegacy(props: InputTextLegacyProps) {
-  const { value, setText, rules, serverValidation, checkValid, type, ...restProps } = props;
+  const { rules, serverValidation, checkValid, type, ...restProps } = props;
 
   return (
     <InputText

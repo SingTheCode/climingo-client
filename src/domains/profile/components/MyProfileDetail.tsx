@@ -23,14 +23,14 @@ const MyProfileDetail = () => {
   return (
     <section className="flex flex-col gap-[2rem] py-[2rem]">
       <EditableProfile
-        memberId={data.memberId}
+        memberId={data.memberId!}
         nickname={data.nickname}
         profileUrl={data.profileUrl}
       />
       <DetailMemberInfo
         oAuth={{
           email: data.email,
-          provider: data.providerType,
+          provider: data.providerType!,
         }}
       />
     </section>

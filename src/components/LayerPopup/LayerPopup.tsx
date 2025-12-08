@@ -22,21 +22,36 @@ const useLayerPopupContext = () => {
 };
 
 interface LayerPopupRootProps {
+  open?: boolean;
+  onClose?: () => void;
   hideCloseButton?: boolean;
   fullscreen?: boolean;
 }
 
 const LayerPopupRoot = ({
+  open,
+  onClose,
   hideCloseButton = false,
   fullscreen = false,
   children,
 }: PropsWithChildren<LayerPopupRootProps>) => {
-  const store = useLayerPopup();
+  const internalStore = useLayerPopup();
+  
+  // 외부에서 open/onClose를 제공하면 제어 컴포넌트로 동작
+  const isControlled = open !== undefined;
+  const isOpen = isControlled ? open : internalStore.isOpen;
+  const handleClose = isControlled && onClose ? onClose : internalStore.close;
+
+  const contextValue = {
+    ...internalStore,
+    isOpen,
+    close: handleClose,
+  };
 
   return (
-    <LayerPopupContext.Provider value={store}>
-      <Transition show={store.isOpen} as={Fragment}>
-        <Dialog className="relative z-overlay" onClose={store.close}>
+    <LayerPopupContext.Provider value={contextValue}>
+      <Transition show={isOpen} as={Fragment}>
+        <Dialog className="relative z-overlay" onClose={handleClose}>
           <TransitionChild
             as={Fragment}
             enter="ease-in-out duration-500"
