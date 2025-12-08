@@ -11,14 +11,14 @@ inclusion: always
 | 파일명 | 역할 | 주요 내용 |
 |--------|------|-----------|
 | `_steering-guide.md` | 메타 가이드 | steering 폴더 관리 규칙 |
-| `workflow-checklist.md` | 워크플로우 체크리스트 | 개발 프로세스 체크리스트 |
-| `architecture.md` | 아키텍처 규칙 | 헥사고날 아키텍처, 레이어 구조 (레거시) |
-| `headless-compound-pattern.md` | 새 아키텍처 규칙 | Headless Hook, Compound Component, Funnel 패턴 |
-| `git-conventions.md` | Git 컨벤션 | 커밋 메시지, 브랜치 명명 규칙 |
+| `ddd-architecture-rules.md` | DDD 아키텍처 규칙 | 도메인 주도 디렉토리 구조, 도메인 격리 원칙 |
 | `development-guide.md` | 개발 가이드 | 코드 리뷰, 디버깅, TDD 워크플로우 |
 | `testing.md` | 테스트 규칙 | TDD 사이클, 테스트 작성 규칙 |
+| `git-conventions.md` | Git 컨벤션 | 커밋 메시지, 브랜치 명명 규칙 |
 | `security.md` | 보안 규칙 | 보안 개발 가이드라인 |
 | `response-format.md` | 답변 형식 규칙 | AI 어시스턴트 기본 답변 형식 |
+| `workflow-checklist.md` | 워크플로우 체크리스트 | 개발 프로세스 체크리스트 |
+| `code-review.md` | 코드 리뷰 가이드 | 브랜치 간 코드리뷰 프로세스 |
 
 ## 업데이트 요청 처리 규칙
 
@@ -29,13 +29,13 @@ inclusion: always
 | 키워드 | 대상 파일 |
 |--------|-----------|
 | TDD, 테스트, 단위 테스트, 통합 테스트, E2E | `testing.md` |
-| 아키텍처, 레이어, 헥사고날, 의존성, 구조 | `architecture.md` |
-| Headless, Compound, Funnel, 토스, 패턴 | `headless-compound-pattern.md` |
+| DDD, 도메인, 아키텍처, 디렉토리 구조, 도메인 격리 | `ddd-architecture-rules.md` |
 | 커밋, 브랜치, Git, 버전 관리 | `git-conventions.md` |
 | 보안, 인증, 권한, XSS, CSRF | `security.md` |
 | 코드 리뷰, 디버깅, 개발 프로세스, 워크플로우 | `development-guide.md` |
 | 체크리스트, 프로세스 확인 | `workflow-checklist.md` |
 | 답변 형식, 커뮤니케이션, AI 응답, TODO 형식 | `response-format.md` |
+| 브랜치 코드리뷰, 리뷰 프로세스 | `code-review.md` |
 
 ### 2. 파일 업데이트 기준
 
