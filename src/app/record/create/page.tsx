@@ -1,6 +1,6 @@
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";
-import CreateRecordForm from "@/components/record/CreateRecordForm";
+import CreateRecordForm from "@/domains/record/components/CreateRecordForm";
 
 export default function CreateRecordPage() {
   return (

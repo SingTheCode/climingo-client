@@ -7,12 +7,12 @@ import {
   createRecordApi,
   getPresignedUrlApi,
   uploadVideoApi,
-} from "@/api/modules/record";
+} from "@/domains/record/api/record";
 
 import BottomActionButton from "@/components/common/BottomActionButton";
-import SelectPlaceWithLevel from "@/components/record/SelectPlaceWithLevel";
-import UploadVideo from "@/components/record/UploadVideo";
-import Caution from "@/components/record/Caution";
+import SelectPlaceWithLevel from "@/domains/record/components/SelectPlaceWithLevel";
+import UploadVideo from "@/domains/record/components/UploadVideo";
+import Caution from "@/domains/record/components/Caution";
 
 type FormValues = {
   place?: number;

@@ -6,17 +6,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { loginCheck } from "@/utils/common";
-import useGetRecordListQuery from "@/hooks/record/useRecordListQuery";
+import useGetRecordListQuery from "@/domains/record/hooks/useRecordListQuery";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 import Layout from "@/components/common/Layout";
-import FilterSection from "@/components/record/FilterSection";
+import FilterSection from "@/domains/record/components/FilterSection";
 import FloatingActionMenu from "@/components/FloatingActionMenu";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
   RecordItemSkeleton,
-} from "@/components/record/RecordItem";
+} from "@/domains/record/components/RecordItem";
 
 interface RecordFilter {
   gym: { id: number; name: string };

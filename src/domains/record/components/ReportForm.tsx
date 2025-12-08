@@ -9,11 +9,11 @@ import {
   RadioGroup,
 } from "@headlessui/react";
 
-import type { RecordReportApiRequest } from "@/types/record";
+import type { RecordReportApiRequest } from "@/domains/record/types/record";
 
-import { reportRecordApi } from "@/api/modules/record";
+import { reportRecordApi } from "@/domains/record/api/record";
 import BottomActionButton from "@/components/common/BottomActionButton";
-import useReportReasonQuery from "@/hooks/record/useReportReasonQuery";
+import useReportReasonQuery from "@/domains/record/hooks/useReportReasonQuery";
 
 type ReportFormType = {
   recordId: string;

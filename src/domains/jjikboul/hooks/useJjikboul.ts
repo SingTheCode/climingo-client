@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { JjikboulDetail } from "@/types/jjikboul";
+import { JjikboulDetail } from "@/domains/jjikboul/types/jjikboul";
 
 const useJjikboul = () => {
   const getShareUrl = useCallback((): string => {

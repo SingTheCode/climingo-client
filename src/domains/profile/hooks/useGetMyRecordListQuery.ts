@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getMyRecordListApi } from "@/api/modules/user";
+import { getMyRecordListApi } from "@/domains/auth/api/user";
 
 const useGetMyRecordListQuery = () => {
   return useInfiniteQuery({

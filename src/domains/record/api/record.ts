@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MemberInfo } from "@/types/auth";
+import { MemberInfo } from "@/domains/auth/types/auth";
 import {
   Level,
   Gym,

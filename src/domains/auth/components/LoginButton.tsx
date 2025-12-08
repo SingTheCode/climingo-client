@@ -2,8 +2,8 @@
 
 import Script from "next/script";
 
-import KakaoLogin from "@/components/auth/KakaoLogin";
-import AppleLogin from "@/components/auth/AppleLogin";
+import KakaoLogin from "@/domains/auth/components/KakaoLogin";
+import AppleLogin from "@/domains/auth/components/AppleLogin";
 
 export default function LoginButton() {
   return (

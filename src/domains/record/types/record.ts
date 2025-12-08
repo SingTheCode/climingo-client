@@ -1,5 +1,5 @@
 import { Pagination } from "@/types/common";
-import { MemberInfo } from "@/types/auth";
+import { MemberInfo } from "@/domains/auth/types/auth";
 
 export type LevelColor =
   | "red"

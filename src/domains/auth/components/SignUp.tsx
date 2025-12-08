@@ -1,10 +1,10 @@
 "use client";
 
-import type { MemberInfo } from "@/types/auth";
+import type { MemberInfo } from "@/domains/auth/types/auth";
 
 import useUserStore from "@/store/user";
 
-import SignUpForm from "@/components/auth/SignUpForm";
+import SignUpForm from "@/domains/auth/components/SignUpForm";
 import Avatar from "@/components/common/Avatar";
 
 /**

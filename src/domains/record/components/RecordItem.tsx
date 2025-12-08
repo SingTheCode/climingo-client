@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { RecordMetadata } from "@/types/record";
+import type { RecordMetadata } from "@/domains/record/types/record";
 import { fromNowFormat } from "@/utils/common";
 
 import LevelIcon from "@/components/common/LevelIcon";

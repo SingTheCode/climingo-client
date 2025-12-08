@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import type { MemberInfo } from "@/types/auth";
-import { signUpApi } from "@/api/modules/user";
+import type { MemberInfo } from "@/domains/auth/types/auth";
+import { signUpApi } from "@/domains/auth/api/user";
 import useUserStore from "@/store/user";
 import BottomActionButton from "@/components/common/BottomActionButton";
 import InputText from "@/components/InputText";

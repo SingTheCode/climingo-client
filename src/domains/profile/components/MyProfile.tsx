@@ -5,15 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
-import useGetMyRecordListQuery from "@/hooks/profile/useGetMyRecordListQuery";
+import useGetMyProfileQuery from "@/domains/profile/hooks/useGetMyProfileQuery";
+import useGetMyRecordListQuery from "@/domains/profile/hooks/useGetMyRecordListQuery";
 
 import Avatar from "@/components/common/Avatar";
 import RecordItem, {
   RecordItemContainer,
   RecordItemSkeleton,
   EmptyRecordItem,
-} from "@/components/record/RecordItem";
+} from "@/domains/record/components/RecordItem";
 
 const MyProfile = () => {
   return (

@@ -6,9 +6,9 @@ import { useParams, useRouter } from "next/navigation";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 import { useGetRecordDetailQuery } from "@/api/hooks/record";
-import useDeleteRecordMutation from "@/hooks/record/useDeleteRecordMutation";
-import { MemberInfo } from "@/types/auth";
-import { Level, Gym, Record } from "@/types/record";
+import useDeleteRecordMutation from "@/domains/record/hooks/useDeleteRecordMutation";
+import { MemberInfo } from "@/domains/auth/types/auth";
+import { Level, Gym, Record } from "@/domains/record/types/record";
 import { fromNowFormat } from "@/utils/common";
 import useUserStore from "@/store/user";
 
@@ -18,7 +18,7 @@ import Layout from "@/components/common/Layout";
 import Loading from "@/components/common/Loading";
 import NavigationHeader from "@/components/common/NavigationHeader";
 import LayerPopup from "@/components/LayerPopup";
-import ReportForm from "@/components/record/ReportForm";
+import ReportForm from "@/domains/record/components/ReportForm";
 
 export default function RecordDetail() {
   const params = useParams();

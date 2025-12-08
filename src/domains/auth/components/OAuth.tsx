@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useRunOnce } from "@/hooks/common";
-import { useAuth } from "@/hooks/auth";
+import { useAuth } from "@/domains/auth/hooks";
 
 export default function OAuth() {
   const router = useRouter();

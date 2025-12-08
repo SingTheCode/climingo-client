@@ -1,4 +1,4 @@
-import { Gym, Level } from "@/types/record";
+import { Gym, Level } from "@/domains/record/types/record";
 
 export interface Jjikboul {
   jjikboulId: number;

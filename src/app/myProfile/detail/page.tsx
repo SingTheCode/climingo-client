@@ -1,6 +1,6 @@
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";
-import MyProfileDetail from "@/components/profile/MyProfileDetail";
+import MyProfileDetail from "@/domains/profile/components/MyProfileDetail";
 
 export default function MyProfileDetailPage() {
   return (

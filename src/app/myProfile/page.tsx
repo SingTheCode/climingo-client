@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";
-import MyProfile from "@/components/profile/MyProfile";
+import MyProfile from "@/domains/profile/components/MyProfile";
 
 export default function MyProfilePage() {
   return (

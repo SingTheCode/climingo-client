@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const RecordList = dynamic(() => import("@/components/record/RecordList"), {
+const RecordList = dynamic(() => import("@/domains/record/components/RecordList"), {
   ssr: false,
 });
 

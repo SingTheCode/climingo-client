@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { editNicknameApi } from "@/api/modules/user";
+import { editNicknameApi } from "@/domains/auth/api/user";
 
 const useEditNicknameQuery = (memberId: number) => {
   const queryClient = useQueryClient();

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { useAuth } from "@/hooks/auth";
+import { useAuth } from "@/domains/auth/hooks";
 
 export default function AppleLogin() {
   const router = useRouter();

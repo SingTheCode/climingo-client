@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import type { MemberInfo } from "@/types/auth";
+import type { MemberInfo } from "@/domains/auth/types/auth";
 import type { Gym, Level } from "@/domains/record/types/record";
 import { getRecordListApi } from "@/domains/record/api/record";
 
