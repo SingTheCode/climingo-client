@@ -69,8 +69,8 @@ src/
 │       ├── components/           # 도메인 전용 UI
 │       ├── hooks/                # Headless Hook (비즈니스 로직)
 │       │   └── useRecordCreate.ts
-│       ├── api/                  # Repository (API 통신)
-│       │   └── recordRepository.ts
+│       ├── api/                  # API 통신
+│       │   └── recordApi.ts
 │       └── types/                # Entity
 │           └── record.ts
 │
@@ -119,7 +119,7 @@ src/
 
 **허용**:
 - `useState`, `useEffect`, `useCallback`, `useMemo` 사용
-- Repository 또는 API Hook 직접 호출
+- Api Hook 직접 호출
 - 비즈니스 로직 처리
 - 상태와 액션 함수 반환
 
@@ -280,14 +280,14 @@ export default function TermsStep() {
 
 ---
 
-### Rule 4. Repository의 책임
+### Rule 4. Api의 책임
 
 **정의**: API 통신만 담당
 
 **허용**:
 - `fetch`, `axios` 호출
 - HTTP 요청/응답 처리
-- Transform 함수 호출 (DTO → Entity 변환)
+- Transform 함수 호출 (각 도메인 내부에서 Response → Entity 변환)
 
 **금지**:
 - 비즈니스 로직
@@ -301,15 +301,25 @@ export default function TermsStep() {
 **예시**:
 ```typescript
 // ✅ 올바른 예시
-export const recordRepository = {
+export const recordApi = {
   async getRecordList(params: RecordListParams) {
-    const response = await apiClient.get<RecordDTO[]>('/records', { params });
-    return response.data.map(transformRecordDTOToEntity);
+    const response = await apiClient.get<RecordResponse[]>('/records', { params });
+    return response.data.map(transformRecordResponseToEntity);
   },
 };
 
+// domains/record/api/transform.ts
+export const transformRecordResponseToEntity = (response: RecordResponse): Record => ({
+  id: response.id,
+  title: response.title ?? '제목 없음',
+  description: response.description ?? '',
+  videoUrl: response.video_url ?? '',
+  createdAt: new Date(response.created_at),
+  place: response.place ? transformPlaceResponseToEntity(response.place) : null,
+});
+
 // ❌ 금지된 예시
-export const recordRepository = {
+export const recordApi = {
   async getRecordList(params: RecordListParams) {
     const response = await apiClient.get('/records', { params });
     // 비즈니스 로직 금지
@@ -325,14 +335,14 @@ export const recordRepository = {
 
 **허용되는 의존성**:
 - **Controller (Page)** → Headless Hook 호출, Funnel 사용
-- **Headless Hook** → Repository/API Hook 호출
+- **Headless Hook** → Api/API Hook 호출
 - **Compound Component Root** → Headless Hook 호출
-- **Repository** → Transform 함수 호출
+- **Api** → Transform 함수 호출
 
 **금지되는 의존성**:
-- Controller에서 Repository 직접 호출
-- Compound Component에서 Repository 직접 호출
-- Repository에서 Headless Hook 호출
+- Controller에서 Api 직접 호출
+- Compound Component에서 Api 직접 호출
+- Api에서 Headless Hook 호출
 
 **의존성 흐름**:
 ```
@@ -340,7 +350,7 @@ Controller (Page)
     ↓
 Headless Hook
     ↓
-Repository/API Hook
+Api/API Hook
     ↓
 API Module
 ```
@@ -378,7 +388,7 @@ export default function RecordListPage() {
 function RecordList() {
   const { data } = useSuspenseQuery({
     queryKey: ['records'],
-    queryFn: recordRepository.getRecordList,
+    queryFn: recordApi.getRecordList,
   });
 
   // data는 무조건 존재한다고 가정
@@ -387,7 +397,7 @@ function RecordList() {
 
 // ❌ 금지된 예시
 function RecordList() {
-  const { data, isLoading, isError } = useQuery(['records'], recordRepository.getRecordList);
+  const { data, isLoading, isError } = useQuery(['records'], recordApi.getRecordList);
 
   if (isLoading) return <Loading />; // 금지
   if (isError) return <Error />; // 금지
@@ -449,8 +459,8 @@ export const useRecordDetail = () => {
 - 하위: `[Component][Part].tsx` (예: `SelectTrigger.tsx`, `SelectOption.tsx`)
 - 위치: `components/[Component]/`
 
-**Repository**:
-- 네이밍: `[domain]Repository` (예: `recordRepository`, `userRepository`)
+**Api**:
+- 네이밍: `[domain]Api` (예: `recordApi`, `userApi`)
 - 위치: `api/modules/[domain].ts` (현재) → `domains/[domain]/api/` (향후)
 
 **API Hook**:
@@ -491,11 +501,11 @@ export default function Step1_Terms() {
 }
 ```
 
-### ❌ Anti-Pattern 4: Controller에서 Repository 직접 호출
+### ❌ Anti-Pattern 4: Controller에서 Api 직접 호출
 ```typescript
 // ❌ 금지
 export default function RecordPage() {
-  const data = await recordRepository.getRecordList();
+  const data = await recordApi.getRecordList();
 }
 ```
 
@@ -568,8 +578,8 @@ function RecordList() {
 - [ ] 다단계 플로우 → Funnel 패턴 적용 (`lib/funnel/useFunnel.ts` 추가)
 - [ ] `useQuery` → `useSuspenseQuery` 변환
 - [ ] `AsyncBoundary` 패턴 적용
-- [ ] Repository에서 변환 로직 제거 (Transform 함수로 분리)
-- [ ] Controller에서 Repository 직접 호출 제거
+- [ ] Api에서 변환 로직 제거 (Transform 함수로 분리)
+- [ ] Controller에서 Api 직접 호출 제거
 
 ---
 
@@ -598,7 +608,7 @@ Pull Request 승인 전 다음 항목을 필수로 확인:
 - [ ] 컴포넌트 내부에 `isLoading`, `isError` 분기가 없는가?
 
 ### 6.5 레이어 간 의존성
-- [ ] Controller가 Repository를 직접 호출하지 않는가?
+- [ ] Controller가 Api를 직접 호출하지 않는가?
 - [ ] 도메인 간 직접 참조가 없는가?
 - [ ] 파일이 올바른 위치에 배치되었는가?
 
