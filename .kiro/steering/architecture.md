@@ -318,6 +318,12 @@ export const transformRecordResponseToEntity = (response: RecordResponse): Recor
   place: response.place ? transformPlaceResponseToEntity(response.place) : null,
 });
 
+export const transformPlaceResponseToEntity = (response: PlaceResponse): Place => ({
+  id: response.id,
+  name: response.name ?? '장소 없음',
+  level: response.level ?? 'V0',
+});
+
 // ❌ 금지된 예시
 export const recordApi = {
   async getRecordList(params: RecordListParams) {
@@ -466,6 +472,11 @@ export const useRecordDetail = () => {
 **API Hook**:
 - 네이밍: `use[Domain][Action]Query` 또는 `use[Domain][Action]Mutation`
 - 위치: `api/hooks/[domain].ts` (현재) → `domains/[domain]/hooks/` (향후)
+
+**Import 경로 규칙**:
+- 도메인 내부 파일 간 참조도 절대경로(`@/`) 사용
+- 상대경로(`../`, `./`) 사용 금지
+- 일관성 있는 경로 관리로 리팩토링 용이성 확보
 
 **Controller (Page)**:
 - 위치: `app/[route]/page.tsx`
