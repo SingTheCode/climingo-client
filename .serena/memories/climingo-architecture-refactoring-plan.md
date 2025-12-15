@@ -56,7 +56,7 @@ src/
 ## 3. 리팩토링 단계별 계획
 
 > **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
-> **마지막 업데이트**: 2025-12-14 22:31
+> **마지막 업데이트**: 2025-12-15 13:23
 
 ### Phase 1: 기반 구조 준비 (1-2주) 🟢
 **목표**: 리팩토링을 위한 기반 인프라 구축
@@ -82,54 +82,54 @@ src/
 - [x] 🟢 React Testing Library 설정
 - [x] 🟢 테스트 템플릿 및 헬퍼 함수 작성
 
-### Phase 2: Record 도메인 리팩토링 (2-3주) 🔴
+### Phase 2: Record 도메인 리팩토링 (2-3주) 🟢
 **목표**: Record 도메인을 새로운 아키텍처로 완전 전환
 
 #### 2.1 Api & Transform 레이어 (4일)
-- [ ] 🔴 Record Response 타입 정의 (`domains/record/types/response.ts`)
-- [ ] 🔴 Record Entity 타입 정의 (`domains/record/types/entity.ts`)
-- [ ] 🔴 Transform 함수 구현 (`domains/record/api/transform.ts`)
-  - [ ] `transformRecordResponseToEntity`
-  - [ ] `transformPlaceResponseToEntity`
-  - [ ] `transformFilterToParams`
-- [ ] 🔴 Record Api 구현 (`domains/record/api/recordApi.ts`)
-  - [ ] `getRecordList`
-  - [ ] `getRecordDetail`
-  - [ ] `createRecord`
-  - [ ] `deleteRecord`
-  - [ ] `reportRecord`
+- [x] 🟢 Record Response 타입 정의 (`domains/record/types/response.ts`)
+- [x] 🟢 Record Entity 타입 정의 (`domains/record/types/entity.ts`)
+- [x] 🟢 Transform 함수 구현 (`domains/record/api/transform.ts`)
+  - [x] `transformRecordResponseToEntity`
+  - [x] `transformPlaceResponseToEntity`
+  - [x] `transformFilterToParams`
+- [x] 🟢 Record Api 구현 (`domains/record/api/recordApi.ts`)
+  - [x] `getRecordList`
+  - [x] `getRecordDetail`
+  - [x] `createRecord`
+  - [x] `deleteRecord`
+  - [x] `reportRecord`
 
 #### 2.2 Headless Hook 구현 (5일)
-- [ ] 🔴 `useRecordList` Hook 구현
-  - [ ] 필터링 로직
-  - [ ] 무한 스크롤 로직
-  - [ ] useSuspenseInfiniteQuery 적용
-- [ ] 🔴 `useRecordDetail` Hook 구현
-  - [ ] useSuspenseQuery 적용
-  - [ ] 에러 처리
-- [ ] 🔴 `useRecordCreate` Hook 구현
-  - [ ] 폼 상태 관리
-  - [ ] 파일 업로드 로직
-  - [ ] useMutation 적용
-- [ ] 🔴 `useRecordActions` Hook 구현
-  - [ ] 삭제, 신고 액션
+- [x] 🟢 `useRecordList` Hook 구현
+  - [x] 필터링 로직
+  - [x] 무한 스크롤 로직
+  - [x] useSuspenseInfiniteQuery 적용
+- [x] 🟢 `useRecordDetail` Hook 구현
+  - [x] useSuspenseQuery 적용
+  - [x] 에러 처리
+- [x] 🟢 `useRecordCreate` Hook 구현
+  - [x] 폼 상태 관리
+  - [x] 파일 업로드 로직
+  - [x] useMutation 적용
+- [x] 🟢 `useRecordActions` Hook 구현
+  - [x] 삭제, 신고 액션
 
 #### 2.3 Compound Component 구현 (4일)
-- [ ] 🔴 RecordList Compound Component
-  - [ ] RecordList.Root (Context Provider)
-  - [ ] RecordList.Filter
-  - [ ] RecordList.Items
-  - [ ] RecordList.LoadMore
-- [ ] 🔴 RecordDetail Compound Component
-  - [ ] RecordDetail.Root
-  - [ ] RecordDetail.Video
-  - [ ] RecordDetail.Info
-  - [ ] RecordDetail.Actions
-- [ ] 🔴 RecordForm Compound Component
-  - [ ] RecordForm.Root
-  - [ ] RecordForm.PlaceSelect
-  - [ ] RecordForm.VideoUpload
-  - [ ] RecordForm.Submit
+- [x] 🟢 RecordList Compound Component
+  - [x] RecordList.Root (Context Provider)
+  - [x] RecordList.Filter
+  - [x] RecordList.Items
+  - [x] RecordList.LoadMore
+- [x] 🟢 RecordDetail Compound Component
+  - [x] RecordDetail.Root
+  - [x] RecordDetail.Video
+  - [x] RecordDetail.Info
+  - [x] RecordDetail.Actions
+- [x] 🟢 RecordForm Compound Component
+  - [x] RecordForm.Root
+  - [x] RecordForm.PlaceSelect
+  - [x] RecordForm.VideoUpload
+  - [x] RecordForm.Submit
 
 #### 2.4 Controller 업데이트 & 테스트 (2일)
 - [ ] 🔴 페이지 컴포넌트 업데이트
@@ -141,24 +141,24 @@ src/
   - [ ] Hook 테스트
   - [ ] Component 테스트
 
-### Phase 3: Auth 도메인 리팩토링 (1-2주) 🟢
+### Phase 3: Auth 도메인 리팩토링 (1-2주) 🟡
 **목표**: 인증 관련 기능을 새로운 아키텍처로 전환
 
 #### 3.1 Api & Transform 레이어 (2일)
-- [x] 🟢 Auth Response/Entity 타입 정의
-- [x] 🟢 Auth Transform 함수 구현
-- [x] 🟢 Auth Api 구현
-  - [x] `signIn`, `signUp`, `signOut`
-  - [x] `oauthKakao`, `oauthApple`
+- [ ] 🔴 Auth Response/Entity 타입 정의
+- [ ] 🔴 Auth Transform 함수 구현
+- [ ] 🔴 Auth Api 구현
+  - [ ] `signIn`, `signUp`, `signOut`
+  - [ ] `oauthKakao`, `oauthApple`
 
 #### 3.2 Headless Hook 구현 (3일)
-- [x] 🟢 `useAuth` Hook 구현
-- [x] 🟢 `useSignIn` Hook 구현
-- [x] 🟢 `useSignUp` Hook 구현
-- [x] 🟢 `useOAuth` Hook 구현
+- [ ] 🔴 `useAuth` Hook 구현
+- [ ] 🔴 `useSignIn` Hook 구현
+- [ ] 🔴 `useSignUp` Hook 구현
+- [ ] 🔴 `useOAuth` Hook 구현
 
 #### 3.3 Compound Component & 테스트 (2일)
-- [x] 🟢 Auth Compound Components 구현
+- [ ] 🔴 Auth Compound Components 구현
 - [ ] 🔴 TDD 테스트 코드 작성
 
 ### Phase 4: Profile 도메인 리팩토링 (1-2주) 🔴
@@ -214,19 +214,19 @@ src/
 
 ### 전체 진행률
 - **Phase 1**: 100% (8/8 완료) 🟢
-- **Phase 2**: 87% (13/15 완료) 🟡
-- **Phase 3**: 86% (6/7 완료) 🟡
-- **Phase 4**: 0% (0/5 완료)
-- **Phase 5**: 0% (0/5 완료)
-- **Phase 6**: 0% (0/5 완료)
-- **Phase 7**: 0% (0/5 완료)
+- **Phase 2**: 93% (14/15 완료) 🟡
+- **Phase 3**: 0% (0/7 완료) 🔴
+- **Phase 4**: 0% (0/5 완료) 🔴
+- **Phase 5**: 0% (0/5 완료) 🔴
+- **Phase 6**: 0% (0/5 완료) 🔴
+- **Phase 7**: 0% (0/5 완료) 🔴
 
-**전체 진행률**: 54% (27/50 완료)
+**전체 진행률**: 44% (22/50 완료)
 
-### 다음 주 목표 (12/16-12/20)
-1. **Phase 1.1 완료**: 프로젝트 구조 설정
-2. **Phase 1.2 시작**: AsyncBoundary 컴포넌트 구현
-3. **TDD 환경 설정 완료**
+### 이번 주 목표 (12/15-12/20)
+1. **Phase 2 완료**: Record 도메인 Controller 업데이트 및 테스트
+2. **Phase 3 시작**: Auth 도메인 리팩토링 착수
+3. **테스트 커버리지 확보**: Record 도메인 테스트 코드 작성
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -339,15 +339,29 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ## 7. 다음 액션 아이템
 
 ### 즉시 시작 가능한 작업
-1. **Phase 1 시작**: `domains/` 폴더 구조 생성
-2. **AsyncBoundary 컴포넌트 구현**
-3. **Record 도메인 Transform 함수 구현**
-4. **TDD 환경 설정**
+1. **Phase 2.4 완료**: Record 도메인 Controller 업데이트
+   - `app/page.tsx` 리팩토링
+   - `app/record/[recordId]/page.tsx` 리팩토링
+   - `app/record/create/page.tsx` 리팩토링
+2. **Phase 2 테스트 코드 작성**
+   - Record Repository 테스트
+   - Record Hook 테스트
+   - Record Component 테스트
+3. **Phase 3 시작**: Auth 도메인 리팩토링
+   - Auth 타입 정의
+   - Auth Transform 함수 구현
+   - Auth Api 구현
 
 ### 팀 논의 필요 사항
-1. 리팩토링 우선순위 조정
-2. 개발 일정 조율
-3. 코드 리뷰 프로세스 강화
+1. Auth 도메인 리팩토링 우선순위 조정
+2. 테스트 커버리지 목표 설정
+3. 다음 Phase 일정 조율
+
+### 완료된 주요 작업 (12/14-12/15)
+- ✅ Record 도메인 완전 리팩토링 (Api, Hook, Component)
+- ✅ AsyncBoundary 설정 완료
+- ✅ TDD 환경 구축 완료
+- ✅ Transform 레이어 분리 완료
 
 ---
 
