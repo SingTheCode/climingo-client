@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import useUserStore from '@/store/user';
-import type { MemberInfo } from '@/types/auth';
+import useUserStore from "@/store/user";
+import type { MemberInfo } from "@/types/auth";
 
-import Layout from '@/components/common/Layout';
-import NavigationHeader from '@/components/common/NavigationHeader';
-import Avatar from '@/components/common/Avatar';
-import { SignUp } from '@/domains/auth/components/SignUp';
+import Layout from "@/components/common/Layout";
+import NavigationHeader from "@/components/common/NavigationHeader";
+import Avatar from "@/components/common/Avatar";
+import { SignUp } from "@/domains/auth/components/SignUp";
 
 export default function SignUpPage() {
   const memberInfo = useUserStore((state) => state.user);
@@ -18,7 +18,7 @@ export default function SignUpPage() {
     return notFound();
   }
 
-  const { profileUrl, nickname } = memberInfo as MemberInfo;
+  const { profileUrl } = memberInfo as MemberInfo;
 
   return (
     <Layout containHeader>
@@ -34,7 +34,7 @@ export default function SignUpPage() {
       />
       <div className="w-full h-full flex flex-col items-center">
         <Avatar size="lg" src={profileUrl} alt="profile" />
-        <SignUp initialNickname={nickname || ''}>
+        <SignUp>
           <SignUp.Form>
             <SignUp.Label>닉네임</SignUp.Label>
             <SignUp.Input
@@ -42,10 +42,10 @@ export default function SignUpPage() {
               rules={[
                 (value) =>
                   /^[a-zA-Z0-9가-힣]+$/.test(value) ||
-                  '띄어쓰기 없이 영문,숫자,한글만 가능해요',
+                  "띄어쓰기 없이 영문,숫자,한글만 가능해요",
                 (value) =>
                   (2 <= value.length && value.length <= 8) ||
-                  '2글자 이상 8글자 이하만 가능해요',
+                  "2글자 이상 8글자 이하만 가능해요",
               ]}
             />
           </SignUp.Form>
