@@ -474,9 +474,31 @@ export const useRecordDetail = () => {
 - 위치: `api/hooks/[domain].ts` (현재) → `domains/[domain]/hooks/` (향후)
 
 **Import 경로 규칙**:
-- 도메인 내부 파일 간 참조도 절대경로(`@/`) 사용
-- 상대경로(`../`, `./`) 사용 금지
+- **모든 import는 절대경로(`@/`)를 사용**
+- 도메인 내부 파일 간 참조도 절대경로 사용 (상대경로 금지)
+- 예: `import { useAuth } from '@/domains/auth/hooks/useAuth'`
 - 일관성 있는 경로 관리로 리팩토링 용이성 확보
+
+**Compound Component ESLint 규칙**:
+- 하위 컴포넌트는 별도 함수로 선언 후 할당
+- `react/display-name` 에러 방지
+- `react-hooks/rules-of-hooks` 에러 방지
+
+```typescript
+// ✅ 올바른 예시
+const Trigger = ({ children }: { children: ReactNode }) => {
+  const context = useContext(MyContext);
+  return <button>{children}</button>;
+};
+
+MyComponent.Trigger = Trigger;
+
+// ❌ 금지된 예시
+MyComponent.Trigger = ({ children }) => {
+  const context = useContext(MyContext); // ESLint 에러 발생
+  return <button>{children}</button>;
+};
+```
 
 **Controller (Page)**:
 - 위치: `app/[route]/page.tsx`
