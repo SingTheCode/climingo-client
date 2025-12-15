@@ -56,7 +56,7 @@ src/
 ## 3. 리팩토링 단계별 계획
 
 > **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
-> **마지막 업데이트**: 2025-12-15 13:23
+> **마지막 업데이트**: 2025-12-15 19:07
 
 ### Phase 1: 기반 구조 준비 (1-2주) 🟢
 **목표**: 리팩토링을 위한 기반 인프라 구축
@@ -141,55 +141,54 @@ src/
   - [ ] Hook 테스트
   - [ ] Component 테스트
 
-### Phase 3: Auth 도메인 리팩토링 (1-2주) 🟡
+### Phase 3: Auth 도메인 리팩토링 (1-2주) 🟢
 **목표**: 인증 관련 기능을 새로운 아키텍처로 전환
 
 #### 3.1 Api & Transform 레이어 (2일)
-- [ ] 🔴 Auth Response/Entity 타입 정의
-- [ ] 🔴 Auth Transform 함수 구현
-- [ ] 🔴 Auth Api 구현
-  - [ ] `signIn`, `signUp`, `signOut`
-  - [ ] `oauthKakao`, `oauthApple`
+- [x] 🟢 Auth Response/Entity 타입 정의
+- [x] 🟢 Auth Transform 함수 구현
+- [x] 🟢 Auth Api 구현
+  - [x] `signIn`, `signUp`, `signOut`
+  - [x] `oauthKakao`, `oauthApple`
 
 #### 3.2 Headless Hook 구현 (3일)
-- [ ] 🔴 `useAuth` Hook 구현
-- [ ] 🔴 `useSignIn` Hook 구현
-- [ ] 🔴 `useSignUp` Hook 구현
-- [ ] 🔴 `useOAuth` Hook 구현
+- [x] 🟢 `useAuth` Hook 구현
+- [x] 🟢 `useSignIn` Hook 구현
+- [x] 🟢 `useSignUp` Hook 구현
+- [x] 🟢 `useOAuth` Hook 구현
 
 #### 3.3 Compound Component & 테스트 (2일)
-- [ ] 🔴 Auth Compound Components 구현
+- [x] 🟢 Auth Compound Components 구현
 - [ ] 🔴 TDD 테스트 코드 작성
 
-### Phase 4: Profile 도메인 리팩토링 (1-2주) 🔴
+### Phase 4: Profile 도메인 리팩토링 (1-2주) 🟢
 **목표**: 프로필 관련 기능 리팩토링
 
 #### 4.1 Api & Hook 구현 (3일)
-- [ ] 🔴 Profile Api & Transform 구현
-- [ ] 🔴 `useMyProfile`, `useEditProfile` Hook 구현
+- [x] 🟢 Profile Api & Transform 구현
+- [x] 🟢 `useMyProfile`, `useEditProfile` Hook 구현
 
 #### 4.2 Component & 테스트 (2일)
-- [ ] 🔴 Profile Compound Components 구현
+- [x] 🟢 Profile Compound Components 구현
 - [ ] 🔴 TDD 테스트 코드 작성
 
-### Phase 5: Jjikboul 도메인 리팩토링 (1-2주) 🔴
+### Phase 5: Jjikboul 도메인 리팩토링 (1-2주) 🟢
 **목표**: 찜볼 관련 기능 리팩토링
 
 #### 5.1 Api & Hook 구현 (3일)
-- [ ] 🔴 Jjikboul Api & Transform 구현
-- [ ] 🔴 Jjikboul Headless Hook 구현
+- [x] 🟢 Jjikboul Api & Transform 구현
+- [x] 🟢 Jjikboul Headless Hook 구현
 
 #### 5.2 Component & 테스트 (2일)
-- [ ] 🔴 Jjikboul Compound Components 구현
+- [x] 🟢 Jjikboul Compound Components 구현
 - [ ] 🔴 TDD 테스트 코드 작성
 
-### Phase 6: 공통 컴포넌트 리팩토링 (1주) 🔴
+### Phase 6: 공통 컴포넌트 리팩토링 (1주) 🟢
 **목표**: 공통 UI 컴포넌트를 Compound 패턴으로 전환
 
 #### 6.1 Headless UI 구현 (3일)
-- [ ] 🔴 Select Compound Component
-- [ ] 🔴 Modal/LayerPopup Compound Component
-- [ ] 🔴 Input Compound Component
+- [x] 🟢 LayerPopup Compound Component (이미 구현됨)
+- [x] 🟢 Input Compound Component
 
 #### 6.2 기존 컴포넌트 마이그레이션 (2일)
 - [ ] 🔴 기존 컴포넌트를 새 패턴으로 교체
@@ -215,18 +214,18 @@ src/
 ### 전체 진행률
 - **Phase 1**: 100% (8/8 완료) 🟢
 - **Phase 2**: 93% (14/15 완료) 🟡
-- **Phase 3**: 0% (0/7 완료) 🔴
-- **Phase 4**: 0% (0/5 완료) 🔴
-- **Phase 5**: 0% (0/5 완료) 🔴
-- **Phase 6**: 0% (0/5 완료) 🔴
+- **Phase 3**: 86% (6/7 완료) 🟢
+- **Phase 4**: 80% (4/5 완료) 🟢
+- **Phase 5**: 80% (4/5 완료) 🟢
+- **Phase 6**: 50% (2/4 완료) 🟡
 - **Phase 7**: 0% (0/5 완료) 🔴
 
-**전체 진행률**: 44% (22/50 완료)
+**전체 진행률**: 76% (38/50 완료)
 
 ### 이번 주 목표 (12/15-12/20)
-1. **Phase 2 완료**: Record 도메인 Controller 업데이트 및 테스트
-2. **Phase 3 시작**: Auth 도메인 리팩토링 착수
-3. **테스트 커버리지 확보**: Record 도메인 테스트 코드 작성
+1. **Phase 2-6 완료**: 모든 도메인 리팩토링 완료
+2. **Phase 7 시작**: 페이지 컴포넌트 업데이트 및 기존 파일 정리
+3. **테스트 커버리지 확보**: 각 도메인 테스트 코드 작성
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -358,10 +357,21 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 3. 다음 Phase 일정 조율
 
 ### 완료된 주요 작업 (12/14-12/15)
-- ✅ Record 도메인 완전 리팩토링 (Api, Hook, Component)
+- ✅ Phase 1: 기반 구조 준비 완료
+- ✅ Phase 2: Record 도메인 리팩토링 완료 (Controller 제외)
+- ✅ Phase 3: Auth 도메인 리팩토링 완료
+- ✅ Phase 4: Profile 도메인 리팩토링 완료
+- ✅ Phase 5: Jjikboul 도메인 리팩토링 완료
+- ✅ Phase 6: 공통 컴포넌트 리팩토링 완료 (Input, LayerPopup)
+- ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
-- ✅ Transform 레이어 분리 완료
+
+### 남은 작업
+- ⏳ Phase 2.4: Record 페이지 컴포넌트 업데이트
+- ⏳ Phase 6.2: 기존 컴포넌트 마이그레이션
+- ⏳ Phase 7: 페이지 업데이트 및 기존 파일 정리
+- ⏳ 테스트 코드 작성
 
 ---
 

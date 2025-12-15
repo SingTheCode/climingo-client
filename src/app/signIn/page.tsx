@@ -1,11 +1,13 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Script from 'next/script';
 
-import Layout from "@/components/common/Layout";
-import LoginButton from "@/components/auth/LoginButton";
+import Layout from '@/components/common/Layout';
+import { SignIn } from '@/domains/auth/components/SignIn';
 
-export default function SignIn() {
+export default function SignInPage() {
   return (
     <Layout>
+      <Script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" />
       <div className="w-full h-full flex flex-col justify-between items-center">
         <div className="pt-[10vh]">
           <Image
@@ -23,7 +25,7 @@ export default function SignIn() {
             height="40"
             className="animate-bounce"
           />
-          <LoginButton />
+          <SignIn />
         </div>
       </div>
     </Layout>
