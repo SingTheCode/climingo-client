@@ -7,8 +7,8 @@ import { isAxiosError } from "axios";
 
 import { MemberInfo, OAuthProvider } from "@/types/auth";
 import { deleteAccountApi, signOutApi } from "@/api/modules/user";
-import useGetMyProfileQuery from "@/hooks/profile/useGetMyProfileQuery";
-import useEditNicknameQuery from "@/hooks/profile/useEditNicknameQuery";
+import { useGetMyProfileQuery } from "@/domains/profile/hooks/useGetMyProfileQuery";
+import { useEditNicknameQuery } from "@/domains/profile/hooks/useEditNicknameQuery";
 import useUserStore from "@/store/user";
 
 import Avatar from "@/components/common/Avatar";

@@ -1,30 +1,43 @@
-// Record Entity 타입 정의
+// Record Entity 타입 정의 (기존 types/record.ts와 호환)
 
 export interface Record {
-  id: number;
+  recordId: number;
   thumbnailUrl: string;
   videoUrl: string;
-  createdAt: Date;
+  createTime: string;
 }
 
 export interface Gym {
-  id: number;
-  name: string;
-  address: string;
-  latitude: number;
-  longitude: number;
+  gymId: number;
+  gymName: string;
 }
 
+export type LevelColor =
+  | 'red'
+  | 'orange'
+  | 'yellow'
+  | 'green'
+  | 'blue'
+  | 'navy'
+  | 'purple'
+  | 'pink'
+  | 'brown'
+  | 'grey'
+  | 'white'
+  | 'black';
+
 export interface Level {
-  id: number;
-  name: string;
-  color: string;
+  levelId: number;
+  colorNameKo: string;
+  colorNameEn: LevelColor;
+  colorCode: string;
 }
 
 export interface MemberInfo {
-  id: number;
+  memberId: number;
   nickname: string;
   profileImageUrl: string | null;
+  profileUrl: string;
 }
 
 export interface RecordMetadata {

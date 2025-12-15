@@ -56,7 +56,7 @@ src/
 ## 3. 리팩토링 단계별 계획
 
 > **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
-> **마지막 업데이트**: 2025-12-15 20:03
+> **마지막 업데이트**: 2025-12-15 21:08
 
 ### Phase 1: 기반 구조 준비 (1-2주) 🟢
 **목표**: 리팩토링을 위한 기반 인프라 구축
@@ -210,22 +210,22 @@ src/
 - [ ] 🔴 성능 측정 및 개선
 - [ ] 🔴 아키텍처 문서 업데이트
 
-### Phase 8: 페이지 리팩토링 (1-2주) 🔴
+### Phase 8: 페이지 리팩토링 (1-2주) 🟡
 **목표**: 모든 페이지를 리팩토링된 도메인 컴포넌트로 전환
 
 #### 8.1 Record 페이지 리팩토링 (3일)
-- [ ] 🔴 `app/page.tsx` (홈 페이지)
-  - [ ] RecordList Compound Component 적용
-  - [ ] AsyncBoundary 적용
-  - [ ] 기존 components/record/RecordList 제거
-- [ ] 🔴 `app/record/[recordId]/page.tsx`
-  - [ ] RecordDetail Compound Component 적용
-  - [ ] AsyncBoundary 적용
-  - [ ] 기존 components/record/RecordDetail 제거
-- [ ] 🔴 `app/record/create/page.tsx`
-  - [ ] RecordForm Compound Component 적용
-  - [ ] AsyncBoundary 적용
-  - [ ] 기존 components/record/CreateRecordForm 제거
+- [x] 🟢 `app/page.tsx` (홈 페이지)
+  - [x] RecordList Compound Component 적용
+  - [x] AsyncBoundary 적용
+  - [ ] 기존 components/record/RecordList 제거 (Phase 8.4)
+- [x] 🟢 `app/record/[recordId]/page.tsx`
+  - [x] RecordDetail Compound Component 적용
+  - [x] AsyncBoundary 적용
+  - [ ] 기존 components/record/RecordDetail 제거 (Phase 8.4)
+- [x] 🟢 `app/record/create/page.tsx`
+  - [x] RecordForm Compound Component 적용
+  - [x] AsyncBoundary 적용
+  - [ ] 기존 components/record/CreateRecordForm 제거 (Phase 8.4)
 
 #### 8.2 Profile 페이지 리팩토링 (2일)
 - [ ] 🔴 `app/myProfile/page.tsx`
@@ -259,14 +259,14 @@ src/
 - **Phase 5**: 80% (4/5 완료) 🟢
 - **Phase 6**: 50% (2/4 완료) 🟡
 - **Phase 7**: 40% (2/5 완료) 🟡
-- **Phase 8**: 0% (0/10 완료) 🔴
+- **Phase 8**: 30% (3/10 완료) 🟡
 
-**전체 진행률**: 68% (41/60 완료)
+**전체 진행률**: 71% (44/62 완료)
 
 ### 이번 주 완료 목표 (12/15-12/20)
 1. ✅ **Phase 1-6 완료**: 모든 도메인 리팩토링 완료
 2. ✅ **Phase 7 진행 중**: 기존 hooks 파일 정리 완료
-3. ⏳ **Phase 8 시작**: 페이지 컴포넌트 리팩토링 착수
+3. ✅ **Phase 8.1 완료**: Record 페이지 리팩토링 완료
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -378,21 +378,20 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 
 ## 7. 다음 액션 아이템
 
-### 즉시 시작 가능한 작업 (Phase 8)
-1. **Record 페이지 리팩토링**
-   - `app/page.tsx` → RecordList Compound Component 적용
-   - `app/record/[recordId]/page.tsx` → RecordDetail Compound Component 적용
-   - `app/record/create/page.tsx` → RecordForm Compound Component 적용
-2. **Profile 페이지 리팩토링**
+### 즉시 시작 가능한 작업 (Phase 8.2-8.4)
+1. **Profile 페이지 리팩토링** (Phase 8.2)
    - `app/myProfile/page.tsx` → MyProfile Compound Component 적용
    - `app/myProfile/detail/page.tsx` → EditProfile Compound Component 적용
-3. **Jjikboul 페이지 리팩토링**
+2. **Jjikboul 페이지 리팩토링** (Phase 8.3)
    - `app/jjikboul/[jjikboulId]/page.tsx` → JjikboulDetail Compound Component 적용
+3. **기존 components 정리** (Phase 8.4)
+   - `components/record/` 폴더 제거
+   - `components/profile/` 폴더 제거
+   - `components/jjikboul/` 폴더 제거
 
 ### 팀 논의 필요 사항
-1. 페이지 리팩토링 우선순위 결정
-2. 테스트 커버리지 목표 설정
-3. 최종 완료 일정 조율
+1. 테스트 커버리지 목표 설정
+2. 최종 완료 일정 조율
 
 ### 완료된 주요 작업 (12/14-12/15)
 - ✅ Phase 1: 기반 구조 준비 완료
@@ -402,23 +401,24 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 - ✅ Phase 5: Jjikboul 도메인 리팩토링 완료
 - ✅ Phase 6: 공통 컴포넌트 리팩토링 완료 (Input, LayerPopup)
 - ✅ Phase 7: 기존 hooks 파일 정리 완료 (auth, profile, jjikboul, record)
+- ✅ Phase 8.1: Record 페이지 리팩토링 완료
+  - ✅ `app/page.tsx` → RecordList Compound Component 적용
+  - ✅ `app/record/[recordId]/page.tsx` → RecordDetail Compound Component 적용
+  - ✅ `app/record/create/page.tsx` → RecordForm Compound Component 적용
+  - ✅ @toss/async-boundary 패키지 설치
+  - ✅ domains 타입 호환성 수정 (기존 types/record.ts와 호환)
+  - ✅ 삭제된 hooks 복구 (jjikboul, profile, record → domains로 이동)
+  - ✅ OAuth 컴포넌트 domains로 이동
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
 
 ### 남은 작업
 - ⏳ **페이지 리팩토링 필요**: 아래 페이지들이 아직 기존 hooks/components 사용 중
-  - `app/myProfile/page.tsx` - 기존 hooks 사용
+  - `app/myProfile/page.tsx` - 기존 components 사용
   - `app/myProfile/detail/page.tsx` - 기존 components 사용
-  - `app/jjikboul/[jjikboulId]/page.tsx` - 기존 hooks 사용
-  - `app/record/[recordId]/page.tsx` - 기존 components 사용
-  - `app/record/create/page.tsx` - 기존 components 사용
-  - `app/page.tsx` (홈) - 기존 components 사용
-- ⏳ **사용 대기 중인 도메인 컴포넌트**: 페이지 리팩토링 후 사용 예정
-  - `domains/record/components/` (RecordForm, RecordDetail, RecordList)
-  - `domains/profile/components/` (MyProfile, EditProfile)
-  - `domains/jjikboul/components/` (JjikboulDetail)
-- ⏳ **기존 파일 정리**: 페이지 리팩토링 완료 후 제거
+  - `app/jjikboul/[jjikboulId]/page.tsx` - 기존 components 사용
+- ⏳ **기존 파일 정리**: 페이지 리팩토링 완료 후 제거 (Phase 8.4)
   - `components/profile/` (MyProfile, MyProfileDetail)
   - `components/jjikboul/` (JjikboulShareDetail)
   - `components/record/` (RecordList, RecordDetail, RecordItem 등)

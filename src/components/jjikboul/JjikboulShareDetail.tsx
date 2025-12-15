@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 
 import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
-import useJjikboul from "@/hooks/jjikboul/useJjikboul";
-import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
+import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
+import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
 import useImageDownload from "@/hooks/useImageDownload";
 import useAppScheme from "@/hooks/useAppScheme";
 import { JjikboulDetail } from "@/types/jjikboul";
