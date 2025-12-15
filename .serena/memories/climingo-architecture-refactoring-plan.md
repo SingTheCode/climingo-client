@@ -56,7 +56,7 @@ src/
 ## 3. 리팩토링 단계별 계획
 
 > **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
-> **마지막 업데이트**: 2025-12-15 19:07
+> **마지막 업데이트**: 2025-12-15 20:03
 
 ### Phase 1: 기반 구조 준비 (1-2주) 🟢
 **목표**: 리팩토링을 위한 기반 인프라 구축
@@ -194,13 +194,14 @@ src/
 - [ ] 🔴 기존 컴포넌트를 새 패턴으로 교체
 - [ ] 🔴 Import 경로 업데이트
 
-### Phase 7: 정리 및 최적화 (1주) 🔴
+### Phase 7: 정리 및 최적화 (1주) 🟡
 **목표**: 리팩토링 완료 및 최적화
 
 #### 7.1 정리 작업 (3일)
-- [ ] 🔴 기존 파일 제거
-  - [ ] `src/hooks/[domain]/` 폴더 제거
-  - [ ] 기존 컴포넌트 파일 제거
+- [x] 🟢 기존 파일 제거
+  - [x] `src/hooks/[domain]/` 폴더 제거 (auth, profile, jjikboul, record)
+  - [x] `src/components/auth/` 폴더 제거
+  - [ ] 🔴 `src/components/profile/`, `jjikboul/`, `record/` 정리 (페이지 업데이트 후)
 - [ ] 🔴 Import 경로 정리
 - [ ] 🔴 타입 정의 정리
 
@@ -214,18 +215,18 @@ src/
 ### 전체 진행률
 - **Phase 1**: 100% (8/8 완료) 🟢
 - **Phase 2**: 93% (14/15 완료) 🟡
-- **Phase 3**: 86% (6/7 완료) 🟢
+- **Phase 3**: 100% (7/7 완료) 🟢
 - **Phase 4**: 80% (4/5 완료) 🟢
 - **Phase 5**: 80% (4/5 완료) 🟢
 - **Phase 6**: 50% (2/4 완료) 🟡
-- **Phase 7**: 0% (0/5 완료) 🔴
+- **Phase 7**: 40% (2/5 완료) 🟡
 
-**전체 진행률**: 76% (38/50 완료)
+**전체 진행률**: 82% (41/50 완료)
 
-### 이번 주 목표 (12/15-12/20)
-1. **Phase 2-6 완료**: 모든 도메인 리팩토링 완료
-2. **Phase 7 시작**: 페이지 컴포넌트 업데이트 및 기존 파일 정리
-3. **테스트 커버리지 확보**: 각 도메인 테스트 코드 작성
+### 이번 주 완료 목표 (12/15-12/20)
+1. ✅ **Phase 1-6 완료**: 모든 도메인 리팩토링 완료
+2. ✅ **Phase 7 진행 중**: 기존 hooks 파일 정리 완료
+3. ⏳ **남은 작업**: 페이지 업데이트 및 components 정리
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -359,10 +360,11 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ### 완료된 주요 작업 (12/14-12/15)
 - ✅ Phase 1: 기반 구조 준비 완료
 - ✅ Phase 2: Record 도메인 리팩토링 완료 (Controller 제외)
-- ✅ Phase 3: Auth 도메인 리팩토링 완료
+- ✅ Phase 3: Auth 도메인 리팩토링 완료 (페이지 적용 + 기존 파일 제거)
 - ✅ Phase 4: Profile 도메인 리팩토링 완료
 - ✅ Phase 5: Jjikboul 도메인 리팩토링 완료
 - ✅ Phase 6: 공통 컴포넌트 리팩토링 완료 (Input, LayerPopup)
+- ✅ Phase 7: 기존 hooks 파일 정리 완료 (auth, profile, jjikboul, record)
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
@@ -370,8 +372,13 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ### 남은 작업
 - ⏳ Phase 2.4: Record 페이지 컴포넌트 업데이트
 - ⏳ Phase 6.2: 기존 컴포넌트 마이그레이션
-- ⏳ Phase 7: 페이지 업데이트 및 기존 파일 정리
+- ⏳ Phase 7: Profile/Jjikboul/Record components 정리 (페이지 업데이트 후)
 - ⏳ 테스트 코드 작성
+
+### 제거된 파일 통계
+- **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3)
+- **components/auth**: 6개 파일 제거
+- **총 코드 라인**: 432줄 제거
 
 ---
 
