@@ -370,10 +370,22 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 - ✅ TDD 환경 구축 완료
 
 ### 남은 작업
-- ⏳ Phase 2.4: Record 페이지 컴포넌트 업데이트
-- ⏳ Phase 6.2: 기존 컴포넌트 마이그레이션
-- ⏳ Phase 7: Profile/Jjikboul/Record components 정리 (페이지 업데이트 후)
-- ⏳ 테스트 코드 작성
+- ⏳ **페이지 리팩토링 필요**: 아래 페이지들이 아직 기존 hooks/components 사용 중
+  - `app/myProfile/page.tsx` - 기존 hooks 사용
+  - `app/myProfile/detail/page.tsx` - 기존 components 사용
+  - `app/jjikboul/[jjikboulId]/page.tsx` - 기존 hooks 사용
+  - `app/record/[recordId]/page.tsx` - 기존 components 사용
+  - `app/record/create/page.tsx` - 기존 components 사용
+  - `app/page.tsx` (홈) - 기존 components 사용
+- ⏳ **사용 대기 중인 도메인 컴포넌트**: 페이지 리팩토링 후 사용 예정
+  - `domains/record/components/` (RecordForm, RecordDetail, RecordList)
+  - `domains/profile/components/` (MyProfile, EditProfile)
+  - `domains/jjikboul/components/` (JjikboulDetail)
+- ⏳ **기존 파일 정리**: 페이지 리팩토링 완료 후 제거
+  - `components/profile/` (MyProfile, MyProfileDetail)
+  - `components/jjikboul/` (JjikboulShareDetail)
+  - `components/record/` (RecordList, RecordDetail, RecordItem 등)
+- ⏳ **테스트 코드 작성**: 모든 도메인
 
 ### 제거된 파일 통계
 - **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3)
