@@ -50,7 +50,6 @@ next-env.d.ts
 /.mcp.json
 /CLAUDE.md
 
-/.serena
 /.amazonq/
 /nginx/certbot-logs/
 /nginx/logs/

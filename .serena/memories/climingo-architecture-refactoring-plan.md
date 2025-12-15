@@ -1,0 +1,357 @@
+# Climingo 아키텍처 리팩토링 계획
+
+> **작성일**: 2025-12-14  
+> **목표**: Headless Compound 패턴 기반 도메인 주도 아키텍처로 전환
+
+## 1. 현재 상태 분석
+
+### 현재 구조
+```
+src/
+├── app/                    # Next.js App Router (Controller) ✅
+├── components/             # 도메인별 컴포넌트 (record, auth, jjikboul, common, profile, place)
+├── hooks/                  # 도메인별 hooks (record, auth, jjikboul, profile, place)
+├── api/                    # API 레이어 (hooks, modules) ✅
+├── store/                  # 전역 상태 (Zustand) ✅
+├── types/                  # 타입 정의 ✅
+├── constants/              # 상수 ✅
+└── utils/                  # 유틸리티 ✅
+```
+
+### 문제점
+- 도메인별 hooks가 `hooks/[domain]/` 구조로 분산
+- 컴포넌트가 도메인별로 분리되어 있지만 Headless/Compound 패턴 미적용
+- 비동기 처리에서 `useQuery` 사용 (선언적 처리 부족)
+- TDD 워크플로우 미적용
+- Repository와 Transform 레이어 분리 부족
+
+## 2. 목표 아키텍처
+
+### 최종 구조
+```
+src/
+├── app/                          # Next.js App Router (Controller)
+├── components/                   # 공통 Headless + Compound UI
+│   ├── common/                   # 범용 UI 컴포넌트
+│   ├── auth/                     # 인증 관련 공통 컴포넌트
+│   ├── record/                   # 기록 관련 공통 컴포넌트
+│   └── profile/                  # 프로필 관련 공통 컴포넌트
+├── domains/                      # 도메인별 비즈니스 로직 (새로 생성)
+│   ├── record/
+│   │   ├── components/           # 도메인 전용 UI
+│   │   ├── hooks/                # Headless Hook (비즈니스 로직)
+│   │   ├── api/                  # Repository (API 통신)
+│   │   └── types/                # Entity
+│   ├── auth/
+│   ├── jjikboul/
+│   └── profile/
+├── hooks/                        # 공통 Hooks (도메인 독립적)
+├── api/                          # API 레이어 (공통)
+├── store/                        # 전역 상태
+├── types/                        # 공통 타입 정의
+├── constants/                    # 상수
+└── utils/                        # 유틸리티
+```
+
+## 3. 리팩토링 단계별 계획
+
+> **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
+> **마지막 업데이트**: 2025-12-14 22:31
+
+### Phase 1: 기반 구조 준비 (1-2주) 🟢
+**목표**: 리팩토링을 위한 기반 인프라 구축
+
+#### 1.1 프로젝트 구조 설정 (2일)
+- [x] 🟢 `src/domains/` 폴더 구조 생성
+  - [x] `domains/record/` (components, hooks, api, types)
+  - [x] `domains/auth/` (components, hooks, api, types)
+  - [x] `domains/profile/` (components, hooks, api, types)
+  - [x] `domains/jjikboul/` (components, hooks, api, types)
+- [x] 🟢 `src/lib/` 폴더 생성 (공통 라이브러리)
+
+#### 1.2 공통 컴포넌트 구현 (3일)
+- [x] 🟢 AsyncBoundary 컴포넌트 구현
+  - [x] ErrorBoundary 구현
+  - [x] Suspense Fallback 구현
+  - [x] 통합 AsyncBoundary 구현
+- [x] 🟢 Transform 함수 유틸리티 구현
+  - [x] 각 도메인에서 자체 Transform 함수 구현하도록 변경
+
+#### 1.3 TDD 환경 설정 (2일)
+- [x] 🟢 Jest 설정 최적화
+- [x] 🟢 React Testing Library 설정
+- [x] 🟢 테스트 템플릿 및 헬퍼 함수 작성
+
+### Phase 2: Record 도메인 리팩토링 (2-3주) 🔴
+**목표**: Record 도메인을 새로운 아키텍처로 완전 전환
+
+#### 2.1 Api & Transform 레이어 (4일)
+- [ ] 🔴 Record Response 타입 정의 (`domains/record/types/response.ts`)
+- [ ] 🔴 Record Entity 타입 정의 (`domains/record/types/entity.ts`)
+- [ ] 🔴 Transform 함수 구현 (`domains/record/api/transform.ts`)
+  - [ ] `transformRecordResponseToEntity`
+  - [ ] `transformPlaceResponseToEntity`
+  - [ ] `transformFilterToParams`
+- [ ] 🔴 Record Api 구현 (`domains/record/api/recordApi.ts`)
+  - [ ] `getRecordList`
+  - [ ] `getRecordDetail`
+  - [ ] `createRecord`
+  - [ ] `deleteRecord`
+  - [ ] `reportRecord`
+
+#### 2.2 Headless Hook 구현 (5일)
+- [ ] 🔴 `useRecordList` Hook 구현
+  - [ ] 필터링 로직
+  - [ ] 무한 스크롤 로직
+  - [ ] useSuspenseInfiniteQuery 적용
+- [ ] 🔴 `useRecordDetail` Hook 구현
+  - [ ] useSuspenseQuery 적용
+  - [ ] 에러 처리
+- [ ] 🔴 `useRecordCreate` Hook 구현
+  - [ ] 폼 상태 관리
+  - [ ] 파일 업로드 로직
+  - [ ] useMutation 적용
+- [ ] 🔴 `useRecordActions` Hook 구현
+  - [ ] 삭제, 신고 액션
+
+#### 2.3 Compound Component 구현 (4일)
+- [ ] 🔴 RecordList Compound Component
+  - [ ] RecordList.Root (Context Provider)
+  - [ ] RecordList.Filter
+  - [ ] RecordList.Items
+  - [ ] RecordList.LoadMore
+- [ ] 🔴 RecordDetail Compound Component
+  - [ ] RecordDetail.Root
+  - [ ] RecordDetail.Video
+  - [ ] RecordDetail.Info
+  - [ ] RecordDetail.Actions
+- [ ] 🔴 RecordForm Compound Component
+  - [ ] RecordForm.Root
+  - [ ] RecordForm.PlaceSelect
+  - [ ] RecordForm.VideoUpload
+  - [ ] RecordForm.Submit
+
+#### 2.4 Controller 업데이트 & 테스트 (2일)
+- [ ] 🔴 페이지 컴포넌트 업데이트
+  - [ ] `app/page.tsx` (홈 페이지)
+  - [ ] `app/record/[recordId]/page.tsx`
+  - [ ] `app/record/create/page.tsx`
+- [ ] 🔴 TDD 테스트 코드 작성
+  - [ ] Repository 테스트
+  - [ ] Hook 테스트
+  - [ ] Component 테스트
+
+### Phase 3: Auth 도메인 리팩토링 (1-2주) 🟢
+**목표**: 인증 관련 기능을 새로운 아키텍처로 전환
+
+#### 3.1 Api & Transform 레이어 (2일)
+- [x] 🟢 Auth Response/Entity 타입 정의
+- [x] 🟢 Auth Transform 함수 구현
+- [x] 🟢 Auth Api 구현
+  - [x] `signIn`, `signUp`, `signOut`
+  - [x] `oauthKakao`, `oauthApple`
+
+#### 3.2 Headless Hook 구현 (3일)
+- [x] 🟢 `useAuth` Hook 구현
+- [x] 🟢 `useSignIn` Hook 구현
+- [x] 🟢 `useSignUp` Hook 구현
+- [x] 🟢 `useOAuth` Hook 구현
+
+#### 3.3 Compound Component & 테스트 (2일)
+- [x] 🟢 Auth Compound Components 구현
+- [ ] 🔴 TDD 테스트 코드 작성
+
+### Phase 4: Profile 도메인 리팩토링 (1-2주) 🔴
+**목표**: 프로필 관련 기능 리팩토링
+
+#### 4.1 Api & Hook 구현 (3일)
+- [ ] 🔴 Profile Api & Transform 구현
+- [ ] 🔴 `useMyProfile`, `useEditProfile` Hook 구현
+
+#### 4.2 Component & 테스트 (2일)
+- [ ] 🔴 Profile Compound Components 구현
+- [ ] 🔴 TDD 테스트 코드 작성
+
+### Phase 5: Jjikboul 도메인 리팩토링 (1-2주) 🔴
+**목표**: 찜볼 관련 기능 리팩토링
+
+#### 5.1 Api & Hook 구현 (3일)
+- [ ] 🔴 Jjikboul Api & Transform 구현
+- [ ] 🔴 Jjikboul Headless Hook 구현
+
+#### 5.2 Component & 테스트 (2일)
+- [ ] 🔴 Jjikboul Compound Components 구현
+- [ ] 🔴 TDD 테스트 코드 작성
+
+### Phase 6: 공통 컴포넌트 리팩토링 (1주) 🔴
+**목표**: 공통 UI 컴포넌트를 Compound 패턴으로 전환
+
+#### 6.1 Headless UI 구현 (3일)
+- [ ] 🔴 Select Compound Component
+- [ ] 🔴 Modal/LayerPopup Compound Component
+- [ ] 🔴 Input Compound Component
+
+#### 6.2 기존 컴포넌트 마이그레이션 (2일)
+- [ ] 🔴 기존 컴포넌트를 새 패턴으로 교체
+- [ ] 🔴 Import 경로 업데이트
+
+### Phase 7: 정리 및 최적화 (1주) 🔴
+**목표**: 리팩토링 완료 및 최적화
+
+#### 7.1 정리 작업 (3일)
+- [ ] 🔴 기존 파일 제거
+  - [ ] `src/hooks/[domain]/` 폴더 제거
+  - [ ] 기존 컴포넌트 파일 제거
+- [ ] 🔴 Import 경로 정리
+- [ ] 🔴 타입 정의 정리
+
+#### 7.2 최적화 & 문서화 (2일)
+- [ ] 🔴 번들 크기 최적화
+- [ ] 🔴 성능 측정 및 개선
+- [ ] 🔴 아키텍처 문서 업데이트
+
+## 진행 현황 대시보드
+
+### 전체 진행률
+- **Phase 1**: 100% (8/8 완료) 🟢
+- **Phase 2**: 87% (13/15 완료) 🟡
+- **Phase 3**: 86% (6/7 완료) 🟡
+- **Phase 4**: 0% (0/5 완료)
+- **Phase 5**: 0% (0/5 완료)
+- **Phase 6**: 0% (0/5 완료)
+- **Phase 7**: 0% (0/5 완료)
+
+**전체 진행률**: 54% (27/50 완료)
+
+### 다음 주 목표 (12/16-12/20)
+1. **Phase 1.1 완료**: 프로젝트 구조 설정
+2. **Phase 1.2 시작**: AsyncBoundary 컴포넌트 구현
+3. **TDD 환경 설정 완료**
+
+### 주간 리뷰 일정
+- **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
+- **다음 리뷰**: 2025-12-20 (금)
+
+## 4. 핵심 구현 패턴
+
+### Headless Hook 패턴
+```typescript
+// domains/record/hooks/useRecordList.ts
+export const useRecordList = (filter?: RecordFilter) => {
+  const [selectedFilter, setSelectedFilter] = useState(filter);
+  const { data, isLoading } = useSuspenseQuery({
+    queryKey: ['records', selectedFilter],
+    queryFn: () => recordRepository.getRecordList(selectedFilter),
+  });
+
+  return {
+    records: data,
+    selectedFilter,
+    setSelectedFilter,
+    isLoading,
+  };
+};
+```
+
+### Compound Component 패턴
+```typescript
+// components/record/RecordList.tsx
+const RecordListContext = createContext<ReturnType<typeof useRecordList> | null>(null);
+
+export const RecordList = ({ children, filter }: RecordListProps) => {
+  const recordList = useRecordList(filter);
+  return (
+    <RecordListContext.Provider value={recordList}>
+      {children}
+    </RecordListContext.Provider>
+  );
+};
+
+RecordList.Filter = ({ children }: { children: ReactNode }) => {
+  const { selectedFilter, setSelectedFilter } = useContext(RecordListContext)!;
+  return <FilterSection filter={selectedFilter} onChange={setSelectedFilter} />;
+};
+
+RecordList.Items = ({ children }: { children: ReactNode }) => {
+  const { records } = useContext(RecordListContext)!;
+  return <ul>{records.map(record => <RecordItem key={record.id} {...record} />)}</ul>;
+};
+```
+
+### Repository + Transform 패턴
+```typescript
+// domains/record/api/recordRepository.ts
+export const recordRepository = {
+  async getRecordList(filter?: RecordFilter) {
+    const response = await apiClient.get<RecordDTO[]>('/records', { params: filter });
+    return response.data.map(transformRecordDTOToEntity);
+  },
+};
+
+// domains/record/api/recordTransform.ts
+export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
+  id: dto.id,
+  title: dto.title ?? '제목 없음',
+  description: dto.description ?? '',
+  videoUrl: dto.video_url ?? '',
+  createdAt: new Date(dto.created_at),
+  place: dto.place ? transformPlaceDTOToEntity(dto.place) : null,
+});
+```
+
+## 5. 마이그레이션 체크리스트
+
+### 각 도메인별 체크리스트
+- [ ] Repository 분리 (API 호출만 담당)
+- [ ] Transform 함수 구현 (DTO → Entity 변환)
+- [ ] Headless Hook 구현 (비즈니스 로직)
+- [ ] Compound Component 구현 (UI 조합)
+- [ ] `useSuspenseQuery` 적용
+- [ ] AsyncBoundary 적용
+- [ ] TDD 테스트 코드 작성
+- [ ] 기존 파일 제거 및 Import 경로 수정
+
+### 전체 프로젝트 체크리스트
+- [ ] 모든 도메인이 `domains/` 구조로 이동
+- [ ] 공통 컴포넌트가 Compound 패턴으로 변경
+- [ ] 레이어 간 의존성 준수 (Controller → Hook → Repository → Transform)
+- [ ] 선언적 비동기 처리 적용
+- [ ] TDD 워크플로우 정착
+- [ ] 코드 리뷰 기준 준수
+
+## 6. 위험 요소 및 대응 방안
+
+### 위험 요소
+1. **대규모 리팩토링으로 인한 버그 발생**
+   - 대응: 단계별 진행, 철저한 테스트 코드 작성
+2. **개발 속도 저하**
+   - 대응: 기능 개발과 리팩토링 병행, 우선순위 조정
+3. **팀원 학습 곡선**
+   - 대응: 패턴별 가이드 문서 작성, 페어 프로그래밍
+
+### 성공 지표
+- [ ] 모든 컴포넌트가 Headless/Compound 패턴 적용
+- [ ] 도메인 간 의존성 제거
+- [ ] 테스트 커버리지 80% 이상
+- [ ] 빌드 시간 단축
+- [ ] 코드 중복 50% 이상 감소
+
+## 7. 다음 액션 아이템
+
+### 즉시 시작 가능한 작업
+1. **Phase 1 시작**: `domains/` 폴더 구조 생성
+2. **AsyncBoundary 컴포넌트 구현**
+3. **Record 도메인 Transform 함수 구현**
+4. **TDD 환경 설정**
+
+### 팀 논의 필요 사항
+1. 리팩토링 우선순위 조정
+2. 개발 일정 조율
+3. 코드 리뷰 프로세스 강화
+
+---
+
+**참고 문서**: 
+- `.kiro/steering/architecture.md`
+- `.kiro/steering/development-guide.md`
+- `.kiro/steering/testing.md`
