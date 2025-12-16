@@ -29,11 +29,7 @@ export const useRecordCreate = () => {
 
       // 2. 비디오 업로드
       setUploadProgress(50);
-      const uploadSuccess = await recordApi.uploadVideo(presignedUrl, videoFile);
-      
-      if (!uploadSuccess) {
-        throw new Error('비디오 업로드에 실패했습니다.');
-      }
+      await recordApi.uploadVideo(presignedUrl, videoFile);
 
       setUploadProgress(75);
 

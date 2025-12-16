@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getReportReasonApi } from '@/api/modules/record';
+import { recordApi } from '@/domains/record/api/recordApi';
 
 export const useReportReasonQuery = () => {
   return useQuery({
     queryKey: ['report', 'reason'],
-    queryFn: getReportReasonApi,
+    queryFn: recordApi.getReportReasons,
     staleTime: 1000 * 60 * 10, // 10분
     gcTime: 1000 * 60 * 60, // 1시간
   });

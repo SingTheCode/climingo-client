@@ -10,7 +10,7 @@ import {
 
 import { Level } from "@/types/record";
 import { useDidMountEffect } from "@/hooks/common";
-import { getLevelListApi } from "@/api/modules/record";
+import { recordApi } from "@/domains/record/api/recordApi";
 import { ClimbingPlace } from "@/types/common";
 
 import LevelIcon from "@/components/common/LevelIcon";
@@ -83,7 +83,7 @@ export default function FilterSection({
         if (!filter.gym.id) {
           return;
         }
-        const data = await getLevelListApi({ gymId: filter.gym.id });
+        const data = await recordApi.getLevelList(filter.gym.id);
         setLevelList(data);
       } catch (error) {
         console.error(error);

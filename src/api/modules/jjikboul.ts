@@ -1,6 +1,6 @@
 import { api } from "@/api/axios";
 import { MemberInfoResponse } from "@/api/modules/user";
-import { GymResponse, LevelResponse } from "@/api/modules/record";
+import type { GymResponse, LevelResponse } from "@/domains/record/types/response";
 
 export interface JjikboulResponse {
   jjikboulId: number;

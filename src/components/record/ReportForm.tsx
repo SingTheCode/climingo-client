@@ -11,7 +11,7 @@ import {
 
 import type { RecordReportApiRequest } from "@/types/record";
 
-import { reportRecordApi } from "@/api/modules/record";
+import { recordApi } from "@/domains/record/api/recordApi";
 import BottomActionButton from "@/components/common/BottomActionButton";
 import { useReportReasonQuery } from "@/domains/record/hooks/useReportReasonQuery";
 
@@ -38,7 +38,7 @@ const ReportForm = ({
     ) as unknown as RecordReportApiRequest;
 
     try {
-      await reportRecordApi(recordId, reportData);
+      await recordApi.reportRecord(Number(recordId), Number(reportData.reasonCode));
       onSubmitSuccess?.();
     } catch {
       onSubmitError?.();
@@ -55,19 +55,19 @@ const ReportForm = ({
           <Fieldset>
             <RadioGroup
               name="reasonCode"
-              defaultValue={reason[0]["code"]}
+              defaultValue={String(reason[0].id)}
               className="flex flex-col gap-[2rem]"
             >
               <Legend className="text-base font-medium">신고 유형</Legend>
 
-              {reason.map(({ code, description }) => (
-                <Field key={code}>
+              {reason.map(({ id, text }) => (
+                <Field key={id}>
                   <Radio
-                    value={code}
+                    value={String(id)}
                     className="group flex gap-[1rem] cursor-pointer"
                   >
                     <span className="w-[2rem] h-[2rem] rounded-full border-shadow border-[0.1rem] group-data-[checked]:bg-primary group-data-[checked]:border-primary bg-[url(/icons/icon-check.svg)] bg-no-repeat bg-center"></span>
-                    <Label>{description}</Label>
+                    <Label>{text}</Label>
                   </Radio>
                 </Field>
               ))}

@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  getRecordDetailApi,
-  GymResponse,
-  LevelResponse,
-} from "@/api/modules/record";
-import { Gym, Level } from "@/types/record";
+import { recordApi } from "@/domains/record/api/recordApi";
+import type { GymResponse, LevelResponse } from "@/domains/record/types/response";
+import { Gym, Level, LevelColor } from "@/types/record";
 import { LEVELS } from "@/constants/level";
 
 export const GymModel = (serverData: GymResponse): Gym => {
@@ -18,8 +15,8 @@ export const GymModel = (serverData: GymResponse): Gym => {
 export const LevelModel = (serverData: LevelResponse): Level => {
   return {
     levelId: serverData.levelId ?? 0,
-    colorNameKo: serverData.colorNameKo ?? "",
-    colorNameEn: serverData.colorNameEn ?? "white",
+    colorNameKo: serverData.levelName ?? "",
+    colorNameEn: (serverData.colorNameEn ?? "white") as LevelColor,
     colorCode:
       LEVELS.find((l) => l.colorNameEn === (serverData.colorNameEn ?? "white"))
         ?.colorCode || "#ffffff",
@@ -30,5 +27,5 @@ export const LevelModel = (serverData: LevelResponse): Level => {
 export const useGetRecordDetailQuery = ({ recordId }: { recordId: string }) =>
   useQuery({
     queryKey: ["records", "detail", recordId],
-    queryFn: () => getRecordDetailApi({ recordId }),
+    queryFn: () => recordApi.getRecordDetail(Number(recordId)),
   });

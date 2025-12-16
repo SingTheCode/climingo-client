@@ -1,5 +1,6 @@
 import { api } from '@/api/axios';
-import type { RecordFilter } from '@/domains/record/types/entity';
+import axios from 'axios';
+import type { RecordFilter, Level } from '@/domains/record/types/entity';
 import type {
   RecordListResponse,
   RecordDetailResponse,
@@ -10,6 +11,7 @@ import {
   transformRecordDetailResponseToEntity,
   transformReportReasonResponseToEntity,
 } from '@/domains/record/api/transform';
+import { LEVELS } from '@/constants/level';
 
 export const recordApi = {
   // 기록 목록 조회
@@ -74,13 +76,19 @@ export const recordApi = {
 
   // 비디오 업로드
   async uploadVideo(presignedUrl: string, file: File) {
-    const response = await fetch(presignedUrl, {
-      method: 'PUT',
-      body: file,
-      headers: {
-        'Content-Type': file.type,
-      },
+    await axios.put(presignedUrl, file, {
+      headers: { 'Content-Type': file.type },
     });
-    return response.ok;
+  },
+
+  // 암장별 난이도 조회
+  async getLevelList(gymId: number) {
+    const response = await api.get<Level[]>(`/gyms/${gymId}/levels`);
+    return response.data.map((level) => ({
+      ...level,
+      colorCode:
+        LEVELS.find((item) => item.colorNameEn === level.colorNameEn)
+          ?.colorCode || '#ffffff',
+    }));
   },
 };
