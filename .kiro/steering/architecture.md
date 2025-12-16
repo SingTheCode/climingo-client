@@ -34,169 +34,39 @@
 
 ```
 src/
-├── app/                          # Next.js App Router (Controller)
-│   ├── signIn/
-│   │   └── page.tsx              # 로그인 페이지
-│   ├── signUp/
-│   │   └── page.tsx              # 회원가입 페이지
-│   ├── oauth/
-│   │   └── page.tsx              # OAuth 콜백 페이지
-│   ├── record/
-│   │   ├── [recordId]/
-│   │   │   └── page.tsx          # 기록 상세 페이지
-│   │   └── create/
-│   │       └── page.tsx          # 기록 생성 페이지
-│   ├── jjikboul/
-│   │   └── [jjikboulId]/
-│   │       └── page.tsx          # 찍불 상세 페이지
-│   ├── myProfile/
-│   │   ├── page.tsx              # 내 프로필 페이지
-│   │   └── detail/
-│   │       └── page.tsx          # 프로필 수정 페이지
-│   ├── page.tsx                  # 홈 페이지 (기록 목록)
-│   ├── layout.tsx
-│   └── globals.css
+├── app/                          # 🎯 Controller Layer (Next.js App Router)
+│   ├── [route]/
+│   │   └── page.tsx              # 도메인 조립 및 라우팅
+│   └── layout.tsx
 │
-├── components/                   # 도메인 독립적 공통 컴포넌트
-│   ├── button/                   # 버튼 관련 컴포넌트
-│   │   ├── BottomActionButton.tsx
-│   │   ├── FloatingButton.tsx
-│   │   └── FloatingActionMenu.tsx
-│   ├── input/                    # 입력 관련 컴포넌트
-│   │   ├── Input.tsx
-│   │   └── InputText.tsx
-│   ├── popup/                    # 팝업 관련 컴포넌트
-│   │   └── LayerPopup.tsx
-│   ├── Avatar.tsx
-│   ├── Layout.tsx
-│   ├── Loading.tsx
-│   ├── NavigationHandler.tsx
-│   └── NavigationHeader.tsx
+├── domains/                      # 🏗️ Domain Layer (비즈니스 로직 격리)
+│   └── [domain]/                 # 예: auth, record, profile, place
+│       ├── components/           # UI 컴포넌트 (도메인 전용)
+│       ├── hooks/                # Headless Hook (로직)
+│       ├── api/                  # API 통신
+│       │   ├── [domain]Api.ts
+│       │   └── transform.ts      # Response → Entity 변환
+│       └── types/                # 타입 정의
+│           ├── entity.ts         # 도메인 엔티티
+│           └── response.ts       # API 응답 타입
 │
-├── domains/                      # 도메인별 비즈니스 로직
-│   ├── auth/                     # 인증 도메인
-│   │   ├── components/
-│   │   │   ├── OAuth.tsx
-│   │   │   ├── OAuthButton.tsx
-│   │   │   ├── SignIn.tsx
-│   │   │   └── SignUp.tsx
-│   │   ├── hooks/
-│   │   │   ├── useAuth.ts
-│   │   │   ├── useNavigateWithAuth.ts
-│   │   │   ├── useOAuth.ts
-│   │   │   ├── useSignIn.ts
-│   │   │   └── useSignUp.ts
-│   │   ├── api/
-│   │   │   ├── authApi.ts
-│   │   │   └── transform.ts
-│   │   └── types/
-│   │       ├── entity.ts
-│   │       ├── response.ts
-│   │       └── index.ts
-│   ├── record/                   # 기록 도메인
-│   │   ├── components/
-│   │   │   ├── Caution.tsx
-│   │   │   ├── ClearButton.tsx
-│   │   │   ├── commonText.tsx
-│   │   │   ├── FilterSection.tsx
-│   │   │   ├── RecordDetail.tsx
-│   │   │   ├── RecordForm.tsx
-│   │   │   ├── RecordItem.tsx
-│   │   │   ├── RecordList.tsx
-│   │   │   ├── ReportForm.tsx
-│   │   │   ├── SelectPlaceWithLevel.tsx
-│   │   │   └── UploadVideo.tsx
-│   │   ├── hooks/
-│   │   │   ├── useRecordActions.ts
-│   │   │   ├── useRecordCreate.ts
-│   │   │   ├── useRecordDetail.ts
-│   │   │   ├── useRecordList.ts
-│   │   │   └── useReportReasonQuery.ts
-│   │   ├── api/
-│   │   │   ├── recordApi.ts
-│   │   │   └── transform.ts
-│   │   └── types/
-│   │       ├── entity.ts
-│   │       ├── response.ts
-│   │       └── index.ts
-│   ├── place/                    # 장소 도메인
-│   │   ├── components/
-│   │   │   ├── LevelIcon.tsx
-│   │   │   ├── Place.tsx
-│   │   │   └── SearchedPlace.tsx
-│   │   ├── hooks/
-│   │   │   └── useGetLevelsQuery.ts
-│   │   ├── api/
-│   │   │   ├── placeApi.ts
-│   │   │   └── transform.ts
-│   │   ├── constants/
-│   │   │   └── level.ts
-│   │   └── types/
-│   │       ├── entity.ts
-│   │       ├── response.ts
-│   │       └── index.ts
-│   ├── profile/                  # 프로필 도메인
-│   │   ├── components/
-│   │   │   ├── EditProfile.tsx
-│   │   │   └── MyProfile.tsx
-│   │   ├── hooks/
-│   │   │   ├── useEditNicknameQuery.ts
-│   │   │   ├── useEditProfile.ts
-│   │   │   ├── useGetMyProfileQuery.ts
-│   │   │   ├── useGetMyRecordListQuery.ts
-│   │   │   └── useMyProfile.ts
-│   │   ├── api/
-│   │   │   ├── profileApi.ts
-│   │   │   └── transform.ts
-│   │   └── types/
-│   │       ├── entity.ts
-│   │       ├── response.ts
-│   │       └── index.ts
-│   └── jjikboul/                 # 찍불 도메인
-│       ├── components/
-│       │   └── JjikboulDetail.tsx
-│       ├── hooks/
-│       │   ├── useAppScheme.ts
-│       │   ├── useGetJjikboulDetailQuery.ts
-│       │   ├── useImageDownload.ts
-│       │   ├── useJjikboul.ts
-│       │   ├── useJjikboulDetail.ts
-│       │   └── useJjikboulUI.ts
-│       ├── api/
-│       │   ├── jjikboulApi.ts
-│       │   └── transform.ts
-│       └── types/
-│           ├── entity.ts
-│           ├── response.ts
-│           └── index.ts
+├── components/                   # 🧩 Shared UI Components (도메인 독립적)
+│   ├── button/
+│   ├── input/
+│   └── popup/
 │
-├── hooks/                        # 공통 Hooks (도메인 독립적)
-│   ├── common.ts
-│   ├── getQueryClient.ts
-│   └── useIntersectionObserver.ts
-│
-├── api/                          # API 레이어
-│   └── axios.ts                  # Axios 인스턴스
-│
-├── store/                        # 전역 상태 (Zustand)
-│   └── user.tsx
-│
-├── types/                        # 공통 타입 정의
-│   ├── appScheme.ts
-│   └── common.ts
-│
-├── utils/                        # 유틸리티 함수
-│   ├── common.ts
-│   └── eventEmitter.ts
-│
-├── lib/                          # 외부 라이브러리 설정
-│   ├── async/
-│   │   └── index.ts              # AsyncBoundary
-│   └── index.ts
-│
-├── reactQueryProvider.tsx        # React Query Provider
-└── ServiceWorkerProvider.tsx    # Service Worker Provider
+├── hooks/                        # 🔧 Shared Hooks (도메인 독립적)
+├── types/                        # 📦 Shared Types (공통 타입)
+├── store/                        # 🗄️ Global State (Zustand)
+├── api/                          # 🌐 API Client (Axios)
+├── utils/                        # 🛠️ Utilities
+└── lib/                          # ⚙️ External Library Config
 ```
+
+**아키텍처 핵심**:
+- **Controller (app/)**: 도메인을 조립하고 라우팅
+- **Domain (domains/)**: 비즈니스 로직 격리, 도메인 간 직접 참조 금지
+- **Shared (components/, hooks/, types/)**: 도메인 독립적인 공통 요소
 
 ---
 
@@ -503,39 +373,251 @@ function RecordList() {
 
 ### Rule 7. 도메인 격리 (Domain Isolation)
 
-**정의**: 서로 다른 도메인 간의 직접 참조를 지양
+**정의**: 서로 다른 도메인 간의 직접 참조를 지양하고, 상위 레벨에서 조립
+
+#### 7.1 토스의 3단계 의사결정 트리
+
+도메인 간 데이터가 필요할 때 다음 순서로 판단:
+
+```
+도메인 간 데이터 필요?
+│
+├─ 1단계: 구조 재설계 검토
+│   └─ "정말 이 도메인이 다른 도메인을 알아야 하나?"
+│   └─ 대부분 여기서 해결 (식별자만 전달)
+│
+├─ 2단계: 서버 상태 공유 (React Query)
+│   └─ API가 필요한 데이터를 한 번에 반환
+│   └─ 도메인 간 직접 참조 없이 해결
+│
+└─ 3단계: Page 레벨 조립
+    └─ 페이지에서 여러 도메인 데이터를 fetch
+    └─ 필요한 데이터만 Props로 전달
+```
+
+#### 7.2 허용/금지 사항
 
 **허용**:
 - 같은 도메인 내부의 파일 간 참조
 - `components/common/`의 공통 컴포넌트 참조
+- `types/common.ts`의 공통 타입 참조
 - 상위 페이지에서 여러 도메인 조합
 
 **금지**:
-- `domains/record/`에서 `domains/user/` 직접 참조
+- `domains/record/`에서 `domains/profile/` 직접 import
 - 도메인 전용 Hook을 다른 도메인에서 사용
+- Context API로 도메인 간 데이터 공유
 
-**예시**:
+#### 7.3 실전 패턴
+
+**패턴 1: 식별자만 전달 (가장 권장)**
+
 ```typescript
-// ✅ 올바른 예시 (Controller에서 조합)
-export default function RecordDetailPage() {
-  const record = useRecordDetail();
-  const user = useUserProfile(record.userId);
+// ✅ Record 도메인은 userId만 알면 됨
+// domains/record/components/RecordItem.tsx
+interface RecordItemProps {
+  recordId: string;
+  userId: string; // User 객체가 아닌 식별자만
+  title: string;
+}
 
+export function RecordItem({ recordId, userId, title }: RecordItemProps) {
   return (
-    <>
-      <RecordDetail record={record} />
-      <UserProfile user={user} />
-    </>
+    <div>
+      <h3>{title}</h3>
+      <p>작성자 ID: {userId}</p>
+    </div>
+  );
+}
+```
+
+**패턴 2: 서버 상태 공유 (React Query)**
+
+```typescript
+// ✅ API가 필요한 데이터를 모두 반환
+// domains/record/hooks/useRecordDetail.ts
+export function useRecordDetail(recordId: string) {
+  return useSuspenseQuery({
+    queryKey: ['records', recordId],
+    queryFn: async () => {
+      const res = await recordApi.getRecordDetail(recordId);
+      // API 응답에 이미 author 정보 포함
+      return res; // { id, title, author: { id, name, profileImage } }
+    }
+  });
+}
+
+// domains/record/components/RecordDetail.tsx
+export function RecordDetail({ recordId }: { recordId: string }) {
+  const { data: record } = useRecordDetail(recordId);
+  
+  // Profile 도메인을 import 하지 않고도 작성자 정보 표시
+  return (
+    <div>
+      <h1>{record.title}</h1>
+      <p>작성자: {record.author.name}</p>
+    </div>
+  );
+}
+```
+
+**패턴 3: Page 레벨 조립**
+
+```typescript
+// ✅ 페이지에서 두 도메인 데이터를 조합
+// app/record/[recordId]/page.tsx
+import { useRecordDetail } from '@/domains/record/hooks/useRecordDetail';
+import { useUserProfile } from '@/domains/profile/hooks/useUserProfile';
+import { RecordDetail } from '@/domains/record/components/RecordDetail';
+
+export default function RecordDetailPage({ params }: { params: { recordId: string } }) {
+  const { data: record } = useRecordDetail(params.recordId);
+  const { data: author } = useUserProfile(record.authorId);
+
+  // 필요한 데이터만 조립해서 전달
+  return (
+    <div>
+      <RecordDetail 
+        record={record}
+        authorName={author.name}
+        authorImage={author.profileImage}
+      />
+    </div>
   );
 }
 
-// ❌ 금지된 예시
+// domains/record/components/RecordDetail.tsx
+interface RecordDetailProps {
+  record: Record;
+  authorName: string;
+  authorImage: string;
+}
+
+export function RecordDetail({ record, authorName, authorImage }: RecordDetailProps) {
+  // Profile 도메인과 직접 의존성 없음
+  return (
+    <div>
+      <img src={authorImage} alt={authorName} />
+      <h1>{record.title}</h1>
+      <p>작성자: {authorName}</p>
+    </div>
+  );
+}
+```
+
+#### 7.4 Props Drilling 판단 기준
+
+**토스의 원칙**: "Props Drilling은 문제가 아니라 구조가 잘못된 신호"
+
+| Props 깊이 | 판단 | 조치 |
+|-----------|------|------|
+| **2~3단계** | 정상 | 그대로 유지 (명확하고 추적 가능) |
+| **4단계** | 주의 | 컴포넌트 구조 재검토 |
+| **5단계 이상** | 문제 | 컴포넌트 분리 또는 Compound Component 패턴 적용 |
+
+```typescript
+// ✅ 3단계 Props는 괜찮음
+<RecordList>
+  <RecordItem userId={userId}>
+    <RecordItemDetail userId={userId}>
+      <RecordAuthor userId={userId} /> {/* 여기서 사용 */}
+    </RecordItemDetail>
+  </RecordItem>
+</RecordList>
+
+// ❌ 5단계 이상은 구조 재설계 필요
+<A userId={userId}>
+  <B userId={userId}>
+    <C userId={userId}>
+      <D userId={userId}>
+        <E userId={userId}>
+          <F userId={userId} /> {/* 너무 깊음 */}
+        </E>
+      </D>
+    </C>
+  </B>
+</A>
+```
+
+#### 7.5 Context API 사용 기준
+
+**중요**: Context는 도메인 간 데이터 공유가 아닌, **같은 도메인 내부의 UI 상태 관리**에만 사용
+
+**✅ Context 사용이 적절한 경우**:
+- 같은 도메인 내부의 UI 상태 (탭 선택, 펼침/접힘 등)
+- Compound Component 패턴의 내부 상태
+- 테마, 언어 설정 등 전역 UI 설정
+
+**❌ Context 사용이 부적절한 경우**:
+- 도메인 간 데이터 전달
+- 비즈니스 로직 공유
+- API 응답 데이터 공유 (React Query 사용)
+
+```typescript
+// ✅ 올바른 Context 사용 (같은 도메인 내부 UI 상태)
+// domains/record/context/RecordPageContext.tsx
+interface RecordPageContextValue {
+  selectedTab: 'list' | 'map';
+  setSelectedTab: (tab: 'list' | 'map') => void;
+  isFilterOpen: boolean;
+  toggleFilter: () => void;
+}
+
+const RecordPageContext = createContext<RecordPageContextValue | null>(null);
+
+export function RecordPageProvider({ children }: { children: ReactNode }) {
+  const [selectedTab, setSelectedTab] = useState<'list' | 'map'>('list');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  return (
+    <RecordPageContext.Provider value={{
+      selectedTab,
+      setSelectedTab,
+      isFilterOpen,
+      toggleFilter: () => setIsFilterOpen(prev => !prev)
+    }}>
+      {children}
+    </RecordPageContext.Provider>
+  );
+}
+
+// ❌ 잘못된 Context 사용 (도메인 간 데이터 공유)
+// 절대 금지!
+const AppDataContext = createContext<{
+  user: User;
+  records: Record[];
+  places: Place[];
+} | null>(null);
+```
+
+#### 7.6 금지된 패턴
+
+```typescript
+// ❌ 도메인 간 직접 참조
 // domains/record/hooks/useRecordDetail.ts
-import { useUserProfile } from '@/domains/user/hooks/useUserProfile'; // 금지
+import { useUserProfile } from '@/domains/profile/hooks/useUserProfile'; // 금지
 
 export const useRecordDetail = () => {
-  const user = useUserProfile(); // 도메인 간 직접 참조 금지
+  const user = useUserProfile(); // 도메인 간 직접 의존
 };
+
+// ❌ Context로 도메인 간 데이터 공유
+// app/layout.tsx
+const GlobalDataContext = createContext<{
+  user: User;
+  records: Record[];
+} | null>(null);
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  const user = useUser();
+  const records = useRecords();
+  
+  return (
+    <GlobalDataContext.Provider value={{ user, records }}>
+      {children}
+    </GlobalDataContext.Provider>
+  );
+}
 ```
 
 ---
@@ -683,6 +765,50 @@ function RecordList() {
 // ✅ 해결: AsyncBoundary 사용
 ```
 
+### ❌ Anti-Pattern 9: Context로 도메인 간 데이터 공유
+```typescript
+// ❌ 금지
+// app/layout.tsx
+const AppDataContext = createContext<{
+  user: User;
+  records: Record[];
+} | null>(null);
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  const user = useUser();
+  const records = useRecords();
+  
+  return (
+    <AppDataContext.Provider value={{ user, records }}>
+      {children}
+    </AppDataContext.Provider>
+  );
+}
+
+// ✅ 해결: Page 레벨에서 조립하거나 React Query로 서버 상태 공유
+```
+
+### ❌ Anti-Pattern 10: Props Drilling 회피를 위한 무분별한 Context 사용
+```typescript
+// ❌ 금지 (3단계 Props를 Context로 대체)
+const UserContext = createContext<User | null>(null);
+
+<UserContext.Provider value={user}>
+  <RecordList>
+    <RecordItem>
+      <RecordAuthor /> {/* Context에서 user 가져옴 */}
+    </RecordItem>
+  </RecordList>
+</UserContext.Provider>
+
+// ✅ 해결: 3단계 Props는 그대로 유지 (명확하고 추적 가능)
+<RecordList>
+  <RecordItem userId={user.id}>
+    <RecordAuthor userId={user.id} />
+  </RecordItem>
+</RecordList>
+```
+
 ---
 
 ## 5. 마이그레이션 체크리스트
@@ -780,5 +906,5 @@ Pull Request 승인 전 다음 항목을 필수로 확인:
 
 ---
 
-**마지막 업데이트**: 2025-12-12  
-**버전**: 1.0.0
+**마지막 업데이트**: 2025-12-16  
+**버전**: 1.1.0
