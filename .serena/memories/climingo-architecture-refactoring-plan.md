@@ -277,6 +277,29 @@ src/
   - [x] 앱 스킴 관련 타입은 types/appScheme.ts 유지 (범용 타입)
 - [x] 🟢 필요시 import 경로 수정
 
+### Phase 12: constants와 hooks 도메인 이동 (1일) 🔴
+**목표**: constants와 hooks 폴더의 도메인별 로직을 domains 폴더로 이동
+
+#### 12.1 constants 이동 (0.5일)
+- [ ] 🔴 `constants/level.ts` → `domains/place/constants/level.ts`
+  - [ ] LEVELS 상수 배열 이동
+  - [ ] recordApi.ts import 경로 수정
+- [ ] 🔴 `constants/key.ts` 제거 (미사용)
+
+#### 12.2 hooks 이동 (0.5일)
+- [ ] 🔴 `hooks/navigate.ts` → `domains/auth/hooks/useNavigateWithAuth.ts`
+  - [ ] useNavigateWithAuth Hook 이동
+  - [ ] FloatingActionMenu import 경로 수정
+- [ ] 🔴 `hooks/useImageDownload.ts` 사용처 확인 및 이동 여부 결정
+- [ ] 🔴 `hooks/useAppScheme.ts` 이동 여부 결정
+  - [ ] jjikboul 전용인 경우: `domains/jjikboul/hooks/`로 이동
+  - [ ] 범용 기능인 경우: `hooks/` 유지
+
+#### 12.3 범용 hooks 유지 확인
+- [x] 🟢 `hooks/common.ts` 유지 (useDebounce, useDidMountEffect, useRunOnce)
+- [x] 🟢 `hooks/useIntersectionObserver.ts` 유지 (무한 스크롤)
+- [x] 🟢 `hooks/getQueryClient.ts` 유지 (React Query 인프라)
+
 ### Phase 8: 페이지 리팩토링 (1-2주) 🟢
 **목표**: 모든 페이지를 리팩토링된 도메인 컴포넌트로 전환
 
@@ -375,8 +398,9 @@ src/
 - **Phase 9**: 100% (5/5 완료) 🟢
 - **Phase 10**: 100% (11/11 완료) 🟢
 - **Phase 11**: 100% (5/5 완료) 🟢
+- **Phase 12**: 0% (0/6 완료) 🔴
 
-**전체 진행률**: 85% (73/86 완료)
+**전체 진행률**: 80% (73/92 완료)
 
 ### 이번 주 완료 목표 (12/16-12/20)
 1. ✅ **Phase 9.1 완료**: api/modules/record.ts 통합 완료
@@ -496,8 +520,13 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ## 7. 다음 액션 아이템
 
 ### 즉시 시작 가능한 작업
-1. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
-2. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
+1. **Phase 12**: constants와 hooks 도메인 이동
+   - constants/level.ts → domains/place/constants/
+   - hooks/navigate.ts → domains/auth/hooks/
+   - constants/key.ts 제거 (미사용)
+   - hooks/useImageDownload.ts, useAppScheme.ts 이동 여부 결정
+2. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
+3. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 팀 논의 필요 사항
 1. 테스트 커버리지 목표 설정
