@@ -56,7 +56,7 @@ src/
 ## 3. 리팩토링 단계별 계획
 
 > **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
-> **마지막 업데이트**: 2025-12-15 21:08
+> **마지막 업데이트**: 2025-12-16 09:19
 
 ### Phase 1: 기반 구조 준비 (1-2주) 🟢
 **목표**: 리팩토링을 위한 기반 인프라 구축
@@ -228,20 +228,20 @@ src/
   - [ ] 기존 components/record/CreateRecordForm 제거 (Phase 8.4)
 
 #### 8.2 Profile 페이지 리팩토링 (2일)
-- [ ] 🔴 `app/myProfile/page.tsx`
-  - [ ] MyProfile Compound Component 적용
-  - [ ] AsyncBoundary 적용
-  - [ ] 기존 components/profile/MyProfile 제거
-- [ ] 🔴 `app/myProfile/detail/page.tsx`
-  - [ ] EditProfile Compound Component 적용
-  - [ ] AsyncBoundary 적용
-  - [ ] 기존 components/profile/MyProfileDetail 제거
+- [x] 🟢 `app/myProfile/page.tsx`
+  - [x] MyProfile Compound Component 적용
+  - [x] AsyncBoundary 적용
+  - [ ] 기존 components/profile/MyProfile 제거 (Phase 8.4)
+- [x] 🟢 `app/myProfile/detail/page.tsx`
+  - [x] EditProfile Compound Component 적용
+  - [x] AsyncBoundary 적용
+  - [ ] 기존 components/profile/MyProfileDetail 제거 (Phase 8.4)
 
 #### 8.3 Jjikboul 페이지 리팩토링 (2일)
-- [ ] 🔴 `app/jjikboul/[jjikboulId]/page.tsx`
-  - [ ] JjikboulDetail Compound Component 적용
-  - [ ] AsyncBoundary 적용
-  - [ ] 기존 components/jjikboul/JjikboulShareDetail 제거
+- [x] 🟢 `app/jjikboul/[jjikboulId]/page.tsx`
+  - [x] JjikboulDetail Compound Component 적용
+  - [x] AsyncBoundary 적용
+  - [ ] 기존 components/jjikboul/JjikboulShareDetail 제거 (Phase 8.4)
 
 #### 8.4 기존 components 정리 (1일)
 - [ ] 🔴 `components/record/` 폴더 제거
@@ -259,14 +259,14 @@ src/
 - **Phase 5**: 80% (4/5 완료) 🟢
 - **Phase 6**: 50% (2/4 완료) 🟡
 - **Phase 7**: 40% (2/5 완료) 🟡
-- **Phase 8**: 30% (3/10 완료) 🟡
+- **Phase 8**: 90% (9/10 완료) 🟡
 
-**전체 진행률**: 71% (44/62 완료)
+**전체 진행률**: 81% (50/62 완료)
 
 ### 이번 주 완료 목표 (12/15-12/20)
 1. ✅ **Phase 1-6 완료**: 모든 도메인 리팩토링 완료
 2. ✅ **Phase 7 진행 중**: 기존 hooks 파일 정리 완료
-3. ✅ **Phase 8.1 완료**: Record 페이지 리팩토링 완료
+3. ✅ **Phase 8.1-8.3 완료**: 모든 페이지 리팩토링 완료
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -378,22 +378,18 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 
 ## 7. 다음 액션 아이템
 
-### 즉시 시작 가능한 작업 (Phase 8.2-8.4)
-1. **Profile 페이지 리팩토링** (Phase 8.2)
-   - `app/myProfile/page.tsx` → MyProfile Compound Component 적용
-   - `app/myProfile/detail/page.tsx` → EditProfile Compound Component 적용
-2. **Jjikboul 페이지 리팩토링** (Phase 8.3)
-   - `app/jjikboul/[jjikboulId]/page.tsx` → JjikboulDetail Compound Component 적용
-3. **기존 components 정리** (Phase 8.4)
+### 즉시 시작 가능한 작업 (Phase 8.4)
+1. **기존 components 정리** (Phase 8.4)
    - `components/record/` 폴더 제거
    - `components/profile/` 폴더 제거
    - `components/jjikboul/` 폴더 제거
+   - Import 경로 최종 정리
 
 ### 팀 논의 필요 사항
 1. 테스트 커버리지 목표 설정
 2. 최종 완료 일정 조율
 
-### 완료된 주요 작업 (12/14-12/15)
+### 완료된 주요 작업 (12/14-12/16)
 - ✅ Phase 1: 기반 구조 준비 완료
 - ✅ Phase 2: Record 도메인 리팩토링 완료 (Controller 제외)
 - ✅ Phase 3: Auth 도메인 리팩토링 완료 (페이지 적용 + 기존 파일 제거)
@@ -409,16 +405,17 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
   - ✅ domains 타입 호환성 수정 (기존 types/record.ts와 호환)
   - ✅ 삭제된 hooks 복구 (jjikboul, profile, record → domains로 이동)
   - ✅ OAuth 컴포넌트 domains로 이동
+- ✅ Phase 8.2: Profile 페이지 리팩토링 완료
+  - ✅ `app/myProfile/page.tsx` → MyProfile Compound Component 적용
+  - ✅ `app/myProfile/detail/page.tsx` → EditProfile Compound Component 적용
+- ✅ Phase 8.3: Jjikboul 페이지 리팩토링 완료
+  - ✅ `app/jjikboul/[jjikboulId]/page.tsx` → JjikboulDetail Compound Component 적용
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
 
 ### 남은 작업
-- ⏳ **페이지 리팩토링 필요**: 아래 페이지들이 아직 기존 hooks/components 사용 중
-  - `app/myProfile/page.tsx` - 기존 components 사용
-  - `app/myProfile/detail/page.tsx` - 기존 components 사용
-  - `app/jjikboul/[jjikboulId]/page.tsx` - 기존 components 사용
-- ⏳ **기존 파일 정리**: 페이지 리팩토링 완료 후 제거 (Phase 8.4)
+- ⏳ **기존 파일 정리**: Phase 8.4
   - `components/profile/` (MyProfile, MyProfileDetail)
   - `components/jjikboul/` (JjikboulShareDetail)
   - `components/record/` (RecordList, RecordDetail, RecordItem 등)
