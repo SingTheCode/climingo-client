@@ -10,13 +10,13 @@ import { AsyncBoundary } from '@/lib/async';
 import Layout from '@/components/common/Layout';
 import NavigationHeader from '@/components/common/NavigationHeader';
 import Avatar from '@/components/common/Avatar';
-import LevelIcon from '@/components/common/LevelIcon';
+import LevelIcon from '@/domains/place/components/LevelIcon';
 import LayerPopup from '@/components/common/LayerPopup';
-import ReportForm from '@/components/record/ReportForm';
+import ReportForm from '@/domains/record/components/ReportForm';
 import Loading from '@/components/common/Loading';
 import useUserStore from '@/store/user';
 import { fromNowFormat } from '@/utils/common';
-import type { LevelColor } from '@/types/record';
+import type { LevelColor } from '@/domains/place/types/entity';
 
 function RecordDetailContent() {
   const params = useParams();

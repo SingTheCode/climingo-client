@@ -3,14 +3,14 @@
 import Image from "next/image";
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from '@/domains/place/types/entity';
 import { Level } from "@/domains/place/types/entity";
 import { useGetLevelsQuery } from "@/domains/place/hooks/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
-import SearchPlace from "@/components/place/Place";
-import ClearButton from "@/components/record/ClearButton";
-import { Heading, Placeholder } from "@/components/record/commonText";
+import SearchPlace from "@/domains/place/components/Place";
+import ClearButton from "@/domains/record/components/ClearButton";
+import { Heading, Placeholder } from "@/domains/record/components/commonText";
 
 const SelectPlaceWithLevel = memo(
   ({ validate }: { validate?: (valid: boolean) => void }) => {

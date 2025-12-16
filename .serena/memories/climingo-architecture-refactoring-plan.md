@@ -210,6 +210,73 @@ src/
 - [ ] 🔴 성능 측정 및 개선
 - [ ] 🔴 아키텍처 문서 업데이트
 
+### Phase 10: components 폴더 도메인 로직 이동 (1주) 🟢
+**목표**: components 폴더의 도메인별 로직을 domains 폴더로 완전 이동
+
+#### 10.1 Record 컴포넌트 이동 (2일)
+- [x] 🟢 `components/record/` 분석 및 분류
+  - [x] SelectPlaceWithLevel.tsx → domains/record/components/
+  - [x] ReportForm.tsx → domains/record/components/
+  - [x] FilterSection.tsx → domains/record/components/
+  - [x] RecordItem.tsx → domains/record/components/
+  - [x] UploadVideo.tsx → domains/record/components/
+  - [x] Caution.tsx → domains/record/components/
+  - [x] ClearButton.tsx → domains/record/components/
+  - [x] commonText.tsx → domains/record/components/
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 `components/record/` 폴더 제거
+
+#### 10.2 Place 컴포넌트 이동 (1일)
+- [x] 🟢 `components/place/` 분석 및 분류
+  - [x] Place.tsx → domains/place/components/
+  - [x] SearchedPlace.tsx → domains/place/components/
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 `components/place/` 폴더 제거
+
+#### 10.3 Common 컴포넌트 정리 (2일)
+- [x] 🟢 `components/common/` 분석 및 분류
+  - [x] 범용 컴포넌트 유지 (Input, LayerPopup, NavigationHeader, Avatar, Loading, Layout, FloatingButton, BottomActionButton, FloatingActionMenu, NavigationHandler, InputText)
+  - [x] 도메인 특화 컴포넌트 이동
+    - [x] LevelIcon.tsx → domains/place/components/ (레벨 관련)
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 빌드 테스트 완료
+
+### Phase 11: types 폴더 도메인 타입 이동 (3일) 🟢
+**목표**: types 폴더의 도메인별 타입을 domains 폴더로 이동
+
+#### 11.1 Record 타입 이동 (1일)
+- [x] 🟢 `types/record.ts` 분석 및 분류
+  - [x] `Record`, `RecordMetadata`, `RecordListApiResponse` → domains/record/types/
+  - [x] `Gym`, `Level`, `LevelColor` → domains/place/types/ (장소 관련)
+  - [x] `ReportReason`, `RecordReportApiRequest` → domains/record/types/
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 `types/record.ts` 제거
+
+#### 11.2 Auth 타입 이동 (1일)
+- [x] 🟢 `types/auth.ts` 분석 및 분류
+  - [x] `OAuthProvider`, `MemberInfo`, `OAuthApiRequest`, `OAuthApiResponse` → domains/auth/types/
+  - [x] `MyProfileApiResponse` → domains/profile/types/
+  - [x] `ClientConfig`, `Authorization`, `SignInResponse` → domains/auth/types/
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 `types/auth.ts` 제거
+
+#### 11.3 Jjikboul 타입 이동 (0.5일)
+- [x] 🟢 `types/jjikboul.ts` 분석 및 분류
+  - [x] `Jjikboul`, `JjikboulDetail` → domains/jjikboul/types/
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 `types/jjikboul.ts` 제거
+
+#### 11.4 Common 타입 정리 (0.5일)
+- [x] 🟢 `types/common.ts` 분석 및 분류
+  - [x] `ClimbingPlace` → domains/place/types/
+  - [x] `Pagination` → types/common.ts 유지 (범용 타입)
+- [x] 🟢 모든 import 경로 수정
+
+#### 11.5 AppScheme 타입 정리 (0.5일)
+- [x] 🟢 `types/appScheme.ts` 분석
+  - [x] 앱 스킴 관련 타입은 types/appScheme.ts 유지 (범용 타입)
+- [x] 🟢 필요시 import 경로 수정
+
 ### Phase 8: 페이지 리팩토링 (1-2주) 🟢
 **목표**: 모든 페이지를 리팩토링된 도메인 컴포넌트로 전환
 
@@ -306,13 +373,17 @@ src/
 - **Phase 7**: 40% (2/5 완료) 🟡
 - **Phase 8**: 100% (10/10 완료) 🟢
 - **Phase 9**: 100% (5/5 완료) 🟢
+- **Phase 10**: 100% (11/11 완료) 🟢
+- **Phase 11**: 100% (5/5 완료) 🟢
 
-**전체 진행률**: 85% (57/67 완료)
+**전체 진행률**: 85% (73/86 완료)
 
 ### 이번 주 완료 목표 (12/16-12/20)
 1. ✅ **Phase 9.1 완료**: api/modules/record.ts 통합 완료
 2. ✅ **Phase 9.2-9.5 완료**: 모든 api/modules 통합 완료
-3. ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
+3. ✅ **Phase 10 완료**: components 폴더 도메인 로직 이동 완료
+4. ✅ **Phase 11 완료**: types 폴더 도메인 타입 이동 완료
+5. ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -425,9 +496,8 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ## 7. 다음 액션 아이템
 
 ### 즉시 시작 가능한 작업
-1. **Phase 9.2-9.4**: api/modules 나머지 파일 통합
-2. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
-3. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
+1. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
+2. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 팀 논의 필요 사항
 1. 테스트 커버리지 목표 설정
@@ -452,6 +522,16 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
   - ✅ Phase 9.3: api/modules/jjikboul.ts 통합 완료
   - ✅ Phase 9.4: api/modules/common.ts 통합 완료 (place 도메인 생성)
   - ✅ Phase 9.5: api/modules 폴더 제거 완료
+- ✅ Phase 10: components 폴더 도메인 로직 이동 완료
+  - ✅ Phase 10.1: Record 컴포넌트 8개 이동 완료
+  - ✅ Phase 10.2: Place 컴포넌트 2개 이동 완료
+  - ✅ Phase 10.3: Common 컴포넌트 정리 완료 (LevelIcon 이동)
+- ✅ Phase 11: types 폴더 도메인 타입 이동 완료
+  - ✅ Phase 11.1: Record 타입 이동 완료 (types/record.ts 제거)
+  - ✅ Phase 11.2: Auth 타입 이동 완료 (types/auth.ts 제거)
+  - ✅ Phase 11.3: Jjikboul 타입 이동 완료 (types/jjikboul.ts 제거)
+  - ✅ Phase 11.4: Common 타입 정리 완료 (ClimbingPlace 이동)
+  - ✅ Phase 11.5: AppScheme 타입 정리 완료
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
@@ -463,13 +543,20 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ### 제거된 파일 통계
 - **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3, place: 1)
 - **components/auth**: 6개 파일 제거
-- **components/record**: 4개 파일 제거 (RecordList, RecordDetail, CreateRecordForm, HydratedRecordDetail)
+- **components/record**: 12개 파일 제거 (RecordList, RecordDetail, CreateRecordForm, HydratedRecordDetail + 8개 이동)
+- **components/place**: 2개 파일 제거 (Place, SearchedPlace)
 - **components/profile**: 2개 파일 제거 (MyProfile, MyProfileDetail)
 - **components/jjikboul**: 1개 파일 제거 (JjikboulShareDetail)
+- **components/common**: 1개 파일 제거 (LevelIcon)
 - **api/modules**: 4개 파일 제거 (record.ts, user.ts, jjikboul.ts, common.ts)
 - **api/hooks**: 2개 파일 제거 (user.ts, jjikboul.ts, record.ts)
-- **총 파일**: 29개 파일 제거
-- **총 코드 라인**: 약 1,600줄 제거
+- **types**: 3개 파일 제거 (record.ts, auth.ts, jjikboul.ts)
+- **총 파일**: 42개 파일 제거/이동
+- **총 코드 라인**: 약 2,500줄 제거/이동
+
+### 남은 types 파일
+- **types/common.ts**: Pagination 타입만 유지 (범용 타입)
+- **types/appScheme.ts**: 앱 스킴 관련 타입 유지 (범용 타입)
 
 ---
 

@@ -8,11 +8,9 @@ import type {
   RecordDetailResponse,
   ReportReasonResponse,
 } from '@/domains/record/types/response';
+import type { Gym, Level, LevelColor } from '@/domains/place/types/entity';
 import type {
   Record,
-  Gym,
-  Level,
-  LevelColor,
   MemberInfo,
   RecordMetadata,
   RecordList,

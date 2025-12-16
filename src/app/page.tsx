@@ -4,13 +4,13 @@ import { useEffect } from 'react';
 import { RecordList } from '@/domains/record/components/RecordList';
 import { AsyncBoundary } from '@/lib/async';
 import Layout from '@/components/common/Layout';
-import FilterSection from '@/components/record/FilterSection';
+import FilterSection from '@/domains/record/components/FilterSection';
 import FloatingActionMenu from '@/components/common/FloatingActionMenu';
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
   RecordItemSkeleton,
-} from '@/components/record/RecordItem';
+} from '@/domains/record/components/RecordItem';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 
 function HomeHeader() {
@@ -58,7 +58,7 @@ function RecordListContent() {
                     record={record.record}
                     gym={record.gym}
                     level={record.level}
-                    memberInfo={record.memberInfo || undefined}
+                    memberInfo={record.memberInfo ?? null}
                   />
                 ))}
               </RecordItemContainer>

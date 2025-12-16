@@ -6,9 +6,9 @@ import { RecordForm } from '@/domains/record/components/RecordForm';
 import Layout from '@/components/common/Layout';
 import NavigationHeader from '@/components/common/NavigationHeader';
 import BottomActionButton from '@/components/common/BottomActionButton';
-import SelectPlaceWithLevel from '@/components/record/SelectPlaceWithLevel';
-import UploadVideo from '@/components/record/UploadVideo';
-import Caution from '@/components/record/Caution';
+import SelectPlaceWithLevel from '@/domains/record/components/SelectPlaceWithLevel';
+import UploadVideo from '@/domains/record/components/UploadVideo';
+import Caution from '@/domains/record/components/Caution';
 
 export default function CreateRecordPage() {
   const router = useRouter();

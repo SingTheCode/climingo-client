@@ -9,7 +9,7 @@ import {
   RadioGroup,
 } from "@headlessui/react";
 
-import type { RecordReportApiRequest } from "@/types/record";
+import type { RecordReportApiRequest } from '@/domains/record/types/entity';
 
 import { recordApi } from "@/domains/record/api/recordApi";
 import BottomActionButton from "@/components/common/BottomActionButton";

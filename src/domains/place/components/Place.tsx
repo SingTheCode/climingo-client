@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 import { useDebounce } from "@/hooks/common";
 import { placeApi } from "@/domains/place/api/placeApi";
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from '@/domains/place/types/entity';
 
-import SearchedPlace from "@/components/place/SearchedPlace";
+import SearchedPlace from "@/domains/place/components/SearchedPlace";
 import InputText from "@/components/common/InputText";
 
 export default function Place({

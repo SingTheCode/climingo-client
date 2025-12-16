@@ -11,7 +11,7 @@ import RecordItem, {
   RecordItemContainer,
   RecordItemSkeleton,
   EmptyRecordItem,
-} from "@/components/record/RecordItem";
+} from "@/domains/record/components/RecordItem";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { useGetMyRecordListQuery } from "@/domains/profile/hooks/useGetMyRecordListQuery";
 

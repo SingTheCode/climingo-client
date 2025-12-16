@@ -1,6 +1,7 @@
 import { api } from '@/api/axios';
 import axios from 'axios';
-import type { RecordFilter, Level } from '@/domains/record/types/entity';
+import type { RecordFilter } from '@/domains/record/types/entity';
+import type { Level } from '@/domains/place/types/entity';
 import type {
   RecordListResponse,
   RecordDetailResponse,

@@ -12,7 +12,7 @@ import LayerPopup from "@/components/common/LayerPopup";
 import { useGetMyProfileQuery } from "@/domains/profile/hooks/useGetMyProfileQuery";
 import { authApi } from "@/domains/auth/api/authApi";
 import useUserStore from "@/store/user";
-import type { OAuthProvider } from "@/types/auth";
+import type { OAuthProvider } from '@/domains/auth/types/entity';
 
 function MyProfileDetailContent() {
   const { data } = useGetMyProfileQuery();

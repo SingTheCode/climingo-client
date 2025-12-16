@@ -1,4 +1,4 @@
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from '@/domains/place/types/entity';
 
 export default function SearchedPlace({
   place,

@@ -8,14 +8,14 @@ import {
   Transition,
 } from "@headlessui/react";
 
-import { Level } from "@/types/record";
+import { Level } from '@/domains/place/types/entity';
 import { useDidMountEffect } from "@/hooks/common";
 import { recordApi } from "@/domains/record/api/recordApi";
-import { ClimbingPlace } from "@/types/common";
+import { ClimbingPlace } from '@/domains/place/types/entity';
 
-import LevelIcon from "@/components/common/LevelIcon";
+import LevelIcon from "@/domains/place/components/LevelIcon";
 import LayerPopup from "@/components/common/LayerPopup";
-import Place from "@/components/place/Place";
+import Place from "@/domains/place/components/Place";
 
 interface SelectedLevel {
   levelId: number;

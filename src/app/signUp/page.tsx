@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import useUserStore from "@/store/user";
-import type { MemberInfo } from "@/types/auth";
+import type { MemberInfo } from '@/domains/auth/types/entity';
 
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";

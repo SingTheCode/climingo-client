@@ -1,9 +1,4 @@
-export interface ClimbingPlace {
-  id: number;
-  address: string;
-  zipCode?: string;
-  name: string;
-}
+// 범용 타입 정의
 
 export interface Pagination {
   totalCount: number;

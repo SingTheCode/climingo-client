@@ -1,36 +1,12 @@
 // Record Entity 타입 정의 (기존 types/record.ts와 호환)
 
+import { Gym, Level } from '@/domains/place/types/entity';
+
 export interface Record {
   recordId: number;
   thumbnailUrl: string;
   videoUrl: string;
   createTime: string;
-}
-
-export interface Gym {
-  gymId: number;
-  gymName: string;
-}
-
-export type LevelColor =
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'blue'
-  | 'navy'
-  | 'purple'
-  | 'pink'
-  | 'brown'
-  | 'grey'
-  | 'white'
-  | 'black';
-
-export interface Level {
-  levelId: number;
-  colorNameKo: string;
-  colorNameEn: LevelColor;
-  colorCode: string;
 }
 
 export interface MemberInfo {
@@ -74,4 +50,18 @@ export interface RecordFilter {
   memberId?: number;
   page?: number;
   size?: number;
+}
+
+// API 응답 타입 (types/record.ts에서 이동)
+export interface RecordListApiResponse {
+  contents: RecordMetadata[];
+  totalCount: number;
+  resultCount: number;
+  totalPage: number;
+  page: number;
+  isEnd: boolean;
+}
+
+export interface RecordReportApiRequest {
+  reasonCode: string;
 }

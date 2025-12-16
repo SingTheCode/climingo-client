@@ -9,6 +9,16 @@ export interface User {
   providerType: OAuthProvider;
 }
 
+// types/auth.ts에서 이동
+export interface MemberInfo {
+  nickname: string;
+  profileUrl: string;
+  memberId?: number;
+  authId?: string;
+  email?: string;
+  providerType?: OAuthProvider;
+}
+
 export interface OAuthResult {
   registered: boolean;
   user: User;
@@ -33,4 +43,36 @@ export interface OAuthRequest {
   providerType: OAuthProvider;
   redirectUri: string;
   code: string;
+}
+
+// types/auth.ts에서 이동 - Apple Sign In 관련
+interface ClientConfig {
+  clientId: string;
+  redirectURI: string;
+  scope?: string;
+  state?: string;
+  nonce?: string;
+  usePopup?: boolean;
+}
+
+interface Authorization {
+  code: string;
+  id_token: string;
+  state?: string;
+}
+
+export interface SignInResponse {
+  authorization: Authorization;
+  user?: { email: string; name: { firstName: string; lastName: string } };
+}
+
+declare global {
+  interface Window {
+    AppleID: {
+      auth: {
+        init: (config: ClientConfig) => void;
+        signIn: (config?: ClientConfig) => Promise<SignInResponse>;
+      };
+    };
+  }
 }

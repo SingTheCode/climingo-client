@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { useRouter } from 'next/navigation';
 import { useSignUp } from '@/domains/auth/hooks/useSignUp';
 import useUserStore from '@/store/user';
-import type { MemberInfo } from '@/types/auth';
+import type { MemberInfo } from '@/domains/auth/types/entity';
 
 interface SignUpContextValue {
   nickname: string;

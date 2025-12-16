@@ -1,5 +1,4 @@
-// TODO: 추후 타입 리팩토링
-import { Level } from "@/types/record";
+import { Level } from '@/domains/place/types/entity';
 
 export default function LevelIcon({ color }: { color: Level["colorNameEn"] }) {
   const level = `bg-level-${color}`;
