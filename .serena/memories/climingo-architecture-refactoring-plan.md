@@ -277,23 +277,24 @@ src/
   - [x] 앱 스킴 관련 타입은 types/appScheme.ts 유지 (범용 타입)
 - [x] 🟢 필요시 import 경로 수정
 
-### Phase 12: constants와 hooks 도메인 이동 (1일) 🔴
+### Phase 12: constants와 hooks 도메인 이동 (1일) 🟢
 **목표**: constants와 hooks 폴더의 도메인별 로직을 domains 폴더로 이동
 
 #### 12.1 constants 이동 (0.5일)
-- [ ] 🔴 `constants/level.ts` → `domains/place/constants/level.ts`
-  - [ ] LEVELS 상수 배열 이동
-  - [ ] recordApi.ts import 경로 수정
-- [ ] 🔴 `constants/key.ts` 제거 (미사용)
+- [x] 🟢 `constants/level.ts` → `domains/place/constants/level.ts`
+  - [x] LEVELS 상수 배열 이동
+  - [x] recordApi.ts import 경로 수정
+- [x] 🟢 `constants/key.ts` 제거 (미사용)
+- [x] 🟢 `constants/` 폴더 제거
 
 #### 12.2 hooks 이동 (0.5일)
-- [ ] 🔴 `hooks/navigate.ts` → `domains/auth/hooks/useNavigateWithAuth.ts`
-  - [ ] useNavigateWithAuth Hook 이동
-  - [ ] FloatingActionMenu import 경로 수정
-- [ ] 🔴 `hooks/useImageDownload.ts` 사용처 확인 및 이동 여부 결정
-- [ ] 🔴 `hooks/useAppScheme.ts` 이동 여부 결정
-  - [ ] jjikboul 전용인 경우: `domains/jjikboul/hooks/`로 이동
-  - [ ] 범용 기능인 경우: `hooks/` 유지
+- [x] 🟢 `hooks/navigate.ts` → `domains/auth/hooks/useNavigateWithAuth.ts`
+  - [x] useNavigateWithAuth Hook 이동
+  - [x] FloatingActionMenu import 경로 수정
+- [x] 🟢 `hooks/useImageDownload.ts` → `domains/jjikboul/hooks/`
+  - [x] jjikboul 페이지에서만 사용 확인
+- [x] 🟢 `hooks/useAppScheme.ts` → `domains/jjikboul/hooks/`
+  - [x] jjikboul 페이지에서만 사용 확인
 
 #### 12.3 범용 hooks 유지 확인
 - [x] 🟢 `hooks/common.ts` 유지 (useDebounce, useDidMountEffect, useRunOnce)
@@ -398,9 +399,9 @@ src/
 - **Phase 9**: 100% (5/5 완료) 🟢
 - **Phase 10**: 100% (11/11 완료) 🟢
 - **Phase 11**: 100% (5/5 완료) 🟢
-- **Phase 12**: 0% (0/6 완료) 🔴
+- **Phase 12**: 100% (6/6 완료) 🟢
 
-**전체 진행률**: 80% (73/92 완료)
+**전체 진행률**: 87% (79/92 완료)
 
 ### 이번 주 완료 목표 (12/16-12/20)
 1. ✅ **Phase 9.1 완료**: api/modules/record.ts 통합 완료
@@ -520,13 +521,8 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ## 7. 다음 액션 아이템
 
 ### 즉시 시작 가능한 작업
-1. **Phase 12**: constants와 hooks 도메인 이동
-   - constants/level.ts → domains/place/constants/
-   - hooks/navigate.ts → domains/auth/hooks/
-   - constants/key.ts 제거 (미사용)
-   - hooks/useImageDownload.ts, useAppScheme.ts 이동 여부 결정
-2. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
-3. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
+1. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
+2. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 팀 논의 필요 사항
 1. 테스트 커버리지 목표 설정
@@ -561,6 +557,10 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
   - ✅ Phase 11.3: Jjikboul 타입 이동 완료 (types/jjikboul.ts 제거)
   - ✅ Phase 11.4: Common 타입 정리 완료 (ClimbingPlace 이동)
   - ✅ Phase 11.5: AppScheme 타입 정리 완료
+- ✅ Phase 12: constants와 hooks 도메인 이동 완료
+  - ✅ Phase 12.1: constants 이동 완료 (constants 폴더 제거)
+  - ✅ Phase 12.2: hooks 이동 완료 (navigate, useImageDownload, useAppScheme)
+  - ✅ Phase 12.3: 범용 hooks 유지 확인
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
@@ -569,8 +569,8 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 - ⏳ **테스트 코드 작성**: 모든 도메인
 - ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
-### 제거된 파일 통계
-- **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3, place: 1)
+### 제거/이동된 파일 통계
+- **hooks**: 12개 파일 제거/이동 (auth: 1, profile: 3, jjikboul: 4, record: 3, place: 1)
 - **components/auth**: 6개 파일 제거
 - **components/record**: 12개 파일 제거 (RecordList, RecordDetail, CreateRecordForm, HydratedRecordDetail + 8개 이동)
 - **components/place**: 2개 파일 제거 (Place, SearchedPlace)
@@ -580,12 +580,19 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 - **api/modules**: 4개 파일 제거 (record.ts, user.ts, jjikboul.ts, common.ts)
 - **api/hooks**: 2개 파일 제거 (user.ts, jjikboul.ts, record.ts)
 - **types**: 3개 파일 제거 (record.ts, auth.ts, jjikboul.ts)
-- **총 파일**: 42개 파일 제거/이동
-- **총 코드 라인**: 약 2,500줄 제거/이동
+- **constants**: 2개 파일 제거/이동 (level.ts 이동, key.ts 제거)
+- **총 파일**: 47개 파일 제거/이동
+- **총 코드 라인**: 약 2,700줄 제거/이동
 
-### 남은 types 파일
+### 제거된 폴더
+- **constants/**: 완전 제거 (모든 파일 이동 또는 제거)
+
+### 남은 공통 파일
 - **types/common.ts**: Pagination 타입만 유지 (범용 타입)
 - **types/appScheme.ts**: 앱 스킴 관련 타입 유지 (범용 타입)
+- **hooks/common.ts**: useDebounce, useDidMountEffect, useRunOnce (범용 Hook)
+- **hooks/useIntersectionObserver.ts**: 무한 스크롤 (범용 Hook)
+- **hooks/getQueryClient.ts**: React Query 인프라
 
 ---
 
