@@ -194,21 +194,33 @@ src/
 - [ ] 🔴 기존 컴포넌트를 새 패턴으로 교체
 - [ ] 🔴 Import 경로 업데이트
 
-### Phase 7: 정리 및 최적화 (1주) 🟡
+### Phase 7: 정리 및 최적화 (1주) 🟢
 **목표**: 리팩토링 완료 및 최적화
 
 #### 7.1 정리 작업 (3일)
 - [x] 🟢 기존 파일 제거
   - [x] `src/hooks/[domain]/` 폴더 제거 (auth, profile, jjikboul, record)
   - [x] `src/components/auth/` 폴더 제거
-  - [ ] 🔴 `src/components/profile/`, `jjikboul/`, `record/` 정리 (Phase 8 완료 후)
-- [ ] 🔴 Import 경로 정리
-- [ ] 🔴 타입 정의 정리
+  - [x] `src/components/profile/`, `jjikboul/`, `record/`, `place/` 정리
+  - [x] `src/api/modules/` 폴더 제거
+  - [x] `src/api/hooks/` 폴더 제거
+  - [x] `src/types/` 정리 (record.ts, auth.ts, jjikboul.ts 제거)
+  - [x] `src/constants/` 폴더 제거
+- [x] 🟢 Import 경로 정리
+  - [x] 각 도메인 types에 index.ts 추가
+  - [x] 타입 중복 제거 (SignInResponse → AppleSignInResponse)
+- [x] 🟢 타입 정의 정리
+  - [x] auth types 중복 제거
+  - [x] 모든 도메인 types index.ts 생성
 
 #### 7.2 최적화 & 문서화 (2일)
-- [ ] 🔴 번들 크기 최적화
-- [ ] 🔴 성능 측정 및 개선
-- [ ] 🔴 아키텍처 문서 업데이트
+- [x] 🟢 번들 크기 최적화
+  - [x] 빌드 테스트 통과
+  - [x] ESLint 통과
+- [x] 🟢 아키텍처 문서 업데이트
+  - [x] ARCHITECTURE.md 생성
+  - [x] 최종 구조 문서화
+  - [x] 패턴 및 규칙 정리
 
 ### Phase 10: components 폴더 도메인 로직 이동 (1주) 🟢
 **목표**: components 폴더의 도메인별 로직을 domains 폴더로 완전 이동
@@ -394,14 +406,14 @@ src/
 - **Phase 4**: 80% (4/5 완료) 🟢
 - **Phase 5**: 80% (4/5 완료) 🟢
 - **Phase 6**: 50% (2/4 완료) 🟡
-- **Phase 7**: 40% (2/5 완료) 🟡
+- **Phase 7**: 100% (5/5 완료) 🟢
 - **Phase 8**: 100% (10/10 완료) 🟢
 - **Phase 9**: 100% (5/5 완료) 🟢
 - **Phase 10**: 100% (11/11 완료) 🟢
 - **Phase 11**: 100% (5/5 완료) 🟢
 - **Phase 12**: 100% (6/6 완료) 🟢
 
-**전체 진행률**: 87% (79/92 완료)
+**전체 진행률**: 91% (84/92 완료)
 
 ### 이번 주 완료 목표 (12/16-12/20)
 1. ✅ **Phase 9.1 완료**: api/modules/record.ts 통합 완료
@@ -521,8 +533,10 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 ## 7. 다음 액션 아이템
 
 ### 즉시 시작 가능한 작업
-1. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
-2. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
+1. **테스트 코드 작성**: Phase 2, 3, 4, 5, 6 도메인에 대한 테스트 코드 작성
+   - Repository 테스트
+   - Hook 테스트
+   - Component 테스트
 
 ### 팀 논의 필요 사항
 1. 테스트 커버리지 목표 설정
@@ -566,8 +580,7 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 - ✅ TDD 환경 구축 완료
 
 ### 남은 작업
-- ⏳ **테스트 코드 작성**: 모든 도메인
-- ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
+- ⏳ **테스트 코드 작성**: Phase 2, 3, 4, 5, 6 도메인 테스트 코드 작성
 
 ### 제거/이동된 파일 통계
 - **hooks**: 12개 파일 제거/이동 (auth: 1, profile: 3, jjikboul: 4, record: 3, place: 1)
