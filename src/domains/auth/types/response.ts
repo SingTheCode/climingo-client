@@ -1,4 +1,4 @@
-export type OAuthProvider = 'kakao' | 'apple';
+import type { OAuthProvider } from './entity';
 
 export interface MemberInfoResponse {
   authId?: string;

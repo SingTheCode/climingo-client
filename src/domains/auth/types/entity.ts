@@ -61,7 +61,7 @@ interface Authorization {
   state?: string;
 }
 
-export interface SignInResponse {
+export interface AppleSignInResponse {
   authorization: Authorization;
   user?: { email: string; name: { firstName: string; lastName: string } };
 }
@@ -71,7 +71,7 @@ declare global {
     AppleID: {
       auth: {
         init: (config: ClientConfig) => void;
-        signIn: (config?: ClientConfig) => Promise<SignInResponse>;
+        signIn: (config?: ClientConfig) => Promise<AppleSignInResponse>;
       };
     };
   }
