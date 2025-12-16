@@ -12,7 +12,7 @@ import {
   transformRecordDetailResponseToEntity,
   transformReportReasonResponseToEntity,
 } from '@/domains/record/api/transform';
-import { LEVELS } from '@/constants/level';
+import { LEVELS } from '@/domains/place/constants/level';
 
 export const recordApi = {
   // 기록 목록 조회

@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { Transition } from "@headlessui/react";
 
-import { useNavigateWithAuth } from "@/hooks/navigate";
+import { useNavigateWithAuth } from '@/domains/auth/hooks/useNavigateWithAuth';
 
 interface MenuOption {
   label: string;
