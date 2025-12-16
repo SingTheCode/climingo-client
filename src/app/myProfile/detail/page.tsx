@@ -10,7 +10,7 @@ import NavigationHeader from "@/components/common/NavigationHeader";
 import Avatar from "@/components/common/Avatar";
 import LayerPopup from "@/components/common/LayerPopup";
 import { useGetMyProfileQuery } from "@/domains/profile/hooks/useGetMyProfileQuery";
-import { deleteAccountApi, signOutApi } from "@/api/modules/user";
+import { authApi } from "@/domains/auth/api/authApi";
 import useUserStore from "@/store/user";
 import type { OAuthProvider } from "@/types/auth";
 
@@ -76,7 +76,7 @@ function DetailMemberInfo({ oAuth }: DetailMemberInfoProps) {
 
   const handleSignOut = async () => {
     try {
-      await signOutApi();
+      await authApi.signOut();
       clearUser();
       router.push("/signIn");
     } catch (error) {
@@ -86,7 +86,7 @@ function DetailMemberInfo({ oAuth }: DetailMemberInfoProps) {
 
   const handleDeleteAccount = async () => {
     try {
-      await deleteAccountApi();
+      await authApi.deleteAccount();
       clearUser();
       router.push("/signIn");
     } catch (error) {

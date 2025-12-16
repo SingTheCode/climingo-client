@@ -1,5 +1,5 @@
 import { api } from "@/api/axios";
-import { MemberInfoResponse } from "@/api/modules/user";
+import { MemberInfoResponse } from "@/domains/auth/types/response";
 import type { GymResponse, LevelResponse } from "@/domains/record/types/response";
 
 export interface JjikboulResponse {

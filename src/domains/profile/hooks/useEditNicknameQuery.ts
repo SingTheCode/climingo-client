@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { editNicknameApi } from '@/api/modules/user';
+import { profileApi } from '@/domains/profile/api/profileApi';
 
 export const useEditNicknameQuery = (memberId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: string) => editNicknameApi(memberId, data),
+    mutationFn: (nickname: string) => profileApi.editNickname({ memberId, nickname }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profile', 'me'] });
     },

@@ -1,4 +1,6 @@
 import type { OAuthProvider } from '@/domains/auth/types/entity';
+import type { RecordMetadata } from '@/types/record';
+import type { Pagination } from '@/types/common';
 
 export interface MyProfileResponse {
   memberId: number;
@@ -10,4 +12,8 @@ export interface MyProfileResponse {
 
 export interface EditNicknameResponse {
   nickname: string;
+}
+
+export interface MyRecordListResponse extends Pagination {
+  contents: RecordMetadata[];
 }

@@ -1,7 +1,7 @@
 import { api } from '@/api/axios';
-import type { MyProfileResponse, EditNicknameResponse } from '@/domains/profile/types/response';
-import type { Profile, EditNicknameRequest } from '@/domains/profile/types/entity';
-import { transformMyProfileResponseToEntity } from './transform';
+import type { MyProfileResponse, EditNicknameResponse, MyRecordListResponse } from '@/domains/profile/types/response';
+import type { Profile, EditNicknameRequest, MyRecordListParams, MyRecordList } from '@/domains/profile/types/entity';
+import { transformMyProfileResponseToEntity, transformMyRecordListResponseToEntity } from './transform';
 
 export const profileApi = {
   async getMyProfile(): Promise<Profile> {
@@ -15,5 +15,10 @@ export const profileApi = {
       { nickname: params.nickname }
     );
     return response.data.nickname;
+  },
+
+  async getMyRecordList(params: MyRecordListParams): Promise<MyRecordList> {
+    const response = await api.get<MyRecordListResponse>('/myRecords', { params });
+    return transformMyRecordListResponseToEntity(response.data);
   },
 };

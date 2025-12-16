@@ -1,5 +1,5 @@
-import type { MyProfileResponse } from '@/domains/profile/types/response';
-import type { Profile } from '@/domains/profile/types/entity';
+import type { MyProfileResponse, MyRecordListResponse } from '@/domains/profile/types/response';
+import type { Profile, MyRecordList } from '@/domains/profile/types/entity';
 
 export const transformMyProfileResponseToEntity = (
   response: MyProfileResponse
@@ -9,4 +9,13 @@ export const transformMyProfileResponseToEntity = (
   providerType: response.providerType ?? 'kakao',
   profileUrl: response.profileUrl ?? '',
   email: response.email ?? '',
+});
+
+export const transformMyRecordListResponseToEntity = (
+  response: MyRecordListResponse
+): MyRecordList => ({
+  contents: response.contents ?? [],
+  totalCount: response.totalCount ?? 0,
+  resultCount: response.resultCount ?? 0,
+  isEnd: response.isEnd ?? true,
 });
