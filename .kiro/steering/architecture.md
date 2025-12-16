@@ -40,15 +40,15 @@ src/
 │   └── layout.tsx
 │
 ├── domains/                      # 🏗️ Domain Layer (비즈니스 로직 격리)
-│   └── [domain]/                 # 예: auth, record, profile, place
+│   └── [domain]/                 # 예: auth, record, profile, place, user
 │       ├── components/           # UI 컴포넌트 (도메인 전용)
 │       ├── hooks/                # Headless Hook (로직)
 │       ├── api/                  # API 통신
 │       │   ├── [domain]Api.ts
 │       │   └── transform.ts      # Response → Entity 변환
-│       └── types/                # 타입 정의
-│           ├── entity.ts         # 도메인 엔티티
-│           └── response.ts       # API 응답 타입
+│       ├── types/                # 타입 정의 (도메인 내부용)
+│       │   ├── entity.ts         # 도메인 엔티티
+│       │   └── response.ts       # API 응답 타입
 │
 ├── components/                   # 🧩 Shared UI Components (도메인 독립적)
 │   ├── button/
@@ -56,7 +56,7 @@ src/
 │   └── popup/
 │
 ├── hooks/                        # 🔧 Shared Hooks (도메인 독립적)
-├── types/                        # 📦 Shared Types (공통 타입)
+├── types/                        # 📦 Shared Types (모든 도메인이 공통으로 사용)
 ├── store/                        # 🗄️ Global State (Zustand)
 ├── api/                          # 🌐 API Client (Axios)
 ├── utils/                        # 🛠️ Utilities
@@ -66,7 +66,7 @@ src/
 **아키텍처 핵심**:
 - **Controller (app/)**: 도메인을 조립하고 라우팅
 - **Domain (domains/)**: 비즈니스 로직 격리, 도메인 간 직접 참조 금지
-- **Shared (components/, hooks/, types/)**: 도메인 독립적인 공통 요소
+- **Shared (components/, hooks/, types/)**: 도메인 독립적인 공통 요소 (shared 폴더 없음)
 
 ---
 
@@ -375,7 +375,7 @@ function RecordList() {
 
 **정의**: 서로 다른 도메인 간의 직접 참조를 지양하고, 상위 레벨에서 조립
 
-#### 7.1 토스의 3단계 의사결정 트리
+#### 7.1 3단계 의사결정 트리
 
 도메인 간 데이터가 필요할 때 다음 순서로 판단:
 
@@ -507,7 +507,7 @@ export function RecordDetail({ record, authorName, authorImage }: RecordDetailPr
 
 #### 7.4 Props Drilling 판단 기준
 
-**토스의 원칙**: "Props Drilling은 문제가 아니라 구조가 잘못된 신호"
+Props Drilling은 문제가 아니라 구조가 잘못된 신호
 
 | Props 깊이 | 판단 | 조치 |
 |-----------|------|------|
@@ -590,7 +590,71 @@ const AppDataContext = createContext<{
 } | null>(null);
 ```
 
-#### 7.6 금지된 패턴
+#### 7.6 도메인 간 의존성 해결
+
+**원칙**: 1개의 도메인이 다른 1개의 도메인을 의존하면, 2개를 포괄하는 도메인을 생성
+
+**시나리오**: `auth`와 `profile`이 서로 의존하는 경우
+
+```typescript
+// ❌ 금지된 패턴
+// domains/auth/hooks/useAuth.ts
+import { useProfile } from '@/domains/profile/hooks/useProfile'; // 도메인 간 의존
+
+// domains/profile/hooks/useProfile.ts
+import { useAuth } from '@/domains/auth/hooks/useAuth'; // 순환 의존
+```
+
+**✅ 해결: 포괄 도메인 생성**
+
+```
+domains/
+├── user/                         # auth + profile을 포괄하는 도메인
+│   ├── components/
+│   ├── hooks/
+│   │   ├── useUser.ts           # 통합된 사용자 로직
+│   │   └── useUserAuth.ts       # 인증 관련
+│   ├── api/
+│   │   ├── userApi.ts
+│   │   └── transform.ts
+│   └── types/
+│       └── entity.ts
+├── record/
+└── place/
+```
+
+**통합 예시**:
+```typescript
+// domains/user/hooks/useUser.ts
+export function useUser() {
+  const { data: user } = useSuspenseQuery({
+    queryKey: ['user'],
+    queryFn: userApi.getCurrentUser,
+  });
+
+  return {
+    user,
+    isAuthenticated: !!user,
+    profile: user?.profile,
+  };
+}
+
+// app/profile/page.tsx
+import { useUser } from '@/domains/user/hooks/useUser';
+
+export default function ProfilePage() {
+  const { user, profile } = useUser();
+  
+  return (
+    <div>
+      <h1>{profile.nickname}</h1>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+```
+
+#### 7.7 금지된 패턴
 
 ```typescript
 // ❌ 도메인 간 직접 참조
@@ -811,88 +875,394 @@ const UserContext = createContext<User | null>(null);
 
 ---
 
-## 5. 마이그레이션 체크리스트
-
-현재 프로젝트 상태 확인:
-
-- [x] 도메인별 디렉토리 구조 (`domains/[domain]/`)
-- [x] API 레이어 분리 (`domains/[domain]/api/`)
-- [x] Transform 함수 분리 (`domains/[domain]/api/transform.ts`)
-- [x] 타입 정의 분리 (`domains/[domain]/types/`)
-- [x] 공통 컴포넌트 카테고리별 분류 (`components/button/`, `components/input/`, `components/popup/`)
-- [x] `useSuspenseQuery` 사용
-- [x] `AsyncBoundary` 패턴 적용
-
-향후 개선 사항:
-- [ ] Compound Component 패턴 적용 (필요 시)
-- [ ] Funnel 패턴 적용 (다단계 플로우 시)
-
----
-
-## 6. 코드 리뷰 기준
+## 5. 코드 리뷰 기준
 
 Pull Request 승인 전 다음 항목을 필수로 확인:
 
-### 6.1 Headless Hook
+### 5.1 Headless Hook
 - [ ] Headless Hook이 UI를 반환하지 않는가?
 - [ ] 비즈니스 로직이 Hook에 집중되어 있는가?
 - [ ] 파일이 올바른 위치에 배치되었는가?
 
-### 6.2 Compound Component
+### 5.2 Compound Component
 - [ ] Compound Component가 비즈니스 로직을 포함하지 않는가?
 - [ ] Context를 통해 상태를 공유하는가?
 - [ ] Root Component에서만 Headless Hook을 호출하는가?
 
-### 6.3 Funnel 패턴
+### 5.3 Funnel 패턴
 - [ ] 각 단계 컴포넌트가 다음 단계 이동 로직을 포함하지 않는가?
 - [ ] 상위 Controller에서 전체 플로우를 관리하는가?
 - [ ] URL 기반 상태 관리를 사용하는가?
 
-### 6.4 비동기 처리
+### 5.4 비동기 처리
 - [ ] `useSuspenseQuery`를 사용하는가?
 - [ ] `AsyncBoundary`로 로딩/에러 처리를 선언적으로 관리하는가?
 - [ ] 컴포넌트 내부에 `isLoading`, `isError` 분기가 없는가?
 
-### 6.5 레이어 간 의존성
+### 5.5 레이어 간 의존성
 - [ ] Controller가 Api를 직접 호출하지 않는가?
 - [ ] 도메인 간 직접 참조가 없는가?
 - [ ] 파일이 올바른 위치에 배치되었는가?
 
-### 6.6 네이밍 규칙
+### 5.6 네이밍 규칙
 - [ ] 명명 규칙을 준수하는가?
 - [ ] 파일명과 함수명이 일관성 있는가?
 
 ---
 
-## 7. 기술 스택별 가이드
+## 6. 기술 스택별 가이드
 
-### 7.1 Next.js 14 App Router
+### 6.1 Next.js 14 App Router
 - **Server Component**: 기본적으로 Server Component 사용
 - **Client Component**: 상태 관리가 필요한 경우 `'use client'` 선언
 - **Route Groups**: 관련 라우트를 그룹화 (`(auth)`, `(product)`)
 - **Loading UI**: `loading.tsx`로 Suspense Fallback 정의
 - **Error UI**: `error.tsx`로 Error Boundary 정의
 
-### 7.2 TanStack Query (React Query)
+### 6.2 TanStack Query (React Query)
 - **useSuspenseQuery**: 데이터 fetching 시 필수 사용
 - **Query Key**: 배열 형태로 정의 (`['records', { filter }]`)
 - **Mutation**: `useMutation`으로 데이터 변경 처리
 - **Invalidation**: 성공 시 관련 Query 무효화
 
-### 7.3 Zustand
+### 6.3 Zustand
 - **전역 상태**: 도메인 간 공유가 필요한 상태만 사용
 - **Store 분리**: 도메인별로 Store 분리 (`store/user.tsx`, `store/record.tsx`)
 - **Selector**: 필요한 상태만 선택하여 사용
 
-### 7.4 Headless UI
+### 6.4 Headless UI
 - **Compound Component**: Headless UI의 패턴을 참고
 - **Accessibility**: WAI-ARIA 준수
 - **Customization**: Tailwind CSS로 스타일링
 
-### 7.5 Tailwind CSS
+### 6.5 Tailwind CSS
 - **Utility-First**: 유틸리티 클래스 우선 사용
 - **Custom Classes**: 반복되는 패턴은 `@apply`로 추상화
 - **Responsive**: 모바일 우선 반응형 디자인
+
+---
+
+## 7. 스타일 가이드
+
+### 7.1 타입 분류 전략
+
+**기준: 누가 사용하는가?**
+
+```typescript
+// 📍 types/common.ts
+// ✅ 모든 도메인이 공통으로 사용하는 타입
+export interface User {
+  id: string;
+  nickname: string;
+  email: string;
+}
+
+export interface Record {
+  id: string;
+  userId: string; // User를 import 하지 않음, 오직 userId만
+  placeName: string;
+}
+
+// ❌ 이렇게 하면 안 됨!
+// export interface Record {
+//   user: User; // 도메인 간 의존성!
+// }
+
+// ---
+
+// 📍 domains/auth/types/entity.ts
+// ✅ Auth 도메인만 사용하는 '내부' 타입
+export interface AuthState {
+  token: string;
+  refreshToken: string;
+  expiresIn: number;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+// ---
+
+// 📍 domains/record/types/entity.ts
+// ✅ Record 도메인만 사용하는 '내부' 타입
+export interface RecordDetail {
+  id: string;
+  title: string;
+  description: string;
+  imageUrls: string[];
+  tags: string[];
+}
+
+export interface RecordFilter {
+  startDate: Date;
+  endDate: Date;
+  sortBy: 'recent' | 'popular';
+}
+```
+
+**규칙**:
+- `types/` = 모든 도메인이 import 가능 (최소한의 데이터만)
+- `domains/[domain]/types` = 해당 도메인만 import (내부 구현)
+- **절대 금지**: `domains/A/types` → `domains/B/components`에서 import
+
+### 7.2 ESLint로 의존성 강제하기
+
+```json
+// eslintrc.json (또는 .eslintrc.js)
+{
+  "plugins": ["boundaries"],
+  "rules": {
+    "boundaries/element-types": [
+      "error",
+      {
+        "default": "disallow",
+        "rules": [
+          {
+            "from": "app",
+            "allow": ["domains", "components", "hooks", "types", "store", "utils"]
+          },
+          {
+            "from": "domains",
+            "allow": ["components", "hooks", "types", "utils"]
+          },
+          {
+            "from": "components",
+            "allow": ["types", "utils"]
+          },
+          {
+            "from": "hooks",
+            "allow": ["types", "utils"]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**설정 후 효과**:
+```typescript
+// ✅ 허용
+// app/record/page.tsx
+import { RecordList } from '@/domains/record/components';
+
+// ✅ 허용
+// domains/record/components/RecordCard.tsx
+import { Record } from '@/types/common';
+
+// ❌ 금지 (ESLint Error!)
+// domains/record/components/RecordCard.tsx
+import { User } from '@/domains/auth/types/entity'; // 🚨
+```
+
+### 7.3 시나리오별 실전 코드
+
+#### 시나리오 A: "사용자의 최근 기록 목록 보기"
+
+**❌ 현재 문제 코드**
+```typescript
+// domains/record/components/RecordList.tsx
+import { useAuth } from '@/domains/auth/hooks/useAuth'; // 🚨 도메인 간 의존성!
+
+export function RecordList() {
+  const { user } = useAuth();
+  const records = useQuery(['records', user.id]);
+  
+  return (
+    <div>
+      {records.map(record => (
+        <RecordCard key={record.id} record={record} userId={user.id} />
+      ))}
+    </div>
+  );
+}
+```
+
+**✅ 스타일 해결 (페이지 조립)**
+
+```typescript
+// app/records/page.tsx
+'use client';
+
+import { useAuth } from '@/domains/auth/hooks/useAuth';
+import { useRecords } from '@/domains/record/hooks/useRecords';
+import { RecordList } from '@/domains/record/components/RecordList';
+
+export default function RecordsPage() {
+  const { user } = useAuth(); // Auth 도메인
+  const { records } = useRecords(user?.id); // Record 도메인
+
+  return (
+    <div>
+      <h1>내 기록</h1>
+      {/* 📍 페이지에서 조립: user를 prop으로 전달 */}
+      <RecordList records={records} currentUserId={user?.id} />
+    </div>
+  );
+}
+
+// domains/record/components/RecordList.tsx
+import { Record } from '@/types/common';
+
+interface RecordListProps {
+  records: Record[];
+  currentUserId: string; // ← 이미 페이지에서 준 데이터
+}
+
+export function RecordList({ records, currentUserId }: RecordListProps) {
+  // 🎉 useAuth 없어도 됨! 페이지에서 이미 user.id를 주었으니까
+  return (
+    <ul>
+      {records.map(record => (
+        <RecordCard 
+          key={record.id} 
+          record={record} 
+          userId={currentUserId}
+        />
+      ))}
+    </ul>
+  );
+}
+```
+
+#### 시나리오 B: "API 응답을 Entity로 변환할 때 다른 도메인의 타입 필요한 경우"
+
+**❌ 문제 코드**
+```typescript
+// domains/record/api/transform.ts
+import { User } from '@/domains/auth/types/entity'; // 🚨 도메인 간 의존성!
+
+export function transformRecordResponse(response: any): Record {
+  return {
+    id: response.id,
+    user: response.user as User, // User 타입을 직접 사용
+  };
+}
+```
+
+**✅ 스타일 해결 (공유 타입 사용)**
+
+```typescript
+// types/common.ts
+export interface User {
+  id: string;
+  nickname: string;
+  email: string;
+}
+
+export interface Record {
+  id: string;
+  user: User; // ← types/에 정의했으니 모두가 import 가능
+  placeName: string;
+}
+
+// domains/record/api/transform.ts
+import { Record, User } from '@/types/common';
+
+export function transformRecordResponse(response: any): Record {
+  return {
+    id: response.id,
+    user: response.user as User, // ✅ types/에서만 가져옴
+  };
+}
+```
+
+#### 시나리오 C: "도메인 간 실시간 상태 공유 (좋아요 기능 등)"
+
+**✅ 스타일 해결 (이벤트 버스 + React Query 재검증)**
+
+```typescript
+// hooks/useEventBus.ts
+export const useEventBus = () => {
+  const publish = (eventName: string, detail?: any) => {
+    window.dispatchEvent(new CustomEvent(eventName, { detail }));
+  };
+
+  const subscribe = (eventName: string, callback: (e: any) => void) => {
+    window.addEventListener(eventName, callback);
+    return () => window.removeEventListener(eventName, callback);
+  };
+
+  return { publish, subscribe };
+};
+
+// domains/record/components/RecordLikeButton.tsx
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEventBus } from '@/hooks/useEventBus';
+
+export function RecordLikeButton({ recordId }: { recordId: string }) {
+  const { publish } = useEventBus();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (liked: boolean) =>
+      fetch(`/api/records/${recordId}/like`, {
+        method: 'POST',
+        body: JSON.stringify({ liked }),
+      }).then(r => r.json()),
+    onSuccess: (data) => {
+      // 📢 다른 곳에 알림 (Auth 도메인은 이 메시지를 모름)
+      publish('RECORD_LIKE_UPDATED', { recordId, liked: data.liked });
+      
+      // React Query 캐시 갱신
+      queryClient.invalidateQueries({ queryKey: ['records', recordId] });
+    }
+  });
+
+  return (
+    <button onClick={() => mutation.mutate(true)}>
+      👍 좋아요
+    </button>
+  );
+}
+
+// domains/profile/components/UserStats.tsx
+import { useEffect } from 'react';
+import { useEventBus } from '@/hooks/useEventBus';
+
+export function UserStats({ userId }: { userId: string }) {
+  const { subscribe } = useEventBus();
+
+  useEffect(() => {
+    const unsubscribe = subscribe('RECORD_LIKE_UPDATED', (e) => {
+      // 좋아요 업데이트 감지 → 필요한 로직 수행
+      console.log('누군가 기록에 좋아요를 눌렀습니다:', e.detail);
+    });
+
+    return unsubscribe;
+  }, [subscribe]);
+
+  return <div>사용자 통계</div>;
+}
+```
+
+### 7.4 체크리스트
+
+구현하면서 이것들을 확인하세요:
+
+```typescript
+// ✅ 이렇게 검사
+// 1. 도메인 컴포넌트가 다른 도메인의 hooks를 import하나?
+import { useAuth } from '@/domains/auth'; // ❌ 금지!
+
+// 2. 도메인 타입이 공유 타입으로 정의되지 않았나?
+export interface Record {
+  user: User; // ← User는 types/에서만 import
+}
+
+// 3. Props가 5단계 이상 내려가나?
+// ParentPage → Component1 → Component2 → Component3 → Component4
+// 이 경우 컴포넌트 구조 재설계
+
+// 4. 페이지에서 '조립'이 일어나나?
+// export default function Page() {
+//   const user = useAuth();
+//   const records = useRecords(user.id);
+//   return <RecordList records={records} currentUserId={user.id} />
+// }
+```
 
 ---
 
