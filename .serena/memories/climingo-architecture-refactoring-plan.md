@@ -248,7 +248,7 @@ src/
   - [x] transform 함수 타입 수정
   - [x] entity 타입 수정
 
-### Phase 9: API 모듈 통합 (1주) 🟡
+### Phase 9: API 모듈 통합 (1주) 🟢
 **목표**: api/modules를 각 도메인 api로 통합
 
 #### 9.1 api/modules/record.ts 통합 (완료)
@@ -256,41 +256,43 @@ src/
 - [x] 🟢 모든 import 경로 수정
 - [x] 🟢 api/modules/record.ts 제거
 
-#### 9.2 api/modules/user.ts 통합 (1일)
-- [ ] 🔴 domains/profile/api/profileApi.ts로 통합
-  - [ ] `getMyProfileApi` → `profileApi.getMyProfile`
-  - [ ] `editNicknameApi` → `profileApi.editNickname`
-  - [ ] `getMyRecordListApi` → `profileApi.getMyRecordList`
-- [ ] 🔴 domains/auth/api/authApi.ts로 통합
-  - [ ] `oAuthApi` → `authApi.checkOAuth`
-  - [ ] `signInApi` → `authApi.signIn`
-  - [ ] `signUpApi` → `authApi.signUp`
-  - [ ] `signOutApi` → `authApi.signOut`
-  - [ ] `deleteAccountApi` → `authApi.deleteAccount`
-- [ ] 🔴 MemberInfoResponse 타입을 domains로 이동
-- [ ] 🔴 모든 import 경로 수정
-- [ ] 🔴 api/modules/user.ts 제거
+#### 9.2 api/modules/user.ts 통합 (완료)
+- [x] 🟢 domains/profile/api/profileApi.ts로 통합
+  - [x] `getMyProfileApi` → `profileApi.getMyProfile`
+  - [x] `editNicknameApi` → `profileApi.editNickname`
+  - [x] `getMyRecordListApi` → `profileApi.getMyRecordList`
+- [x] 🟢 domains/auth/api/authApi.ts로 통합
+  - [x] `oAuthApi` → `authApi.checkOAuth`
+  - [x] `signInApi` → `authApi.signIn`
+  - [x] `signUpApi` → `authApi.signUp`
+  - [x] `signOutApi` → `authApi.signOut`
+  - [x] `deleteAccountApi` → `authApi.deleteAccount`
+- [x] 🟢 MemberInfoResponse 타입을 domains로 이동
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 api/modules/user.ts 제거
 
-#### 9.3 api/modules/jjikboul.ts 통합 (1일)
-- [ ] 🔴 domains/jjikboul/api/jjikboulApi.ts로 통합
-  - [ ] `getJjikboulDetailApi` → `jjikboulApi.getJjikboulDetail`
-- [ ] 🔴 JjikboulResponse 타입을 domains/jjikboul/types로 이동
-- [ ] 🔴 Transform 함수 구현
-- [ ] 🔴 모든 import 경로 수정
-- [ ] 🔴 api/modules/jjikboul.ts 제거
+#### 9.3 api/modules/jjikboul.ts 통합 (완료)
+- [x] 🟢 domains/jjikboul/api/jjikboulApi.ts로 통합
+  - [x] `getJjikboulDetailApi` → `jjikboulApi.getJjikboulDetail`
+- [x] 🟢 JjikboulResponse 타입을 domains/jjikboul/types로 이동
+- [x] 🟢 Transform 함수 구현
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 api/modules/jjikboul.ts 제거
 
-#### 9.4 api/modules/common.ts 통합 (1일)
-- [ ] 🔴 domains/place/api/placeApi.ts 생성 및 통합
-  - [ ] `searchClimbingPlaceApi` → `placeApi.searchClimbingPlace`
-  - [ ] `getLevelsApi` → `placeApi.getLevels` (또는 recordApi.getLevelList와 통합)
-- [ ] 🔴 Place 도메인 타입 정의
-- [ ] 🔴 Transform 함수 구현
-- [ ] 🔴 모든 import 경로 수정
-- [ ] 🔴 api/modules/common.ts 제거
+#### 9.4 api/modules/common.ts 통합 (완료)
+- [x] 🟢 domains/place/api/placeApi.ts 생성 및 통합
+  - [x] `searchClimbingPlaceApi` → `placeApi.searchClimbingPlace`
+  - [x] `getLevelsApi` → `placeApi.getLevels`
+- [x] 🟢 Place 도메인 타입 정의
+- [x] 🟢 Transform 함수 구현
+- [x] 🟢 모든 import 경로 수정
+- [x] 🟢 api/modules/common.ts 제거
 
-#### 9.5 api/modules 폴더 제거 (완료 후)
-- [ ] 🔴 api/modules 폴더 완전 제거
-- [ ] 🔴 빌드 테스트 및 검증
+#### 9.5 api/modules 폴더 제거 (완료)
+- [x] 🟢 api/modules 폴더 완전 제거
+- [x] 🟢 api/hooks 폴더 제거
+- [x] 🟢 hooks/place 폴더 제거
+- [x] 🟢 빌드 테스트 및 검증
 
 ## 진행 현황 대시보드
 
@@ -303,14 +305,14 @@ src/
 - **Phase 6**: 50% (2/4 완료) 🟡
 - **Phase 7**: 40% (2/5 완료) 🟡
 - **Phase 8**: 100% (10/10 완료) 🟢
-- **Phase 9**: 20% (1/5 완료) 🟡
+- **Phase 9**: 100% (5/5 완료) 🟢
 
-**전체 진행률**: 78% (52/67 완료)
+**전체 진행률**: 85% (57/67 완료)
 
 ### 이번 주 완료 목표 (12/16-12/20)
 1. ✅ **Phase 9.1 완료**: api/modules/record.ts 통합 완료
-2. ⏳ **Phase 9.2-9.4 진행**: 나머지 api/modules 통합
-3. ⏳ **Phase 9.5 완료**: api/modules 폴더 제거
+2. ✅ **Phase 9.2-9.5 완료**: 모든 api/modules 통합 완료
+3. ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 주간 리뷰 일정
 - **매주 금요일 17:00**: 진행 상황 리뷰 및 다음 주 계획 수립
@@ -444,25 +446,30 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
   - ✅ Phase 8.2: Profile 페이지 리팩토링 완료
   - ✅ Phase 8.3: Jjikboul 페이지 리팩토링 완료
   - ✅ Phase 8.4: 기존 components 정리 완료
-- ✅ Phase 9.1: api/modules/record.ts 통합 완료
+- ✅ Phase 9: API 모듈 통합 완료
+  - ✅ Phase 9.1: api/modules/record.ts 통합 완료
+  - ✅ Phase 9.2: api/modules/user.ts 통합 완료
+  - ✅ Phase 9.3: api/modules/jjikboul.ts 통합 완료
+  - ✅ Phase 9.4: api/modules/common.ts 통합 완료 (place 도메인 생성)
+  - ✅ Phase 9.5: api/modules 폴더 제거 완료
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
 
 ### 남은 작업
-- ⏳ **Phase 9.2-9.5**: api/modules 나머지 파일 통합
 - ⏳ **테스트 코드 작성**: 모든 도메인
 - ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 제거된 파일 통계
-- **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3)
+- **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3, place: 1)
 - **components/auth**: 6개 파일 제거
 - **components/record**: 4개 파일 제거 (RecordList, RecordDetail, CreateRecordForm, HydratedRecordDetail)
 - **components/profile**: 2개 파일 제거 (MyProfile, MyProfileDetail)
 - **components/jjikboul**: 1개 파일 제거 (JjikboulShareDetail)
-- **api/modules**: 1개 파일 제거 (record.ts)
-- **총 파일**: 23개 파일 제거
-- **총 코드 라인**: 약 1,370줄 제거
+- **api/modules**: 4개 파일 제거 (record.ts, user.ts, jjikboul.ts, common.ts)
+- **api/hooks**: 2개 파일 제거 (user.ts, jjikboul.ts, record.ts)
+- **총 파일**: 29개 파일 제거
+- **총 코드 라인**: 약 1,600줄 제거
 
 ---
 
