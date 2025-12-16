@@ -1,17 +1,7 @@
-import type {
-  JjikboulResponse,
-  MemberInfoResponse,
-  GymResponse,
-  LevelResponse,
-  JjikboulDetailResponse,
-} from '@/domains/jjikboul/types/response';
-import type {
-  Jjikboul,
-  MemberInfo,
-  Gym,
-  Level,
-  JjikboulDetail,
-} from '@/domains/jjikboul/types/entity';
+import type { JjikboulResponse, JjikboulDetailResponse } from '@/domains/jjikboul/types/response';
+import type { MemberInfoResponse } from '@/domains/auth/types/response';
+import type { GymResponse, LevelResponse } from '@/domains/record/types/response';
+import type { Jjikboul, MemberInfo, Gym, Level, JjikboulDetail } from '@/domains/jjikboul/types/entity';
 
 export const transformJjikboulResponseToEntity = (
   response: JjikboulResponse
@@ -32,7 +22,7 @@ export const transformMemberInfoResponseToEntity = (
 
 export const transformGymResponseToEntity = (response: GymResponse): Gym => ({
   gymId: response.gymId,
-  name: response.name ?? '',
+  name: response.gymName ?? '',
   address: response.address ?? '',
 });
 
@@ -40,8 +30,8 @@ export const transformLevelResponseToEntity = (
   response: LevelResponse
 ): Level => ({
   levelId: response.levelId,
-  name: response.name ?? '',
-  color: response.color ?? '',
+  name: response.levelName ?? '',
+  color: response.levelColor ?? '',
 });
 
 export const transformJjikboulDetailResponseToEntity = (

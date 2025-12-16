@@ -9,7 +9,7 @@ import useImageDownload from "@/hooks/useImageDownload";
 import useAppScheme from "@/hooks/useAppScheme";
 import Loading from "@/components/common/Loading";
 import Avatar from "@/components/common/Avatar";
-import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
+import { useGetJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useGetJjikboulDetailQuery";
 
 function JjikboulDetailContent() {
   const params = useParams();
@@ -91,16 +91,16 @@ function JjikboulDetailContent() {
 
           {/* 암장 정보 */}
           <div>
-            <p className="text-base font-medium">{data.gym?.gymName}</p>
+            <p className="text-base font-medium">{data.gym?.name}</p>
           </div>
 
           {/* 난이도 */}
           <div>
             <span
               className="px-3 py-1 rounded-full text-sm font-medium"
-              style={{ backgroundColor: data.level?.colorCode }}
+              style={{ backgroundColor: data.level?.color }}
             >
-              {data.level?.colorNameKo}
+              {data.level?.name}
             </span>
           </div>
 

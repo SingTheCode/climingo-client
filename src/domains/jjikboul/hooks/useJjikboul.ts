@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { JjikboulDetail } from '@/types/jjikboul';
+import type { JjikboulDetail } from '@/domains/jjikboul/types/entity';
 
 export const useJjikboul = () => {
   const getShareUrl = useCallback((): string => {
@@ -9,8 +9,8 @@ export const useJjikboul = () => {
   const validateJjikboulData = useCallback((data: JjikboulDetail): boolean => {
     if (!data.jjikboul?.jjikboulId) return false;
     if (!data.memberInfo?.nickname) return false;
-    if (!data.gym?.gymName) return false;
-    if (!data.level?.colorNameKo) return false;
+    if (!data.gym?.name) return false;
+    if (!data.level?.name) return false;
     return true;
   }, []);
 
