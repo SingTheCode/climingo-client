@@ -3,14 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { isAxiosError } from "axios";
 import { EditProfile } from "@/domains/profile/components/EditProfile";
 import { AsyncBoundary } from "@/lib/async";
 import Layout from "@/components/common/Layout";
 import NavigationHeader from "@/components/common/NavigationHeader";
 import Avatar from "@/components/common/Avatar";
 import LayerPopup from "@/components/common/LayerPopup";
-import InputText from "@/components/common/InputText";
 import { useGetMyProfileQuery } from "@/domains/profile/hooks/useGetMyProfileQuery";
 import { deleteAccountApi, signOutApi } from "@/api/modules/user";
 import useUserStore from "@/store/user";

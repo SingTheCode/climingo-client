@@ -77,8 +77,8 @@ interface ActionsProps {
 function RecordDetailActions({ children }: ActionsProps) {
   const { record } = useRecordDetailContext();
   return <>{children({
-    recordId: record.record.id,
-    memberId: record.memberInfo?.id || null,
+    recordId: record.record.recordId,
+    memberId: record.memberInfo?.memberId || null,
   })}</>;
 }
 

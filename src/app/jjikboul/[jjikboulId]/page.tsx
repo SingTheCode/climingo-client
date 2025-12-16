@@ -2,7 +2,6 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { JjikboulDetail } from "@/domains/jjikboul/components/JjikboulDetail";
 import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
 import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
 import { AsyncBoundary } from "@/lib/async";
@@ -80,9 +79,9 @@ function JjikboulDetailContent() {
         <div className="bg-white rounded-t-[2rem] p-[2rem] space-y-[1.5rem]">
           {/* 회원 정보 */}
           <div className="flex items-center gap-[1rem]">
-            {data.memberInfo?.profileImageUrl && (
+            {data.memberInfo?.profileUrl && (
               <Avatar
-                src={data.memberInfo.profileImageUrl}
+                src={data.memberInfo.profileUrl}
                 alt={data.memberInfo.nickname}
                 size="base"
               />
@@ -93,7 +92,6 @@ function JjikboulDetailContent() {
           {/* 암장 정보 */}
           <div>
             <p className="text-base font-medium">{data.gym?.gymName}</p>
-            <p className="text-sm text-gray-600">{data.gym?.gymAddress}</p>
           </div>
 
           {/* 난이도 */}

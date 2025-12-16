@@ -19,12 +19,14 @@ export interface LevelResponse {
   levelId: number;
   levelName: string;
   levelColor: string;
+  colorNameEn?: string;
 }
 
 export interface MemberInfoResponse {
   memberId: number;
   nickname: string;
   profileImageUrl?: string;
+  profileUrl?: string;
 }
 
 export interface RecordMetadataResponse {

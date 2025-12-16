@@ -56,7 +56,7 @@ src/
 ## 3. 리팩토링 단계별 계획
 
 > **진행 상태**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed  
-> **마지막 업데이트**: 2025-12-16 09:19
+> **마지막 업데이트**: 2025-12-16 09:42
 
 ### Phase 1: 기반 구조 준비 (1-2주) 🟢
 **목표**: 리팩토링을 위한 기반 인프라 구축
@@ -244,10 +244,15 @@ src/
   - [ ] 기존 components/jjikboul/JjikboulShareDetail 제거 (Phase 8.4)
 
 #### 8.4 기존 components 정리 (1일)
-- [ ] 🔴 `components/record/` 폴더 제거
-- [ ] 🔴 `components/profile/` 폴더 제거
-- [ ] 🔴 `components/jjikboul/` 폴더 제거
-- [ ] 🔴 Import 경로 최종 정리
+- [x] 🟢 `components/record/` 폴더 정리
+  - [x] RecordList, RecordDetail, CreateRecordForm, HydratedRecordDetail 제거
+- [x] 🟢 `components/profile/` 폴더 제거
+  - [x] MyProfile, MyProfileDetail 제거
+- [x] 🟢 `components/jjikboul/` 폴더 제거
+  - [x] JjikboulShareDetail 제거
+- [x] 🟢 domains 타입 호환성 수정
+  - [x] transform 함수 타입 수정
+  - [x] entity 타입 수정
 
 ## 진행 현황 대시보드
 
@@ -259,9 +264,9 @@ src/
 - **Phase 5**: 80% (4/5 완료) 🟢
 - **Phase 6**: 50% (2/4 완료) 🟡
 - **Phase 7**: 40% (2/5 완료) 🟡
-- **Phase 8**: 90% (9/10 완료) 🟡
+- **Phase 8**: 100% (10/10 완료) 🟢
 
-**전체 진행률**: 81% (50/62 완료)
+**전체 진행률**: 82% (51/62 완료)
 
 ### 이번 주 완료 목표 (12/15-12/20)
 1. ✅ **Phase 1-6 완료**: 모든 도메인 리팩토링 완료
@@ -378,12 +383,9 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 
 ## 7. 다음 액션 아이템
 
-### 즉시 시작 가능한 작업 (Phase 8.4)
-1. **기존 components 정리** (Phase 8.4)
-   - `components/record/` 폴더 제거
-   - `components/profile/` 폴더 제거
-   - `components/jjikboul/` 폴더 제거
-   - Import 경로 최종 정리
+### 즉시 시작 가능한 작업
+1. **테스트 코드 작성**: 모든 도메인에 대한 테스트 코드 작성
+2. **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 팀 논의 필요 사항
 1. 테스트 커버리지 목표 설정
@@ -397,34 +399,27 @@ export const transformRecordDTOToEntity = (dto: RecordDTO): Record => ({
 - ✅ Phase 5: Jjikboul 도메인 리팩토링 완료
 - ✅ Phase 6: 공통 컴포넌트 리팩토링 완료 (Input, LayerPopup)
 - ✅ Phase 7: 기존 hooks 파일 정리 완료 (auth, profile, jjikboul, record)
-- ✅ Phase 8.1: Record 페이지 리팩토링 완료
-  - ✅ `app/page.tsx` → RecordList Compound Component 적용
-  - ✅ `app/record/[recordId]/page.tsx` → RecordDetail Compound Component 적용
-  - ✅ `app/record/create/page.tsx` → RecordForm Compound Component 적용
-  - ✅ @toss/async-boundary 패키지 설치
-  - ✅ domains 타입 호환성 수정 (기존 types/record.ts와 호환)
-  - ✅ 삭제된 hooks 복구 (jjikboul, profile, record → domains로 이동)
-  - ✅ OAuth 컴포넌트 domains로 이동
-- ✅ Phase 8.2: Profile 페이지 리팩토링 완료
-  - ✅ `app/myProfile/page.tsx` → MyProfile Compound Component 적용
-  - ✅ `app/myProfile/detail/page.tsx` → EditProfile Compound Component 적용
-- ✅ Phase 8.3: Jjikboul 페이지 리팩토링 완료
-  - ✅ `app/jjikboul/[jjikboulId]/page.tsx` → JjikboulDetail Compound Component 적용
+- ✅ Phase 8: 페이지 리팩토링 완료
+  - ✅ Phase 8.1: Record 페이지 리팩토링 완료
+  - ✅ Phase 8.2: Profile 페이지 리팩토링 완료
+  - ✅ Phase 8.3: Jjikboul 페이지 리팩토링 완료
+  - ✅ Phase 8.4: 기존 components 정리 완료
 - ✅ Transform 레이어 분리 완료
 - ✅ AsyncBoundary 설정 완료
 - ✅ TDD 환경 구축 완료
 
 ### 남은 작업
-- ⏳ **기존 파일 정리**: Phase 8.4
-  - `components/profile/` (MyProfile, MyProfileDetail)
-  - `components/jjikboul/` (JjikboulShareDetail)
-  - `components/record/` (RecordList, RecordDetail, RecordItem 등)
 - ⏳ **테스트 코드 작성**: 모든 도메인
+- ⏳ **Phase 7 완료**: Import 경로 정리, 타입 정의 정리, 최적화 & 문서화
 
 ### 제거된 파일 통계
 - **hooks**: 9개 파일 제거 (auth: 1, profile: 3, jjikboul: 2, record: 3)
 - **components/auth**: 6개 파일 제거
-- **총 코드 라인**: 432줄 제거
+- **components/record**: 4개 파일 제거 (RecordList, RecordDetail, CreateRecordForm, HydratedRecordDetail)
+- **components/profile**: 2개 파일 제거 (MyProfile, MyProfileDetail)
+- **components/jjikboul**: 1개 파일 제거 (JjikboulShareDetail)
+- **총 파일**: 22개 파일 제거
+- **총 코드 라인**: 약 1,200줄 제거
 
 ---
 

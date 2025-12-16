@@ -12,6 +12,7 @@ import type {
   Record,
   Gym,
   Level,
+  LevelColor,
   MemberInfo,
   RecordMetadata,
   RecordList,
@@ -21,33 +22,32 @@ import type {
 
 // 기본 엔티티 변환 함수들
 export const transformRecordResponseToEntity = (response: RecordResponse): Record => ({
-  id: response.recordId,
+  recordId: response.recordId,
   thumbnailUrl: response.thumbnailUrl || '',
   videoUrl: response.videoUrl || '',
-  createdAt: new Date(response.createTime),
+  createTime: response.createTime,
 });
 
 export const transformGymResponseToEntity = (response: GymResponse): Gym => ({
-  id: response.gymId,
-  name: response.gymName || '장소 없음',
-  address: response.address || '',
-  latitude: response.latitude || 0,
-  longitude: response.longitude || 0,
+  gymId: response.gymId,
+  gymName: response.gymName || '장소 없음',
 });
 
 export const transformLevelResponseToEntity = (response: LevelResponse): Level => ({
-  id: response.levelId,
-  name: response.levelName || 'V0',
-  color: response.levelColor || '#000000',
+  levelId: response.levelId,
+  colorNameKo: response.levelName || 'V0',
+  colorNameEn: (response.colorNameEn || 'white') as LevelColor,
+  colorCode: response.levelColor || '#000000',
 });
 
 export const transformMemberInfoResponseToEntity = (response?: MemberInfoResponse | null): MemberInfo | null => {
   if (!response) return null;
   
   return {
-    id: response.memberId,
+    memberId: response.memberId,
     nickname: response.nickname || '익명',
     profileImageUrl: response.profileImageUrl || null,
+    profileUrl: response.profileUrl || '',
   };
 };
 
