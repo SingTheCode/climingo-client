@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Script from 'next/script';
 
-import Layout from '@/components/common/Layout';
+import Layout from '@/components/Layout';
 import { SignIn } from '@/domains/auth/components/SignIn';
 
 export default function SignInPage() {

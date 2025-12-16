@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 import { RecordList } from '@/domains/record/components/RecordList';
 import { AsyncBoundary } from '@/lib/async';
-import Layout from '@/components/common/Layout';
+import Layout from '@/components/Layout';
 import FilterSection from '@/domains/record/components/FilterSection';
-import FloatingActionMenu from '@/components/common/FloatingActionMenu';
+import FloatingActionMenu from '@/components/button/FloatingActionMenu';
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,

@@ -35,78 +35,167 @@
 ```
 src/
 ├── app/                          # Next.js App Router (Controller)
-│   ├── (auth)/                   # Route Group
-│   │   ├── signIn/
-│   │   │   └── page.tsx          # Controller: Headless Hook 호출
-│   │   └── signUp/
-│   │       ├── page.tsx          # Funnel Controller
-│   │       └── steps/            # Funnel Step Components
-│   │           ├── Step1_Terms.tsx
-│   │           └── Step2_Info.tsx
+│   ├── signIn/
+│   │   └── page.tsx              # 로그인 페이지
+│   ├── signUp/
+│   │   └── page.tsx              # 회원가입 페이지
+│   ├── oauth/
+│   │   └── page.tsx              # OAuth 콜백 페이지
 │   ├── record/
 │   │   ├── [recordId]/
-│   │   │   └── page.tsx
+│   │   │   └── page.tsx          # 기록 상세 페이지
 │   │   └── create/
-│   │       └── page.tsx
+│   │       └── page.tsx          # 기록 생성 페이지
+│   ├── jjikboul/
+│   │   └── [jjikboulId]/
+│   │       └── page.tsx          # 찍불 상세 페이지
+│   ├── myProfile/
+│   │   ├── page.tsx              # 내 프로필 페이지
+│   │   └── detail/
+│   │       └── page.tsx          # 프로필 수정 페이지
+│   ├── page.tsx                  # 홈 페이지 (기록 목록)
 │   ├── layout.tsx
 │   └── globals.css
 │
-├── components/                   # 공통 Headless + Compound UI
-│   ├── common/                   # 범용 UI 컴포넌트
-│   │   ├── Select/
-│   │   │   ├── useSelect.ts      # Headless Hook
-│   │   │   ├── Select.tsx        # Root + Context Provider
-│   │   │   ├── SelectTrigger.tsx
-│   │   │   └── SelectOption.tsx
-│   │   ├── LayerPopup.tsx
-│   │   └── NavigationHeader.tsx
-│   ├── auth/                     # 인증 관련 공통 컴포넌트
-│   ├── record/                   # 기록 관련 공통 컴포넌트
-│   └── profile/                  # 프로필 관련 공통 컴포넌트
+├── components/                   # 도메인 독립적 공통 컴포넌트
+│   ├── button/                   # 버튼 관련 컴포넌트
+│   │   ├── BottomActionButton.tsx
+│   │   ├── FloatingButton.tsx
+│   │   └── FloatingActionMenu.tsx
+│   ├── input/                    # 입력 관련 컴포넌트
+│   │   ├── Input.tsx
+│   │   └── InputText.tsx
+│   ├── popup/                    # 팝업 관련 컴포넌트
+│   │   └── LayerPopup.tsx
+│   ├── Avatar.tsx
+│   ├── Layout.tsx
+│   ├── Loading.tsx
+│   ├── NavigationHandler.tsx
+│   └── NavigationHeader.tsx
 │
-├── domains/                      # 도메인별 비즈니스 로직 (향후 마이그레이션 대상)
-│   └── record/
-│       ├── components/           # 도메인 전용 UI
-│       ├── hooks/                # Headless Hook (비즈니스 로직)
-│       │   └── useRecordCreate.ts
-│       ├── api/                  # API 통신
-│       │   └── recordApi.ts
-│       └── types/                # Entity
-│           └── record.ts
+├── domains/                      # 도메인별 비즈니스 로직
+│   ├── auth/                     # 인증 도메인
+│   │   ├── components/
+│   │   │   ├── OAuth.tsx
+│   │   │   ├── OAuthButton.tsx
+│   │   │   ├── SignIn.tsx
+│   │   │   └── SignUp.tsx
+│   │   ├── hooks/
+│   │   │   ├── useAuth.ts
+│   │   │   ├── useNavigateWithAuth.ts
+│   │   │   ├── useOAuth.ts
+│   │   │   ├── useSignIn.ts
+│   │   │   └── useSignUp.ts
+│   │   ├── api/
+│   │   │   ├── authApi.ts
+│   │   │   └── transform.ts
+│   │   └── types/
+│   │       ├── entity.ts
+│   │       ├── response.ts
+│   │       └── index.ts
+│   ├── record/                   # 기록 도메인
+│   │   ├── components/
+│   │   │   ├── Caution.tsx
+│   │   │   ├── ClearButton.tsx
+│   │   │   ├── commonText.tsx
+│   │   │   ├── FilterSection.tsx
+│   │   │   ├── RecordDetail.tsx
+│   │   │   ├── RecordForm.tsx
+│   │   │   ├── RecordItem.tsx
+│   │   │   ├── RecordList.tsx
+│   │   │   ├── ReportForm.tsx
+│   │   │   ├── SelectPlaceWithLevel.tsx
+│   │   │   └── UploadVideo.tsx
+│   │   ├── hooks/
+│   │   │   ├── useRecordActions.ts
+│   │   │   ├── useRecordCreate.ts
+│   │   │   ├── useRecordDetail.ts
+│   │   │   ├── useRecordList.ts
+│   │   │   └── useReportReasonQuery.ts
+│   │   ├── api/
+│   │   │   ├── recordApi.ts
+│   │   │   └── transform.ts
+│   │   └── types/
+│   │       ├── entity.ts
+│   │       ├── response.ts
+│   │       └── index.ts
+│   ├── place/                    # 장소 도메인
+│   │   ├── components/
+│   │   │   ├── LevelIcon.tsx
+│   │   │   ├── Place.tsx
+│   │   │   └── SearchedPlace.tsx
+│   │   ├── hooks/
+│   │   │   └── useGetLevelsQuery.ts
+│   │   ├── api/
+│   │   │   ├── placeApi.ts
+│   │   │   └── transform.ts
+│   │   ├── constants/
+│   │   │   └── level.ts
+│   │   └── types/
+│   │       ├── entity.ts
+│   │       ├── response.ts
+│   │       └── index.ts
+│   ├── profile/                  # 프로필 도메인
+│   │   ├── components/
+│   │   │   ├── EditProfile.tsx
+│   │   │   └── MyProfile.tsx
+│   │   ├── hooks/
+│   │   │   ├── useEditNicknameQuery.ts
+│   │   │   ├── useEditProfile.ts
+│   │   │   ├── useGetMyProfileQuery.ts
+│   │   │   ├── useGetMyRecordListQuery.ts
+│   │   │   └── useMyProfile.ts
+│   │   ├── api/
+│   │   │   ├── profileApi.ts
+│   │   │   └── transform.ts
+│   │   └── types/
+│   │       ├── entity.ts
+│   │       ├── response.ts
+│   │       └── index.ts
+│   └── jjikboul/                 # 찍불 도메인
+│       ├── components/
+│       │   └── JjikboulDetail.tsx
+│       ├── hooks/
+│       │   ├── useAppScheme.ts
+│       │   ├── useGetJjikboulDetailQuery.ts
+│       │   ├── useImageDownload.ts
+│       │   ├── useJjikboul.ts
+│       │   ├── useJjikboulDetail.ts
+│       │   └── useJjikboulUI.ts
+│       ├── api/
+│       │   ├── jjikboulApi.ts
+│       │   └── transform.ts
+│       └── types/
+│           ├── entity.ts
+│           ├── response.ts
+│           └── index.ts
 │
 ├── hooks/                        # 공통 Hooks (도메인 독립적)
-│   ├── useIntersectionObserver.ts
-│   ├── useAppScheme.ts
-│   └── navigate.ts
+│   ├── common.ts
+│   ├── getQueryClient.ts
+│   └── useIntersectionObserver.ts
 │
 ├── api/                          # API 레이어
-│   ├── axios.ts                  # Axios 인스턴스
-│   ├── hooks/                    # React Query Hooks
-│   │   ├── record.ts
-│   │   └── user.ts
-│   └── modules/                  # API 함수
-│       ├── record.ts
-│       └── user.ts
+│   └── axios.ts                  # Axios 인스턴스
 │
 ├── store/                        # 전역 상태 (Zustand)
 │   └── user.tsx
 │
 ├── types/                        # 공통 타입 정의
-│   ├── record.ts
-│   ├── auth.ts
+│   ├── appScheme.ts
 │   └── common.ts
 │
 ├── utils/                        # 유틸리티 함수
-│   ├── eventEmitter.ts
-│   └── common.ts
+│   ├── common.ts
+│   └── eventEmitter.ts
 │
-├── constants/                    # 상수
-│   ├── level.ts
-│   └── key.ts
+├── lib/                          # 외부 라이브러리 설정
+│   ├── async/
+│   │   └── index.ts              # AsyncBoundary
+│   └── index.ts
 │
-└── lib/                          # 외부 라이브러리 설정 (향후 추가)
-    └── funnel/
-        └── useFunnel.ts
+├── reactQueryProvider.tsx        # React Query Provider
+└── ServiceWorkerProvider.tsx    # Service Worker Provider
 ```
 
 ---
@@ -129,9 +218,8 @@ src/
 - 스타일 관련 로직
 
 **위치**:
-- 공통 로직: `components/[Component]/use[Component].ts`
-- 도메인 로직: `domains/[domain]/hooks/use[UseCase].ts` (향후)
-- 현재: `hooks/[domain]/use[Feature].ts`
+- 공통 로직: `hooks/` (도메인 독립적)
+- 도메인 로직: `domains/[domain]/hooks/use[UseCase].ts`
 
 **예시**:
 ```typescript
@@ -294,9 +382,7 @@ export default function TermsStep() {
 - 상태 관리
 - 변환 로직 직접 구현 (별도 Transform 함수로 분리)
 
-**위치**:
-- 현재: `api/modules/[domain].ts`
-- 향후: `domains/[domain]/api/`
+**위치**: `domains/[domain]/api/`
 
 **예시**:
 ```typescript
@@ -458,20 +544,20 @@ export const useRecordDetail = () => {
 
 **Headless Hook**:
 - 네이밍: `use[Domain][Action]` (예: `useRecordCreate`, `useUserProfile`)
-- 위치: `hooks/[domain]/use[Feature].ts` (현재) → `domains/[domain]/hooks/` (향후)
+- 위치: `domains/[domain]/hooks/`
 
 **Compound Component**:
 - Root: `[Component].tsx` (예: `Select.tsx`)
 - 하위: `[Component][Part].tsx` (예: `SelectTrigger.tsx`, `SelectOption.tsx`)
-- 위치: `components/[Component]/`
+- 위치: `components/[category]/` (예: `components/button/`, `components/input/`, `components/popup/`)
 
 **Api**:
 - 네이밍: `[domain]Api` (예: `recordApi`, `userApi`)
-- 위치: `api/modules/[domain].ts` (현재) → `domains/[domain]/api/` (향후)
+- 위치: `domains/[domain]/api/`
 
 **API Hook**:
 - 네이밍: `use[Domain][Action]Query` 또는 `use[Domain][Action]Mutation`
-- 위치: `api/hooks/[domain].ts` (현재) → `domains/[domain]/hooks/` (향후)
+- 위치: `domains/[domain]/hooks/`
 
 **Import 경로 규칙**:
 - **모든 import는 절대경로(`@/`)를 사용**
@@ -544,9 +630,8 @@ export default function RecordPage() {
 
 ### ❌ Anti-Pattern 5: 도메인 전용 Hook을 공통 폴더에 배치
 ```typescript
-// ❌ 금지: components/hooks/useRecordCreate.ts
-// ✅ 올바름: domains/record/hooks/useRecordCreate.ts (향후)
-// ✅ 현재: hooks/record/useRecordCreate.ts
+// ❌ 금지: hooks/useRecordCreate.ts (도메인 전용 로직)
+// ✅ 올바름: domains/record/hooks/useRecordCreate.ts
 ```
 
 ### ❌ Anti-Pattern 6: Prop Drilling (5단계 이상)
@@ -602,17 +687,19 @@ function RecordList() {
 
 ## 5. 마이그레이션 체크리스트
 
-현재 프로젝트를 Headless Compound 패턴으로 전환 시 확인 사항:
+현재 프로젝트 상태 확인:
 
-- [ ] `hooks/[domain]/` → `domains/[domain]/hooks/` 이동
-- [ ] `api/modules/` → `domains/[domain]/api/` 이동
-- [ ] `components/[domain]/` → `domains/[domain]/components/` 이동
-- [ ] 공통 UI → Compound Component로 분리 (`components/common/`)
-- [ ] 다단계 플로우 → Funnel 패턴 적용 (`lib/funnel/useFunnel.ts` 추가)
-- [ ] `useQuery` → `useSuspenseQuery` 변환
-- [ ] `AsyncBoundary` 패턴 적용
-- [ ] Api에서 변환 로직 제거 (Transform 함수로 분리)
-- [ ] Controller에서 Api 직접 호출 제거
+- [x] 도메인별 디렉토리 구조 (`domains/[domain]/`)
+- [x] API 레이어 분리 (`domains/[domain]/api/`)
+- [x] Transform 함수 분리 (`domains/[domain]/api/transform.ts`)
+- [x] 타입 정의 분리 (`domains/[domain]/types/`)
+- [x] 공통 컴포넌트 카테고리별 분류 (`components/button/`, `components/input/`, `components/popup/`)
+- [x] `useSuspenseQuery` 사용
+- [x] `AsyncBoundary` 패턴 적용
+
+향후 개선 사항:
+- [ ] Compound Component 패턴 적용 (필요 시)
+- [ ] Funnel 패턴 적용 (다단계 플로우 시)
 
 ---
 

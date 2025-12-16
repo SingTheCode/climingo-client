@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RecordForm } from '@/domains/record/components/RecordForm';
-import Layout from '@/components/common/Layout';
-import NavigationHeader from '@/components/common/NavigationHeader';
-import BottomActionButton from '@/components/common/BottomActionButton';
+import Layout from '@/components/Layout';
+import NavigationHeader from '@/components/NavigationHeader';
+import BottomActionButton from '@/components/button/BottomActionButton';
 import SelectPlaceWithLevel from '@/domains/record/components/SelectPlaceWithLevel';
 import UploadVideo from '@/domains/record/components/UploadVideo';
 import Caution from '@/domains/record/components/Caution';
