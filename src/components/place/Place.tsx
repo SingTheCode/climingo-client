@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { useDebounce } from "@/hooks/common";
-import { searchClimbingPlaceApi } from "@/api/modules/common";
+import { placeApi } from "@/domains/place/api/placeApi";
 import { ClimbingPlace } from "@/types/common";
 
 import SearchedPlace from "@/components/place/SearchedPlace";
@@ -20,7 +20,7 @@ export default function Place({
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await searchClimbingPlaceApi(debouncedText);
+      const data = await placeApi.searchClimbingPlace(debouncedText);
       setSearchedList(data);
     };
     fetch();

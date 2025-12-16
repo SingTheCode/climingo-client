@@ -4,8 +4,8 @@ import Image from "next/image";
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
 import { ClimbingPlace } from "@/types/common";
-import { Level } from "@/types/record";
-import useGetLevelsQuery from "@/hooks/place/useGetLevelsQuery";
+import { Level } from "@/domains/place/types/entity";
+import { useGetLevelsQuery } from "@/domains/place/hooks/useGetLevelsQuery";
 
 import LayerPopup from "@/components/common/LayerPopup";
 import SearchPlace from "@/components/place/Place";
