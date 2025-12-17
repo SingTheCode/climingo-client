@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { RecordMetadata } from "@/domains/record/types/entity";
+
 import { fromNowFormat } from "@/utils/common";
 
+import Avatar from "@/components/Avatar";
+
 import LevelIcon from "@/domains/place/components/LevelIcon";
-import Avatar from "@/components/common/Avatar";
 
 export const RecordItemContainer = ({
   children,

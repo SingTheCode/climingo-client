@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { eventEmitter } from "@/utils/eventEmitter";
+
 import useUserStore from "@/store/user";
 
 export const api = axios.create({

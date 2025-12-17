@@ -1,8 +1,10 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useRecordDetail } from "@/domains/record/hooks/useRecordDetailQuery";
+
 import type { RecordDetail as RecordDetailType } from "@/domains/record/types/entity";
+
+import { useRecordDetail } from "@/domains/record/hooks/useRecordDetailQuery";
 
 // Context 타입 정의
 type RecordDetailContextType = ReturnType<typeof useRecordDetail>;

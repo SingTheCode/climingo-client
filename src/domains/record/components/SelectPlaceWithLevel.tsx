@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { MouseEventHandler, memo, useRef, useState } from "react";
 
-import { ClimbingPlace } from "@/domains/place/types/entity";
-import { Level } from "@/domains/place/types/entity";
+import { ClimbingPlace, Level } from "@/domains/place/types/entity";
+
 import { useLevelListQuery } from "@/domains/place/hooks/useLevelListQuery";
 
 import LayerPopup from "@/components/popup/LayerPopup";
+
 import SearchPlace from "@/domains/place/components/Place";
 import ClearButton from "@/domains/record/components/ClearButton";
 import { Heading, Placeholder } from "@/domains/record/components/commonText";
@@ -54,7 +55,10 @@ const SelectPlaceWithLevel = memo(
         </div>
         <div className="flex flex-col gap-[1.4rem]">
           <Heading text="난이도를 선택해주세요" />
-          <LevelSelector placeId={place?.id} onChange={handleLevelSelect} />
+          <LevelSelector
+            placeId={place?.id ?? 0}
+            onChange={handleLevelSelect}
+          />
         </div>
       </section>
     );
@@ -105,7 +109,7 @@ const LevelSelector = ({
   placeId?: number;
   onChange?: (level: Level) => void;
 }) => {
-  const { data, isSuccess } = useLevelListQuery(placeId);
+  const { data, isSuccess } = useLevelListQuery(placeId ?? 0);
 
   if (!placeId) {
     return <Placeholder text="암장을 먼저 선택해주세요" />;

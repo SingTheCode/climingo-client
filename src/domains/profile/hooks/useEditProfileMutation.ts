@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { profileApi } from "@/domains/profile/api/profileApi";
+
 import type { EditNicknameRequest } from "@/domains/profile/types/entity";
+
+import { profileApi } from "@/domains/profile/api/profileApi";
 
 export const useEditProfile = () => {
   const queryClient = useQueryClient();

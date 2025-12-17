@@ -1,5 +1,3 @@
-import { Fragment, InputHTMLAttributes, PropsWithChildren } from "react";
-import Image from "next/image";
 import {
   Dialog,
   DialogPanel,
@@ -7,6 +5,8 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+import Image from "next/image";
+import { Fragment, InputHTMLAttributes, PropsWithChildren } from "react";
 
 interface LayerPopupRootProps {
   open: boolean;

@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { authApi } from "@/domains/auth/api/authApi";
+
 import type { OAuthRequest } from "@/domains/auth/types/entity";
+
+import { authApi } from "@/domains/auth/api/authApi";
 
 export const useOAuth = () => {
   const mutation = useMutation({

@@ -1,9 +1,11 @@
-import { api } from "@/api/axios";
+import type { Place, Level } from "@/domains/place/types/entity";
 import type {
   PlaceResponse,
   LevelResponse,
 } from "@/domains/place/types/response";
-import type { Place, Level } from "@/domains/place/types/entity";
+
+import { api } from "@/api/axios";
+
 import {
   transformPlaceResponseToEntity,
   transformLevelResponseToEntity,

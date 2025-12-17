@@ -1,7 +1,9 @@
-import { useState } from "react";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { recordApi } from "@/domains/record/api/recordApi";
+import { useState } from "react";
+
 import type { RecordFilter } from "@/domains/record/types/entity";
+
+import { recordApi } from "@/domains/record/api/recordApi";
 
 export const useRecordList = (initialFilter: RecordFilter = {}) => {
   const [filter, setFilter] = useState<RecordFilter>({

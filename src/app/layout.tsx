@@ -4,10 +4,10 @@ import localFont from "next/font/local";
 import "@/app/globals.css";
 import "@/types/common";
 import "@/utils/common";
+import NavigationHandler from "@/components/NavigationHandler";
+
 import ReactQueryProvider from "@/reactQueryProvider";
 import ServiceWorkerProvider from "@/ServiceWorkerProvider";
-
-import NavigationHandler from "@/components/NavigationHandler";
 
 /** https://github.com/orioncactus/pretendard?tab=readme-ov-file#nextjs */
 const pretendard = localFont({

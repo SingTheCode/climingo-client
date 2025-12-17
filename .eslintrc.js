@@ -8,6 +8,104 @@ module.exports = {
   ],
   plugins: ["prettier", "import"],
   rules: {
+    // import 순서 강제
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin", // Node.js 내장 모듈
+          "external", // 외부 라이브러리
+          "internal", // 내부 절대경로 (@/)
+          ["parent", "sibling", "index"], // 상대경로
+        ],
+        pathGroups: [
+          // lib
+          {
+            pattern: "@/lib/**",
+            group: "internal",
+            position: "before",
+          },
+          // types (shared)
+          {
+            pattern: "@/types/**",
+            group: "internal",
+            position: "before",
+          },
+          // types (domain)
+          {
+            pattern: "@/domains/**/types/**",
+            group: "internal",
+            position: "before",
+          },
+          // utils (shared)
+          {
+            pattern: "@/utils/**",
+            group: "internal",
+            position: "before",
+          },
+          // utils (domain)
+          {
+            pattern: "@/domains/**/utils/**",
+            group: "internal",
+            position: "before",
+          },
+          // hooks (shared)
+          {
+            pattern: "@/hooks/**",
+            group: "internal",
+            position: "before",
+          },
+          // hooks (domain)
+          {
+            pattern: "@/domains/**/hooks/**",
+            group: "internal",
+            position: "before",
+          },
+          // apis (shared)
+          {
+            pattern: "@/api/**",
+            group: "internal",
+            position: "before",
+          },
+          // apis (domain)
+          {
+            pattern: "@/domains/**/api/**",
+            group: "internal",
+            position: "before",
+          },
+          // stores (shared)
+          {
+            pattern: "@/store/**",
+            group: "internal",
+            position: "before",
+          },
+          // stores (domain)
+          {
+            pattern: "@/domains/**/store/**",
+            group: "internal",
+            position: "before",
+          },
+          // components (shared)
+          {
+            pattern: "@/components/**",
+            group: "internal",
+            position: "before",
+          },
+          // components (domain)
+          {
+            pattern: "@/domains/**/components/**",
+            group: "internal",
+            position: "before",
+          },
+        ],
+        pathGroupsExcludedImportTypes: ["builtin"],
+        "newlines-between": "always",
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
+      },
+    ],
     // 절대경로(@/) 강제 사용
     "no-restricted-imports": [
       "error",

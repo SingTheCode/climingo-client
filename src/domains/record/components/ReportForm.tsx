@@ -1,5 +1,3 @@
-import { FormEvent } from "react";
-import Image from "next/image";
 import {
   Field,
   Fieldset,
@@ -8,12 +6,16 @@ import {
   Radio,
   RadioGroup,
 } from "@headlessui/react";
+import Image from "next/image";
+import { FormEvent } from "react";
 
 import type { RecordReportApiRequest } from "@/domains/record/types/entity";
 
-import { recordApi } from "@/domains/record/api/recordApi";
-import BottomActionButton from "@/components/common/BottomActionButton";
 import { useReportReasonQuery } from "@/domains/record/hooks/useReportReasonQuery";
+
+import { recordApi } from "@/domains/record/api/recordApi";
+
+import BottomActionButton from "@/components/common/BottomActionButton";
 
 type ReportFormType = {
   recordId: string;

@@ -1,9 +1,11 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
-import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
-import type { JjikboulDetail as JjikboulDetailType } from "@/domains/jjikboul/types/entity";
 import Image from "next/image";
+import { createContext, useContext, type ReactNode } from "react";
+
+import type { JjikboulDetail as JjikboulDetailType } from "@/domains/jjikboul/types/entity";
+
+import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
 
 interface JjikboulDetailContextValue {
   jjikboulDetail: JjikboulDetailType;

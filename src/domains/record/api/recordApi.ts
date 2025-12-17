@@ -1,17 +1,21 @@
-import { api } from "@/api/axios";
 import axios from "axios";
-import type { RecordFilter } from "@/domains/record/types/entity";
+
 import type { Level } from "@/domains/place/types/entity";
+import type { RecordFilter } from "@/domains/record/types/entity";
 import type {
   RecordListResponse,
   RecordDetailResponse,
   ReportReasonResponse,
 } from "@/domains/record/types/response";
+
+import { api } from "@/api/axios";
+
 import {
   transformRecordListResponseToEntity,
   transformRecordDetailResponseToEntity,
   transformReportReasonResponseToEntity,
 } from "@/domains/record/api/transform";
+
 import { LEVELS } from "@/domains/place/constants/level";
 
 export const recordApi = {

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   createContext,
   useContext,
@@ -7,10 +8,12 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
-import { useSignUp } from "@/domains/auth/hooks/useSignUpMutation";
-import useUserStore from "@/store/user";
+
 import type { MemberInfo } from "@/domains/auth/types/entity";
+
+import { useSignUp } from "@/domains/auth/hooks/useSignUpMutation";
+
+import useUserStore from "@/store/user";
 
 interface SignUpContextValue {
   nickname: string;

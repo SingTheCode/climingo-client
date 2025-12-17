@@ -1,8 +1,8 @@
+import type { Profile, MyRecordList } from "@/domains/profile/types/entity";
 import type {
   MyProfileResponse,
   MyRecordListResponse,
 } from "@/domains/profile/types/response";
-import type { Profile, MyRecordList } from "@/domains/profile/types/entity";
 
 export const transformMyProfileResponseToEntity = (
   response: MyProfileResponse

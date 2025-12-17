@@ -1,9 +1,3 @@
-import { api } from "@/api/axios";
-import type {
-  OAuthResponse,
-  SignInResponse,
-  SignUpResponse,
-} from "@/domains/auth/types/response";
 import type {
   OAuthRequest,
   SignInRequest,
@@ -11,6 +5,14 @@ import type {
   OAuthResult,
   User,
 } from "@/domains/auth/types/entity";
+import type {
+  OAuthResponse,
+  SignInResponse,
+  SignUpResponse,
+} from "@/domains/auth/types/response";
+
+import { api } from "@/api/axios";
+
 import {
   transformOAuthResponseToEntity,
   transformSignInResponseToUser,

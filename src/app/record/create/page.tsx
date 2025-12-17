@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { RecordForm } from "@/domains/record/components/RecordForm";
+import { useState } from "react";
+
+import BottomActionButton from "@/components/button/BottomActionButton";
 import Layout from "@/components/Layout";
 import NavigationHeader from "@/components/NavigationHeader";
-import BottomActionButton from "@/components/button/BottomActionButton";
+
+import Caution from "@/domains/record/components/Caution";
+import { RecordForm } from "@/domains/record/components/RecordForm";
 import SelectPlaceWithLevel from "@/domains/record/components/SelectPlaceWithLevel";
 import UploadVideo from "@/domains/record/components/UploadVideo";
-import Caution from "@/domains/record/components/Caution";
 
 export default function CreateRecordPage() {
   const router = useRouter();

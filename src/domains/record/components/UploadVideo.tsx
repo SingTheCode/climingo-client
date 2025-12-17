@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { ChangeEventHandler, memo, useRef, useState } from "react";
 
-import { Heading } from "@/domains/record/components/commonText";
 import ClearButton from "@/domains/record/components/ClearButton";
+import { Heading } from "@/domains/record/components/commonText";
 
 const UploadVideo = memo(
   ({ validate }: { validate?: (valid: boolean) => void }) => {

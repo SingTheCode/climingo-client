@@ -1,10 +1,10 @@
+import type { User, OAuthResult } from "@/domains/auth/types/entity";
 import type {
   MemberInfoResponse,
   OAuthResponse,
   SignInResponse,
   SignUpResponse,
 } from "@/domains/auth/types/response";
-import type { User, OAuthResult } from "@/domains/auth/types/entity";
 
 export const transformMemberInfoToUser = (
   response: MemberInfoResponse

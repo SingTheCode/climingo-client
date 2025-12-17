@@ -1,8 +1,8 @@
+import type { Place, Level, LevelColor } from "@/domains/place/types/entity";
 import type {
   PlaceResponse,
   LevelResponse,
 } from "@/domains/place/types/response";
-import type { Place, Level, LevelColor } from "@/domains/place/types/entity";
 
 export const transformPlaceResponseToEntity = (
   response: PlaceResponse

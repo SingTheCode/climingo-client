@@ -1,3 +1,12 @@
+import type { Gym, Level, LevelColor } from "@/domains/place/types/entity";
+import type {
+  Record,
+  MemberInfo,
+  RecordMetadata,
+  RecordList,
+  RecordDetail,
+  ReportReason,
+} from "@/domains/record/types/entity";
 import type {
   RecordResponse,
   GymResponse,
@@ -8,15 +17,6 @@ import type {
   RecordDetailResponse,
   ReportReasonResponse,
 } from "@/domains/record/types/response";
-import type { Gym, Level, LevelColor } from "@/domains/place/types/entity";
-import type {
-  Record,
-  MemberInfo,
-  RecordMetadata,
-  RecordList,
-  RecordDetail,
-  ReportReason,
-} from "@/domains/record/types/entity";
 
 // 기본 엔티티 변환 함수들
 export const transformRecordResponseToEntity = (

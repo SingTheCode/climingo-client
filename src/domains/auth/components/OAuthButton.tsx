@@ -1,10 +1,12 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/domains/auth/hooks/useAuth";
+import { createContext, useContext, type ReactNode } from "react";
+
 import type { OAuthProvider } from "@/domains/auth/types/entity";
+
+import { useAuth } from "@/domains/auth/hooks/useAuth";
 
 interface OAuthButtonContextValue {
   provider: OAuthProvider;

@@ -1,15 +1,17 @@
-import { api } from "@/api/axios";
-import type {
-  MyProfileResponse,
-  EditNicknameResponse,
-  MyRecordListResponse,
-} from "@/domains/profile/types/response";
 import type {
   Profile,
   EditNicknameRequest,
   MyRecordListParams,
   MyRecordList,
 } from "@/domains/profile/types/entity";
+import type {
+  MyProfileResponse,
+  EditNicknameResponse,
+  MyRecordListResponse,
+} from "@/domains/profile/types/response";
+
+import { api } from "@/api/axios";
+
 import {
   transformMyProfileResponseToEntity,
   transformMyRecordListResponseToEntity,

@@ -1,19 +1,24 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MyProfile } from "@/domains/profile/components/MyProfile";
+import { Fragment, useEffect } from "react";
+
 import { AsyncBoundary } from "@/lib/async";
+
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+
+import { useGetMyRecordListQuery } from "@/domains/profile/hooks/useGetMyRecordListQuery";
+
 import Layout from "@/components/Layout";
 import NavigationHeader from "@/components/NavigationHeader";
+
+import { MyProfile } from "@/domains/profile/components/MyProfile";
 import RecordItem, {
   RecordItemContainer,
   RecordItemSkeleton,
   EmptyRecordItem,
 } from "@/domains/record/components/RecordItem";
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { useGetMyRecordListQuery } from "@/domains/profile/hooks/useGetMyRecordListQuery";
 
 function MyProfileContent() {
   return (

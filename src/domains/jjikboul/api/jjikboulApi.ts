@@ -1,6 +1,8 @@
-import { api } from "@/api/axios";
-import type { JjikboulDetailResponse } from "@/domains/jjikboul/types/response";
 import type { JjikboulDetail } from "@/domains/jjikboul/types/entity";
+import type { JjikboulDetailResponse } from "@/domains/jjikboul/types/response";
+
+import { api } from "@/api/axios";
+
 import { transformJjikboulDetailResponseToEntity } from "./transform";
 
 export const jjikboulApi = {

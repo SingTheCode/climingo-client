@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes } from "react";
 import Image from "next/image";
+import { ButtonHTMLAttributes } from "react";
 
 const FloatingButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (

@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import useUserStore from "@/store/user";
 import type { MemberInfo } from "@/domains/auth/types/entity";
 
+import useUserStore from "@/store/user";
+
+import Avatar from "@/components/Avatar";
 import Layout from "@/components/Layout";
 import NavigationHeader from "@/components/NavigationHeader";
-import Avatar from "@/components/Avatar";
+
 import { SignUp } from "@/domains/auth/components/SignUp";
 
 export default function SignUpPage() {

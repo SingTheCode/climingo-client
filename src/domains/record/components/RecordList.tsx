@@ -1,11 +1,13 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useRecordList } from "@/domains/record/hooks/useRecordListQuery";
+
 import type {
   RecordFilter,
   RecordMetadata,
 } from "@/domains/record/types/entity";
+
+import { useRecordList } from "@/domains/record/hooks/useRecordListQuery";
 
 // Context 타입 정의
 type RecordListContextType = ReturnType<typeof useRecordList>;

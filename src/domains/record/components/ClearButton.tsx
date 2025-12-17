@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes, MouseEventHandler } from "react";
 import Image from "next/image";
+import { ButtonHTMLAttributes, MouseEventHandler } from "react";
 
 const ClearButton = ({
   onClick,

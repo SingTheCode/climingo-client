@@ -1,22 +1,29 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Image from "next/image";
-import { RecordDetail } from "@/domains/record/components/RecordDetail";
-import { useRecordActions } from "@/domains/record/hooks/useRecordActions";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+
 import { AsyncBoundary } from "@/lib/async";
-import Layout from "@/components/Layout";
-import NavigationHeader from "@/components/NavigationHeader";
-import Avatar from "@/components/Avatar";
-import LevelIcon from "@/domains/place/components/LevelIcon";
-import LayerPopup from "@/components/popup/LayerPopup";
-import ReportForm from "@/domains/record/components/ReportForm";
-import Loading from "@/components/Loading";
-import useUserStore from "@/store/user";
-import { fromNowFormat } from "@/utils/common";
+
 import type { LevelColor } from "@/domains/place/types/entity";
+
+import { fromNowFormat } from "@/utils/common";
+
+import { useRecordActions } from "@/domains/record/hooks/useRecordActions";
+
+import useUserStore from "@/store/user";
+
+import Avatar from "@/components/Avatar";
+import Layout from "@/components/Layout";
+import Loading from "@/components/Loading";
+import NavigationHeader from "@/components/NavigationHeader";
+import LayerPopup from "@/components/popup/LayerPopup";
+
+import LevelIcon from "@/domains/place/components/LevelIcon";
+import { RecordDetail } from "@/domains/record/components/RecordDetail";
+import ReportForm from "@/domains/record/components/ReportForm";
 
 function RecordDetailContent() {
   const params = useParams();

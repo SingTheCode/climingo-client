@@ -1,12 +1,4 @@
-import type {
-  JjikboulResponse,
-  JjikboulDetailResponse,
-} from "@/domains/jjikboul/types/response";
 import type { MemberInfoResponse } from "@/domains/auth/types/response";
-import type {
-  GymResponse,
-  LevelResponse,
-} from "@/domains/record/types/response";
 import type {
   Jjikboul,
   MemberInfo,
@@ -14,6 +6,14 @@ import type {
   Level,
   JjikboulDetail,
 } from "@/domains/jjikboul/types/entity";
+import type {
+  JjikboulResponse,
+  JjikboulDetailResponse,
+} from "@/domains/jjikboul/types/response";
+import type {
+  GymResponse,
+  LevelResponse,
+} from "@/domains/record/types/response";
 
 export const transformJjikboulResponseToEntity = (
   response: JjikboulResponse

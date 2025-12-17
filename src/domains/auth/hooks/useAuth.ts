@@ -1,8 +1,11 @@
 import { useRouter } from "next/navigation";
+
+import type { OAuthProvider } from "@/domains/auth/types/entity";
+
+import useUserStore from "@/store/user";
+
 import { useOAuth } from "./useOAuthMutation";
 import { useSignIn } from "./useSignInMutation";
-import type { OAuthProvider } from "@/domains/auth/types/entity";
-import useUserStore from "@/store/user";
 
 interface AppleUser {
   email: string;

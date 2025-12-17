@@ -1,15 +1,18 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
-import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
+import { useParams } from "next/navigation";
+
 import { AsyncBoundary } from "@/lib/async";
-import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
+
 import useAppScheme from "@/domains/jjikboul/hooks/useAppScheme";
-import Loading from "@/components/Loading";
-import Avatar from "@/components/Avatar";
+import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
+import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
 import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
+import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
+
+import Avatar from "@/components/Avatar";
+import Loading from "@/components/Loading";
 
 function JjikboulDetailContent() {
   const params = useParams();

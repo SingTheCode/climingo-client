@@ -1,9 +1,11 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
-import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
-import type { Profile } from "@/domains/profile/types/entity";
 import Image from "next/image";
+import { createContext, useContext, type ReactNode } from "react";
+
+import type { Profile } from "@/domains/profile/types/entity";
+
+import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
 
 interface MyProfileContextValue {
   profile: Profile;

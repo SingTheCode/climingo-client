@@ -1,18 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { EditProfile } from "@/domains/profile/components/EditProfile";
+import { useState } from "react";
+
 import { AsyncBoundary } from "@/lib/async";
+
+import type { OAuthProvider } from "@/domains/auth/types/entity";
+
+import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
+
+import { authApi } from "@/domains/auth/api/authApi";
+
+import useUserStore from "@/store/user";
+
+import Avatar from "@/components/Avatar";
 import Layout from "@/components/Layout";
 import NavigationHeader from "@/components/NavigationHeader";
-import Avatar from "@/components/Avatar";
 import LayerPopup from "@/components/popup/LayerPopup";
-import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
-import { authApi } from "@/domains/auth/api/authApi";
-import useUserStore from "@/store/user";
-import type { OAuthProvider } from "@/domains/auth/types/entity";
+
+import { EditProfile } from "@/domains/profile/components/EditProfile";
 
 function MyProfileDetailContent() {
   const { data } = useMyProfileQuery();

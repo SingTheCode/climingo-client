@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+
 import type { JjikboulDetail } from "@/domains/jjikboul/types/entity";
 
 export const useJjikboul = () => {

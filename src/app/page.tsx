@@ -1,19 +1,24 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
-import Image from "next/image";
 import { Transition } from "@headlessui/react";
-import { RecordList } from "@/domains/record/components/RecordList";
+import Image from "next/image";
+import { useEffect, useState, useCallback, useMemo } from "react";
+
 import { AsyncBoundary } from "@/lib/async";
+
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+
+import { useNavigateWithAuth } from "@/domains/auth/hooks/useNavigateWithAuth";
+
 import Layout from "@/components/Layout";
+
 import FilterSection from "@/domains/record/components/FilterSection";
 import RecordItem, {
   RecordItemContainer,
   EmptyRecordItem,
   RecordItemSkeleton,
 } from "@/domains/record/components/RecordItem";
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { useNavigateWithAuth } from "@/domains/auth/hooks/useNavigateWithAuth";
+import { RecordList } from "@/domains/record/components/RecordList";
 
 function HomeHeader() {
   return (

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   createRef,
   Dispatch,
@@ -8,7 +9,6 @@ import {
   useRef,
   useState,
 } from "react";
-import Image from "next/image";
 
 // valid 면 true 를, invalid 면 노출할 문구를 반환
 interface ValidationRule {

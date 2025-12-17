@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { profileApi } from "@/domains/profile/api/profileApi";
 
 export const useEditNicknameMutation = (memberId: number) => {
