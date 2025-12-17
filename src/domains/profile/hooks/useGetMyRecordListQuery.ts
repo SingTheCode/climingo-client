@@ -1,9 +1,9 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { profileApi } from '@/domains/profile/api/profileApi';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { profileApi } from "@/domains/profile/api/profileApi";
 
 export const useGetMyRecordListQuery = () => {
   return useInfiniteQuery({
-    queryKey: ['profile', 'me', 'records'],
+    queryKey: ["profile", "me", "records"],
     queryFn: ({ pageParam }) => profileApi.getMyRecordList({ page: pageParam }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { OAuthButton } from '@/domains/auth/components/OAuthButton';
+import { OAuthButton } from "@/domains/auth/components/OAuthButton";
 
 export const SignIn = () => {
   return (

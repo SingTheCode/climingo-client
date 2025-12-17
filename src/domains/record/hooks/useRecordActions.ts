@@ -1,12 +1,16 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { recordApi } from '@/domains/record/api/recordApi';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { recordApi } from "@/domains/record/api/recordApi";
 
 export const useRecordActions = () => {
   const queryClient = useQueryClient();
 
   // 신고 사유 목록 조회
   const { data: reportReasons } = useSuspenseQuery({
-    queryKey: ['reportReasons'],
+    queryKey: ["reportReasons"],
     queryFn: recordApi.getReportReasons,
   });
 
@@ -14,14 +18,19 @@ export const useRecordActions = () => {
   const deleteMutation = useMutation({
     mutationFn: recordApi.deleteRecord,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['records'] });
+      queryClient.invalidateQueries({ queryKey: ["records"] });
     },
   });
 
   // 기록 신고
   const reportMutation = useMutation({
-    mutationFn: ({ recordId, reasonId }: { recordId: number; reasonId: number }) =>
-      recordApi.reportRecord(recordId, reasonId),
+    mutationFn: ({
+      recordId,
+      reasonId,
+    }: {
+      recordId: number;
+      reasonId: number;
+    }) => recordApi.reportRecord(recordId, reasonId),
   });
 
   const deleteRecord = (recordId: number) => {

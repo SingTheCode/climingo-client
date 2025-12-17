@@ -1,4 +1,4 @@
-import { Level } from '@/domains/place/types/entity';
+import { Level } from "@/domains/place/types/entity";
 
 export const LEVELS: Level[] = [
   {

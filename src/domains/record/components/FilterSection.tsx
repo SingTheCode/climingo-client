@@ -8,13 +8,13 @@ import {
   Transition,
 } from "@headlessui/react";
 
-import { Level } from '@/domains/place/types/entity';
+import { Level } from "@/domains/place/types/entity";
 import { useDidMountEffect } from "@/hooks/common";
 import { recordApi } from "@/domains/record/api/recordApi";
-import { ClimbingPlace } from '@/domains/place/types/entity';
+import { ClimbingPlace } from "@/domains/place/types/entity";
 
 import LevelIcon from "@/domains/place/components/LevelIcon";
-import LayerPopup from "@/components/common/LayerPopup";
+import LayerPopup from "@/components/popup/LayerPopup";
 import Place from "@/domains/place/components/Place";
 
 interface SelectedLevel {

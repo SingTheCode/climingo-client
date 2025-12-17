@@ -1,8 +1,8 @@
-import { useRouter } from 'next/navigation';
-import { useOAuth } from './useOAuth';
-import { useSignIn } from './useSignIn';
-import type { OAuthProvider } from '@/domains/auth/types/entity';
-import useUserStore from '@/store/user';
+import { useRouter } from "next/navigation";
+import { useOAuth } from "./useOAuth";
+import { useSignIn } from "./useSignIn";
+import type { OAuthProvider } from "@/domains/auth/types/entity";
+import useUserStore from "@/store/user";
 
 interface AppleUser {
   email: string;
@@ -10,7 +10,7 @@ interface AppleUser {
 }
 
 const getDefaultProfileUrl = (profileUrl?: string) => {
-  const boulderColors = ['blue', 'green', 'yellow', 'red'];
+  const boulderColors = ["blue", "green", "yellow", "red"];
   return (
     profileUrl ??
     `/assets/${boulderColors[Math.floor(Math.random() * 4)]}-boulder.svg`
@@ -34,16 +34,14 @@ export const useAuth = () => {
       code: token,
     });
 
-    const defaultProfileUrl = getDefaultProfileUrl(
-      oauthResult.user.profileUrl
-    );
+    const defaultProfileUrl = getDefaultProfileUrl(oauthResult.user.profileUrl);
 
     if (oauthResult.registered) {
       await signInMutation({
         providerType: oauthResult.user.providerType,
         providerToken: oauthResult.providerToken,
       });
-      router.push('/');
+      router.push("/");
       return;
     }
 
@@ -60,7 +58,7 @@ export const useAuth = () => {
         profileUrl: defaultProfileUrl,
       });
     }
-    router.push('/signUp');
+    router.push("/signUp");
   };
 
   return { signIn };

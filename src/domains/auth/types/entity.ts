@@ -1,4 +1,4 @@
-export type OAuthProvider = 'kakao' | 'apple';
+export type OAuthProvider = "kakao" | "apple";
 
 export interface User {
   memberId: number;

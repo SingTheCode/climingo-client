@@ -1,10 +1,16 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSignUp } from '@/domains/auth/hooks/useSignUp';
-import useUserStore from '@/store/user';
-import type { MemberInfo } from '@/domains/auth/types/entity';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import { useRouter } from "next/navigation";
+import { useSignUp } from "@/domains/auth/hooks/useSignUp";
+import useUserStore from "@/store/user";
+import type { MemberInfo } from "@/domains/auth/types/entity";
 
 interface SignUpContextValue {
   nickname: string;
@@ -19,7 +25,7 @@ const SignUpContext = createContext<SignUpContextValue | null>(null);
 const useSignUpContext = () => {
   const context = useContext(SignUpContext);
   if (!context) {
-    throw new Error('SignUp 컴포넌트 내부에서 사용해야 합니다');
+    throw new Error("SignUp 컴포넌트 내부에서 사용해야 합니다");
   }
   return context;
 };
@@ -29,29 +35,29 @@ export const SignUp = ({ children }: { children: ReactNode }) => {
   const user = useUserStore((state) => state.user) as MemberInfo;
   const { signUp } = useSignUp();
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const handleSubmit = async () => {
-    if (!isValid || nickname === '') {
-      alert('닉네임이 유효하지 않습니다. 다시 입력해주세요.');
-      setNickname('');
+    if (!isValid || nickname === "") {
+      alert("닉네임이 유효하지 않습니다. 다시 입력해주세요.");
+      setNickname("");
       return;
     }
 
     try {
       await signUp({
         nickname,
-        profileUrl: user.profileUrl || '',
-        authId: user.authId || '',
-        email: user.email || '',
-        providerType: user.providerType || 'kakao',
-        providerToken: '',
+        profileUrl: user.profileUrl || "",
+        authId: user.authId || "",
+        email: user.email || "",
+        providerType: user.providerType || "kakao",
+        providerToken: "",
       });
-      router.replace('/');
+      router.replace("/");
     } catch {
-      alert('로그인에 실패했습니다.');
-      router.replace('/signIn');
+      alert("로그인에 실패했습니다.");
+      router.replace("/signIn");
     }
   };
 
@@ -71,7 +77,9 @@ export const SignUp = ({ children }: { children: ReactNode }) => {
 };
 
 const Form = ({ children }: { children: ReactNode }) => {
-  return <div className="w-full flex flex-col items-start pt-[2rem]">{children}</div>;
+  return (
+    <div className="w-full flex flex-col items-start pt-[2rem]">{children}</div>
+  );
 };
 
 SignUp.Form = Form;

@@ -1,4 +1,4 @@
-import type { OAuthProvider } from './entity';
+import type { OAuthProvider } from "./entity";
 
 export interface MemberInfoResponse {
   authId?: string;

@@ -1,8 +1,11 @@
-'use client';
+"use client";
 
-import { createContext, useContext, ReactNode } from 'react';
-import { useRecordList } from '@/domains/record/hooks/useRecordList';
-import type { RecordFilter, RecordMetadata } from '@/domains/record/types/entity';
+import { createContext, useContext, ReactNode } from "react";
+import { useRecordList } from "@/domains/record/hooks/useRecordList";
+import type {
+  RecordFilter,
+  RecordMetadata,
+} from "@/domains/record/types/entity";
 
 // Context 타입 정의
 type RecordListContextType = ReturnType<typeof useRecordList>;
@@ -13,7 +16,7 @@ const RecordListContext = createContext<RecordListContextType | null>(null);
 const useRecordListContext = () => {
   const context = useContext(RecordListContext);
   if (!context) {
-    throw new Error('RecordList 컴포넌트 내부에서만 사용할 수 있습니다.');
+    throw new Error("RecordList 컴포넌트 내부에서만 사용할 수 있습니다.");
   }
   return context;
 };
@@ -26,7 +29,7 @@ interface RecordListProps {
 
 export const RecordList = ({ children, initialFilter }: RecordListProps) => {
   const recordList = useRecordList(initialFilter);
-  
+
   return (
     <RecordListContext.Provider value={recordList}>
       {children}
@@ -75,7 +78,8 @@ interface LoadMoreProps {
 }
 
 function RecordListLoadMore({ children }: LoadMoreProps) {
-  const { hasNextPage, isFetchingNextPage, fetchNextPage } = useRecordListContext();
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useRecordListContext();
   return <>{children({ hasNextPage, isFetchingNextPage, fetchNextPage })}</>;
 }
 

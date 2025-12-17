@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { createContext, useContext, ReactNode } from 'react';
-import { useRecordCreate } from '@/domains/record/hooks/useRecordCreate';
+import { createContext, useContext, ReactNode } from "react";
+import { useRecordCreate } from "@/domains/record/hooks/useRecordCreate";
 
 // Context 타입 정의
 type RecordFormContextType = ReturnType<typeof useRecordCreate>;
@@ -12,7 +12,7 @@ const RecordFormContext = createContext<RecordFormContextType | null>(null);
 const useRecordFormContext = () => {
   const context = useContext(RecordFormContext);
   if (!context) {
-    throw new Error('RecordForm 컴포넌트 내부에서만 사용할 수 있습니다.');
+    throw new Error("RecordForm 컴포넌트 내부에서만 사용할 수 있습니다.");
   }
   return context;
 };
@@ -24,7 +24,7 @@ interface RecordFormProps {
 
 export const RecordForm = ({ children }: RecordFormProps) => {
   const recordForm = useRecordCreate();
-  
+
   return (
     <RecordFormContext.Provider value={recordForm}>
       {children}
@@ -43,13 +43,18 @@ interface VideoUploadProps {
 }
 
 function RecordFormVideoUpload({ children }: VideoUploadProps) {
-  const { videoFile, handleVideoSelect, uploadProgress, isUploading } = useRecordFormContext();
-  return <>{children({
-    videoFile,
-    handleVideoSelect,
-    uploadProgress,
-    isUploading,
-  })}</>;
+  const { videoFile, handleVideoSelect, uploadProgress, isUploading } =
+    useRecordFormContext();
+  return (
+    <>
+      {children({
+        videoFile,
+        handleVideoSelect,
+        uploadProgress,
+        isUploading,
+      })}
+    </>
+  );
 }
 
 RecordForm.VideoUpload = RecordFormVideoUpload;
@@ -67,11 +72,11 @@ function RecordFormPlaceSelect({ children }: PlaceSelectProps) {
   const onGymSelect = (_gymId: number) => {
     // 상위 컴포넌트에서 처리
   };
-  
+
   const onLevelSelect = (_levelId: number) => {
     // 상위 컴포넌트에서 처리
   };
-  
+
   return <>{children({ onGymSelect, onLevelSelect })}</>;
 }
 
@@ -94,14 +99,19 @@ interface SubmitProps {
 }
 
 function RecordFormSubmit({ children }: SubmitProps) {
-  const { handleSubmit, isUploading, isSuccess, error, resetForm } = useRecordFormContext();
-  return <>{children({
-    handleSubmit,
-    isUploading,
-    isSuccess,
-    error,
-    resetForm,
-  })}</>;
+  const { handleSubmit, isUploading, isSuccess, error, resetForm } =
+    useRecordFormContext();
+  return (
+    <>
+      {children({
+        handleSubmit,
+        isUploading,
+        isSuccess,
+        error,
+        resetForm,
+      })}
+    </>
+  );
 }
 
 RecordForm.Submit = RecordFormSubmit;

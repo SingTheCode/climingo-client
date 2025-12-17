@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { authApi } from '@/domains/auth/api/authApi';
-import type { SignInRequest } from '@/domains/auth/types/entity';
-import useUserStore from '@/store/user';
+import { useMutation } from "@tanstack/react-query";
+import { authApi } from "@/domains/auth/api/authApi";
+import type { SignInRequest } from "@/domains/auth/types/entity";
+import useUserStore from "@/store/user";
 
 export const useSignIn = () => {
   const setUser = useUserStore((state) => state.setUser);

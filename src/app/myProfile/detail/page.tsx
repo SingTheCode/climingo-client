@@ -5,14 +5,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { EditProfile } from "@/domains/profile/components/EditProfile";
 import { AsyncBoundary } from "@/lib/async";
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
-import Avatar from "@/components/common/Avatar";
-import LayerPopup from "@/components/common/LayerPopup";
+import Layout from "@/components/Layout";
+import NavigationHeader from "@/components/NavigationHeader";
+import Avatar from "@/components/Avatar";
+import LayerPopup from "@/components/popup/LayerPopup";
 import { useGetMyProfileQuery } from "@/domains/profile/hooks/useGetMyProfileQuery";
 import { authApi } from "@/domains/auth/api/authApi";
 import useUserStore from "@/store/user";
-import type { OAuthProvider } from '@/domains/auth/types/entity';
+import type { OAuthProvider } from "@/domains/auth/types/entity";
 
 function MyProfileDetailContent() {
   const { data } = useGetMyProfileQuery();
@@ -24,7 +24,12 @@ function MyProfileDetailContent() {
     <section className="flex flex-col gap-[2rem] py-[2rem]">
       <section className="flex flex-col items-center gap-[1.5rem]">
         {data.profileUrl && (
-          <Avatar size="lg" alt="profile-avatar" src={data.profileUrl} priority />
+          <Avatar
+            size="lg"
+            alt="profile-avatar"
+            src={data.profileUrl}
+            priority
+          />
         )}
 
         <div className="flex gap-[0.2rem] relative -right-[0.5rem]">
@@ -122,7 +127,10 @@ function DetailMemberInfo({ oAuth }: DetailMemberInfoProps) {
         </button>
       </section>
 
-      <LayerPopup open={deleteAccountOpen} onClose={() => setDeleteAccountOpen(false)}>
+      <LayerPopup
+        open={deleteAccountOpen}
+        onClose={() => setDeleteAccountOpen(false)}
+      >
         <div className="flex flex-col gap-[2rem] p-[2rem]">
           <h2 className="text-xl font-bold">정말 탈퇴하시겠습니까?</h2>
           <p className="text-gray-600">

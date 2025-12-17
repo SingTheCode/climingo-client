@@ -1,4 +1,4 @@
-import { Level } from '@/domains/place/types/entity';
+import { Level } from "@/domains/place/types/entity";
 
 export default function LevelIcon({ color }: { color: Level["colorNameEn"] }) {
   const level = `bg-level-${color}`;

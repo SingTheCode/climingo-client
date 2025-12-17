@@ -19,18 +19,18 @@ export interface Gym {
 }
 
 export type LevelColor =
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'blue'
-  | 'navy'
-  | 'purple'
-  | 'pink'
-  | 'brown'
-  | 'grey'
-  | 'white'
-  | 'black';
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "navy"
+  | "purple"
+  | "pink"
+  | "brown"
+  | "grey"
+  | "white"
+  | "black";
 
 export interface Level {
   levelId: number;

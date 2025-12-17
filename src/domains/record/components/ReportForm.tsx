@@ -9,7 +9,7 @@ import {
   RadioGroup,
 } from "@headlessui/react";
 
-import type { RecordReportApiRequest } from '@/domains/record/types/entity';
+import type { RecordReportApiRequest } from "@/domains/record/types/entity";
 
 import { recordApi } from "@/domains/record/api/recordApi";
 import BottomActionButton from "@/components/common/BottomActionButton";
@@ -38,7 +38,10 @@ const ReportForm = ({
     ) as unknown as RecordReportApiRequest;
 
     try {
-      await recordApi.reportRecord(Number(recordId), Number(reportData.reasonCode));
+      await recordApi.reportRecord(
+        Number(recordId),
+        Number(reportData.reasonCode)
+      );
       onSubmitSuccess?.();
     } catch {
       onSubmitError?.();

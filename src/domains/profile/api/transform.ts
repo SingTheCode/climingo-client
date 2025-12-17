@@ -1,14 +1,17 @@
-import type { MyProfileResponse, MyRecordListResponse } from '@/domains/profile/types/response';
-import type { Profile, MyRecordList } from '@/domains/profile/types/entity';
+import type {
+  MyProfileResponse,
+  MyRecordListResponse,
+} from "@/domains/profile/types/response";
+import type { Profile, MyRecordList } from "@/domains/profile/types/entity";
 
 export const transformMyProfileResponseToEntity = (
   response: MyProfileResponse
 ): Profile => ({
   memberId: response.memberId,
-  nickname: response.nickname ?? '익명',
-  providerType: response.providerType ?? 'kakao',
-  profileUrl: response.profileUrl ?? '',
-  email: response.email ?? '',
+  nickname: response.nickname ?? "익명",
+  providerType: response.providerType ?? "kakao",
+  profileUrl: response.profileUrl ?? "",
+  email: response.email ?? "",
 });
 
 export const transformMyRecordListResponseToEntity = (

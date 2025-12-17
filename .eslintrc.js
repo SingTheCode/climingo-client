@@ -25,61 +25,17 @@ module.exports = {
   },
   overrides: [
     {
-      // domains/record 폴더 내에서 다른 도메인의 hooks, components, api import 금지
-      files: ["src/domains/record/**/*"],
-      excludedFiles: ["src/domains/record/types/**/*"],
-      rules: {
-        "no-restricted-imports": [
-          "error",
-          {
-            patterns: [
-              {
-                group: [
-                  "@/domains/auth/hooks/**",
-                  "@/domains/auth/components/**",
-                  "@/domains/auth/api/**",
-                  "@/domains/profile/hooks/**",
-                  "@/domains/profile/components/**",
-                  "@/domains/profile/api/**",
-                  "@/domains/place/hooks/**",
-                  "@/domains/place/components/**",
-                  "@/domains/place/api/**",
-                  "@/domains/jjikboul/hooks/**",
-                  "@/domains/jjikboul/components/**",
-                  "@/domains/jjikboul/api/**",
-                ],
-                message: "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types만 참조하세요.",
-              },
-            ],
-          },
-        ],
-      },
-    },
-    {
-      // domains/auth 폴더 내에서 다른 도메인의 hooks, components, api import 금지
+      // auth 도메인: 다른 도메인 참조 금지 (같은 도메인 내부는 허용)
       files: ["src/domains/auth/**/*"],
-      excludedFiles: ["src/domains/auth/types/**/*"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
             patterns: [
               {
-                group: [
-                  "@/domains/record/hooks/**",
-                  "@/domains/record/components/**",
-                  "@/domains/record/api/**",
-                  "@/domains/profile/hooks/**",
-                  "@/domains/profile/components/**",
-                  "@/domains/profile/api/**",
-                  "@/domains/place/hooks/**",
-                  "@/domains/place/components/**",
-                  "@/domains/place/api/**",
-                  "@/domains/jjikboul/hooks/**",
-                  "@/domains/jjikboul/components/**",
-                  "@/domains/jjikboul/api/**",
-                ],
-                message: "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types만 참조하세요.",
+                group: ["@/domains/!(auth)/**"],
+                message:
+                  "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types(@/types)만 참조하세요.",
               },
             ],
           },
@@ -87,30 +43,35 @@ module.exports = {
       },
     },
     {
-      // domains/profile 폴더 내에서 다른 도메인의 hooks, components, api import 금지
+      // record 도메인: 다른 도메인 참조 금지
+      files: ["src/domains/record/**/*"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                group: ["@/domains/!(record)/**"],
+                message:
+                  "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types(@/types)만 참조하세요.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // profile 도메인: 다른 도메인 참조 금지
       files: ["src/domains/profile/**/*"],
-      excludedFiles: ["src/domains/profile/types/**/*"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
             patterns: [
               {
-                group: [
-                  "@/domains/auth/hooks/**",
-                  "@/domains/auth/components/**",
-                  "@/domains/auth/api/**",
-                  "@/domains/record/hooks/**",
-                  "@/domains/record/components/**",
-                  "@/domains/record/api/**",
-                  "@/domains/place/hooks/**",
-                  "@/domains/place/components/**",
-                  "@/domains/place/api/**",
-                  "@/domains/jjikboul/hooks/**",
-                  "@/domains/jjikboul/components/**",
-                  "@/domains/jjikboul/api/**",
-                ],
-                message: "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types만 참조하세요.",
+                group: ["@/domains/!(profile)/**"],
+                message:
+                  "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types(@/types)만 참조하세요.",
               },
             ],
           },
@@ -118,30 +79,17 @@ module.exports = {
       },
     },
     {
-      // domains/place 폴더 내에서 다른 도메인의 hooks, components, api import 금지
+      // place 도메인: 다른 도메인 참조 금지
       files: ["src/domains/place/**/*"],
-      excludedFiles: ["src/domains/place/types/**/*"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
             patterns: [
               {
-                group: [
-                  "@/domains/auth/hooks/**",
-                  "@/domains/auth/components/**",
-                  "@/domains/auth/api/**",
-                  "@/domains/record/hooks/**",
-                  "@/domains/record/components/**",
-                  "@/domains/record/api/**",
-                  "@/domains/profile/hooks/**",
-                  "@/domains/profile/components/**",
-                  "@/domains/profile/api/**",
-                  "@/domains/jjikboul/hooks/**",
-                  "@/domains/jjikboul/components/**",
-                  "@/domains/jjikboul/api/**",
-                ],
-                message: "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types만 참조하세요.",
+                group: ["@/domains/!(place)/**"],
+                message:
+                  "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types(@/types)만 참조하세요.",
               },
             ],
           },
@@ -149,30 +97,35 @@ module.exports = {
       },
     },
     {
-      // domains/jjikboul 폴더 내에서 다른 도메인의 hooks, components, api import 금지
+      // jjikboul 도메인: 다른 도메인 참조 금지
       files: ["src/domains/jjikboul/**/*"],
-      excludedFiles: ["src/domains/jjikboul/types/**/*"],
       rules: {
         "no-restricted-imports": [
           "error",
           {
             patterns: [
               {
-                group: [
-                  "@/domains/auth/hooks/**",
-                  "@/domains/auth/components/**",
-                  "@/domains/auth/api/**",
-                  "@/domains/record/hooks/**",
-                  "@/domains/record/components/**",
-                  "@/domains/record/api/**",
-                  "@/domains/profile/hooks/**",
-                  "@/domains/profile/components/**",
-                  "@/domains/profile/api/**",
-                  "@/domains/place/hooks/**",
-                  "@/domains/place/components/**",
-                  "@/domains/place/api/**",
-                ],
-                message: "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types만 참조하세요.",
+                group: ["@/domains/!(jjikboul)/**"],
+                message:
+                  "도메인 간 직접 참조 금지. 페이지에서 조립하거나 공통 types(@/types)만 참조하세요.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // components, hooks 폴더에서 도메인 import 금지
+      files: ["src/components/**/*", "src/hooks/**/*"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                group: ["@/domains/**"],
+                message:
+                  "공통 컴포넌트/훅에서 도메인 참조 금지. types, utils만 참조 가능합니다.",
               },
             ],
           },

@@ -1,6 +1,6 @@
-import type { OAuthProvider } from '@/domains/auth/types/entity';
-import type { RecordMetadata } from '@/domains/record/types/entity';
-import type { Pagination } from '@/types/common';
+import type { OAuthProvider } from "@/domains/auth/types/entity";
+import type { RecordMetadata } from "@/domains/record/types/entity";
+import type { Pagination } from "@/types/common";
 
 export interface MyProfileResponse {
   memberId: number;

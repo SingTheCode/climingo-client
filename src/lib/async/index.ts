@@ -1,1 +1,1 @@
-export { AsyncBoundary } from '@toss/async-boundary';
+export { AsyncBoundary } from "@toss/async-boundary";

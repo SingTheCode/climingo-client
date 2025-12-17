@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { MyProfile } from "@/domains/profile/components/MyProfile";
 import { AsyncBoundary } from "@/lib/async";
-import Layout from "@/components/common/Layout";
-import NavigationHeader from "@/components/common/NavigationHeader";
+import Layout from "@/components/Layout";
+import NavigationHeader from "@/components/NavigationHeader";
 import RecordItem, {
   RecordItemContainer,
   RecordItemSkeleton,

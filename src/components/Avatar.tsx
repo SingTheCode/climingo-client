@@ -1,6 +1,6 @@
 import Image, { ImageProps } from "next/image";
 
-interface AvatarProps extends Omit<ImageProps, 'width' | 'height'> {
+interface AvatarProps extends Omit<ImageProps, "width" | "height"> {
   size: "xs" | "sm" | "base" | "lg" | "xl";
 }
 

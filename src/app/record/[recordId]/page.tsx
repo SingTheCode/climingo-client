@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import Image from 'next/image';
-import { RecordDetail } from '@/domains/record/components/RecordDetail';
-import { useRecordActions } from '@/domains/record/hooks/useRecordActions';
-import { AsyncBoundary } from '@/lib/async';
-import Layout from '@/components/Layout';
-import NavigationHeader from '@/components/NavigationHeader';
-import Avatar from '@/components/Avatar';
-import LevelIcon from '@/domains/place/components/LevelIcon';
-import LayerPopup from '@/components/popup/LayerPopup';
-import ReportForm from '@/domains/record/components/ReportForm';
-import Loading from '@/components/Loading';
-import useUserStore from '@/store/user';
-import { fromNowFormat } from '@/utils/common';
-import type { LevelColor } from '@/domains/place/types/entity';
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import Image from "next/image";
+import { RecordDetail } from "@/domains/record/components/RecordDetail";
+import { useRecordActions } from "@/domains/record/hooks/useRecordActions";
+import { AsyncBoundary } from "@/lib/async";
+import Layout from "@/components/Layout";
+import NavigationHeader from "@/components/NavigationHeader";
+import Avatar from "@/components/Avatar";
+import LevelIcon from "@/domains/place/components/LevelIcon";
+import LayerPopup from "@/components/popup/LayerPopup";
+import ReportForm from "@/domains/record/components/ReportForm";
+import Loading from "@/components/Loading";
+import useUserStore from "@/store/user";
+import { fromNowFormat } from "@/utils/common";
+import type { LevelColor } from "@/domains/place/types/entity";
 
 function RecordDetailContent() {
   const params = useParams();
@@ -27,7 +27,9 @@ function RecordDetailContent() {
       <RecordDetail.Actions>
         {({ recordId, memberId }) => (
           <NavigationHeader
-            rightElement={<RecordActionMenu recordId={recordId} memberId={memberId} />}
+            rightElement={
+              <RecordActionMenu recordId={recordId} memberId={memberId} />
+            }
           />
         )}
       </RecordDetail.Actions>
@@ -69,10 +71,10 @@ function RecordActionMenu({
   const showMenuButton = isDeletable || user;
 
   const handleDeleteButtonClick = async () => {
-    if (confirm('정말 기록을 삭제할까요?')) {
+    if (confirm("정말 기록을 삭제할까요?")) {
       deleteRecord(recordId);
-      alert('기록이 삭제되었습니다.');
-      router.push('/');
+      alert("기록이 삭제되었습니다.");
+      router.push("/");
     }
   };
 
@@ -116,9 +118,9 @@ function RecordActionMenu({
       </Menu>
 
       <LayerPopup open={isReportOpen} onClose={() => setIsReportOpen(false)}>
-        <ReportForm 
-          recordId={String(recordId)} 
-          onSubmitSuccess={() => setIsReportOpen(false)} 
+        <ReportForm
+          recordId={String(recordId)}
+          onSubmitSuccess={() => setIsReportOpen(false)}
         />
       </LayerPopup>
     </>
@@ -134,9 +136,13 @@ function UserTemplate({
 }) {
   return (
     <div className="flex items-center gap-3 p-4">
-      <Avatar src={memberInfo?.profileImageUrl || ''} size="lg" alt={memberInfo?.nickname || '익명'} />
+      <Avatar
+        src={memberInfo?.profileImageUrl || ""}
+        size="lg"
+        alt={memberInfo?.nickname || "익명"}
+      />
       <div>
-        <p className="font-semibold">{memberInfo?.nickname || '익명'}</p>
+        <p className="font-semibold">{memberInfo?.nickname || "익명"}</p>
         <p className="text-sm text-gray-500">{fromNowFormat(createTime)}</p>
       </div>
     </div>

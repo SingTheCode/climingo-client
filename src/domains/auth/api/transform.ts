@@ -3,18 +3,18 @@ import type {
   OAuthResponse,
   SignInResponse,
   SignUpResponse,
-} from '@/domains/auth/types/response';
-import type { User, OAuthResult } from '@/domains/auth/types/entity';
+} from "@/domains/auth/types/response";
+import type { User, OAuthResult } from "@/domains/auth/types/entity";
 
 export const transformMemberInfoToUser = (
   response: MemberInfoResponse
 ): User => ({
   memberId: response.memberId,
-  nickname: response.nickname ?? '익명',
-  profileUrl: response.profileUrl ?? '',
-  email: response.email ?? '',
-  authId: response.authId ?? '',
-  providerType: response.providerType ?? 'kakao',
+  nickname: response.nickname ?? "익명",
+  profileUrl: response.profileUrl ?? "",
+  email: response.email ?? "",
+  authId: response.authId ?? "",
+  providerType: response.providerType ?? "kakao",
 });
 
 export const transformOAuthResponseToEntity = (
@@ -29,20 +29,20 @@ export const transformSignInResponseToUser = (
   response: SignInResponse
 ): User => ({
   memberId: response.memberId ?? 0,
-  nickname: response.nickname ?? '익명',
-  profileUrl: response.profileUrl ?? '',
-  email: response.email ?? '',
-  authId: response.authId ?? '',
-  providerType: response.providerType ?? 'kakao',
+  nickname: response.nickname ?? "익명",
+  profileUrl: response.profileUrl ?? "",
+  email: response.email ?? "",
+  authId: response.authId ?? "",
+  providerType: response.providerType ?? "kakao",
 });
 
 export const transformSignUpResponseToUser = (
   response: SignUpResponse
 ): User => ({
   memberId: response.memberId ?? 0,
-  nickname: response.nickname ?? '익명',
-  profileUrl: response.profileUrl ?? '',
-  email: response.email ?? '',
-  authId: response.authId ?? '',
-  providerType: response.providerType ?? 'kakao',
+  nickname: response.nickname ?? "익명",
+  profileUrl: response.profileUrl ?? "",
+  email: response.email ?? "",
+  authId: response.authId ?? "",
+  providerType: response.providerType ?? "kakao",
 });

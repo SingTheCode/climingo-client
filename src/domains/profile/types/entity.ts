@@ -1,5 +1,5 @@
-import type { OAuthProvider, MemberInfo } from '@/domains/auth/types/entity';
-import type { RecordMetadata } from '@/domains/record/types/entity';
+import type { OAuthProvider, MemberInfo } from "@/domains/auth/types/entity";
+import type { RecordMetadata } from "@/domains/record/types/entity";
 
 export interface Profile {
   memberId: number;
@@ -11,7 +11,10 @@ export interface Profile {
 
 // types/auth.ts에서 이동
 export type MyProfileApiResponse = Required<
-  Pick<MemberInfo, 'memberId' | 'nickname' | 'providerType' | 'profileUrl' | 'email'>
+  Pick<
+    MemberInfo,
+    "memberId" | "nickname" | "providerType" | "profileUrl" | "email"
+  >
 >;
 
 export interface EditNicknameRequest {

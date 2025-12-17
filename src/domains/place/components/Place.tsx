@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useDebounce } from "@/hooks/common";
 import { placeApi } from "@/domains/place/api/placeApi";
-import { ClimbingPlace } from '@/domains/place/types/entity';
+import { ClimbingPlace } from "@/domains/place/types/entity";
 
 import SearchedPlace from "@/domains/place/components/SearchedPlace";
 import InputText from "@/components/common/InputText";

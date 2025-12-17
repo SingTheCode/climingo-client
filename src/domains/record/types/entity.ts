@@ -1,6 +1,6 @@
 // Record Entity 타입 정의 (기존 types/record.ts와 호환)
 
-import { Gym, Level } from '@/domains/place/types/entity';
+import { Gym, Level } from "@/domains/place/types/entity";
 
 export interface Record {
   recordId: number;

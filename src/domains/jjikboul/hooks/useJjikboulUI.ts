@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 
 export const useJjikboulUI = () => {
   const copyToClipboard = useCallback(async (text: string) => {
@@ -10,7 +10,7 @@ export const useJjikboulUI = () => {
   }, []);
 
   const isShareAvailable = useCallback(() => {
-    return typeof navigator !== 'undefined' && 'share' in navigator;
+    return typeof navigator !== "undefined" && "share" in navigator;
   }, []);
 
   return {

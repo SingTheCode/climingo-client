@@ -12,7 +12,6 @@ inclusion: always
 |--------|------|-----------|
 | `_steering-guide.md` | 메타 가이드 | steering 폴더 관리 규칙 |
 | `architecture.md` | 아키텍처 규칙 | Headless Compound 패턴, 도메인 주도 구조 |
-| `code-style.md` | 코드 스타일 | 중괄호 사용, 포맷팅 규칙 |
 | `development-guide.md` | 개발 가이드 | 코드 리뷰, 디버깅, TDD 워크플로우 |
 | `testing.md` | 테스트 규칙 | TDD 사이클, 테스트 작성 규칙 |
 | `git-conventions.md` | Git 컨벤션 | 커밋 메시지, 브랜치 명명 규칙 |
@@ -34,7 +33,6 @@ inclusion: always
 | 보안, 인증, 권한, XSS, CSRF | `security.md` |
 | 코드 리뷰, 디버깅, 개발 프로세스, 워크플로우 | `development-guide.md` |
 | 답변 형식, 커뮤니케이션, AI 응답, TODO 형식 | `response-format.md` |
-| 중괄호, 포맷팅, 코드 스타일 | `code-style.md` |
 | 브랜치 간 코드리뷰, 변경사항 확인 | `code-review.md` |
 
 ### 2. 파일 업데이트 기준

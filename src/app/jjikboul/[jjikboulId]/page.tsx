@@ -5,10 +5,10 @@ import Image from "next/image";
 import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
 import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
 import { AsyncBoundary } from "@/lib/async";
-import useImageDownload from '@/domains/jjikboul/hooks/useImageDownload';
-import useAppScheme from '@/domains/jjikboul/hooks/useAppScheme';
-import Loading from "@/components/common/Loading";
-import Avatar from "@/components/common/Avatar";
+import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
+import useAppScheme from "@/domains/jjikboul/hooks/useAppScheme";
+import Loading from "@/components/Loading";
+import Avatar from "@/components/Avatar";
 import { useGetJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useGetJjikboulDetailQuery";
 
 function JjikboulDetailContent() {
