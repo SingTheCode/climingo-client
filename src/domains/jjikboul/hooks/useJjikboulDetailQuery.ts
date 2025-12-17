@@ -1,13 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { jjikboulApi } from "@/domains/jjikboul/api/jjikboulApi";
 
-export const useJjikboulDetail = (id: string) => {
-  const { data: jjikboulDetail } = useSuspenseQuery({
-    queryKey: ["jjikboul", id],
-    queryFn: () => jjikboulApi.getJjikboulDetail(id),
+export const useJjikboulDetailQuery = (jjikboulId: string) => {
+  return useSuspenseQuery({
+    queryKey: ["jjikboul", jjikboulId],
+    queryFn: () => jjikboulApi.getJjikboulDetail(jjikboulId),
   });
-
-  return {
-    jjikboulDetail,
-  };
 };

@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { useSignUp } from "@/domains/auth/hooks/useSignUp";
+import { useSignUp } from "@/domains/auth/hooks/useSignUpMutation";
 import useUserStore from "@/store/user";
 import type { MemberInfo } from "@/domains/auth/types/entity";
 

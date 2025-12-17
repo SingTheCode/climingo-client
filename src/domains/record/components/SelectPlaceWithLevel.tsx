@@ -5,7 +5,7 @@ import { MouseEventHandler, memo, useRef, useState } from "react";
 
 import { ClimbingPlace } from "@/domains/place/types/entity";
 import { Level } from "@/domains/place/types/entity";
-import { useGetLevelsQuery } from "@/domains/place/hooks/useGetLevelsQuery";
+import { useLevelListQuery } from "@/domains/place/hooks/useLevelListQuery";
 
 import LayerPopup from "@/components/popup/LayerPopup";
 import SearchPlace from "@/domains/place/components/Place";
@@ -105,7 +105,7 @@ const LevelSelector = ({
   placeId?: number;
   onChange?: (level: Level) => void;
 }) => {
-  const { data, isSuccess } = useGetLevelsQuery(placeId);
+  const { data, isSuccess } = useLevelListQuery(placeId);
 
   if (!placeId) {
     return <Placeholder text="암장을 먼저 선택해주세요" />;

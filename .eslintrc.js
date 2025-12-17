@@ -6,8 +6,20 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier",
   ],
-  plugins: ["prettier"],
+  plugins: ["prettier", "import"],
   rules: {
+    // 절대경로(@/) 강제 사용
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["../*", "./*"],
+            message: "상대경로 사용 금지. 절대경로(@/)를 사용하세요.",
+          },
+        ],
+      },
+    ],
     // typescript-eslint rule을 정의하기 위해 기존 규칙 off
     "no-unused-vars": "off",
     // 사용하지 않은 변수(인자)가 있으면 에러, _로 시작하는 변수(인자)는 무시

@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { placeApi } from "@/domains/place/api/placeApi";
 
-export const useGetLevelsQuery = (gymId?: number) => {
-  return useQuery({
+export const useLevelListQuery = (gymId: number) => {
+  return useSuspenseQuery({
     queryKey: ["gym", gymId, "levels"],
-    queryFn: () => placeApi.getLevels(gymId!),
-    enabled: !!gymId,
+    queryFn: () => placeApi.getLevels(gymId),
   });
 };

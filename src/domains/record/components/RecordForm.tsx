@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useRecordCreate } from "@/domains/record/hooks/useRecordCreate";
+import { useRecordCreate } from "@/domains/record/hooks/useRecordCreateMutation";
 
 // Context 타입 정의
 type RecordFormContextType = ReturnType<typeof useRecordCreate>;

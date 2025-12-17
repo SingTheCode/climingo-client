@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import { useJjikboulDetail } from "@/domains/jjikboul/hooks/useJjikboulDetail";
+import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
 import type { JjikboulDetail as JjikboulDetailType } from "@/domains/jjikboul/types/entity";
 import Image from "next/image";
 
@@ -27,7 +27,7 @@ interface JjikboulDetailProps {
 }
 
 export const JjikboulDetail = ({ id, children }: JjikboulDetailProps) => {
-  const { jjikboulDetail } = useJjikboulDetail(id);
+  const { data: jjikboulDetail } = useJjikboulDetailQuery(id);
 
   return (
     <JjikboulDetailContext.Provider value={{ jjikboulDetail }}>

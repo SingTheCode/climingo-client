@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import { useMyProfile } from "@/domains/profile/hooks/useMyProfile";
+import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
 import type { Profile } from "@/domains/profile/types/entity";
 import Image from "next/image";
 
@@ -20,7 +20,7 @@ const useMyProfileContext = () => {
 };
 
 export const MyProfile = ({ children }: { children: ReactNode }) => {
-  const { profile } = useMyProfile();
+  const { data: profile } = useMyProfileQuery();
 
   return (
     <MyProfileContext.Provider value={{ profile }}>

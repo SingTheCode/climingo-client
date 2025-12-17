@@ -1,1 +1,1 @@
-export { AsyncBoundary } from "./async";
+export { AsyncBoundary } from "@/lib/async";

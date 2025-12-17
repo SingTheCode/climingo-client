@@ -9,12 +9,12 @@ import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
 import useAppScheme from "@/domains/jjikboul/hooks/useAppScheme";
 import Loading from "@/components/Loading";
 import Avatar from "@/components/Avatar";
-import { useGetJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useGetJjikboulDetailQuery";
+import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
 
 function JjikboulDetailContent() {
   const params = useParams();
   const jjikboulId = params?.jjikboulId as string;
-  const { data } = useGetJjikboulDetailQuery(jjikboulId);
+  const { data } = useJjikboulDetailQuery(jjikboulId);
 
   const { getShareUrl, validateJjikboulData } = useJjikboul();
   const { copyToClipboard } = useJjikboulUI();

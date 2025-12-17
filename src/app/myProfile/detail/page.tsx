@@ -9,13 +9,13 @@ import Layout from "@/components/Layout";
 import NavigationHeader from "@/components/NavigationHeader";
 import Avatar from "@/components/Avatar";
 import LayerPopup from "@/components/popup/LayerPopup";
-import { useGetMyProfileQuery } from "@/domains/profile/hooks/useGetMyProfileQuery";
+import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
 import { authApi } from "@/domains/auth/api/authApi";
 import useUserStore from "@/store/user";
 import type { OAuthProvider } from "@/domains/auth/types/entity";
 
 function MyProfileDetailContent() {
-  const { data } = useGetMyProfileQuery();
+  const { data } = useMyProfileQuery();
   const [editOpen, setEditOpen] = useState(false);
 
   if (!data) return null;

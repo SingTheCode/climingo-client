@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useRecordList } from "@/domains/record/hooks/useRecordList";
+import { useRecordList } from "@/domains/record/hooks/useRecordListQuery";
 import type {
   RecordFilter,
   RecordMetadata,
