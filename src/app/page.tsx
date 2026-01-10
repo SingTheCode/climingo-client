@@ -2,6 +2,7 @@
 
 import { Transition } from "@headlessui/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState, useCallback, useMemo } from "react";
 
 import { AsyncBoundary } from "@/lib/async";
@@ -20,11 +21,61 @@ import RecordItem, {
 } from "@/domains/record/components/RecordItem";
 import { RecordList } from "@/domains/record/components/RecordList";
 
+export default function Home() {
+  return (
+    <Layout containHeader>
+      <HomeHeader />
+      <AsyncBoundary
+        pendingFallback={
+          <section className="w-full pt-[1.6rem]">
+            <ul className="grid grid-cols-2 w-full gap-[1rem] sm:max-w-[48rem] mx-auto">
+              <RecordItemSkeleton />
+              <RecordItemSkeleton />
+              <RecordItemSkeleton />
+              <RecordItemSkeleton />
+              <RecordItemSkeleton />
+              <RecordItemSkeleton />
+            </ul>
+            <div className="h-[1rem]"></div>
+          </section>
+        }
+        rejectedFallback={() => (
+          <div className="p-4 text-center text-red-500">
+            기록을 불러오는 중 오류가 발생했습니다.
+          </div>
+        )}
+      >
+        <RecordListContent />
+      </AsyncBoundary>
+      <FloatingActionMenu />
+    </Layout>
+  );
+}
+
 function HomeHeader() {
   return (
-    <header className="flex items-center justify-between px-4 py-3">
-      <h1 className="text-xl font-bold">클라이밍 기록</h1>
-    </header>
+    <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-navigation overflow-y-hidden bg-white">
+      <div className="px-[2rem]">
+        <Link href="/">
+          <Image
+            alt="클라밍고"
+            width={100}
+            height={24}
+            src="/assets/main-logo.svg"
+          />
+        </Link>
+      </div>
+      <div className="flex py-[0.2rem] pr-[2rem]">
+        <Link href="/profile">
+          <Image
+            alt="프로필"
+            width={28}
+            height={28}
+            src="/assets/profile.svg"
+          />
+        </Link>
+      </div>
+    </nav>
   );
 }
 
@@ -56,37 +107,40 @@ function RecordListContent() {
         )}
       </RecordList.Filter>
 
-      <RecordList.Items>
-        {({ records, totalElements }) => (
-          <>
-            {totalElements === 0 ? (
-              <EmptyRecordItem />
-            ) : (
-              <RecordItemContainer>
-                {records.map((record) => (
-                  <RecordItem
-                    key={record.record.recordId}
-                    record={record.record}
-                    gym={record.gym}
-                    level={record.level}
-                    memberInfo={record.memberInfo ?? null}
-                  />
-                ))}
-              </RecordItemContainer>
-            )}
-          </>
-        )}
-      </RecordList.Items>
+      <section className="w-full pt-[1.6rem]">
+        <RecordList.Items>
+          {({ records, totalElements }) => (
+            <>
+              {totalElements === 0 ? (
+                <EmptyRecordItem />
+              ) : (
+                <RecordItemContainer>
+                  {records.map((record) => (
+                    <RecordItem
+                      key={record.record.recordId}
+                      record={record.record}
+                      gym={record.gym}
+                      level={record.level}
+                      memberInfo={record.memberInfo ?? null}
+                    />
+                  ))}
+                </RecordItemContainer>
+              )}
+            </>
+          )}
+        </RecordList.Items>
 
-      <RecordList.LoadMore>
-        {({ hasNextPage, isFetchingNextPage, fetchNextPage }) => (
-          <LoadMoreTrigger
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            fetchNextPage={fetchNextPage}
-          />
-        )}
-      </RecordList.LoadMore>
+        <RecordList.LoadMore>
+          {({ hasNextPage, isFetchingNextPage, fetchNextPage }) => (
+            <LoadMoreTrigger
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
+            />
+          )}
+        </RecordList.LoadMore>
+        <div className="h-[1rem]"></div>
+      </section>
     </RecordList>
   );
 }
@@ -247,28 +301,5 @@ function FloatingActionMenuItems({ menuOptions, isOpen }: MenuItemsProps) {
         </Transition>
       ))}
     </>
-  );
-}
-
-export default function Home() {
-  return (
-    <Layout containHeader>
-      <HomeHeader />
-      <AsyncBoundary
-        pendingFallback={
-          <div className="p-4">
-            <RecordItemSkeleton />
-          </div>
-        }
-        rejectedFallback={() => (
-          <div className="p-4 text-center text-red-500">
-            기록을 불러오는 중 오류가 발생했습니다.
-          </div>
-        )}
-      >
-        <RecordListContent />
-      </AsyncBoundary>
-      <FloatingActionMenu />
-    </Layout>
   );
 }
