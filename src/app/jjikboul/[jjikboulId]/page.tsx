@@ -5,143 +5,75 @@ import { useParams } from "next/navigation";
 
 import { AsyncBoundary } from "@/lib/async";
 
-import useAppScheme from "@/domains/jjikboul/hooks/useAppScheme";
-import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
-import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
-import { useJjikboulDetailQuery } from "@/domains/jjikboul/hooks/useJjikboulDetailQuery";
-import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
-
-import Avatar from "@/components/Avatar";
 import Loading from "@/components/Loading";
+
+import { JjikboulDetail } from "@/domains/jjikboul/components/JjikboulDetail";
 
 function JjikboulDetailContent() {
   const params = useParams();
   const jjikboulId = params?.jjikboulId as string;
-  const { data } = useJjikboulDetailQuery(jjikboulId);
-
-  const { getShareUrl, validateJjikboulData } = useJjikboul();
-  const { copyToClipboard } = useJjikboulUI();
-  const { share, isNativeShareAvailable } = useAppScheme();
-  const { downloadImage } = useImageDownload();
-
-  const handleShareClick = async () => {
-    if (data) {
-      const isValid = validateJjikboulData(data);
-
-      if (isValid) {
-        const url = getShareUrl();
-
-        if (isNativeShareAvailable()) {
-          share({
-            url,
-            title: "찍볼 공유",
-            text: "찍볼을 확인해보세요!",
-          });
-        } else {
-          try {
-            await copyToClipboard(url);
-            alert("링크가 클립보드에 복사되었습니다.");
-          } catch (error) {
-            console.error("공유 링크 복사 에러:", error);
-            alert("공유 링크 복사에 실패했습니다.");
-          }
-        }
-      }
-    }
-  };
-
-  const handleSaveClick = () => {
-    if (data?.jjikboul?.problemUrl) {
-      downloadImage(data.jjikboul.problemUrl);
-    }
-  };
-
-  if (!data) return null;
 
   return (
-    <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
-      <div
-        id="jjikboul-share-container"
-        data-testid="jjikboul-share-container"
-        className="w-full max-w-[40rem] h-[82rem] relative flex flex-col"
-      >
-        {/* 메인 이미지 영역 */}
-        <div className="relative flex-1 w-full">
-          {data.jjikboul?.problemUrl && (
-            <Image
-              src={data.jjikboul.problemUrl}
-              alt="찍볼 문제"
-              fill
-              className="object-contain"
-              priority
-            />
-          )}
-        </div>
-
-        {/* 하단 정보 영역 */}
-        <div className="bg-white rounded-t-[2rem] p-[2rem] space-y-[1.5rem]">
-          {/* 회원 정보 */}
-          <div className="flex items-center gap-[1rem]">
-            {data.memberInfo?.profileUrl && (
-              <Avatar
-                src={data.memberInfo.profileUrl}
-                alt={data.memberInfo.nickname}
-                size="base"
-              />
-            )}
-            <p className="text-base font-medium">{data.memberInfo?.nickname}</p>
+    <JjikboulDetail id={jjikboulId}>
+      <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+        <div
+          id="jjikboul-share-container"
+          data-testid="jjikboul-share-container"
+          className="w-full max-w-[40rem] h-[82rem] relative flex flex-col"
+        >
+          {/* 메인 이미지 영역 */}
+          <div className="relative flex-1 w-full">
+            <JjikboulDetail.ProblemImage />
           </div>
 
-          {/* 암장 정보 */}
-          <div>
-            <p className="text-base font-medium">{data.gym?.name}</p>
-          </div>
+          {/* 하단 정보 영역 */}
+          <div className="bg-white rounded-t-[2rem] p-[2rem] space-y-[1.5rem]">
+            <JjikboulDetail.MemberInfo />
 
-          {/* 난이도 */}
-          <div>
-            <span
-              className="px-3 py-1 rounded-full text-sm font-medium"
-              style={{ backgroundColor: data.level?.color }}
-            >
-              {data.level?.name}
-            </span>
-          </div>
+            <div>
+              <JjikboulDetail.GymName />
+            </div>
 
-          {/* 문제 설명 */}
-          {data.jjikboul?.description && (
-            <p className="text-sm text-gray-700">{data.jjikboul.description}</p>
-          )}
+            <div>
+              <JjikboulDetail.LevelBadge />
+            </div>
 
-          {/* 액션 버튼 */}
-          <div className="flex gap-[1rem] pt-[1rem]">
-            <button
-              onClick={handleShareClick}
-              className="flex-1 h-[5.6rem] bg-primary text-white rounded-lg flex items-center justify-center gap-[0.5rem]"
-            >
-              <Image
-                src="/icons/icon-share.svg"
-                alt="공유"
-                width={20}
-                height={20}
-              />
-              <span>공유하기</span>
-            </button>
-            <button
-              onClick={handleSaveClick}
-              className="flex-1 h-[5.6rem] border border-gray-300 rounded-lg flex items-center justify-center gap-[0.5rem]"
-            >
-              <Image
-                src="/icons/icon-download.svg"
-                alt="저장"
-                width={20}
-                height={20}
-              />
-              <span>저장하기</span>
-            </button>
+            <JjikboulDetail.Description />
+
+            <JjikboulDetail.Actions>
+              {({ onShare, onSave }) => (
+                <div className="flex gap-[1rem] pt-[1rem]">
+                  <button
+                    onClick={onShare}
+                    className="flex-1 h-[5.6rem] bg-primary text-white rounded-lg flex items-center justify-center gap-[0.5rem]"
+                  >
+                    <Image
+                      src="/icons/icon-share.svg"
+                      alt="공유"
+                      width={20}
+                      height={20}
+                    />
+                    <span>공유하기</span>
+                  </button>
+                  <button
+                    onClick={onSave}
+                    className="flex-1 h-[5.6rem] border border-gray-300 rounded-lg flex items-center justify-center gap-[0.5rem]"
+                  >
+                    <Image
+                      src="/icons/icon-download.svg"
+                      alt="저장"
+                      width={20}
+                      height={20}
+                    />
+                    <span>저장하기</span>
+                  </button>
+                </div>
+              )}
+            </JjikboulDetail.Actions>
           </div>
         </div>
       </div>
-    </div>
+    </JjikboulDetail>
   );
 }
 

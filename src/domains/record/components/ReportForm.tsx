@@ -15,7 +15,7 @@ import { useReportReasonQuery } from "@/domains/record/hooks/useReportReasonQuer
 
 import { recordApi } from "@/domains/record/api/recordApi";
 
-import BottomActionButton from "@/components/common/BottomActionButton";
+import BottomActionButton from "@/components/button/BottomActionButton";
 
 type ReportFormType = {
   recordId: string;
