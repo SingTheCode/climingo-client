@@ -27,17 +27,23 @@ export default function Home() {
       <HomeHeader />
       <AsyncBoundary
         pendingFallback={
-          <section className="w-full pt-[1.6rem]">
-            <ul className="grid grid-cols-2 w-full gap-[1rem] sm:max-w-[48rem] mx-auto">
-              <RecordItemSkeleton />
-              <RecordItemSkeleton />
-              <RecordItemSkeleton />
-              <RecordItemSkeleton />
-              <RecordItemSkeleton />
-              <RecordItemSkeleton />
-            </ul>
-            <div className="h-[1rem]"></div>
-          </section>
+          <>
+            <section className="flex items-center">
+              <div className="w-[10rem] h-[3.6rem] bg-shadow rounded-xl animate-pulse" />
+              <div className="w-[7rem] h-[3.6rem] ml-[0.8rem] bg-shadow rounded-xl animate-pulse" />
+            </section>
+            <section className="w-full pt-[1.6rem]">
+              <ul className="grid grid-cols-2 w-full gap-[1rem] sm:max-w-[48rem] mx-auto">
+                <RecordItemSkeleton />
+                <RecordItemSkeleton />
+                <RecordItemSkeleton />
+                <RecordItemSkeleton />
+                <RecordItemSkeleton />
+                <RecordItemSkeleton />
+              </ul>
+              <div className="h-[1rem]"></div>
+            </section>
+          </>
         }
         rejectedFallback={() => (
           <div className="p-4 text-center text-red-500">
