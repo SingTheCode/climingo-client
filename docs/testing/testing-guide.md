@@ -189,10 +189,10 @@ describe('useJjikbol 훅', () => {
 ```typescript
 // jjikbol.api.test.ts
 import { getJjikbolDetailApi } from '../api/modules/jjikbol';
-import { api } from '../api/axios';
+import { api } from '@/api/fetchClient';
 
-// axios 목킹
-jest.mock('../api/axios');
+// fetchClient 목킹
+jest.mock('@/api/fetchClient');
 const mockedApi = api as jest.Mocked<typeof api>;
 
 describe('찍볼 API 함수들', () => {
@@ -201,31 +201,28 @@ describe('찍볼 API 함수들', () => {
   });
 
   test('getJjikbolDetailApi가 성공적으로 데이터를 반환한다', async () => {
-    const mockResponse = {
-      status: 200,
-      data: {
-        jjikbol: {
-          jjikbolId: '1',
-          problemType: 'boulder',
-          description: '테스트 문제',
-          createdDate: '2024-01-01'
-        },
-        memberInfo: {
-          nickname: '테스트사용자'
-        }
+    const mockData = {
+      jjikbol: {
+        jjikbolId: '1',
+        problemType: 'boulder',
+        description: '테스트 문제',
+        createdDate: '2024-01-01'
+      },
+      memberInfo: {
+        nickname: '테스트사용자'
       }
     };
 
-    mockedApi.get.mockResolvedValue(mockResponse);
+    mockedApi.get.mockResolvedValue(mockData);
 
     const result = await getJjikbolDetailApi('1');
 
     expect(mockedApi.get).toHaveBeenCalledWith('/jjikbol/1');
-    expect(result).toEqual(mockResponse.data);
+    expect(result).toEqual(mockData);
   });
 
   test('API 에러 시 에러가 발생한다', async () => {
-    mockedApi.get.mockResolvedValue({ status: 404 });
+    mockedApi.get.mockRejectedValue(new Error('Not Found'));
 
     await expect(getJjikbolDetailApi('invalid-id')).rejects.toThrow();
   });

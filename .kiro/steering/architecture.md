@@ -58,7 +58,7 @@ src/
 ├── hooks/                        # 🔧 Shared Hooks (도메인 독립적)
 ├── types/                        # 📦 Shared Types (모든 도메인이 공통으로 사용)
 ├── store/                        # 🗄️ Global State (Zustand)
-├── api/                          # 🌐 API Client (Axios)
+├── api/                          # 🌐 API Client (Fetch)
 ├── utils/                        # 🛠️ Utilities
 └── lib/                          # ⚙️ External Library Config
 ```

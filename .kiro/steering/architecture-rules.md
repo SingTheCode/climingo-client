@@ -179,7 +179,7 @@ export default function TermsStep() {
 **정의**: API 통신만 담당
 
 **허용**:
-- `fetch`, `axios` 호출
+- `fetch` 호출
 - HTTP 요청/응답 처리
 - Transform 함수 호출 (각 도메인 내부에서 Response → Entity 변환)
 

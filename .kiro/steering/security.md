@@ -50,11 +50,14 @@ const sanitizedHtml = computed(() =>
 
 ```typescript
 // API 요청 시 CSRF 토큰 포함
-const apiClient = axios.create({
+const response = await fetch('/api/endpoint', {
+  method: 'POST',
+  credentials: 'include',
   headers: {
     'X-CSRF-TOKEN': getCsrfToken(),
     'Content-Type': 'application/json'
-  }
+  },
+  body: JSON.stringify(data)
 });
 ```
 

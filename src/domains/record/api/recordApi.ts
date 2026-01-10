@@ -1,14 +1,13 @@
-import axios from "axios";
-
 import type { Level } from "@/domains/place/types/entity";
 import type { RecordFilter } from "@/domains/record/types/entity";
 import type {
   RecordListResponse,
   RecordDetailResponse,
   ReportReasonResponse,
+  PresignedUrlResponse,
 } from "@/domains/record/types/response";
 
-import { api } from "@/api/axios";
+import { api, uploadToPresignedUrl } from "@/api/fetchClient";
 
 import {
   transformRecordListResponseToEntity,
@@ -29,16 +28,14 @@ export const recordApi = {
     if (filter.page) params.append("page", filter.page.toString());
     if (filter.size) params.append("size", filter.size.toString());
 
-    const response = await api.get<RecordListResponse>(`/records?${params}`);
-    return transformRecordListResponseToEntity(response.data);
+    const data = await api.get<RecordListResponse>(`/records?${params}`);
+    return transformRecordListResponseToEntity(data);
   },
 
   // 기록 상세 조회
   async getRecordDetail(recordId: number) {
-    const response = await api.get<RecordDetailResponse>(
-      `/records/${recordId}`
-    );
-    return transformRecordDetailResponseToEntity(response.data);
+    const data = await api.get<RecordDetailResponse>(`/records/${recordId}`);
+    return transformRecordDetailResponseToEntity(data);
   },
 
   // 기록 생성
@@ -50,52 +47,47 @@ export const recordApi = {
     description?: string;
     tags?: string[];
   }) {
-    const response = await api.post("/records", data);
-    return response.data;
+    return api.post("/records", data);
   },
 
   // 기록 삭제
   async deleteRecord(recordId: number) {
-    const response = await api.delete(`/records/${recordId}`);
-    return response.data;
+    return api.delete(`/records/${recordId}`);
   },
 
   // 기록 신고
   async reportRecord(recordId: number, reasonId: number) {
-    const response = await api.post(`/records/${recordId}/report`, {
-      reasonId,
-    });
-    return response.data;
+    return api.post(`/records/${recordId}/report`, { reasonId });
   },
 
   // 신고 사유 목록 조회
   async getReportReasons() {
-    const response = await api.get<ReportReasonResponse[]>(
+    const data = await api.get<ReportReasonResponse[]>(
       "/records/report-reasons"
     );
-    return response.data.map(transformReportReasonResponseToEntity);
+    return data.map(transformReportReasonResponseToEntity);
   },
 
   // Presigned URL 조회
-  async getPresignedUrl(fileName: string, fileType: string) {
-    const response = await api.post("/records/presigned-url", {
+  async getPresignedUrl(
+    fileName: string,
+    fileType: string
+  ): Promise<PresignedUrlResponse> {
+    return api.post<PresignedUrlResponse>("/records/presigned-url", {
       fileName,
       fileType,
     });
-    return response.data;
   },
 
   // 비디오 업로드
   async uploadVideo(presignedUrl: string, file: File) {
-    await axios.put(presignedUrl, file, {
-      headers: { "Content-Type": file.type },
-    });
+    await uploadToPresignedUrl(presignedUrl, file);
   },
 
   // 암장별 난이도 조회
   async getLevelList(gymId: number) {
-    const response = await api.get<Level[]>(`/gyms/${gymId}/levels`);
-    return response.data.map((level) => ({
+    const data = await api.get<Level[]>(`/gyms/${gymId}/levels`);
+    return data.map((level) => ({
       ...level,
       colorCode:
         LEVELS.find((item) => item.colorNameEn === level.colorNameEn)

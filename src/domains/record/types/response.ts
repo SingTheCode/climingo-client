@@ -55,3 +55,9 @@ export interface ReportReasonResponse {
   reasonId: number;
   reasonText: string;
 }
+
+export interface PresignedUrlResponse {
+  presignedUrl: string;
+  videoUrl: string;
+  thumbnailUrl: string;
+}

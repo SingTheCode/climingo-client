@@ -23,7 +23,6 @@
     "@tanstack/react-query": "^5.29.0",
     "@toss/async-boundary": "^1.5.2",
     "@use-funnel/next": "^0.0.22",
-    "axios": "^1.6.8",
     "dayjs": "^1.11.11",
     "mitt": "^3.0.1",
     "next": "14.1.1",

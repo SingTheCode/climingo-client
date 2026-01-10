@@ -4,7 +4,7 @@ import type {
   LevelResponse,
 } from "@/domains/place/types/response";
 
-import { api } from "@/api/axios";
+import { api } from "@/api/fetchClient";
 
 import {
   transformPlaceResponseToEntity,
@@ -13,17 +13,17 @@ import {
 
 export const placeApi = {
   async searchClimbingPlace(keyword: string): Promise<Place[]> {
-    const response = await api.get<PlaceResponse[]>("/search/gyms", {
+    const data = await api.get<PlaceResponse[]>("/search/gyms", {
       params: { keyword },
     });
-    return response.data.map(transformPlaceResponseToEntity);
+    return data.map(transformPlaceResponseToEntity);
   },
 
   async getLevels(gymId: number): Promise<Level[]> {
     if (!gymId) {
       throw new Error("GymId가 유효하지 않아요.");
     }
-    const response = await api.get<LevelResponse[]>(`/gyms/${gymId}/levels`);
-    return response.data.map(transformLevelResponseToEntity);
+    const data = await api.get<LevelResponse[]>(`/gyms/${gymId}/levels`);
+    return data.map(transformLevelResponseToEntity);
   },
 };

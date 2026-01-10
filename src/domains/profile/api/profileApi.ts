@@ -10,7 +10,7 @@ import type {
   MyRecordListResponse,
 } from "@/domains/profile/types/response";
 
-import { api } from "@/api/axios";
+import { api } from "@/api/fetchClient";
 
 import {
   transformMyProfileResponseToEntity,
@@ -19,22 +19,25 @@ import {
 
 export const profileApi = {
   async getMyProfile(): Promise<Profile> {
-    const response = await api.get<MyProfileResponse>("/members");
-    return transformMyProfileResponseToEntity(response.data);
+    const data = await api.get<MyProfileResponse>("/members");
+    return transformMyProfileResponseToEntity(data);
   },
 
   async editNickname(params: EditNicknameRequest): Promise<string> {
-    const response = await api.patch<EditNicknameResponse>(
+    const data = await api.patch<EditNicknameResponse>(
       `/members/${params.memberId}/nickname`,
       { nickname: params.nickname }
     );
-    return response.data.nickname;
+    return data.nickname;
   },
 
   async getMyRecordList(params: MyRecordListParams): Promise<MyRecordList> {
-    const response = await api.get<MyRecordListResponse>("/myRecords", {
-      params,
-    });
-    return transformMyRecordListResponseToEntity(response.data);
+    const data = await api.get<MyRecordListResponse, MyRecordListParams>(
+      "/myRecords",
+      {
+        params,
+      }
+    );
+    return transformMyRecordListResponseToEntity(data);
   },
 };
