@@ -11,6 +11,8 @@ import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 import { useNavigateWithAuth } from "@/domains/auth/hooks/useNavigateWithAuth";
 
+import useUserStore from "@/store/user";
+
 import Layout from "@/components/Layout";
 
 import FilterSection from "@/domains/record/components/FilterSection";
@@ -59,6 +61,9 @@ export default function Home() {
 }
 
 function HomeHeader() {
+  const user = useUserStore((state) => state.user);
+  const profileHref = user ? "/profile" : "/signIn";
+
   return (
     <nav className="h-[5.6rem] fixed top-0 left-0 flex items-center justify-between w-screen z-navigation overflow-y-hidden bg-white">
       <div className="px-[2rem]">
@@ -72,7 +77,7 @@ function HomeHeader() {
         </Link>
       </div>
       <div className="flex py-[0.2rem] pr-[2rem]">
-        <Link href="/profile">
+        <Link href={profileHref}>
           <Image
             alt="프로필"
             width={28}
