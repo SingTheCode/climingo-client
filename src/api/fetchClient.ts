@@ -24,7 +24,10 @@ async function handleResponse<T>(response: Response): Promise<T> {
   }
 
   const text = await response.text();
-  return text ? JSON.parse(text) : null;
+  if (!text) {
+    throw new FetchError(response.status, "Empty response body");
+  }
+  return JSON.parse(text);
 }
 
 export const api = {
