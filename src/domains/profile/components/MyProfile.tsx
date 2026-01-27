@@ -8,7 +8,7 @@ import type { Profile } from "@/domains/profile/types/entity";
 import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
 
 interface MyProfileContextValue {
-  profile: Profile;
+  profile: Profile | undefined;
 }
 
 const MyProfileContext = createContext<MyProfileContextValue | null>(null);
@@ -34,6 +34,8 @@ export const MyProfile = ({ children }: { children: ReactNode }) => {
 const Avatar = () => {
   const { profile } = useMyProfileContext();
 
+  if (!profile) return null;
+
   return (
     <Image
       className="rounded-full w-[6rem] h-[6rem]"
@@ -47,6 +49,7 @@ MyProfile.Avatar = Avatar;
 
 const Nickname = () => {
   const { profile } = useMyProfileContext();
+  if (!profile) return null;
   return <p className="text-xl font-bold line-clamp-2">{profile.nickname}</p>;
 };
 
@@ -54,6 +57,7 @@ MyProfile.Nickname = Nickname;
 
 const Email = () => {
   const { profile } = useMyProfileContext();
+  if (!profile) return null;
   return <p className="text-sm text-gray-600">{profile.email}</p>;
 };
 
@@ -61,6 +65,7 @@ MyProfile.Email = Email;
 
 const Provider = () => {
   const { profile } = useMyProfileContext();
+  if (!profile) return null;
   const providerText = profile.providerType === "kakao" ? "카카오" : "Apple";
   return <p className="text-sm text-gray-600">{providerText}</p>;
 };
