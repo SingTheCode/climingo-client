@@ -66,7 +66,7 @@ function RecordActionMenu({
   recordId,
   memberId,
 }: {
-  recordId: number;
+  recordId: string;
   memberId: number | null;
 }) {
   const [isReportOpen, setIsReportOpen] = useState(false);
@@ -144,7 +144,7 @@ function UserTemplate({
   return (
     <div className="flex items-center gap-3 p-4">
       <Avatar
-        src={memberInfo?.profileImageUrl || ""}
+        src={memberInfo?.profileUrl || ""}
         size="lg"
         alt={memberInfo?.nickname || "익명"}
       />

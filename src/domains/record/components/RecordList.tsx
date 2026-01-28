@@ -57,15 +57,12 @@ RecordList.Filter = RecordListFilter;
 
 // Items Component
 interface ItemsProps {
-  children: (props: {
-    records: RecordMetadata[];
-    totalElements: number;
-  }) => ReactNode;
+  children: (props: { records: RecordMetadata[] }) => ReactNode;
 }
 
 function RecordListItems({ children }: ItemsProps) {
-  const { records, totalElements } = useRecordListContext();
-  return <>{children({ records, totalElements })}</>;
+  const { records } = useRecordListContext();
+  return <>{children({ records })}</>;
 }
 
 RecordList.Items = RecordListItems;

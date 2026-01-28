@@ -69,7 +69,7 @@ RecordDetail.Info = RecordDetailInfo;
 
 // Actions Component
 interface ActionsProps {
-  children: (props: { recordId: number; memberId: number | null }) => ReactNode;
+  children: (props: { recordId: string; memberId: number | null }) => ReactNode;
 }
 
 function RecordDetailActions({ children }: ActionsProps) {
@@ -77,7 +77,7 @@ function RecordDetailActions({ children }: ActionsProps) {
   return (
     <>
       {children({
-        recordId: record.record.recordId,
+        recordId: String(record.record.recordId),
         memberId: record.memberInfo?.memberId || null,
       })}
     </>

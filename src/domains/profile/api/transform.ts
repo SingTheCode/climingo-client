@@ -4,6 +4,8 @@ import type {
   MyRecordListResponse,
 } from "@/domains/profile/types/response";
 
+import { transformRecordMetadataResponseToEntity } from "@/domains/record/api/transform";
+
 export const transformMyProfileResponseToEntity = (
   response: MyProfileResponse
 ): Profile => ({
@@ -17,7 +19,9 @@ export const transformMyProfileResponseToEntity = (
 export const transformMyRecordListResponseToEntity = (
   response: MyRecordListResponse
 ): MyRecordList => ({
-  contents: response.contents ?? [],
+  contents: (response.contents ?? []).map(
+    transformRecordMetadataResponseToEntity
+  ),
   totalCount: response.totalCount ?? 0,
   resultCount: response.resultCount ?? 0,
   isEnd: response.isEnd ?? true,

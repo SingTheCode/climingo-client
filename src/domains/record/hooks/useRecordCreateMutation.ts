@@ -22,9 +22,14 @@ export const useRecordCreate = () => {
         throw new Error("비디오 파일이 선택되지 않았습니다.");
       }
 
+      // 파일 확장자 추출
+      const extension = videoFile.name.split(".").pop() || "";
+
       // 1. Presigned URL 요청
-      const { presignedUrl, videoUrl, thumbnailUrl } =
-        await recordApi.getPresignedUrl(videoFile.name, videoFile.type);
+      const { presignedUrl, videoUrl } = await recordApi.getPresignedUrl({
+        fileName: videoFile.name,
+        extension,
+      });
 
       // 2. 비디오 업로드
       setUploadProgress(50);
@@ -34,9 +39,9 @@ export const useRecordCreate = () => {
 
       // 3. 기록 생성
       const result = await recordApi.createRecord({
-        ...data,
+        gymId: data.gymId,
+        levelId: data.levelId,
         videoUrl,
-        thumbnailUrl,
       });
 
       setUploadProgress(100);

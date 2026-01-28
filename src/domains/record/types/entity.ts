@@ -24,13 +24,11 @@ export interface RecordMetadata {
 }
 
 export interface RecordList {
-  records: RecordMetadata[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  currentPage: number;
-  isFirst: boolean;
-  isLast: boolean;
+  contents: RecordMetadata[];
+  totalCount: number;
+  totalPage: number;
+  page: number;
+  isEnd: boolean;
 }
 
 export interface RecordDetail extends RecordMetadata {

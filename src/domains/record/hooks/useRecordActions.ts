@@ -27,19 +27,19 @@ export const useRecordActions = () => {
   const reportMutation = useMutation({
     mutationFn: ({
       recordId,
-      reasonId,
+      reasonCode,
     }: {
-      recordId: number;
-      reasonId: number;
-    }) => recordApi.reportRecord(recordId, reasonId),
+      recordId: string;
+      reasonCode: string;
+    }) => recordApi.reportRecord(recordId, { reasonCode }),
   });
 
-  const deleteRecord = (recordId: number) => {
+  const deleteRecord = (recordId: string) => {
     deleteMutation.mutate(recordId);
   };
 
-  const reportRecord = (recordId: number, reasonId: number) => {
-    reportMutation.mutate({ recordId, reasonId });
+  const reportRecord = (recordId: string, reasonCode: string) => {
+    reportMutation.mutate({ recordId, reasonCode });
   };
 
   return {

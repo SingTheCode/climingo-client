@@ -1,5 +1,9 @@
 // Record API Response 타입 정의
 
+import type { Pagination } from "@/types/common";
+
+import type { LevelColor } from "@/domains/place/types/entity";
+
 export interface RecordResponse {
   recordId: number;
   thumbnailUrl: string;
@@ -10,23 +14,21 @@ export interface RecordResponse {
 export interface GymResponse {
   gymId: number;
   gymName: string;
-  address: string;
-  latitude: number;
-  longitude: number;
 }
 
 export interface LevelResponse {
   levelId: number;
-  levelName: string;
-  levelColor: string;
-  colorNameEn?: string;
+  colorNameKo: string;
+  colorNameEn: LevelColor;
 }
 
 export interface MemberInfoResponse {
+  authId?: string;
+  email?: string;
   memberId: number;
   nickname: string;
-  profileImageUrl?: string;
-  profileUrl?: string;
+  profileUrl: string;
+  providerType?: string;
 }
 
 export interface RecordMetadataResponse {
@@ -36,28 +38,24 @@ export interface RecordMetadataResponse {
   memberInfo?: MemberInfoResponse;
 }
 
-export interface RecordListResponse {
+export interface RecordListResponse extends Pagination {
   contents: RecordMetadataResponse[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  number: number;
-  first: boolean;
-  last: boolean;
 }
 
-export interface RecordDetailResponse extends RecordMetadataResponse {
-  description?: string;
-  tags?: string[];
+export interface RecordDetailResponse {
+  memberInfo: MemberInfoResponse;
+  record: RecordResponse;
+  gym: GymResponse;
+  level: LevelResponse;
+  isDeletable: boolean;
 }
 
 export interface ReportReasonResponse {
-  reasonId: number;
-  reasonText: string;
+  code: string;
+  description: string;
 }
 
 export interface PresignedUrlResponse {
   presignedUrl: string;
   videoUrl: string;
-  thumbnailUrl: string;
 }

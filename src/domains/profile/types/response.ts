@@ -1,7 +1,7 @@
 import type { Pagination } from "@/types/common";
 
 import type { OAuthProvider } from "@/domains/auth/types/entity";
-import type { RecordMetadata } from "@/domains/record/types/entity";
+import type { RecordMetadataResponse } from "@/domains/record/types/response";
 
 export interface MyProfileResponse {
   memberId: number;
@@ -16,5 +16,5 @@ export interface EditNicknameResponse {
 }
 
 export interface MyRecordListResponse extends Pagination {
-  contents: RecordMetadata[];
+  contents: RecordMetadataResponse[];
 }

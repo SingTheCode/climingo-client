@@ -48,9 +48,9 @@ export default function Home() {
           </>
         }
         rejectedFallback={() => (
-          <div className="p-4 text-center text-red-500">
-            기록을 불러오는 중 오류가 발생했습니다.
-          </div>
+          <section className="w-full pt-[1.6rem]">
+            <EmptyRecordItem />
+          </section>
         )}
       >
         <RecordListContent />
@@ -120,9 +120,9 @@ function RecordListContent() {
 
       <section className="w-full pt-[1.6rem]">
         <RecordList.Items>
-          {({ records, totalElements }) => (
+          {({ records }) => (
             <>
-              {totalElements === 0 ? (
+              {records.length === 0 ? (
                 <EmptyRecordItem />
               ) : (
                 <RecordItemContainer>

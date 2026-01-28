@@ -40,10 +40,7 @@ const ReportForm = ({
     ) as unknown as RecordReportApiRequest;
 
     try {
-      await recordApi.reportRecord(
-        Number(recordId),
-        Number(reportData.reasonCode)
-      );
+      await recordApi.reportRecord(recordId, reportData);
       onSubmitSuccess?.();
     } catch {
       onSubmitError?.();

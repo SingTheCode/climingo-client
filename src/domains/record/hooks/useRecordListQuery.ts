@@ -17,15 +17,15 @@ export const useRecordList = (initialFilter: RecordFilter = {}) => {
       queryFn: ({ pageParam = 0 }) =>
         recordApi.getRecordList({ ...filter, page: pageParam }),
       getNextPageParam: (lastPage) => {
-        if (lastPage.isLast) return undefined;
-        return lastPage.currentPage + 1;
+        if (lastPage.isEnd) return undefined;
+        return lastPage.page + 1;
       },
       initialPageParam: 0,
     });
 
   // 모든 페이지의 기록들을 평면화
-  const records = data.pages.flatMap((page) => page.records);
-  const totalElements = data.pages[0]?.totalElements ?? 0;
+  const records = data.pages.flatMap((page) => page.contents);
+  const totalCount = data.pages[0]?.totalCount ?? 0;
 
   const updateFilter = (newFilter: Partial<RecordFilter>) => {
     setFilter((prev) => ({ ...prev, ...newFilter }));
@@ -37,7 +37,7 @@ export const useRecordList = (initialFilter: RecordFilter = {}) => {
 
   return {
     records,
-    totalElements,
+    totalCount,
     filter,
     updateFilter,
     clearFilter,

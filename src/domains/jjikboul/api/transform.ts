@@ -15,6 +15,8 @@ import type {
   LevelResponse,
 } from "@/domains/record/types/response";
 
+import { LEVELS } from "@/domains/place/constants/level";
+
 export const transformJjikboulResponseToEntity = (
   response: JjikboulResponse
 ): Jjikboul => ({
@@ -35,15 +37,17 @@ export const transformMemberInfoResponseToEntity = (
 export const transformGymResponseToEntity = (response: GymResponse): Gym => ({
   gymId: response.gymId,
   name: response.gymName ?? "",
-  address: response.address ?? "",
+  address: "",
 });
 
 export const transformLevelResponseToEntity = (
   response: LevelResponse
 ): Level => ({
   levelId: response.levelId,
-  name: response.levelName ?? "",
-  color: response.levelColor ?? "",
+  name: response.colorNameKo ?? "",
+  color:
+    LEVELS.find((l) => l.colorNameEn === response.colorNameEn)?.colorCode ??
+    "#ffffff",
 });
 
 export const transformJjikboulDetailResponseToEntity = (

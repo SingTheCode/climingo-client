@@ -1,4 +1,4 @@
-import type { Gym, Level, LevelColor } from "@/domains/place/types/entity";
+import type { Gym, Level } from "@/domains/place/types/entity";
 import type {
   Record,
   MemberInfo,
@@ -17,6 +17,8 @@ import type {
   RecordDetailResponse,
   ReportReasonResponse,
 } from "@/domains/record/types/response";
+
+import { LEVELS } from "@/domains/place/constants/level";
 
 // 기본 엔티티 변환 함수들
 export const transformRecordResponseToEntity = (
@@ -37,9 +39,11 @@ export const transformLevelResponseToEntity = (
   response: LevelResponse
 ): Level => ({
   levelId: response.levelId,
-  colorNameKo: response.levelName || "V0",
-  colorNameEn: (response.colorNameEn || "white") as LevelColor,
-  colorCode: response.levelColor || "#000000",
+  colorNameKo: response.colorNameKo || "V0",
+  colorNameEn: response.colorNameEn || "white",
+  colorCode:
+    LEVELS.find((l) => l.colorNameEn === response.colorNameEn)?.colorCode ||
+    "#ffffff",
 });
 
 export const transformMemberInfoResponseToEntity = (
@@ -50,7 +54,7 @@ export const transformMemberInfoResponseToEntity = (
   return {
     memberId: response.memberId,
     nickname: response.nickname || "익명",
-    profileImageUrl: response.profileImageUrl || null,
+    profileImageUrl: null,
     profileUrl: response.profileUrl || "",
   };
 };
@@ -68,26 +72,27 @@ export const transformRecordMetadataResponseToEntity = (
 export const transformRecordListResponseToEntity = (
   response: RecordListResponse
 ): RecordList => ({
-  records: response.contents.map(transformRecordMetadataResponseToEntity),
-  totalElements: response.totalElements || 0,
-  totalPages: response.totalPages || 0,
-  size: response.size || 10,
-  currentPage: response.number || 0,
-  isFirst: response.first ?? true,
-  isLast: response.last ?? true,
+  contents: response.contents.map(transformRecordMetadataResponseToEntity),
+  totalCount: response.totalCount || 0,
+  totalPage: response.totalPage || 0,
+  page: response.page || 0,
+  isEnd: response.isEnd ?? true,
 });
 
 export const transformRecordDetailResponseToEntity = (
   response: RecordDetailResponse
 ): RecordDetail => ({
-  ...transformRecordMetadataResponseToEntity(response),
-  description: response.description || "",
-  tags: response.tags || [],
+  record: transformRecordResponseToEntity(response.record),
+  gym: transformGymResponseToEntity(response.gym),
+  level: transformLevelResponseToEntity(response.level),
+  memberInfo: transformMemberInfoResponseToEntity(response.memberInfo),
+  description: "",
+  tags: [],
 });
 
 export const transformReportReasonResponseToEntity = (
   response: ReportReasonResponse
 ): ReportReason => ({
-  id: response.reasonId,
-  text: response.reasonText || "",
+  id: 0,
+  text: response.description || "",
 });

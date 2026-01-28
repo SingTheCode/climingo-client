@@ -1,6 +1,6 @@
-import type { Level } from "@/domains/place/types/entity";
-import type { RecordFilter } from "@/domains/record/types/entity";
+import type { RecordFilter, RecordReportApiRequest } from "@/domains/record/types/entity";
 import type {
+  LevelResponse,
   RecordListResponse,
   RecordDetailResponse,
   ReportReasonResponse,
@@ -13,9 +13,8 @@ import {
   transformRecordListResponseToEntity,
   transformRecordDetailResponseToEntity,
   transformReportReasonResponseToEntity,
+  transformLevelResponseToEntity,
 } from "@/domains/record/api/transform";
-
-import { LEVELS } from "@/domains/place/constants/level";
 
 export const recordApi = {
   // 기록 목록 조회
@@ -33,7 +32,7 @@ export const recordApi = {
   },
 
   // 기록 상세 조회
-  async getRecordDetail(recordId: number) {
+  async getRecordDetail(recordId: string) {
     const data = await api.get<RecordDetailResponse>(`/records/${recordId}`);
     return transformRecordDetailResponseToEntity(data);
   },
@@ -43,40 +42,29 @@ export const recordApi = {
     gymId: number;
     levelId: number;
     videoUrl: string;
-    thumbnailUrl: string;
-    description?: string;
-    tags?: string[];
   }) {
-    return api.post("/records", data);
+    return api.post<{ recordId: number }>("/records", data);
   },
 
   // 기록 삭제
-  async deleteRecord(recordId: number) {
-    return api.delete(`/records/${recordId}`);
+  async deleteRecord(recordId: string) {
+    return api.delete<{ recordId: number }>(`/records/${recordId}`);
   },
 
   // 기록 신고
-  async reportRecord(recordId: number, reasonId: number) {
-    return api.post(`/records/${recordId}/report`, { reasonId });
+  async reportRecord(recordId: string, data: RecordReportApiRequest) {
+    return api.post(`/records/${recordId}/report`, data);
   },
 
   // 신고 사유 목록 조회
   async getReportReasons() {
-    const data = await api.get<ReportReasonResponse[]>(
-      "/records/report-reasons"
-    );
+    const data = await api.get<ReportReasonResponse[]>("/reports/reasons");
     return data.map(transformReportReasonResponseToEntity);
   },
 
   // Presigned URL 조회
-  async getPresignedUrl(
-    fileName: string,
-    fileType: string
-  ): Promise<PresignedUrlResponse> {
-    return api.post<PresignedUrlResponse>("/records/presigned-url", {
-      fileName,
-      fileType,
-    });
+  async getPresignedUrl(params: { fileName: string; extension: string }) {
+    return api.post<PresignedUrlResponse>("/s3/presigned-url", params);
   },
 
   // 비디오 업로드
@@ -86,12 +74,7 @@ export const recordApi = {
 
   // 암장별 난이도 조회
   async getLevelList(gymId: number) {
-    const data = await api.get<Level[]>(`/gyms/${gymId}/levels`);
-    return data.map((level) => ({
-      ...level,
-      colorCode:
-        LEVELS.find((item) => item.colorNameEn === level.colorNameEn)
-          ?.colorCode || "#ffffff",
-    }));
+    const data = await api.get<LevelResponse[]>(`/gyms/${gymId}/levels`);
+    return data.map(transformLevelResponseToEntity);
   },
 };
