@@ -1,7 +1,8 @@
 export interface PlaceResponse {
-  gymId: number;
-  gymName: string;
+  id: number;
+  name: string;
   address: string;
+  zipCode?: string;
 }
 
 export interface LevelResponse {

@@ -7,8 +7,8 @@ import type {
 export const transformPlaceResponseToEntity = (
   response: PlaceResponse
 ): Place => ({
-  id: response.gymId,
-  name: response.gymName ?? "",
+  id: response.id,
+  name: response.name ?? "",
   address: response.address ?? "",
 });
 
