@@ -8,7 +8,7 @@ import { AsyncBoundary } from "@/lib/async";
 
 import type { OAuthProvider } from "@/domains/auth/types/entity";
 
-import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
+import { useProfileQuery } from "@/domains/profile/hooks/useProfileQuery";
 
 import { authApi } from "@/domains/auth/api/authApi";
 
@@ -22,7 +22,7 @@ import LayerPopup from "@/components/popup/LayerPopup";
 import { EditProfile } from "@/domains/profile/components/EditProfile";
 
 function MyProfileDetailContent() {
-  const { data } = useMyProfileQuery();
+  const { data } = useProfileQuery();
   const [editOpen, setEditOpen] = useState(false);
 
   if (!data) return null;

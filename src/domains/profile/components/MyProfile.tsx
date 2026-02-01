@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { createContext, useContext, type ReactNode } from "react";
 
 import type { Profile } from "@/domains/profile/types/entity";
 
-import { useMyProfileQuery } from "@/domains/profile/hooks/useMyProfileQuery";
+import { useProfileQuery } from "@/domains/profile/hooks/useProfileQuery";
+
+import Avatar from "@/components/Avatar";
 
 interface MyProfileContextValue {
   profile: Profile | undefined;
@@ -22,7 +23,7 @@ const useMyProfileContext = () => {
 };
 
 export const MyProfile = ({ children }: { children: ReactNode }) => {
-  const { data: profile } = useMyProfileQuery();
+  const { data: profile } = useProfileQuery();
 
   return (
     <MyProfileContext.Provider value={{ profile }}>
@@ -31,21 +32,15 @@ export const MyProfile = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Avatar = () => {
+const MyAvatar = () => {
   const { profile } = useMyProfileContext();
 
   if (!profile) return null;
 
-  return (
-    <Image
-      className="rounded-full w-[6rem] h-[6rem]"
-      src={profile.profileUrl}
-      alt={profile.nickname}
-    />
-  );
+  return <Avatar size="lg" src={profile.profileUrl} alt={profile.nickname} />;
 };
 
-MyProfile.Avatar = Avatar;
+MyProfile.MyAvatar = MyAvatar;
 
 const Nickname = () => {
   const { profile } = useMyProfileContext();

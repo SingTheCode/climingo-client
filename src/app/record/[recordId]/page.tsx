@@ -138,19 +138,19 @@ function UserTemplate({
   memberInfo,
   createTime,
 }: {
-  memberInfo: { profileImageUrl?: string | null; nickname?: string } | null;
+  memberInfo: { profileUrl?: string | null; nickname?: string } | null;
   createTime: string;
 }) {
   return (
     <div className="flex items-center gap-3 p-4">
       <Avatar
+        size="sm"
         src={memberInfo?.profileUrl || ""}
-        size="lg"
         alt={memberInfo?.nickname || "익명"}
       />
       <div>
         <p className="font-semibold">{memberInfo?.nickname || "익명"}</p>
-        <p className="text-sm text-gray-500">{fromNowFormat(createTime)}</p>
+        <p className="text-sm text-shadow">{fromNowFormat(createTime)}</p>
       </div>
     </div>
   );
