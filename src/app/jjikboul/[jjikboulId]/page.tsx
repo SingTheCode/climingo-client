@@ -15,7 +15,7 @@ function JjikboulDetailContent() {
 
   return (
     <JjikboulDetail id={jjikboulId}>
-      <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+      <div className="min-h-screen w-full bg-ink flex items-center justify-center">
         <div
           id="jjikboul-share-container"
           data-testid="jjikboul-share-container"
@@ -81,20 +81,20 @@ export default function JjikboulPage() {
   return (
     <AsyncBoundary
       pendingFallback={
-        <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+        <div className="min-h-screen w-full bg-ink flex items-center justify-center">
           <div className="w-full max-w-[40rem] mx-auto flex items-center justify-center h-[82rem]">
             <Loading />
           </div>
         </div>
       }
       rejectedFallback={() => (
-        <div className="min-h-screen w-full bg-[#292929] flex items-center justify-center">
+        <div className="min-h-screen w-full bg-ink flex items-center justify-center">
           <div className="w-full max-w-[40rem] mx-auto flex items-center justify-center h-[82rem]">
             <div className="text-center">
               <p className="text-white text-base font-medium">
                 문제를 불러올 수 없습니다.
               </p>
-              <p className="text-[#b3b3b3] text-sm mt-2">
+              <p className="text-shadow text-sm mt-2">
                 잠시 후 다시 시도해주세요.
               </p>
             </div>

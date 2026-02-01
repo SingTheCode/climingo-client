@@ -109,7 +109,7 @@ export default function FilterSection({
     <section className="flex items-center">
       {/* 암장 검색 */}
       {filter.gym.id ? (
-        <div className="flex px-[1.2rem] py-[1rem] bg-[#FFC6BD] bg-opacity-30 rounded-xl text-sm text-primary">
+        <div className="flex px-[1.2rem] py-[1rem] bg-primary-lightest bg-opacity-30 rounded-xl text-sm text-primary">
           {filter.gym.name}
           <span className="pl-[0.5rem]" onClick={resetSelectedPlace}>
             <Image
@@ -138,7 +138,7 @@ export default function FilterSection({
         className={`px-[1.2rem] py-[1rem] ml-[0.8rem] rounded-xl text-sm
           ${
             selectedLevel.colorNameEn
-              ? "bg-[#FFC6BD] bg-opacity-30"
+              ? "bg-primary-lightest bg-opacity-30"
               : "bg-shadow-lighter"
           }`}
       >
@@ -170,7 +170,7 @@ export default function FilterSection({
                 <ListboxOption
                   key={idx}
                   value={level}
-                  className="group flex items-center gap-2 rounded-lg py-[0.6rem] px-3 data-[focus]:text-primary hover:bg-[#FFC6BD] hover:bg-opacity-30"
+                  className="group flex items-center gap-2 rounded-lg py-[0.6rem] px-3 data-[focus]:text-primary hover:bg-primary-lightest hover:bg-opacity-30"
                 >
                   <div className="flex items-center text-sm text-shadow-darker">
                     <span className="pr-[0.4rem]">{level.colorNameKo}</span>

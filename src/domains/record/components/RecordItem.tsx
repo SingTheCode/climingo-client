@@ -51,7 +51,7 @@ export default function RecordItem({
 
         {/** 암장 난이도 라벨 */}
         <div className="absolute h-[2.6rem] bg-black rounded-br-[1rem] px-[1rem] flex items-center gap-[0.5rem]">
-          <span className="text-white font-semibold text-[1.1rem] truncate">
+          <span className="text-white font-semibold text-2xs truncate">
             {gym.gymName}
           </span>
           <LevelIcon color={level.colorNameEn} />
