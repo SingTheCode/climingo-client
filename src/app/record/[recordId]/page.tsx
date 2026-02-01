@@ -41,7 +41,7 @@ function RecordDetailContent() {
         )}
       </RecordDetail.Actions>
 
-      <div className="w-full h-[80%] flex flex-col">
+      <div className="px-5 flex flex-col gap-5 flex-1">
         <RecordDetail.Info>
           {({ record }) => (
             <>
@@ -142,15 +142,19 @@ function UserTemplate({
   createTime: string;
 }) {
   return (
-    <div className="flex items-center gap-3 p-4">
+    <div className="flex items-center gap-2.5">
       <Avatar
         size="sm"
         src={memberInfo?.profileUrl || ""}
         alt={memberInfo?.nickname || "익명"}
       />
-      <div>
-        <p className="font-semibold">{memberInfo?.nickname || "익명"}</p>
-        <p className="text-sm text-shadow">{fromNowFormat(createTime)}</p>
+      <div className="flex flex-col justify-between py-1 gap-1">
+        <span className="text-base font-bold text-ink">
+          {memberInfo?.nickname || "익명"}
+        </span>
+        <span className="text-sm font-medium text-shadow">
+          {fromNowFormat(createTime)}
+        </span>
       </div>
     </div>
   );
@@ -166,23 +170,23 @@ function RecordTemplate({
   level: { colorNameKo: string; colorNameEn: string };
 }) {
   return (
-    <div className="flex-1 overflow-auto">
+    <div className="flex flex-col gap-2.5 flex-1">
+      <div className="flex items-center gap-[5px]">
+        <span className="bg-shadow-lighter rounded-lg px-3 py-1.5 text-sm font-medium text-ink">
+          {gym.gymName}
+        </span>
+        <span className="bg-shadow-lighter rounded-lg px-3 py-1.5 text-sm font-medium text-ink flex items-center gap-[5px]">
+          {level.colorNameKo}
+          <LevelIcon color={level.colorNameEn as LevelColor} />
+        </span>
+      </div>
+
       <video
         src={record.videoUrl}
         controls
-        className="w-full aspect-video"
+        className="rounded-[10px] w-full flex-1"
         poster={record.thumbnailUrl}
       />
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <LevelIcon color={level.colorNameEn as LevelColor} />
-          <span className="font-semibold">{gym.gymName}</span>
-          <span className="text-gray-600">{level.colorNameKo}</span>
-        </div>
-        {record.description && (
-          <p className="text-gray-700 mt-2">{record.description}</p>
-        )}
-      </div>
     </div>
   );
 }
