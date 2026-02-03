@@ -162,8 +162,67 @@ export const useGetJjikbolDetailQuery = (id: string) => {
 
 ## ESLint 규칙 예시
 
+헥사고날 아키텍처의 의존성 규칙을 강제하기 위한 방법:
+
+### 방법 1: eslint-plugin-import 사용 (권장)
+
+`eslint-plugin-import`의 `no-restricted-paths` 규칙을 사용하여 디렉토리 간 import를 제한합니다:
+
 ```javascript
 // .eslintrc.js
+module.exports = {
+  plugins: ['import'],
+  rules: {
+    'import/no-restricted-paths': [
+      'error',
+      {
+        zones: [
+          // Components가 Repository를 직접 import하는 것을 금지
+          {
+            target: './src/components',
+            from: './src/api/hooks',
+            message: 'Components should not directly import Repository. Use Service layer instead.'
+          },
+          {
+            target: './src/components',
+            from: './src/api/modules',
+            message: 'Components should not directly import API modules. Use Service layer instead.'
+          },
+          // Service가 Components를 import하는 것을 금지 (역방향 의존성)
+          {
+            target: './src/hooks',
+            from: './src/components',
+            message: 'Services should not import Components (circular dependency).'
+          },
+          // Repository가 Service나 Components를 import하는 것을 금지
+          {
+            target: './src/api/hooks',
+            from: './src/hooks',
+            message: 'Repository should not import Services (reverse dependency).'
+          },
+          {
+            target: './src/api/hooks',
+            from: './src/components',
+            message: 'Repository should not import Components (reverse dependency).'
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+**설치:**
+```bash
+npm install --save-dev eslint-plugin-import
+```
+
+### 방법 2: 디렉토리별 ESLint 설정
+
+각 디렉토리에 `.eslintrc.js`를 배치하여 해당 디렉토리만의 규칙을 적용합니다:
+
+```javascript
+// src/components/.eslintrc.js
 module.exports = {
   rules: {
     'no-restricted-imports': [
@@ -171,14 +230,50 @@ module.exports = {
       {
         patterns: [
           {
-            group: ['../api/hooks/*'],
-            message: 'Components should not directly import Repository. Use Service layer instead.',
-            from: 'src/components/**/*'
+            group: ['@/api/hooks/*', '../api/hooks/*'],
+            message: 'Components should not directly import Repository. Use Service layer instead.'
           },
           {
-            group: ['../components/*'],
-            message: 'Services should not import Components (circular dependency).',
-            from: 'src/hooks/**/*'
+            group: ['@/api/modules/*', '../api/modules/*'],
+            message: 'Components should not directly import API modules. Use Service layer instead.'
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// src/hooks/.eslintrc.js
+module.exports = {
+  rules: {
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['@/components/*', '../components/*'],
+            message: 'Services should not import Components (circular dependency).'
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// src/api/hooks/.eslintrc.js
+module.exports = {
+  rules: {
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['@/hooks/*', '../../hooks/*'],
+            message: 'Repository should not import Services (reverse dependency).'
+          },
+          {
+            group: ['@/components/*', '../../components/*'],
+            message: 'Repository should not import Components (reverse dependency).'
           }
         ]
       }

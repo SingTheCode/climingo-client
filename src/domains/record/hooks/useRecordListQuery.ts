@@ -1,0 +1,48 @@
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useState } from "react";
+
+import type { RecordFilter } from "@/domains/record/types/entity";
+
+import { recordApi } from "@/domains/record/api/recordApi";
+
+export const useRecordList = (initialFilter: RecordFilter = {}) => {
+  const [filter, setFilter] = useState<RecordFilter>({
+    size: 10,
+    ...initialFilter,
+  });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useSuspenseInfiniteQuery({
+      queryKey: ["records", filter],
+      queryFn: ({ pageParam = 0 }) =>
+        recordApi.getRecordList({ ...filter, page: pageParam }),
+      getNextPageParam: (lastPage) => {
+        if (lastPage.isEnd) return undefined;
+        return lastPage.page + 1;
+      },
+      initialPageParam: 0,
+    });
+
+  // 모든 페이지의 기록들을 평면화
+  const records = data.pages.flatMap((page) => page.contents);
+  const totalCount = data.pages[0]?.totalCount ?? 0;
+
+  const updateFilter = (newFilter: Partial<RecordFilter>) => {
+    setFilter((prev) => ({ ...prev, ...newFilter }));
+  };
+
+  const clearFilter = () => {
+    setFilter({ size: 10 });
+  };
+
+  return {
+    records,
+    totalCount,
+    filter,
+    updateFilter,
+    clearFilter,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+};

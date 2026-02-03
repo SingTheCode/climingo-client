@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 
-import OAuth from "@/components/auth/OAuth";
-import Loading from "@/components/common/Loading";
+import Loading from "@/components/Loading";
+
+import { OAuth } from "@/domains/auth/components/OAuth";
 
 export default function Page() {
   return (

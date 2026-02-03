@@ -1,0 +1,99 @@
+import {
+  Field,
+  Fieldset,
+  Label,
+  Legend,
+  Radio,
+  RadioGroup,
+} from "@headlessui/react";
+import Image from "next/image";
+import { FormEvent } from "react";
+
+import type { RecordReportApiRequest } from "@/domains/record/types/entity";
+
+import { useReportReasonQuery } from "@/domains/record/hooks/useReportReasonQuery";
+
+import { recordApi } from "@/domains/record/api/recordApi";
+
+import BottomActionButton from "@/components/button/BottomActionButton";
+
+type ReportFormType = {
+  recordId: string;
+  onSubmitSuccess?: () => void;
+  onSubmitError?: () => void;
+};
+
+const ReportForm = ({
+  recordId,
+  onSubmitSuccess,
+  onSubmitError,
+}: ReportFormType) => {
+  const { data: reason, isSuccess: isReasonQuerySuccess } =
+    useReportReasonQuery();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const reportData = Object.fromEntries(
+      formData
+    ) as unknown as RecordReportApiRequest;
+
+    try {
+      await recordApi.reportRecord(recordId, reportData);
+      onSubmitSuccess?.();
+    } catch {
+      onSubmitError?.();
+    }
+  };
+
+  return (
+    <form
+      className="flex flex-col gap-[2rem] py-[3rem]"
+      onSubmit={handleSubmit}
+    >
+      {isReasonQuerySuccess && (
+        <>
+          <Fieldset>
+            <RadioGroup
+              name="reasonCode"
+              defaultValue={String(reason[0].id)}
+              className="flex flex-col gap-[2rem]"
+            >
+              <Legend className="text-base font-medium">신고 유형</Legend>
+
+              {reason.map(({ id, text }) => (
+                <Field key={id}>
+                  <Radio
+                    value={String(id)}
+                    className="group flex gap-[1rem] cursor-pointer"
+                  >
+                    <span className="w-[2rem] h-[2rem] rounded-full border-shadow border-[0.1rem] group-data-[checked]:bg-primary group-data-[checked]:border-primary bg-[url(/icons/icon-check.svg)] bg-no-repeat bg-center"></span>
+                    <Label>{text}</Label>
+                  </Radio>
+                </Field>
+              ))}
+            </RadioGroup>
+          </Fieldset>
+
+          <section className="flex gap-[0.5rem] items-start">
+            <Image
+              src="/icons/icon-info.svg"
+              width={18}
+              height={18}
+              alt="information"
+            />
+            <p className=" text-sm text-shadow">
+              신고된 내용은 내부 정책에 의거하여 최대 24시간 이내에 조치될
+              예정입니다.
+            </p>
+          </section>
+        </>
+      )}
+
+      <BottomActionButton type="submit">제출하기</BottomActionButton>
+    </form>
+  );
+};
+
+export default ReportForm;

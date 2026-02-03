@@ -8,10 +8,7 @@ import useJjikboul from "@/hooks/jjikboul/useJjikboul";
 import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
 import useImageDownload from "@/hooks/useImageDownload";
 import useAppScheme from "@/hooks/useAppScheme";
-import {
-  mockJjikboulData,
-  mockUseJjikboulReturn,
-} from "@/test/mocks/jjikboulData";
+import { mockJjikboulData, mockUseJjikboulReturn } from "@/test/mocks";
 
 jest.mock("@/api/hooks/jjikboul");
 jest.mock("@/hooks/jjikboul/useJjikboul");

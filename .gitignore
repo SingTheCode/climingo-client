@@ -49,3 +49,7 @@ certificates
 /.rules/
 /.mcp.json
 /CLAUDE.md
+
+/.amazonq/
+/nginx/certbot-logs/
+/nginx/logs/

@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
 
 // Suppress React warnings related to Next.js Image component in tests
 const originalError = console.error;

@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/domains/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -16,6 +17,15 @@ const config: Config = {
         lg: ["1.8rem", "2.1rem"],
         xl: ["2.0rem", "2.4rem"],
         "2xl": ["2.2rem", "2.6rem"],
+      },
+      zIndex: {
+        navigation: "100",
+        dropdown: "200",
+        overlay: "300",
+        floating: "400",
+        tooltip: "500",
+        notification: "600",
+        critical: "900",
       },
     },
     // TODO: 암장 난이도별 색상 팔레트 추가
