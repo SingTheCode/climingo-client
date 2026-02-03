@@ -44,20 +44,12 @@ export interface ReportReason {
 // 필터 타입
 export interface RecordFilter {
   gymId?: number;
+  gymName?: string;
   levelId?: number;
+  levelName?: string;
   memberId?: number;
   page?: number;
   size?: number;
-}
-
-// API 응답 타입 (types/record.ts에서 이동)
-export interface RecordListApiResponse {
-  contents: RecordMetadata[];
-  totalCount: number;
-  resultCount: number;
-  totalPage: number;
-  page: number;
-  isEnd: boolean;
 }
 
 export interface RecordReportApiRequest {

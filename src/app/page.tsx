@@ -97,21 +97,23 @@ function RecordListContent() {
         {({ filter, updateFilter }) => (
           <FilterSection
             filter={{
-              gym: { id: filter.gymId || 0, name: "" },
-              level: { id: filter.levelId || 0, name: "" },
+              gym: { id: filter.gymId || 0, name: filter.gymName || "" },
+              level: { id: filter.levelId || 0, name: filter.levelName || "" },
             }}
             setFilter={(newFilter) => {
               const filterValue =
                 typeof newFilter === "function"
                   ? newFilter({
-                      gym: { id: filter.gymId || 0, name: "" },
-                      level: { id: filter.levelId || 0, name: "" },
+                      gym: { id: filter.gymId || 0, name: filter.gymName || "" },
+                      level: { id: filter.levelId || 0, name: filter.levelName || "" },
                     })
                   : newFilter;
 
               updateFilter({
                 gymId: filterValue.gym.id || undefined,
+                gymName: filterValue.gym.name || undefined,
                 levelId: filterValue.level.id || undefined,
+                levelName: filterValue.level.name || undefined,
               });
             }}
           />
