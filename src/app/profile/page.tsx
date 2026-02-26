@@ -27,7 +27,7 @@ function MyProfileContent() {
         <div className="flex items-center gap-[1.5rem]">
           <MyProfile.MyAvatar />
           <MyProfile.Nickname />
-          <Link href="/profile" className="-ml-[1rem] shrink-0">
+          <Link href="/profile/detail" className="-ml-[1rem] shrink-0">
             <Image
               src="/icons/icon-arrow-right.svg"
               width={20}

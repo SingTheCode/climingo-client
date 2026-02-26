@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type { EditNicknameRequest } from "@/domains/profile/types/entity";
+import type { EditNicknameRequest } from "@/domains/profile/types/request";
 
 import { profileApi } from "@/domains/profile/api/profileApi";
 
