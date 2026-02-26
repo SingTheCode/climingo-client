@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "코드 품질 검증",
+  "description": "에이전트 작업 완료 후 TypeScript 타입 체크, ESLint, Prettier, 빌드 검증을 순차적으로 실행합니다.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "다음 검증을 순서대로 실행하고 결과를 보고해주세요:\n1. npx tsc --noEmit (TypeScript 타입 체크)\n2. npm run lint (ESLint 검사)\n3. npx prettier --check 'src/**/*.{ts,tsx}' (Prettier 포맷팅 검사)\n4. npm run build (빌드 검증)\n\n각 단계의 성공/실패 여부를 알려주고, 실패 시 에러 내용을 포함해주세요."
+  }
+}
