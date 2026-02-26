@@ -165,7 +165,10 @@ JjikboulDetail.Description = Description;
 
 // 액션 버튼 (render props)
 interface ActionsProps {
-  children: (props: { onShare: () => Promise<void>; onSave: () => void }) => ReactNode;
+  children: (props: {
+    onShare: () => Promise<void>;
+    onSave: () => void;
+  }) => ReactNode;
 }
 
 const Actions = ({ children }: ActionsProps) => {

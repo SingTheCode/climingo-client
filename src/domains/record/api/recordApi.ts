@@ -1,4 +1,7 @@
-import type { RecordFilter, RecordReportApiRequest } from "@/domains/record/types/entity";
+import type {
+  RecordFilter,
+  RecordReportApiRequest,
+} from "@/domains/record/types/entity";
 import type {
   LevelResponse,
   RecordListResponse,

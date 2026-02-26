@@ -104,8 +104,14 @@ function RecordListContent() {
               const filterValue =
                 typeof newFilter === "function"
                   ? newFilter({
-                      gym: { id: filter.gymId || 0, name: filter.gymName || "" },
-                      level: { id: filter.levelId || 0, name: filter.levelName || "" },
+                      gym: {
+                        id: filter.gymId || 0,
+                        name: filter.gymName || "",
+                      },
+                      level: {
+                        id: filter.levelId || 0,
+                        name: filter.levelName || "",
+                      },
                     })
                   : newFilter;
 
