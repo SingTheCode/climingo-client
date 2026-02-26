@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useRouter } from "next/navigation";
-import { useNavigateWithAuth } from "@/hooks/navigate";
+import { useNavigateWithAuth } from "@/domains/auth/hooks/useNavigateWithAuth";
 import { loginCheck } from "@/utils/common";
 
 // Mock dependencies

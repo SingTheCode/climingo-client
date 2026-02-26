@@ -1,10 +1,12 @@
+// @ts-nocheck
+// 템플릿 파일: 실제 Hook으로 교체하여 사용
 // Hook 테스트 템플릿
-import { renderHook, waitFor } from '@testing-library/react';
-import { renderWithProviders } from '@/test/helpers/renderWithProviders';
+import { renderHook, waitFor } from "@testing-library/react";
+import { renderWithProviders } from "@/test/helpers/renderWithProviders";
 
 // 예시: useExample Hook 테스트
-describe('useExample', () => {
-  it('초기 상태가 올바르게 설정된다', () => {
+describe("useExample", () => {
+  it("초기 상태가 올바르게 설정된다", () => {
     // Given: Hook 렌더링
     const { result } = renderHook(() => useExample(), {
       wrapper: ({ children }) => renderWithProviders(<>{children}</>).container,
@@ -15,7 +17,7 @@ describe('useExample', () => {
     expect(result.current.isLoading).toBe(false);
   });
 
-  it('데이터를 성공적으로 가져온다', async () => {
+  it("데이터를 성공적으로 가져온다", async () => {
     // Given: Hook 렌더링
     const { result } = renderHook(() => useExample(), {
       wrapper: ({ children }) => renderWithProviders(<>{children}</>).container,

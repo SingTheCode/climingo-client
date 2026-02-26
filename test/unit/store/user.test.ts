@@ -1,5 +1,5 @@
 import useUserStore from "@/store/user";
-import { MemberInfo } from "@/types/auth";
+import { MemberInfo } from "@/domains/auth/types";
 
 const mockMemberInfo: MemberInfo = {
   nickname: "testUser",

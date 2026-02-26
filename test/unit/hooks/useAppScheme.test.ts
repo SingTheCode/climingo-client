@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useAppScheme from "@/hooks/useAppScheme";
+import useAppScheme from "@/domains/jjikboul/hooks/useAppScheme";
 import {
   ShareParams,
   WebkitNamespace,

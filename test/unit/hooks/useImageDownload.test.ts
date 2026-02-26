@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import useImageDownload from "@/hooks/useImageDownload";
+import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
 import {
   ImageDownloadParams,
   WebkitNamespace,

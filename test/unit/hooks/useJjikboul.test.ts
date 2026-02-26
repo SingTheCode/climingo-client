@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import useJjikboul from "@/hooks/jjikboul/useJjikboul";
-import { JjikboulDetail } from "@/types/jjikboul";
+import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
+import { JjikboulDetail } from "@/domains/jjikboul/types";
 
 describe("찍볼 비즈니스로직 (useJjikboul)", () => {
   describe("찍볼 공유 URL 생성", () => {
@@ -44,13 +44,13 @@ describe("찍볼 비즈니스로직 (useJjikboul)", () => {
       },
       gym: {
         gymId: 123,
-        gymName: "Test Gym",
+        name: "Test Gym",
+        address: "서울시 강남구",
       },
       level: {
         levelId: 456,
-        colorNameKo: "빨간색",
-        colorNameEn: "red",
-        colorCode: "#FF0000",
+        name: "빨간색",
+        color: "#FF0000",
       },
       isEditable: true,
       isDeletable: true,
@@ -137,7 +137,7 @@ describe("찍볼 비즈니스로직 (useJjikboul)", () => {
           ...validJjikboulData,
           gym: {
             ...validJjikboulData.gym,
-            gymName: undefined as any,
+            name: undefined as any,
           },
         };
 
@@ -166,7 +166,7 @@ describe("찍볼 비즈니스로직 (useJjikboul)", () => {
           ...validJjikboulData,
           level: {
             ...validJjikboulData.level,
-            colorNameKo: undefined as any,
+            name: undefined as any,
           },
         };
 
@@ -205,14 +205,14 @@ describe("찍볼 비즈니스로직 (useJjikboul)", () => {
             name: "암장명이 빈 문자열",
             data: {
               ...validJjikboulData,
-              gym: { ...validJjikboulData.gym, gymName: "" },
+              gym: { ...validJjikboulData.gym, name: "" },
             },
           },
           {
             name: "난이도 색상명이 빈 문자열",
             data: {
               ...validJjikboulData,
-              level: { ...validJjikboulData.level, colorNameKo: "" },
+              level: { ...validJjikboulData.level, name: "" },
             },
           },
         ];

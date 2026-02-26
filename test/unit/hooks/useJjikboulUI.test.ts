@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
+import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
 import { WebkitNamespace } from "@/types/appScheme";
 
 const mockWriteText = jest.fn();
