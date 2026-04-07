@@ -1,13 +1,16 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { jest } from "@jest/globals";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
-import JjikboulShareDetail from "@/components/jjikboul/JjikboulShareDetail";
-import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
 import useJjikboul from "@/hooks/jjikboul/useJjikboul";
 import useJjikboulUI from "@/hooks/jjikboul/useJjikboulUI";
-import useImageDownload from "@/hooks/useImageDownload";
 import useAppScheme from "@/hooks/useAppScheme";
+import useImageDownload from "@/hooks/useImageDownload";
+
+import { useGetJjikboulDetailQuery } from "@/api/hooks/jjikboul";
+
+import JjikboulShareDetail from "@/components/jjikboul/JjikboulShareDetail";
+
 import { mockJjikboulData, mockUseJjikboulReturn } from "@/test/mocks";
 
 jest.mock("@/api/hooks/jjikboul");
