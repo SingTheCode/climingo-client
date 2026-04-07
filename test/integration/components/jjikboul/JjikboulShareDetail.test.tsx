@@ -10,6 +10,7 @@ import { useJjikboul } from "@/domains/jjikboul/hooks/useJjikboul";
 import { useJjikboulUI } from "@/domains/jjikboul/hooks/useJjikboulUI";
 import useImageDownload from "@/domains/jjikboul/hooks/useImageDownload";
 import useAppScheme from "@/domains/jjikboul/hooks/useAppScheme";
+
 import { mockJjikboulData, mockUseJjikboulReturn } from "@/test/mocks";
 
 jest.mock("@/domains/jjikboul/hooks/useJjikboulDetailQuery");
@@ -193,7 +194,7 @@ describe("JjikboulShareDetail", () => {
 
   describe("로딩 상태", () => {
     test("데이터 로딩 중일 때 로딩 스피너를 표시해야 한다", () => {
-      (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+      (useJjikboulDetailQuery as jest.Mock).mockReturnValue({
         data: null,
         isLoading: true,
         isError: false,
@@ -206,7 +207,7 @@ describe("JjikboulShareDetail", () => {
 
   describe("에러 상태", () => {
     test("데이터 로딩 실패 시 에러 메시지를 표시해야 한다", () => {
-      (useGetJjikboulDetailQuery as jest.Mock).mockReturnValue({
+      (useJjikboulDetailQuery as jest.Mock).mockReturnValue({
         data: null,
         isLoading: false,
         isError: true,

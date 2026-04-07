@@ -1,6 +1,6 @@
-import { ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, RenderOptions } from '@testing-library/react';
+import { ReactElement } from 'react';
 
 // 테스트용 QueryClient 생성
 const createTestQueryClient = () =>
