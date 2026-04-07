@@ -48,7 +48,6 @@ next-env.d.ts
 /.claude/
 /.rules/
 /.mcp.json
-/CLAUDE.md
 
 /.amazonq/
 /nginx/certbot-logs/
