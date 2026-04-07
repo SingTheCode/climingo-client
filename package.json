@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.0.3",
+    "@sentry/nextjs": "^10.43.0",
     "@tanstack/react-query": "^5.29.0",
     "@toss/async-boundary": "^1.5.2",
     "@use-funnel/next": "^0.0.22",
