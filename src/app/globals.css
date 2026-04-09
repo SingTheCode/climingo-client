@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Brand */
+    --palette-bg-primary-core: #ff385c;
+    --palette-bg-tertiary-core: #e00b41;
+
+    /* Premium Tiers */
+    --palette-bg-primary-luxe: #460479;
+    --palette-bg-primary-plus: #92174d;
+
+    /* Text */
+    --palette-text-primary: #222222;
+    --palette-text-focused: #3f3f3f;
+    --palette-text-secondary: #6a6a6a;
+    --palette-text-material-disabled: rgba(0, 0, 0, 0.24);
+    --palette-text-link-disabled: #929292;
+
+    /* Error */
+    --palette-text-primary-error: #c13515;
+    --palette-text-secondary-error-hover: #b32505;
+
+    /* Interactive */
+    --palette-text-legal: #428bff;
+
+    /* Surface */
+    --palette-surface-primary: #ffffff;
+    --palette-surface-secondary: #f2f2f2;
+    --palette-surface-border: #c1c1c1;
+
+    /* Shadows */
+    --shadow-card:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px,
+      rgba(0, 0, 0, 0.1) 0px 4px 8px;
+    --shadow-hover: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    --shadow-focus: rgb(255, 255, 255) 0px 0px 0px 4px;
+
+    /* Radius */
+    --radius-subtle: 0.4rem;
+    --radius-standard: 0.8rem;
+    --radius-badge: 1.4rem;
+    --radius-card: 2rem;
+    --radius-large: 3.2rem;
+  }
+}
+
 html {
   font-size: 62.5%;
 }
@@ -9,7 +54,15 @@ html {
 body {
   width: 100vw;
   height: 100vh;
-  @apply text-base text-ink bg-white;
+  font-family:
+    "Airbnb Cereal VF",
+    Circular,
+    -apple-system,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
+  @apply text-base text-ink bg-surface;
 }
 
 * {
